@@ -73,14 +73,12 @@ The camera reports a tomato 0.3 m right and 0.4 m up of the gripper. As a single
 
 ## Knowledge check
 
-!!! question "Check your understanding (formative — unlimited attempts)"
-    1. What distinguishes **Physical AI** from software-only AI?
-    2. Name the three stages of the loop and the data "language" of each.
-    3. Why can't the robot use the tomato's *camera-frame* position directly to command its arm?
-    4. The chain "pixels → camera frame → robot frame → joint angles → motion" mostly describes what kind of work?
-    5. True or false: a small error in estimating position has no real-world cost.
+Answer each question and get immediate feedback. This is **formative** — unlimited attempts, and it does not affect your grade.
 
-    Full quiz: `modules/module01/quizzes/lesson01_quiz.yaml`. This is formative — it does not affect your grade.
+<iframe src="../../quizzes/lesson01_quiz.html" title="Lesson 1.1 knowledge check"
+        style="width:100%;height:760px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+
+Source: `modules/module01/quizzes/lesson01_quiz.yaml` (questions) · answer key in `coaches/` (instructor).
 
 ## Key takeaways
 
