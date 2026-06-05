@@ -1,14 +1,20 @@
-<!--
-module: 01 — Mathematical Foundations for Physical AI, Robotics, and Digital Twins
-unit: 1 — Physical Quantities and Measurements
+---
+module: 01
+unit: 01
 lesson: 1.1
 title: Physical AI and the Physical World
-template_version: 12-part v1 (D-005)
-status: PILOT — for architect review
-prerequisites: none (entry lesson)
-estimated_time: 35–45 min
-objectives_touched: motivates LO1–LO9 (no single LO assessed; this is the orientation lesson)
--->
+estimated_time: 45
+difficulty: Introductory
+prerequisites: []
+learning_objectives:
+  - Explain what distinguishes Physical AI from software-only AI.
+  - Describe the perception–reasoning–action loop and the greenhouse robot narrative.
+  - Motivate why the mathematics of Module 1 (vectors, frames, matrices, trigonometry) matters.
+tags:
+  - physical-ai
+  - robotics
+  - systems-thinking
+---
 
 # Lesson 1.1 — Physical AI and the Physical World
 
@@ -75,7 +81,15 @@ The mental image to keep is the **perception–reasoning–action loop**, wrappe
 
 The loop is closed: after acting, the robot perceives again to check the result and continue. The caption under each box names the "language" of that stage — and the gaps between the languages are where the mathematics lives.
 
-> **Visual asset note (for Gemini):** This lesson's figure should render the closed perception→reasoning→action loop with the greenhouse robot reaching for a tomato, labeling each stage's data type (pixels / meters / angles). Storyboard brief issued separately.
+> **Visual asset note (for Gemini):** see storyboard brief below.
+
+`[Visual: Greenhouse harvesting robot perception → reasoning → action pipeline, closed loop]`
+
+**Gemini Storyboard Brief**
+- **Objective:** the viewer grasps that intelligence in the physical world is a closed loop, and that each stage speaks a different "language" (pixels / meters / angles).
+- **Scene:** the greenhouse robot facing a tomato plant; three labeled stages — camera (perceive), a "brain" node (reason), the arm/gripper (act) — arranged in a loop with an arrow returning from Act to Perceive.
+- **Labels:** PERCEIVE (pixels), REASON (meters / frames), ACT (joint angles); the return arrow labeled "check & repeat."
+- **Animation Notes:** animate one cycle — camera highlights the tomato, the reason node shows a coordinate readout, the arm swings to grip, then the loop arrow pulses to restart.
 
 ## 5. Engineering Example
 

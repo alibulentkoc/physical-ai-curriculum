@@ -39,8 +39,8 @@ Content for each module is authored only after its manifest exists. Each module 
   - [x] `modules/module01/topic_map.md`
   - [x] `modules/module01/assessments.md`
   - [x] `lessons/`, `notebooks/`, `assets/` directories (empty, .gitkeep)
-  - [~] Lessons — 66 planned (D-014). **Pilot 1.1 drafted** ✅, awaiting architect review; then unit-by-unit (D-016)
-  - [ ] Notebooks — blocked on lessons
+  - [~] Lessons — 66 planned (D-014). **Unit 1 complete** (1.1–1.6) ✅ awaiting review; template at `templates/lesson_template.md` ✅. Units 2–9 pending.
+  - [ ] Notebooks — blocked on lessons (notebook track, runnable versions of §7/§8)
   - [ ] Quizzes — blocked on lessons
 - [ ] Module 02 — Spatial Transformations and SE(3)
 - [ ] Module 03 — Camera Geometry and Robotic Perception
@@ -76,6 +76,6 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ Pilot lesson **1.1 Physical AI and the Physical World** is drafted (~2,100 words) and awaiting architect review. On approval, the 12-part format is locked and Unit 1 (lessons 1.2–1.6) is authored, reviewed, then the curriculum proceeds unit-by-unit (D-016). Gemini is greenlit to draft storyboard briefs for Units 2–4 in parallel.
+➡️ **Unit 1 is fully drafted** (lessons 1.1–1.6, avg ~1,400 words) and a reusable `templates/lesson_template.md` is in place. Awaiting architect review of Unit 1. On approval, **Unit 2 (lessons 2.1–2.9, vectors)** is generated next, unit-by-unit (D-016). Gemini storyboard briefs for Units 2–4 remain a parallel track.
 
-> Do **not** generate further lessons until the pilot format is approved.
+> Do **not** generate Unit 2 until Unit 1 is reviewed.

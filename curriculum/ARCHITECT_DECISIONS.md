@@ -56,9 +56,20 @@ Mastery thresholds: ≥85% Mastery · 70–84% Proficient · 50–69% Developing
 ## D-016 — Pilot Lesson & Generation Strategy · APPROVED
 Philosophy and roadmap approved. Generation strategy: **pilot lesson → architect review → revise template → generate Unit 1 → review → continue unit-by-unit.** Do NOT generate all 66 lessons at once. Pilot lesson selected: **1.1 Physical AI and the Physical World**. Gemini greenlit for **storyboard briefs only** (no assets yet) for Priority-1 Units 2, 3, 4.
 
+## D-017 — Pilot Approved; Lesson Standards Locked · APPROVED
+Pilot 1.1 approved as canonical reference. Locked curriculum-wide standards:
+- **Sections 7/8 (Units 1–7):** Interactive Demonstration = conceptual/guided; Coding Exercise = pseudocode/snippet/thought exercise. Full runnable implementations belong to the notebook track. Unit 8+ may include substantial executable content.
+- **Section 9 vs 10:** §9 Knowledge Check = recall/understanding/immediate application, short-answer/MC. §10 Challenge = transfer/engineering reasoning/open-ended.
+- **Metadata:** YAML frontmatter (module, unit, lesson, title, estimated_time, difficulty, prerequisites, learning_objectives, tags).
+- **Visuals:** each lesson includes an inline `[Visual: ...]` placeholder + a Gemini Storyboard Brief (Objective/Scene/Labels/Animation Notes).
+- **Template:** `templates/lesson_template.md` created; all future lessons reference it rather than copying a previous lesson.
+
+## D-018 — Unit 1 Lessons Generated · DELIVERED (awaiting review)
+Lessons 1.2–1.6 generated (1.2 Units and Dimensions, 1.3 Scalars and Physical Quantities, 1.4 Measurement Error, 1.5 Accuracy and Precision, 1.6 Engineering Estimation). Pilot 1.1 retrofitted to YAML + visual convention. Unit 1 average ≈ 1,400 words/lesson (1.1 longer as the orientation lesson). Awaiting architect review before Unit 2.
+
 ---
 
 ### Pending architect decisions (none blocking)
-- Architect review of the pilot lesson (1.1). On approval, the 12-part format is locked and Unit 1 (lessons 1.2–1.6) generation proceeds.
+- Architect review of Unit 1 (lessons 1.2–1.6). On approval, Unit 2 (lessons 2.1–2.9, vectors) generation proceeds.
 
 *Append new decisions below as `D-0NN — Title · APPROVED` with a date.*
