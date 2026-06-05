@@ -17,8 +17,13 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started
 
 ## Phase 1 — Curriculum architecture (current focus)
 
-- [ ] **`curriculum/module01_manifest.md`** — Module 1 manifest *(next deliverable)*
-- [ ] Master roadmap document in `curriculum/`
+- [x] **`curriculum/module01_manifest.md`** — Module 1 manifest ✅
+- [x] `curriculum/ARCHITECT_DECISIONS.md` — source-of-truth decisions log ✅
+- [x] `curriculum/learning_philosophy.md` ✅
+- [x] `curriculum/assessment_strategy.md` ✅ (finalized · D-015)
+- [x] `curriculum/mathematical_prerequisites.md` ✅
+- [x] `curriculum/software_environment.md` ✅
+- [x] `curriculum/roadmap.md` (master roadmap) ✅
 - [ ] Manifests for Modules 2–10
 - [ ] Notation & symbol glossary in `docs/`
 - [ ] Authoring/style guide in `docs/`
@@ -28,7 +33,15 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started
 
 Content for each module is authored only after its manifest exists. Each module includes lessons, notebooks, demos, and exercises, with every topic following the 12-part template.
 
-- [ ] Module 01 — Mathematical Foundations for Physical AI, Robotics, and Digital Twins
+- [~] Module 01 — Mathematical Foundations *(scaffolding done; lessons pending topic-granularity decision)*
+  - [x] `modules/module01/README.md`
+  - [x] `modules/module01/learning_objectives.md`
+  - [x] `modules/module01/topic_map.md`
+  - [x] `modules/module01/assessments.md`
+  - [x] `lessons/`, `notebooks/`, `assets/` directories (empty, .gitkeep)
+  - [~] Lessons — 66 planned (D-014). **Pilot 1.1 drafted** ✅, awaiting architect review; then unit-by-unit (D-016)
+  - [ ] Notebooks — blocked on lessons
+  - [ ] Quizzes — blocked on lessons
 - [ ] Module 02 — Spatial Transformations and SE(3)
 - [ ] Module 03 — Camera Geometry and Robotic Perception
 - [ ] Module 04 — Forward Kinematics using Denavit–Hartenberg Parameters
@@ -63,6 +76,6 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Generate `curriculum/module01_manifest.md`** for Module 1: *Mathematical Foundations for Physical AI, Robotics, and Digital Twins.*
+➡️ Pilot lesson **1.1 Physical AI and the Physical World** is drafted (~2,100 words) and awaiting architect review. On approval, the 12-part format is locked and Unit 1 (lessons 1.2–1.6) is authored, reviewed, then the curriculum proceeds unit-by-unit (D-016). Gemini is greenlit to draft storyboard briefs for Units 2–4 in parallel.
 
-> Do **not** generate lesson content until the relevant manifest is complete and reviewed.
+> Do **not** generate further lessons until the pilot format is approved.
