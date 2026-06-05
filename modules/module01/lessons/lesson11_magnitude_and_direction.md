@@ -3,6 +3,7 @@ module: 01
 unit: 02
 lesson: 2.5
 title: Magnitude and Direction
+core_idea: "A vector's magnitude is its length and its direction is the angle it points."
 estimated_time: 45
 difficulty: Introductory
 prerequisites: [2.2, 2.4]
@@ -52,7 +53,7 @@ where `atan2` is the two-argument arctangent that returns the correct angle in a
 
 `[Visual: A 3-4-5 right triangle formed by a vector's components, with the hypotenuse as the magnitude and an angle marked]`
 
-**Gemini Storyboard Brief**
+**Diagram Specification** (SVG to be produced during Unit 2 asset production)
 - **Objective:** the viewer sees magnitude as the hypotenuse of the component triangle and direction as the angle to the x-axis.
 - **Scene:** a 2D arrow with components 3 (right) and 4 (up); the right triangle drawn; hypotenuse labeled "‖v‖ = 5"; angle θ marked at the tail.
 - **Labels:** $v_x=3$, $v_y=4$, $\|\mathbf{v}\|=5$, $\theta$.
@@ -118,6 +119,54 @@ Two tomatoes have aiming vectors $\begin{bmatrix}0.5\\0.0\\0.0\end{bmatrix}$ and
 - **Direction** is the heading, expressible as components, a unit vector (2.6), or an angle via `atan2`.
 - Magnitude answers **"is it reachable?"**; direction answers **"which way?"**
 - Splitting a vector into magnitude and direction lets the robot reason about feasibility and heading separately.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+```
+Re-explain Lesson 2.5 (Magnitude and Direction). Connect magnitude to Pythagorean length and direction to an angle, with an example.
+```
+
+**Practice prompt** — generate more exercises
+```
+Give me 6 problems computing a vector's magnitude and direction angle from its components, with answers.
+```
+
+**Explore prompt** — connect it to the real world
+```
+Show me how a robot uses magnitude (how far) and direction (which way) separately when planning a reach.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+```
+I just completed Lesson 2.5 — Magnitude and Direction.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+```
+I just completed Lesson 2.5 — Magnitude and Direction.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+```
+I just completed Lesson 2.5 — Magnitude and Direction.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

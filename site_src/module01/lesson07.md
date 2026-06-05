@@ -1,22 +1,3 @@
----
-module: 01
-unit: 02
-lesson: 2.1
-title: What Is a Vector?
-core_idea: "A vector represents both magnitude and direction in physical space."
-estimated_time: 40
-difficulty: Introductory
-prerequisites: [1.3]
-learning_objectives:
-  - Define a vector as a quantity with magnitude and direction.
-  - Contrast vectors with scalars using robotic examples.
-  - Represent a vector as an arrow and recognize position as a vector.
-tags:
-  - physical-ai
-  - vectors
-  - geometry
----
-
 # Lesson 2.1 — What Is a Vector?
 
 > In Unit 1 we found quantities that one number couldn't hold — the ones that need a direction. This lesson gives them their tool: the vector.
@@ -43,6 +24,10 @@ A special, central case: a **position vector** points from a chosen origin to a 
 
 ## 4. Visual Explanation
 
+
+<figure markdown>
+  ![What Is a Vector?](../assets/m01-l7-what-is-a-vector.svg){ width="680" }
+</figure>
 `[Visual: An arrow from the robot's gripper to a tomato, showing length = magnitude, heading = direction]`
 
 **Rendered asset:** `assets/diagrams/m01-l7-what-is-a-vector.svg` (produced; embedded on the MkDocs page).
@@ -71,6 +56,9 @@ Describe the arrow from the gripper to a tomato that sits 0.3 m to the right and
 
 ## 8. Coding Exercise
 
+
+!!! tip "Run the hands-on notebook"
+    `modules/module01/notebooks/lesson07_what_is_a_vector.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track.)*
 
 ```python
@@ -87,6 +75,10 @@ print(f"Distance ≈ {(x**2 + y**2) ** 0.5:.2f} m")
 
 ## 9. Knowledge Check
 
+
+Formative — unlimited attempts, immediate feedback; does not affect your grade.
+
+<iframe src="../../quizzes/lesson07_quiz.html" title="What Is a Vector? knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
 1. What two things define a vector?
 2. Give two vector quantities and two scalar quantities from the greenhouse robot.
 3. Two arrows have the same length and point the same way but are drawn in different places. Are they the same vector?

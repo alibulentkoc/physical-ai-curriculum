@@ -3,6 +3,7 @@ module: 01
 unit: 02
 lesson: 2.4
 title: Vector Subtraction
+core_idea: "Subtracting vectors gives the displacement from one point to another: b minus a points from a to b."
 estimated_time: 40
 difficulty: Introductory
 prerequisites: [2.3]
@@ -49,7 +50,7 @@ Watch the order: $\mathbf{b} - \mathbf{a}$ points from A to B, while $\mathbf{a}
 
 `[Visual: Two position vectors from an origin; the difference drawn as the arrow connecting their tips, from source to target]`
 
-**Gemini Storyboard Brief**
+**Diagram Specification** (SVG to be produced during Unit 2 asset production)
 - **Objective:** the viewer sees that target-minus-source produces the arrow from source tip to target tip — the aiming vector.
 - **Scene:** an origin with two position arrows: $\mathbf{r}_\text{gripper}$ and $\mathbf{r}_\text{tomato}$; a third arrow drawn tip-to-tip from gripper to tomato, labeled as $\mathbf{r}_\text{tomato} - \mathbf{r}_\text{gripper}$.
 - **Labels:** origin, $\mathbf{r}_\text{gripper}$, $\mathbf{r}_\text{tomato}$, "aiming vector = target − source."
@@ -113,6 +114,54 @@ A two-camera greenhouse setup reports the *same* tomato as $\mathbf{r}_1$ from c
 - This yields the **aiming vector** (fruit − gripper) and the **error vector** (desired − actual).
 - **Order sets direction** — reversing it flips the arrow.
 - Subtraction converts absolute positions into the relative quantities robots act on.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+```
+Re-explain Lesson 2.4 (Vector Subtraction). Make clear that b minus a is the vector pointing from a to b, with a concrete example.
+```
+
+**Practice prompt** — generate more exercises
+```
+Give me 6 problems computing b minus a and interpreting its direction, with answers.
+```
+
+**Explore prompt** — connect it to the real world
+```
+Show me how a robot uses vector subtraction to compute the move from where the gripper is to where the tomato is.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+```
+I just completed Lesson 2.4 — Vector Subtraction.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+```
+I just completed Lesson 2.4 — Vector Subtraction.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+```
+I just completed Lesson 2.4 — Vector Subtraction.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

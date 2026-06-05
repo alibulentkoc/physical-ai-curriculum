@@ -3,6 +3,7 @@ module: 01
 unit: 02
 lesson: 2.9
 title: Distance Between Points
+core_idea: "The distance between two points is the magnitude of the vector connecting them."
 estimated_time: 40
 difficulty: Introductory
 prerequisites: [2.4, 2.5]
@@ -47,7 +48,7 @@ The quiet but crucial assumption is "**same frame**." If A's coordinates are mea
 
 `[Visual: Two points, the connecting arrow (difference), and its length labeled as distance; a warning panel showing mismatched frames]`
 
-**Gemini Storyboard Brief**
+**Diagram Specification** (SVG to be produced during Unit 2 asset production)
 - **Objective:** the viewer sees distance as the length of the difference arrow, and that mixing frames breaks it.
 - **Scene:** panel A — two tomatoes with position vectors from one origin, the connecting arrow drawn and its length labeled "distance"; panel B — the same two points but measured from two *different* origins, with a red "✗ not comparable" stamp.
 - **Labels:** $\mathbf{r}_A$, $\mathbf{r}_B$, $\|\mathbf{r}_B-\mathbf{r}_A\|$; "same frame ✓" vs "different frames ✗."
@@ -119,6 +120,54 @@ The greenhouse camera reports two tomatoes in the **camera frame**, while the ro
 - Robots use distance for **reachability, nearest-target selection, and safety**.
 - The formula is only valid when both points share a **frame and units** — a mismatch silently corrupts it.
 - That frame requirement is precisely what **Unit 3 (Coordinate Systems and Reference Frames)** exists to handle — the natural next step.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+```
+Re-explain Lesson 2.9 (Distance Between Points): it is the magnitude of the vector between them. Use a reachability example.
+```
+
+**Practice prompt** — generate more exercises
+```
+Give me 6 problems computing the distance between two points in 2D and 3D, with answers.
+```
+
+**Explore prompt** — connect it to the real world
+```
+Show me how a robot uses point-to-point distance for reachability checks and choosing the nearest fruit.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+```
+I just completed Lesson 2.9 — Distance Between Points.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+```
+I just completed Lesson 2.9 — Distance Between Points.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+```
+I just completed Lesson 2.9 — Distance Between Points.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

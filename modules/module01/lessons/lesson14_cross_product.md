@@ -3,6 +3,7 @@ module: 01
 unit: 02
 lesson: 2.8
 title: Cross Product
+core_idea: "The cross product yields a vector perpendicular to two others, with length equal to the parallelogram area."
 estimated_time: 45
 difficulty: Intermediate
 prerequisites: [2.6, 2.7]
@@ -49,7 +50,7 @@ Contrast with the dot product: dot → scalar (alignment); cross → vector (per
 
 `[Visual: Two vectors spanning a parallelogram, with the cross product rising perpendicular; right-hand rule inset]`
 
-**Gemini Storyboard Brief**
+**Diagram Specification** (SVG to be produced during Unit 2 asset production)
 - **Objective:** the viewer sees the cross product as the perpendicular to the plane of two vectors, its length as the spanned area, and the right-hand rule selecting direction.
 - **Scene:** vectors $\mathbf{a}$, $\mathbf{b}$ from a shared tail spanning a shaded parallelogram on a "desk" plane; $\mathbf{a}\times\mathbf{b}$ rising straight up; a right-hand inset curling from a to b.
 - **Labels:** $\mathbf{a}$, $\mathbf{b}$, $\mathbf{a}\times\mathbf{b}$, "area = ‖a×b‖," "perpendicular to both."
@@ -121,6 +122,54 @@ A flat solar panel in the greenhouse is defined by two edge vectors $\mathbf{e}_
 - The **right-hand rule** fixes the direction; the operation is **anticommutative** (order flips the result).
 - It produces **surface normals, rotation axes, and torques** — core to orientation and rotation.
 - Dot vs cross: alignment (scalar) vs perpendicular direction (vector) — together, the complete vector toolkit.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+```
+Re-explain Lesson 2.8 (Cross Product): it produces a perpendicular vector whose length is the parallelogram area. Use a camera-view-direction example.
+```
+
+**Practice prompt** — generate more exercises
+```
+Give me 6 cross-product problems computing the resulting vector and the parallelogram area, with answers.
+```
+
+**Explore prompt** — connect it to the real world
+```
+Show me how a robot uses the cross product for surface normals, torque, or camera orientation.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+```
+I just completed Lesson 2.8 — Cross Product.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+```
+I just completed Lesson 2.8 — Cross Product.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+```
+I just completed Lesson 2.8 — Cross Product.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

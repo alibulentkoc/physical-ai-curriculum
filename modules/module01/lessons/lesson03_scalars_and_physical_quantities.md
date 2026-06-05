@@ -3,6 +3,7 @@ module: 01
 unit: 01
 lesson: 1.3
 title: Scalars and Physical Quantities
+core_idea: "A scalar is fully described by magnitude alone; some quantities also need a direction."
 estimated_time: 40
 difficulty: Introductory
 prerequisites: [1.2]

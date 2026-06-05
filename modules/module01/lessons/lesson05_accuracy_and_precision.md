@@ -3,6 +3,7 @@ module: 01
 unit: 01
 lesson: 1.5
 title: Accuracy and Precision
+core_idea: "Accuracy is closeness to the true value; precision is repeatability; they are independent."
 estimated_time: 40
 difficulty: Introductory
 prerequisites: [1.4]

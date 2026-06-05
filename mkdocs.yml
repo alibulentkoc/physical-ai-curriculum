@@ -26,6 +26,9 @@ nav:
       - "1.4 Measurement Error": module01/lesson04.md
       - "1.5 Accuracy and Precision": module01/lesson05.md
       - "1.6 Engineering Estimation": module01/lesson06.md
+      - "2.1 What Is a Vector?": module01/lesson07.md
+      - "2.2 Vector Representation": module01/lesson08.md
+      - "2.3 Vector Addition": module01/lesson09.md
 
 markdown_extensions:
   - admonition

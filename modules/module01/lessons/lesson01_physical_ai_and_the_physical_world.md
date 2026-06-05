@@ -3,6 +3,7 @@ module: 01
 unit: 01
 lesson: 1.1
 title: Physical AI and the Physical World
+core_idea: "Intelligence that senses, decides, and acts in the physical world runs a perception-reasoning-action loop, and each stage uses a different data language."
 estimated_time: 45
 difficulty: Introductory
 prerequisites: []

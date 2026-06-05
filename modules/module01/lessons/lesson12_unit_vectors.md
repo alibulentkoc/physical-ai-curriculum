@@ -3,6 +3,7 @@ module: 01
 unit: 02
 lesson: 2.6
 title: Unit Vectors
+core_idea: "A unit vector has length one and carries only direction."
 estimated_time: 40
 difficulty: Introductory
 prerequisites: [2.5]
@@ -51,7 +52,7 @@ Any vector is a sum of scaled basis vectors: $\mathbf{v} = v_x\hat{\mathbf{i}} +
 
 `[Visual: A long arrow shrinking to length 1 along the same line; the three basis unit vectors on the axes]`
 
-**Gemini Storyboard Brief**
+**Diagram Specification** (SVG to be produced during Unit 2 asset production)
 - **Objective:** the viewer sees normalization as rescaling to length 1 along the same direction, and recognizes î, ĵ, k̂ as the axis directions.
 - **Scene:** left — a 0.5 m aiming arrow collapsing to a length-1 unit arrow on the same line; right — a 3D axis triad with î, ĵ, k̂ drawn as unit arrows.
 - **Labels:** $\mathbf{v}$, $\|\mathbf{v}\|$, $\hat{\mathbf{v}}$; î, ĵ, k̂.
@@ -119,6 +120,54 @@ A robot must move toward a target but never faster than 0.1 m per cycle. It comp
 - Rebuild a displacement as **distance × unit vector**, separating "how far" from "which way."
 - The **standard basis vectors** î, ĵ, k̂ are the unit vectors along the axes; components are amounts along them.
 - Unit vectors define headings, controlled steps, and the **axes of coordinate frames** (Unit 3).
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+```
+Re-explain Lesson 2.6 (Unit Vectors). Explain why dividing a vector by its length keeps only direction, with an example.
+```
+
+**Practice prompt** — generate more exercises
+```
+Give me 6 problems normalizing vectors to unit length and using unit vectors as directions, with answers.
+```
+
+**Explore prompt** — connect it to the real world
+```
+Show me where unit vectors appear in robotics (pointing directions, axes, surface normals) and why length one matters.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+```
+I just completed Lesson 2.6 — Unit Vectors.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+```
+I just completed Lesson 2.6 — Unit Vectors.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+```
+I just completed Lesson 2.6 — Unit Vectors.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

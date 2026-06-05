@@ -3,6 +3,7 @@ module: 01
 unit: 02
 lesson: 2.7
 title: Dot Product
+core_idea: "The dot product measures how much two vectors align, and is zero when they are perpendicular."
 estimated_time: 45
 difficulty: Intermediate
 prerequisites: [2.5, 2.6]
@@ -57,7 +58,7 @@ If $\mathbf{b}$ is a unit vector, $\mathbf{a}\cdot\hat{\mathbf{b}}$ is the **pro
 
 `[Visual: Two vectors with angle θ; one's projection onto the other shown as a shadow; a side note showing perpendicular → 0]`
 
-**Gemini Storyboard Brief**
+**Diagram Specification** (SVG to be produced during Unit 2 asset production)
 - **Objective:** the viewer sees the dot product as alignment/projection, and that perpendicular vectors give zero.
 - **Scene:** vectors $\mathbf{a}$ and $\mathbf{b}$ from a common tail with angle θ; $\mathbf{a}$'s projection onto $\mathbf{b}$ drawn as a shadow on $\mathbf{b}$'s line; an inset where the two vectors are at 90° with "dot = 0."
 - **Labels:** θ, "projection of a onto b," sign indicators (+ aligned, 0 perpendicular, − opposed).
@@ -128,6 +129,54 @@ A solar-tracking panel on the greenhouse should face the sun for maximum energy.
 - Sign reveals direction: **+** aligned, **0** perpendicular, **−** opposed.
 - It yields the **angle between vectors** and the **projection** of one onto another.
 - Robots use it to check and control aiming/alignment.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+```
+Re-explain Lesson 2.7 (Dot Product) in terms of alignment: large when vectors point the same way, zero when perpendicular. Use a gripper-alignment example.
+```
+
+**Practice prompt** — generate more exercises
+```
+Give me 6 dot-product problems including aligned, partially aligned, and perpendicular cases, with answers.
+```
+
+**Explore prompt** — connect it to the real world
+```
+Show me how a robot uses the dot product to check alignment, such as whether the gripper faces the fruit.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+```
+I just completed Lesson 2.7 — Dot Product.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+```
+I just completed Lesson 2.7 — Dot Product.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+```
+I just completed Lesson 2.7 — Dot Product.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

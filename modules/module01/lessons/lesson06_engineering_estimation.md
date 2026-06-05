@@ -3,6 +3,7 @@ module: 01
 unit: 01
 lesson: 1.6
 title: Engineering Estimation
+core_idea: "A quick order-of-magnitude estimate catches large errors before any detailed computation."
 estimated_time: 40
 difficulty: Introductory
 prerequisites: [1.2, 1.4, 1.5]

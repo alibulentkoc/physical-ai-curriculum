@@ -3,6 +3,7 @@ module: 01
 unit: 01
 lesson: 1.2
 title: Units and Dimensions
+core_idea: "A physical quantity is a number with a unit, and dimensions must stay consistent across an equation."
 estimated_time: 45
 difficulty: Introductory
 prerequisites: [1.1]

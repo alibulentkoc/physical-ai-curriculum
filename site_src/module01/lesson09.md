@@ -1,22 +1,3 @@
----
-module: 01
-unit: 02
-lesson: 2.3
-title: Vector Addition
-core_idea: "Adding vectors places them tip-to-tail; the resultant is the single equivalent displacement."
-estimated_time: 40
-difficulty: Introductory
-prerequisites: [2.2]
-learning_objectives:
-  - Add vectors geometrically (tip-to-tail) and by components.
-  - Interpret vector addition as chaining displacements.
-  - Connect chained displacements to a robot arm's links.
-tags:
-  - physical-ai
-  - vectors
-  - addition
----
-
 # Lesson 2.3 — Vector Addition
 
 > A robot arm is a chain of segments, each a displacement. Where the gripper ends up is the sum of those displacements — which is exactly what vector addition computes.
@@ -49,6 +30,10 @@ Properties that matter for robotics:
 
 ## 4. Visual Explanation
 
+
+<figure markdown>
+  ![Vector Addition](../assets/m01-l9-vector-addition.svg){ width="680" }
+</figure>
 `[Visual: Tip-to-tail addition of two displacement arrows, with the resultant arrow from first tail to last tip]`
 
 **Rendered asset:** `assets/diagrams/m01-l9-vector-addition.svg` (produced; embedded on the MkDocs page).
@@ -73,10 +58,15 @@ Link 1 of a planar arm gives displacement $\mathbf{L_1} = \begin{bmatrix} 0.4 \\
 
 ## 7. Interactive Demonstration
 
+
+<iframe src="../../demos/lesson09_vector_addition.html" title="Vector Addition interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
 *(Conceptual; notebook version later.)* Two draggable arrows on a grid. The demo always draws them tip-to-tail and shows the resultant arrow plus its components. The learner drags either arrow and watches the sum update. A "swap order" button shows the resultant is unchanged (commutativity), and an "add link 3" button extends the chain into a mini arm whose tip is the running sum.
 
 ## 8. Coding Exercise
 
+
+!!! tip "Run the hands-on notebook"
+    `modules/module01/notebooks/lesson09_vector_addition.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track.)*
 
 ```python
@@ -93,6 +83,10 @@ print(f"Gripper position: {gripper} m")   # [0.5, 0.3]
 
 ## 9. Knowledge Check
 
+
+Formative — unlimited attempts, immediate feedback; does not affect your grade.
+
+<iframe src="../../quizzes/lesson09_quiz.html" title="Vector Addition knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
 1. Describe tip-to-tail addition in one sentence.
 2. Add $\begin{bmatrix}2\\1\end{bmatrix} + \begin{bmatrix}-1\\3\end{bmatrix}$.
 3. What must be true about two vectors before you can add them?

@@ -77,6 +77,8 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Unit 1 is fully produced** (lessons 1.1–1.6, each with SVG + runnable notebook + interactive quiz + answer key + MkDocs page; 1.4 Mermaid; 1.5 interactive demo). Production contract (`production_standards.md`) and design system (`assets/design-system/`) are in place. `mkdocs build --strict` passes; all notebooks execute clean. Awaiting architect review before **Unit 2 production** (lessons 2.1–2.9 already drafted; need assets + §4 cleanup + pages).
+➡️ **Single-source generator live** (`tools/generate_site_pages.py`) — site pages build from canonical lessons; double-maintenance gone. **core_idea** on all 15 lessons. **Gemini fully removed.** **Unit 2 launched:** 2.1–2.3 fully produced (SVG + notebook + quiz; 2.3 has the required interactive demo); all six Unit 2 lessons carry the two standard sections. `mkdocs build --strict` passes; all notebooks execute clean.
 
-> Per architect instruction: do not start Unit 3 / Module 2 / new manifests. Next is Unit 2 *production*.
+**Next installment — finish Unit 2:** produce assets for **2.4–2.9** (SVGs, notebooks, quizzes) and the two remaining required demos — **2.7 Dot Product** and **2.8 Cross Product** — then add them to nav.
+
+> Workflow reminder: edit canonical lessons → run `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.

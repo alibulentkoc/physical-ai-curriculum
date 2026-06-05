@@ -1,22 +1,3 @@
----
-module: 01
-unit: 02
-lesson: 2.2
-title: Vector Representation
-core_idea: "A vector can be written as components along chosen axes, such as (x, y, z)."
-estimated_time: 40
-difficulty: Introductory
-prerequisites: [2.1]
-learning_objectives:
-  - Express a vector in component form in 2D and 3D.
-  - Use column-vector notation and standard symbols.
-  - Represent vectors in code as arrays.
-tags:
-  - physical-ai
-  - vectors
-  - components
----
-
 # Lesson 2.2 — Vector Representation
 
 > An arrow is great for intuition, but a robot can't compute with a drawing. This lesson turns the arrow into numbers — components — without losing the geometry.
@@ -48,6 +29,10 @@ Conventions worth fixing now, because sloppiness here causes bugs later:
 
 ## 4. Visual Explanation
 
+
+<figure markdown>
+  ![Vector Representation](../assets/m01-l8-vector-representation.svg){ width="680" }
+</figure>
 `[Visual: An arrow with dashed lines dropping to the x- and y-axes, showing each component as a shadow]`
 
 **Rendered asset:** `assets/diagrams/m01-l8-vector-representation.svg` (produced; embedded on the MkDocs page).
@@ -76,6 +61,9 @@ A tomato is 0.3 m right, 0.4 m up, and 0.6 m forward of the gripper. Write its d
 
 ## 8. Coding Exercise
 
+
+!!! tip "Run the hands-on notebook"
+    `modules/module01/notebooks/lesson08_vector_representation.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track; NumPy formalized in Unit 8.)*
 
 ```python
@@ -90,6 +78,10 @@ print(f"x={vx} (right), y={vy} (up), z={vz} (forward)")
 
 ## 9. Knowledge Check
 
+
+Formative — unlimited attempts, immediate feedback; does not affect your grade.
+
+<iframe src="../../quizzes/lesson08_quiz.html" title="Vector Representation knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
 1. How many components does a 3D vector have, and what does each represent?
 2. Write the column vector for "0.2 m right, 0.5 m up."
 3. Why does component order matter?

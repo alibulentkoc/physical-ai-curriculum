@@ -3,6 +3,7 @@ module: 01
 unit: 01
 lesson: 1.4
 title: Measurement Error
+core_idea: "Every measurement differs from the true value by some error, which is either a consistent systematic shift or random scatter."
 estimated_time: 45
 difficulty: Introductory
 prerequisites: [1.2, 1.3]
@@ -53,6 +54,16 @@ For the tomato: $0.03 / 1.23 \approx 0.024 = 2.4\%.$
 `[Visual: Number line showing true value, measured value, and the error gap; plus systematic vs random patterns]`
 
 **Rendered asset:** `assets/diagrams/m01-l4-measurement-error.svg` (produced; embedded on the MkDocs page).
+
+The two error types as a quick taxonomy:
+
+```mermaid
+flowchart TD
+    E[Measurement error] --> S[Systematic<br/>consistent shift]
+    E --> R[Random<br/>scatter]
+    S --> C[Fix: calibrate]
+    R --> A[Fix: average / filter]
+```
 
 **Diagram Specification**
 - **Objective:** the viewer sees error as the gap between measured and true, and sees the difference between a consistent shift (systematic) and scatter (random).
