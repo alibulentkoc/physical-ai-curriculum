@@ -38,15 +38,17 @@ Build the mental picture from everyday or robotic experience. No symbols yet.
 Introduce the formalism as a precise description of the intuition above. Keep weight appropriate to the unit (light in Units 1–7). Define symbols; state conventions explicitly.
 
 ## 4. Visual Explanation
-Explain the key idea visually. Include BOTH of the following (curriculum policy):
+Explain the key idea visually. Produce the actual assets (curriculum policy — assets are generated, not briefed):
 
-`[Visual: short description of the figure]`
+`[Visual: short description]` + the rendered **SVG** asset in `assets/diagrams/` (namespaced `mNN-lN-slug.svg`).
 
-**Gemini Storyboard Brief**
-- **Objective:** what the viewer should understand after seeing it.
-- **Scene:** what is depicted (frame it in the greenhouse context where possible).
-- **Labels:** the elements that must be labeled.
-- **Animation Notes:** motion/sequence beats, or "static" if none.
+**Diagram Specification** (the production input for the SVG / Mermaid / interactive asset)
+- **Objective:** what the viewer should understand.
+- **Scene:** what is depicted (greenhouse context where possible).
+- **Labels:** elements that must be labeled.
+- **Form:** SVG (always); Mermaid where a flow/structure reads better as a graph; interactive HTML where manipulation aids understanding.
+
+Every lesson ships at least one rendered SVG. Add a Mermaid diagram and/or an interactive HTML demo when they materially help.
 
 ## 5. Engineering Example
 A concrete application, ideally from agriculture, robotics, or mechatronics. Show the concept doing real work.

@@ -23,6 +23,10 @@ Thumbs.db
 dist/
 build/
 
+# --- MkDocs build output ---
+/site/
+.cache
+
 # --- Large media (consider Git LFS instead) ---
 # *.mp4
 # *.mov

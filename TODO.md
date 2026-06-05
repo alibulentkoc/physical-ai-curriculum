@@ -24,6 +24,7 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` not started
 - [x] `curriculum/mathematical_prerequisites.md` ✅
 - [x] `curriculum/software_environment.md` ✅
 - [x] `curriculum/roadmap.md` (master roadmap) ✅
+- [x] `curriculum/notebook_strategy.md` ✅ (per-unit pipeline, D-019)
 - [ ] Manifests for Modules 2–10
 - [ ] Notation & symbol glossary in `docs/`
 - [ ] Authoring/style guide in `docs/`
@@ -39,8 +40,8 @@ Content for each module is authored only after its manifest exists. Each module 
   - [x] `modules/module01/topic_map.md`
   - [x] `modules/module01/assessments.md`
   - [x] `lessons/`, `notebooks/`, `assets/` directories (empty, .gitkeep)
-  - [~] Lessons — 66 planned (D-014). **Unit 1 complete** (1.1–1.6) ✅ awaiting review; template at `templates/lesson_template.md` ✅. Units 2–9 pending.
-  - [ ] Notebooks — blocked on lessons (notebook track, runnable versions of §7/§8)
+  - [~] Lessons — 66 planned (D-014). **Units 1–2 complete** (1.1–1.6, 2.1–2.9) ✅; template at `templates/lesson_template.md`. Units 3–9 pending.
+  - [ ] Notebooks — per-unit pipeline (D-019); `notebook_strategy.md` ✅. Unit 1–2 notebooks pending generation.
   - [ ] Quizzes — blocked on lessons
 - [ ] Module 02 — Spatial Transformations and SE(3)
 - [ ] Module 03 — Camera Geometry and Robotic Perception
@@ -76,6 +77,6 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Unit 1 is fully drafted** (lessons 1.1–1.6, avg ~1,400 words) and a reusable `templates/lesson_template.md` is in place. Awaiting architect review of Unit 1. On approval, **Unit 2 (lessons 2.1–2.9, vectors)** is generated next, unit-by-unit (D-016). Gemini storyboard briefs for Units 2–4 remain a parallel track.
+➡️ **Lesson 1.1 is now production-quality**: two rendered SVGs, a Mermaid pipeline diagram, a self-contained interactive HTML demo ("Trace the loop"), the runnable notebook, the formative quiz (+ answer key in `coaches/`), and full MkDocs integration that **builds under `mkdocs build --strict`**. Gemini is removed; Claude owns all asset production (D-022). This is the production reference pattern for every lesson. Awaiting architect review; then scale the pattern across reviewed lessons and resolve the `site_src` single-source plan.
 
-> Do **not** generate Unit 2 until Unit 1 is reviewed.
+> Hold broad scaling until the architect confirms the production pattern.

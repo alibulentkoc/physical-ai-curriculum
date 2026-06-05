@@ -81,15 +81,18 @@ The mental image to keep is the **perception–reasoning–action loop**, wrappe
 
 The loop is closed: after acting, the robot perceives again to check the result and continue. The caption under each box names the "language" of that stage — and the gaps between the languages are where the mathematics lives.
 
-> **Visual asset note (for Gemini):** see storyboard brief below.
-
 `[Visual: Greenhouse harvesting robot perception → reasoning → action pipeline, closed loop]`
 
-**Gemini Storyboard Brief**
+**Rendered assets** (produced, in-repo, renderable):
+- SVG: `assets/diagrams/m01-l1-perception-action-loop.svg`
+- SVG: `assets/diagrams/m01-l1-software-vs-physical-ai.svg` (§5)
+- Mermaid pipeline diagram and an interactive "Trace the loop" demo are embedded on the MkDocs page (`site_src/module01/lesson01.md`); demo source at `modules/module01/demos/lesson01_trace_the_loop.html`.
+
+**Diagram Specification** (production input for the loop SVG)
 - **Objective:** the viewer grasps that intelligence in the physical world is a closed loop, and that each stage speaks a different "language" (pixels / meters / angles).
-- **Scene:** the greenhouse robot facing a tomato plant; three labeled stages — camera (perceive), a "brain" node (reason), the arm/gripper (act) — arranged in a loop with an arrow returning from Act to Perceive.
-- **Labels:** PERCEIVE (pixels), REASON (meters / frames), ACT (joint angles); the return arrow labeled "check & repeat."
-- **Animation Notes:** animate one cycle — camera highlights the tomato, the reason node shows a coordinate readout, the arm swings to grip, then the loop arrow pulses to restart.
+- **Scene:** three labeled stages — PERCEIVE (camera), REASON, ACT (arm/gripper) — with forward arrows and a dashed return arrow ("check & repeat").
+- **Labels:** PERCEIVE (pixels), REASON (meters / frames), ACT (joint angles).
+- **Form:** SVG (delivered); the pipeline also rendered as Mermaid on the site.
 
 ## 5. Engineering Example
 
