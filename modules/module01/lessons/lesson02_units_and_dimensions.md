@@ -58,7 +58,9 @@ $$30\ \text{cm} \times \frac{1\ \text{m}}{100\ \text{cm}} = 0.30\ \text{m}.$$
 
 `[Visual: Unit conversion as a chain of ×1 ratios, plus a dimension-matching check]`
 
-**Gemini Storyboard Brief**
+**Rendered asset:** `assets/diagrams/m01-l2-units-and-dimensions.svg` (produced; embedded on the MkDocs page).
+
+**Diagram Specification**
 - **Objective:** show that conversion is repeated multiplication by ratios equal to 1, and that dimensions must match across an equation.
 - **Scene:** left panel — a value (30 cm) flowing through conversion-factor "gates" to become 0.30 m; right panel — a balance scale comparing the dimensions of two sides of an equation, balanced when they match.
 - **Labels:** each conversion ratio; the dimension symbols (L, T) on each side of the scale.
@@ -124,6 +126,60 @@ You find an undocumented formula in legacy robot code: `output = a * b / c`, whe
 - **Convert** by multiplying by ratios equal to 1; you can only convert within the same dimension.
 - **Dimensional homogeneity** lets you catch wrong equations before computing anything.
 - Every interface between robot subsystems is a place to declare and convert units deliberately.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+
+```
+Re-explain Lesson 1.2 (Units and Dimensions) without the Mars Orbiter example. Make clear why a number needs a unit, what a dimension is, and how a dimensional-consistency check catches a wrong equation.
+```
+
+**Practice prompt** — generate more exercises
+
+```
+Give me 6 quick problems: unit conversions (cm to m, degrees to radians) and dimensional-consistency checks on simple physics equations. Show the answers.
+```
+
+**Explore prompt** — connect it to the real world
+
+```
+Show me 3 real engineering or robotics failures caused by unit or dimension mistakes, and how a dimensional check would have caught each one.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source; these give an AI-generated explanation in your preferred language.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+
+```
+I just completed Lesson 1.2 — Units and Dimensions.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+
+```
+I just completed Lesson 1.2 — Units and Dimensions.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+
+```
+I just completed Lesson 1.2 — Units and Dimensions.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

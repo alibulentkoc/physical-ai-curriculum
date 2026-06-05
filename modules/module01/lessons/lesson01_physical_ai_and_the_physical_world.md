@@ -181,6 +181,60 @@ There is no single correct answer — the goal is to show you can map the percep
 - The **Greenhouse Harvesting Robot** is the system we will build the mathematics around for the rest of the curriculum; "find and pick a tomato" is the concrete task every abstract tool serves.
 - You don't need the math yet — you need the **map**: pixels → camera frame → robot frame → joint angles → motion. Units 2–8 fill in each arrow.
 
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+
+```
+Re-explain Lesson 1.1 (Physical AI and the Physical World) using a real system that is NOT a greenhouse robot. Focus on the perception, reasoning, and action loop and why each stage uses a different kind of data.
+```
+
+**Practice prompt** — generate more exercises
+
+```
+Give me 5 short exercises that test whether I can identify the perceive, reason, and act stages and their data types (pixels, meters, angles) in different real-world robots. Include answers.
+```
+
+**Explore prompt** — connect it to the real world
+
+```
+Show me 3 real Physical AI systems and, for each, point out where it must translate between spatial frames and what fails physically if that translation is wrong.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source; these give an AI-generated explanation in your preferred language.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+
+```
+I just completed Lesson 1.1 — Physical AI and the Physical World.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+
+```
+I just completed Lesson 1.1 — Physical AI and the Physical World.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+
+```
+I just completed Lesson 1.1 — Physical AI and the Physical World.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+
 ---
 
 *Next lesson: 1.2 — Units and Dimensions (beginning the precise description of physical quantities the robot measures).*

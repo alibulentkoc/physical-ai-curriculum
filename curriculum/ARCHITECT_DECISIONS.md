@@ -110,3 +110,19 @@ The Lesson 1.1 knowledge check is now an **interactive HTML widget** (`modules/m
 - Single-source plan for `site_src/` vs `modules/` before scaling the site to 66 lessons (recommend pymdownx.snippets include or a sync script).
 
 *Append new decisions below as `D-0NN — Title · APPROVED` with a date.*
+
+## D-025 — Full Unit 1 Production + Standards + Design System · DELIVERED
+Produced all of Unit 1 to the proven 1.1 standard, plus the governing documents:
+- **Production contract:** `curriculum/production_standards.md` (Definition of Done, SVG/diagram/notebook/quiz standards, accessibility, MkDocs validation, demo policy).
+- **Design system:** `assets/design-system/{colors,typography,svg_standards,diagram_standards}.md`.
+- **Per lesson 1.2–1.6:** rendered SVG, runnable notebook (all six Unit 1 notebooks **executed headless — pass**), interactive HTML quiz (JS validated), answer key in `coaches/`, MkDocs site page in nav.
+- **Mermaid** added to 1.4 (error taxonomy). **Interactive demo** added to 1.5 only (accuracy/precision sliders) — the lesson where manipulation clearly helps; others SVG-only per demo policy.
+- Lesson §4 updated for 1.2–1.6 (Gemini brief → produced-asset reference).
+- **`mkdocs build --strict` passes**; verified 6 pages, 7 SVGs, 6 quizzes, 2 demos served.
+- Note: Unit 2 lesson files (2.1–2.9) still carry legacy "Gemini" §4 wording — to be updated during Unit 2 production.
+
+## D-026 — AI Learning Companion + Global Learning Support + i18n · DELIVERED
+Two new standard lesson sections added curriculum-wide (after Key Takeaways, before Next lesson):
+- **AI Learning Companion** — lesson-specific Tutor / Practice / Explore prompts (≤50 words each, copy/paste ready).
+- **Global Learning Support** — per-language explanation prompts (Español, 中文 Simplified, Türkçe), generated from the lesson title; English authoritative.
+Applied to all six Unit 1 lessons (canonical + site pages). Template updated with both as standard components. Created `curriculum/internationalization_strategy.md` (English authoritative; AI-assisted multilingual workflow; Phase 1 prompts → Phase 2 MkDocs selector → Phase 3 human-reviewed; terminology-preservation rules; supported-language roadmap). `mkdocs build --strict` passes; sections (incl. CJK) render.

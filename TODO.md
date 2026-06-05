@@ -77,6 +77,6 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Lesson 1.1 is now production-quality**: two rendered SVGs, a Mermaid pipeline diagram, a self-contained interactive HTML demo ("Trace the loop"), the runnable notebook, the formative quiz (+ answer key in `coaches/`), and full MkDocs integration that **builds under `mkdocs build --strict`**. Gemini is removed; Claude owns all asset production (D-022). This is the production reference pattern for every lesson. Awaiting architect review; then scale the pattern across reviewed lessons and resolve the `site_src` single-source plan.
+➡️ **Unit 1 is fully produced** (lessons 1.1–1.6, each with SVG + runnable notebook + interactive quiz + answer key + MkDocs page; 1.4 Mermaid; 1.5 interactive demo). Production contract (`production_standards.md`) and design system (`assets/design-system/`) are in place. `mkdocs build --strict` passes; all notebooks execute clean. Awaiting architect review before **Unit 2 production** (lessons 2.1–2.9 already drafted; need assets + §4 cleanup + pages).
 
-> Hold broad scaling until the architect confirms the production pattern.
+> Per architect instruction: do not start Unit 3 / Module 2 / new manifests. Next is Unit 2 *production*.

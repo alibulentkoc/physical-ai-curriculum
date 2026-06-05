@@ -57,7 +57,9 @@ The crucial insight: these are **independent axes.** You can have one without th
 
 `[Visual: 2×2 dartboard grid — the four accuracy/precision combinations]`
 
-**Gemini Storyboard Brief**
+**Rendered asset:** `assets/diagrams/m01-l5-accuracy-precision.svg` (produced; embedded on the MkDocs page).
+
+**Diagram Specification**
 - **Objective:** the viewer internalizes that accuracy (closeness to center) and precision (closeness to each other) are independent.
 - **Scene:** four dartboards in a 2×2 grid; columns = low/high accuracy, rows = low/high precision; dart clusters placed to show each combination, with the greenhouse gripper's two cases highlighted.
 - **Labels:** each quadrant; "bullseye = true value"; mark the "precise but inaccurate → fix by calibration" board.
@@ -123,6 +125,60 @@ A greenhouse robot's vision system reports fruit positions that are, on average,
 - They are **independent axes**; all four combinations exist.
 - **Precise-but-inaccurate is the friendly case** — calibrate out the bias. Scatter needs averaging/filtering instead.
 - Robots often exploit high precision (teach-by-demonstration, calibrated offsets) to compensate for weaker accuracy.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+
+```
+Re-explain Lesson 1.5 (Accuracy and Precision) using the dartboard idea. Stress that they are independent axes, and make clear which problem calibration can fix.
+```
+
+**Practice prompt** — generate more exercises
+
+```
+Give me 6 dartboard or sensor scenarios and ask me to label each as accurate and/or precise (cover all four combinations), then reveal the answers.
+```
+
+**Explore prompt** — connect it to the real world
+
+```
+Show me how robot-arm datasheets quote repeatability versus accuracy, and why industrial robots are often taught positions by demonstration.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source; these give an AI-generated explanation in your preferred language.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+
+```
+I just completed Lesson 1.5 — Accuracy and Precision.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+
+```
+I just completed Lesson 1.5 — Accuracy and Precision.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+
+```
+I just completed Lesson 1.5 — Accuracy and Precision.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

@@ -52,7 +52,9 @@ For the tomato: $0.03 / 1.23 \approx 0.024 = 2.4\%.$
 
 `[Visual: Number line showing true value, measured value, and the error gap; plus systematic vs random patterns]`
 
-**Gemini Storyboard Brief**
+**Rendered asset:** `assets/diagrams/m01-l4-measurement-error.svg` (produced; embedded on the MkDocs page).
+
+**Diagram Specification**
 - **Objective:** the viewer sees error as the gap between measured and true, and sees the difference between a consistent shift (systematic) and scatter (random).
 - **Scene:** top — a number line with a marker at $x_\text{true}$ and another at $x_\text{meas}$, the gap labeled "error"; bottom — two clusters of repeated readings: one shifted off-true but tight (systematic), one centered on-true but spread (random).
 - **Labels:** $x_\text{true}$, $x_\text{meas}$, "absolute error," "systematic (shift)," "random (scatter)."
@@ -117,6 +119,60 @@ The greenhouse robot misses ripe tomatoes by grabbing slightly *low* almost ever
 - **Systematic** error is a consistent shift — fix it by calibration. **Random** error is scatter — manage it by averaging/filtering.
 - The engineer's job is to identify *which kind* and apply the matching remedy.
 - A robot should treat every measurement as an estimate with known uncertainty, not as ground truth.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+
+```
+Re-explain Lesson 1.4 (Measurement Error). Clarify absolute versus relative error and systematic versus random error, and give the matching fix for each (calibrate versus average).
+```
+
+**Practice prompt** — generate more exercises
+
+```
+Give me 5 problems computing absolute and relative error, plus 3 scenarios where I must decide whether an error is systematic or random and how to fix it. Include answers.
+```
+
+**Explore prompt** — connect it to the real world
+
+```
+Show me how real robot sensors (cameras, encoders, lidar) exhibit systematic and random error, and how engineers calibrate and filter them in practice.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source; these give an AI-generated explanation in your preferred language.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+
+```
+I just completed Lesson 1.4 — Measurement Error.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+
+```
+I just completed Lesson 1.4 — Measurement Error.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+
+```
+I just completed Lesson 1.4 — Measurement Error.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

@@ -47,7 +47,9 @@ A quick test: *if reversing the direction would change the physical situation, t
 
 `[Visual: Two bins — "fully described by one number" vs "needs a direction too"]`
 
-**Gemini Storyboard Brief**
+**Rendered asset:** `assets/diagrams/m01-l3-scalars-vs-direction.svg` (produced; embedded on the MkDocs page).
+
+**Diagram Specification**
 - **Objective:** the viewer sorts greenhouse quantities into scalar vs needs-direction, and sees that speed→velocity is the same magnitude plus an arrow.
 - **Scene:** a sorting board; sensor readouts (temperature, mass, time) dropping into the "scalar" bin; position and velocity readouts dropping into the "needs direction" bin, each sprouting a direction arrow as it lands.
 - **Labels:** each quantity name and unit; "magnitude only" vs "magnitude + direction."
@@ -117,6 +119,60 @@ Energy and force are both physical quantities, but only one is a scalar. Without
 - **Speed is scalar; velocity is not** — the difference is direction.
 - The "would reversing a direction change anything?" test sorts a quantity in one step.
 - Quantities that need a direction are the reason Unit 2 introduces **vectors**.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+
+```
+Re-explain Lesson 1.3 (Scalars and Physical Quantities). Make the scalar versus needs-direction distinction crisp, and apply the 'reverse the direction' test to several examples.
+```
+
+**Practice prompt** — generate more exercises
+
+```
+Give me 8 physical quantities and ask me to classify each as scalar or needs-direction, then reveal the answers with a one-line reason for each.
+```
+
+**Explore prompt** — connect it to the real world
+
+```
+Show me where, in a real robot arm, scalar quantities and directional quantities each appear, and explain why the directional ones will require vectors.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source; these give an AI-generated explanation in your preferred language.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+
+```
+I just completed Lesson 1.3 — Scalars and Physical Quantities.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+
+```
+I just completed Lesson 1.3 — Scalars and Physical Quantities.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+
+```
+I just completed Lesson 1.3 — Scalars and Physical Quantities.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 

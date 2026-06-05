@@ -21,6 +21,11 @@ nav:
   - Home: index.md
   - Module 1 — Mathematical Foundations:
       - "1.1 Physical AI and the Physical World": module01/lesson01.md
+      - "1.2 Units and Dimensions": module01/lesson02.md
+      - "1.3 Scalars and Physical Quantities": module01/lesson03.md
+      - "1.4 Measurement Error": module01/lesson04.md
+      - "1.5 Accuracy and Precision": module01/lesson05.md
+      - "1.6 Engineering Estimation": module01/lesson06.md
 
 markdown_extensions:
   - admonition

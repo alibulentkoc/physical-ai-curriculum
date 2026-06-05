@@ -80,4 +80,36 @@ Name the predictable traps for this topic and how to avoid them.
 
 ---
 
+<!-- The two blocks below are STANDARD components on every lesson: after Key Takeaways, before the Next-lesson footer. -->
+
+## AI Learning Companion
+Copy any prompt into an AI assistant. Each prompt is lesson-specific, copy/paste ready, ≤50 words, no boilerplate.
+
+**Tutor prompt** — explain it another way
+```
+Re-explain Lesson N.N (Title) a different way, focusing on <core idea>.
+```
+**Practice prompt** — generate more exercises
+```
+Give me N exercises on <skills from this lesson>, with answers.
+```
+**Explore prompt** — connect it to the real world
+```
+Show me real systems where <concept> matters and what fails without it.
+```
+
+## Global Learning Support
+Need this lesson in another language? Copy a prompt below into an AI assistant. English is the authoritative source; these give an AI explanation in your language. Prompts are generated from the lesson title.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+```
+I just completed Lesson N.N — Title.
+Explain this lesson in <language>. Keep robotics/math terminology in English where appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+(Provide one fenced prompt per non-English language: Español, 中文, Türkçe — see any Unit 1 lesson for the exact wording.)
+
+---
+
 *Next lesson: N.N — Title (one-line bridge).*

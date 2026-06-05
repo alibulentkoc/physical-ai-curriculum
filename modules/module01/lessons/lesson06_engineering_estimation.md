@@ -48,7 +48,9 @@ The mindset throughout: keep one or two significant figures, round aggressively,
 
 `[Visual: A hard quantity broken into rough factors, multiplied to a ballpark, with a sanity-check bound]`
 
-**Gemini Storyboard Brief**
+**Rendered asset:** `assets/diagrams/m01-l6-engineering-estimation.svg` (produced; embedded on the MkDocs page).
+
+**Diagram Specification**
 - **Objective:** the viewer sees estimation as decomposing a hard number into easy factors, then checking the product against a bound.
 - **Scene:** a target question ("tomatoes per hour?") splitting into factor cards (seconds/pick, seconds/hour), the cards combining into a ballpark number, with a separate "plausible range" bar that the answer must fall inside.
 - **Labels:** each factor with its rough guess; the final ballpark; the bound's lower/upper limits.
@@ -111,6 +113,60 @@ You're told the greenhouse robot's camera processes the scene at "real-time spee
 - **Bounding** (a value the answer must be above/below) gives a decisive sanity check.
 - The dangerous engineering errors are factor-of-1000 mistakes — estimation is built to catch exactly those.
 - This closes Unit 1: the robot's numbers carry **units, error, accuracy/precision, and a plausible magnitude.** Unit 2 now gives the quantities that need *direction* their proper tool — the **vector**.
+
+
+## AI Learning Companion
+
+Copy any prompt below into ChatGPT, Claude, or another AI assistant.
+
+**Tutor prompt** — explain it another way
+
+```
+Re-explain Lesson 1.6 (Engineering Estimation). Show how order-of-magnitude and Fermi estimates catch big errors, using an example that is not the greenhouse robot.
+```
+
+**Practice prompt** — generate more exercises
+
+```
+Give me 5 Fermi estimation problems relevant to robotics, each with a rough-factor breakdown and a plausible range, then check my answers.
+```
+
+**Explore prompt** — connect it to the real world
+
+```
+Show me 3 real engineering decisions that were guided by quick estimation before detailed modeling, and what the estimate ruled in or out.
+```
+
+## Global Learning Support
+
+Need this lesson explained in another language? Copy one of the prompts below into an AI assistant. English remains the authoritative source; these give an AI-generated explanation in your preferred language.
+
+**Supported languages (initial):** English · Español · 中文 (Simplified Chinese) · Türkçe
+
+**Español**
+
+```
+I just completed Lesson 1.6 — Engineering Estimation.
+Explain this lesson in Spanish. Keep robotics and mathematical terminology in English when appropriate.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**中文 (Simplified Chinese)**
+
+```
+I just completed Lesson 1.6 — Engineering Estimation.
+Explain this lesson in Simplified Chinese. Keep mathematical notation unchanged.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
+**Türkçe**
+
+```
+I just completed Lesson 1.6 — Engineering Estimation.
+Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
+Then provide: a summary, three practice questions, and one challenge problem.
+```
+
 
 ---
 
