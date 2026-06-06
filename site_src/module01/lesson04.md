@@ -86,9 +86,9 @@ print(relative_error(1.20, 1.23) * 100)    # ~2.44 (%)
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson04_quiz.html" title="Measurement Error knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson04_quiz.html" title="Measurement Error knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson04_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson04_quiz.html)
 
 1. Define true value, measured value, and absolute error.
 2. A reading is 9.8 for a true value of 10.0. Compute the absolute and relative error.

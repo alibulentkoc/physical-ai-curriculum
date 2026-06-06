@@ -1,32 +1,45 @@
 #!/usr/bin/env python3
 """
-Single-source site generator.
+Single-source, multi-module site generator.
 
-Builds each site_src/module01/lessonNN.md from the AUTHORITATIVE canonical lesson
-markdown in modules/module01/lessons/, injecting the produced assets (SVG, Mermaid,
+Builds each site_src/moduleMM/lessonNN.md from the AUTHORITATIVE canonical lesson
+markdown in modules/moduleMM/lessons/, injecting produced assets (SVG, Mermaid,
 interactive demo, notebook link, interactive quiz) at the right sections, and copies
 those assets into site_src/ for serving.
 
-Canonical lesson markdown is the only place prose is maintained. Re-run this script
-after editing any lesson or adding assets:  python3 tools/generate_site_pages.py
+Canonical lesson markdown is the only place prose is maintained. Re-run after edits:
+    python3 tools/generate_site_pages.py
+
+Conventions per module MM (01, 02, ...):
+  canonical lessons : modules/moduleMM/lessons/lessonNN_*.md
+  diagrams          : assets/diagrams/mMM-lN-*.svg        (N = int(NN))
+  quizzes           : modules/moduleMM/quizzes/lessonNN_quiz.html
+  demos             : modules/moduleMM/demos/lessonNN_*.html
+  notebooks         : modules/moduleMM/notebooks/lessonNN_*.ipynb
+Served copies:
+  site_src/assets/mMM-*.svg            (flat; module prefix avoids collisions)
+  site_src/quizzes/moduleMM/*.html     (namespaced by module)
+  site_src/demos/moduleMM/*.html       (namespaced by module)
+Paths:
+  iframe src (raw HTML, browser-resolved against output URL /moduleMM/lessonNN/):
+      demo  -> ../../demos/moduleMM/<file>
+      quiz  -> ../../quizzes/moduleMM/<file>
+  markdown fallback link (MkDocs-rewritten, source-relative to site_src/moduleMM/lessonNN.md):
+      demo  -> ../demos/moduleMM/<file>
+      quiz  -> ../quizzes/moduleMM/<file>
 """
 import re, os, glob, shutil
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LES  = os.path.join(ROOT, "modules/module01/lessons")
 DIAG = os.path.join(ROOT, "assets/diagrams")
-QUIZ = os.path.join(ROOT, "modules/module01/quizzes")
-DEMO = os.path.join(ROOT, "modules/module01/demos")
-NB   = os.path.join(ROOT, "modules/module01/notebooks")
-SITE = os.path.join(ROOT, "site_src/module01")
 S_ASSETS = os.path.join(ROOT, "site_src/assets")
-S_QUIZ   = os.path.join(ROOT, "site_src/quizzes")
-S_DEMO   = os.path.join(ROOT, "site_src/demos")
-for d in (SITE, S_ASSETS, S_QUIZ, S_DEMO): os.makedirs(d, exist_ok=True)
+os.makedirs(S_ASSETS, exist_ok=True)
 
-# canonical lesson files in order; file index NN drives all asset names by convention
-def lesson_files():
-    return sorted(glob.glob(os.path.join(LES, "lesson[0-9][0-9]_*.md")))
+# modules to build (extend as new modules are produced)
+MODULES = ["01", "02"]
+
+def lesson_files(les_dir):
+    return sorted(glob.glob(os.path.join(les_dir, "lesson[0-9][0-9]_*.md")))
 
 def idx_of(path):
     return re.search(r'lesson(\d\d)_', os.path.basename(path)).group(1)
@@ -55,24 +68,31 @@ def inject_after_heading(body, heading_regex, snippet):
     after = body[insert_at:].lstrip("\n")
     return before + "\n\n" + snippet.strip() + "\n\n" + after, True
 
-def build(path):
+def build(path, mod):
+    les_dir = os.path.join(ROOT, "modules/module%s/lessons" % mod)
+    quiz_dir = os.path.join(ROOT, "modules/module%s/quizzes" % mod)
+    demo_dir = os.path.join(ROOT, "modules/module%s/demos" % mod)
+    nb_dir   = os.path.join(ROOT, "modules/module%s/notebooks" % mod)
+    site_dir = os.path.join(ROOT, "site_src/module%s" % mod)
+    s_quiz   = os.path.join(ROOT, "site_src/quizzes/module%s" % mod)
+    s_demo   = os.path.join(ROOT, "site_src/demos/module%s" % mod)
+    for d in (site_dir, s_quiz, s_demo): os.makedirs(d, exist_ok=True)
+
     nn = idx_of(path)
     raw = open(path).read()
     num = lesson_number(raw)
     title = title_of(raw)
     body = strip_frontmatter(raw)
 
-    # assets by convention (file index NN)
-    li = str(int(nn))  # 01->1 ... 09->9 ... matches m01-lN naming
-    svgs = sorted(glob.glob(os.path.join(DIAG, "m01-l%s-*.svg" % li)))
-    quiz = glob.glob(os.path.join(QUIZ, "lesson%s_quiz.html" % nn))
-    demos = [d for d in glob.glob(os.path.join(DEMO, "lesson%s_*.html" % nn))]
-    nbs  = glob.glob(os.path.join(NB, "lesson%s_*.ipynb" % nn))
+    li = str(int(nn))
+    svgs  = sorted(glob.glob(os.path.join(DIAG, "m%s-l%s-*.svg" % (mod, li))))
+    quiz  = glob.glob(os.path.join(quiz_dir, "lesson%s_quiz.html" % nn))
+    demos = glob.glob(os.path.join(demo_dir, "lesson%s_*.html" % nn))
+    nbs   = glob.glob(os.path.join(nb_dir, "lesson%s_*.ipynb" % nn))
 
-    # copy assets into site_src
     for s in svgs: shutil.copy(s, S_ASSETS)
-    for q in quiz: shutil.copy(q, S_QUIZ)
-    for d in demos: shutil.copy(d, S_DEMO)
+    for q in quiz: shutil.copy(q, s_quiz)
+    for d in demos: shutil.copy(d, s_demo)
 
     # SVG figures -> after "## 4. Visual Explanation"
     if svgs:
@@ -84,43 +104,43 @@ def build(path):
     # demo iframe -> after "## 7. Interactive Demonstration"
     if demos:
         d = os.path.basename(sorted(demos)[0])
-        iframe = ('<iframe src="../../demos/%s" title="%s interactive demo" '
+        iframe = ('<iframe src="../../demos/module%s/%s" title="%s interactive demo" '
                   'style="width:100%%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>\n\n'
-                  '[Open this demo in a new tab \u2197](../demos/%s)'
-                  % (d, title, d))
+                  '[Open this demo in a new tab \u2197](../demos/module%s/%s)'
+                  % (mod, d, title, mod, d))
         body, _ = inject_after_heading(body, r'^##\s+(?:\d+\.\s+)?Interactive Demonstration\s*$', iframe)
 
     # notebook tip -> after "## 8. Coding Exercise"
     if nbs:
         nbname = os.path.basename(sorted(nbs)[0])
         tip = ('!!! tip "Run the hands-on notebook"\n'
-               '    `modules/module01/notebooks/%s` — open in JupyterLab and run **Kernel → Restart & Run All**.' % nbname)
+               '    `modules/module%s/notebooks/%s` — open in JupyterLab and run **Kernel → Restart & Run All**.' % (mod, nbname))
         body, _ = inject_after_heading(body, r'^##\s+(?:\d+\.\s+)?Coding Exercise\s*$', tip)
 
     # quiz iframe -> after "## 9. Knowledge Check"
     if quiz:
         q = os.path.basename(quiz[0])
         iframe = ('Formative — unlimited attempts, immediate feedback; does not affect your grade.\n\n'
-                  '<iframe src="../../quizzes/%s" title="%s knowledge check" '
+                  '<iframe src="../../quizzes/module%s/%s" title="%s knowledge check" '
                   'style="width:100%%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>\n\n'
-                  '[Open this quiz in a new tab \u2197](../quizzes/%s)'
-                  % (q, title, q))
+                  '[Open this quiz in a new tab \u2197](../quizzes/module%s/%s)'
+                  % (mod, q, title, mod, q))
         body, _ = inject_after_heading(body, r'^##\s+(?:\d+\.\s+)?Knowledge Check\s*$', iframe)
 
-    out = os.path.join(SITE, "lesson%s.md" % nn)
+    out = os.path.join(site_dir, "lesson%s.md" % nn)
     published = bool(svgs or quiz or demos)
 
-    # strip authoring scaffolding so the STUDENT page shows only figure + real prose/Mermaid
-    body = re.sub(r'^`\[Visual:.*?`\s*\n', '', body, flags=re.M)                 # [Visual: ...] placeholder
-    body = re.sub(r'\*\*Rendered assets?:?\*\*.*?\n\n', '', body, flags=re.S)    # maintainer "Rendered asset(s)" note
-    body = re.sub(r'\*\*Diagram Specification\*\*.*?(?=\n## )', '', body, flags=re.S)  # production spec (incl. Animation Notes)
-    body = re.sub(r'\n{3,}', '\n\n', body)                                       # tidy blank lines
+    # strip authoring scaffolding from the STUDENT page
+    body = re.sub(r'^`\[Visual:.*?`\s*\n', '', body, flags=re.M)
+    body = re.sub(r'\*\*Rendered assets?:?\*\*.*?\n\n', '', body, flags=re.S)
+    body = re.sub(r'\*\*Diagram Specification\*\*.*?(?=\n## )', '', body, flags=re.S)
+    body = re.sub(r'\n{3,}', '\n\n', body)
 
     if published:
         open(out, "w").write(body)
     else:
-        # don't publish text-only (assets pending) — avoids orphan pages under --strict
         if os.path.exists(out): os.remove(out)
+
     feats = []
     if svgs: feats.append("%d SVG" % len(svgs))
     if "```mermaid" in body: feats.append("mermaid")
@@ -131,9 +151,15 @@ def build(path):
 
 if __name__ == "__main__":
     print("Generating site pages from canonical lessons...\n")
-    rows = []
-    for f in lesson_files():
-        num, title, nn, feats = build(f)
-        rows.append((num, nn, title, feats))
-        print(f"  {num:4s} (lesson{nn}) {title:32s} [{feats}]")
-    print("\nDone. %d pages generated." % len(rows))
+    total = 0
+    for mod in MODULES:
+        les_dir = os.path.join(ROOT, "modules/module%s/lessons" % mod)
+        files = lesson_files(les_dir)
+        if not files: continue
+        print("Module %s:" % mod)
+        for f in files:
+            num, title, nn, feats = build(f, mod)
+            print(f"  {num:4s} (lesson{nn}) {title:40s} [{feats}]")
+            total += 1
+        print()
+    print("Done. %d pages generated." % total)

@@ -32,9 +32,9 @@ Scale $\mathbf{p}=(2,3)$ by $s_x=2,\ s_y=0.5$: $S\mathbf{p}=(2\cdot2,\ 0.5\cdot3
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson30_scaling.html" title="Scaling Transformations interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson30_scaling.html" title="Scaling Transformations interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson30_scaling.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson30_scaling.html)
 
 Use two sliders ($s_x$, $s_y$) to stretch and shrink a greenhouse object; watch uniform vs non-uniform scaling and the live area factor, with the scaling matrix shown.
 
@@ -49,9 +49,9 @@ Build a scaling matrix in NumPy, scale a shape's points, and verify the area sca
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson30_quiz.html" title="Scaling Transformations knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson30_quiz.html" title="Scaling Transformations knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson30_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson30_quiz.html)
 
 A check that scaling multiplies coordinates by the factors, that area scales by $s_x s_y$, and that $s_x=s_y=1$ is the identity.
 

@@ -49,9 +49,9 @@ Given an origin and axis directions, convert a few "so-many-meters-this-way" des
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson18_quiz.html" title="Cartesian Coordinates knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson18_quiz.html" title="Cartesian Coordinates knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson18_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson18_quiz.html)
 
 A check on origin/axes/signed-distance and reading coordinates including negatives.
 

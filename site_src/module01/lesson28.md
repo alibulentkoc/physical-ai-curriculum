@@ -34,9 +34,9 @@ Apply $I$ to three points: $(0,0)\to(0,0)$, $(2,1)\to(2,1)$, $(-3,4)\to(-3,4)$. 
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson28_identity.html" title="The Identity Matrix interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson28_identity.html" title="The Identity Matrix interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson28_identity.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson28_identity.html)
 
 Apply the identity to a greenhouse object and watch nothing happen — then toggle in a non-identity matrix to feel the contrast.
 
@@ -51,9 +51,9 @@ Build the identity with NumPy, apply it to several points, and assert each point
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson28_quiz.html" title="The Identity Matrix knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson28_quiz.html" title="The Identity Matrix knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson28_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson28_quiz.html)
 
 A check that the identity leaves points unchanged and acts as the neutral element.
 

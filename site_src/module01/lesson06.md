@@ -70,9 +70,9 @@ print(f"~{picks_per_hour:.0f} picks/hour per arm")   # ~360
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson06_quiz.html" title="Engineering Estimation knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson06_quiz.html" title="Engineering Estimation knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson06_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson06_quiz.html)
 
 1. What does "order of magnitude" mean?
 2. Why are factor-of-1000 errors more dangerous than factor-of-1.03 errors in engineering?

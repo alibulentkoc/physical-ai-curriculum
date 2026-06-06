@@ -67,9 +67,9 @@ print(f"Distance ≈ {(x**2 + y**2) ** 0.5:.2f} m")
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson07_quiz.html" title="What Is a Vector? knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson07_quiz.html" title="What Is a Vector? knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson07_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson07_quiz.html)
 
 1. What two things define a vector?
 2. Give two vector quantities and two scalar quantities from the greenhouse robot.

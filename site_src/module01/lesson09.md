@@ -48,9 +48,9 @@ Link 1 of a planar arm gives displacement $\mathbf{L_1} = \begin{bmatrix} 0.4 \\
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson09_vector_addition.html" title="Vector Addition interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson09_vector_addition.html" title="Vector Addition interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson09_vector_addition.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson09_vector_addition.html)
 
 *(Conceptual; notebook version later.)* Two draggable arrows on a grid. The demo always draws them tip-to-tail and shows the resultant arrow plus its components. The learner drags either arrow and watches the sum update. A "swap order" button shows the resultant is unchanged (commutativity), and an "add link 3" button extends the chain into a mini arm whose tip is the running sum.
 
@@ -77,9 +77,9 @@ print(f"Gripper position: {gripper} m")   # [0.5, 0.3]
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson09_quiz.html" title="Vector Addition knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson09_quiz.html" title="Vector Addition knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson09_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson09_quiz.html)
 
 1. Describe tip-to-tail addition in one sentence.
 2. Add $\begin{bmatrix}2\\1\end{bmatrix} + \begin{bmatrix}-1\\3\end{bmatrix}$.

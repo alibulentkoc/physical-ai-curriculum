@@ -45,9 +45,9 @@ Reflect a shape across each axis with NumPy; confirm size is preserved (distance
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson31_quiz.html" title="Reflection Transformations knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson31_quiz.html" title="Reflection Transformations knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson31_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson31_quiz.html)
 
 A check that reflection mirrors across an axis, preserves size, flips orientation (det $= -1$), and that reflecting twice is the identity.
 

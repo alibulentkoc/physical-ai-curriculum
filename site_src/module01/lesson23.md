@@ -38,9 +38,9 @@ Camera sees the tomato at $(0.30, -0.10)$ (camera frame). The camera is mounted 
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson23_robot_camera_frames.html" title="Robot and Camera Frames interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson23_robot_camera_frames.html" title="Robot and Camera Frames interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson23_robot_camera_frames.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson23_robot_camera_frames.html)
 
 Step through a pick and watch the tomato's coordinates in the camera, robot, and world frames all at once. Move the robot or the tomato and see every frame's readout update together — while the world frame stays fixed to the room.
 
@@ -55,9 +55,9 @@ Implement the camera → robot → world chain for one tomato as two offset step
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson23_quiz.html" title="Robot and Camera Frames knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson23_quiz.html" title="Robot and Camera Frames knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson23_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson23_quiz.html)
 
 A check that perception is camera-frame, action is robot-frame, memory is world-frame, and that a pick is a chain of re-descriptions of one fixed point.
 

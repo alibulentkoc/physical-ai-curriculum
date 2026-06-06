@@ -33,9 +33,9 @@ Results $(0,2)$ vs $(0,1)$ — **different.** Same two actions; the order change
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson32_composition.html" title="Composition of Transformations interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson32_composition.html" title="Composition of Transformations interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson32_composition.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson32_composition.html)
 
 Build a chain — scale, rotate, translate — and watch it apply step by step; then swap the order and see the result land somewhere different. The combined effect and the current order are shown so "order matters" is something you *see*.
 
@@ -50,9 +50,9 @@ Compose rotation, scaling, and a (conceptual) translation in NumPy; show scale�
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson32_quiz.html" title="Composition of Transformations knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson32_quiz.html" title="Composition of Transformations knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson32_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson32_quiz.html)
 
 A check that composition chains transformations, that order changes the result (non-commutative), and that the first action applies on the right.
 

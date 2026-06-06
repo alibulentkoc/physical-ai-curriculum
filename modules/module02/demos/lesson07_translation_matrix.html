@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Translation as a Matrix — Lesson 2.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--accent:#0ea5e9;--teal:#0d9488;--p:#8b5cf6;--warn:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 340px;min-width:300px}
+  .panel{flex:1 1 250px;min-width:240px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  label{font-size:13px;color:var(--muted);display:block;margin-top:10px}
+  input[type=range]{width:100%}
+  .mode{display:flex;gap:6px;margin-top:8px}
+  .mbtn{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .mbtn.on{background:#0f172a;color:#fff;border-color:#0f172a}
+  .mtx{display:inline-grid;grid-template-columns:auto auto auto;gap:3px 12px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);padding:6px 10px;font-variant-numeric:tabular-nums;font-weight:700;margin-top:10px;font-size:14px}
+  .mtx .hl{color:var(--teal)}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;margin-top:10px}
+  .warn{color:var(--warn);font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 360 320" role="img" aria-label="A point and a direction arrow under a transform. In 2x2 mode the origin cannot move; in homogeneous 3x3 mode translation slides the point while the direction keeps its heading.">
+        <line x1="30" y1="230" x2="340" y2="230" stroke="#e2e8f0"/>
+        <line x1="110" y1="30" x2="110" y2="300" stroke="#e2e8f0"/>
+        <circle cx="110" cy="230" r="3.5" fill="#0f172a"/><text x="86" y="246" font-size="10" fill="#64748b">origin</text>
+        <!-- ghost original point -->
+        <circle id="ghost" cx="0" cy="0" r="6" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <!-- moved point -->
+        <circle id="pt" cx="0" cy="0" r="7" fill="#e11d48"/>
+        <!-- direction arrow -->
+        <defs><marker id="dm" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8b5cf6"/></marker></defs>
+        <line id="dir" x1="0" y1="0" x2="0" y2="0" stroke="#8b5cf6" stroke-width="2.5" marker-end="url(#dm)"/>
+        <text id="ptlbl" x="0" y="0" font-size="11" font-weight="700" fill="#e11d48">point</text>
+      </svg>
+      <div class="hint" id="hint">2×2 mode: the matrix can't move the origin — translation is impossible.</div>
+    </div>
+    <div class="panel">
+      <div class="mode">
+        <button id="m2" class="mbtn on">2×2 matrix</button>
+        <button id="m3" class="mbtn">homogeneous 3×3</button>
+      </div>
+      <label for="tx">Translate x (t<sub>x</sub>): <span id="txV">1.5</span></label>
+      <input id="tx" type="range" min="-2" max="2" step="0.1" value="1.5">
+      <label for="ty">Translate y (t<sub>y</sub>): <span id="tyV">0.8</span></label>
+      <input id="ty" type="range" min="-2" max="2" step="0.1" value="0.8">
+      <div id="mtxWrap"></div>
+      <div class="readout" aria-live="polite">
+        <div id="msg"></div>
+      </div>
+      <button id="reset" class="btn">Reset</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var OX=110, OY=230, S=60;
+  var basePt=[1.0,1.0];          // a point (w=1)
+  var baseDir=[1.0,0.0];         // a direction (w=0), drawn from the (moved) point base
+  var mode='2x2', tx=1.5, ty=0.8;
+  var pt=document.getElementById('pt'), ghost=document.getElementById('ghost'), dir=document.getElementById('dir'), ptlbl=document.getElementById('ptlbl');
+  var mtxWrap=document.getElementById('mtxWrap'), msg=document.getElementById('msg'), hint=document.getElementById('hint');
+  function X(v){return OX+v*S;} function Y(v){return OY-v*S;}
+  function draw(){
+    document.getElementById('txV').textContent=tx.toFixed(1);
+    document.getElementById('tyV').textContent=ty.toFixed(1);
+    ghost.setAttribute('cx',X(basePt[0])); ghost.setAttribute('cy',Y(basePt[1]));
+    var moved;
+    if(mode==='2x2'){
+      // a 2x2 cannot translate: the point stays put regardless of tx,ty
+      moved=basePt.slice();
+      mtxWrap.innerHTML='<span class="mtx"><span>1</span><span>0</span><span></span><span>0</span><span>1</span><span></span></span>';
+      msg.innerHTML='<span class="warn">2×2 can\u2019t translate.</span> No matter the sliders, the matrix maps the origin to itself, so the point cannot move. The offset has nowhere to go.';
+      hint.textContent='2×2 mode: the matrix can\u2019t move the origin — translation is impossible.';
+    } else {
+      moved=[basePt[0]+tx, basePt[1]+ty];
+      mtxWrap.innerHTML='<span class="mtx"><span>1</span><span>0</span><span class="hl">'+tx.toFixed(1)+'</span><span>0</span><span>1</span><span class="hl">'+ty.toFixed(1)+'</span><span>0</span><span>0</span><span>1</span></span>';
+      msg.innerHTML='Homogeneous 3×3: the offset lives in the <b>last column</b> and the point slides to ('+moved[0].toFixed(1)+', '+moved[1].toFixed(1)+'). The direction (w=0) keeps its heading.';
+      hint.textContent='3×3 mode: drag the offset — the last column and the point move together.';
+    }
+    pt.setAttribute('cx',X(moved[0])); pt.setAttribute('cy',Y(moved[1]));
+    ptlbl.setAttribute('x',X(moved[0])+9); ptlbl.setAttribute('y',Y(moved[1])-8);
+    // direction arrow drawn from the moved point's base; heading never changes
+    dir.setAttribute('x1',X(moved[0])); dir.setAttribute('y1',Y(moved[1]));
+    dir.setAttribute('x2',X(moved[0]+baseDir[0])); dir.setAttribute('y2',Y(moved[1]+baseDir[1]));
+  }
+  function setMode(m){mode=m;document.getElementById('m2').classList.toggle('on',m==='2x2');document.getElementById('m3').classList.toggle('on',m==='3x3');draw();}
+  document.getElementById('m2').addEventListener('click',function(){setMode('2x2');});
+  document.getElementById('m3').addEventListener('click',function(){setMode('3x3');});
+  document.getElementById('tx').addEventListener('input',function(){tx=parseFloat(this.value);draw();});
+  document.getElementById('ty').addEventListener('input',function(){ty=parseFloat(this.value);draw();});
+  document.getElementById('reset').addEventListener('click',function(){tx=1.5;ty=0.8;document.getElementById('tx').value=1.5;document.getElementById('ty').value=0.8;setMode('2x2');});
+  draw();
+})();
+</script>
+</body>
+</html>

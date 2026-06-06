@@ -92,9 +92,9 @@ Notice we solved nothing numerically — and yet every decision pointed at a spe
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson01_trace_the_loop.html" title="Physical AI and the Physical World interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson01_trace_the_loop.html" title="Physical AI and the Physical World interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson01_trace_the_loop.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson01_trace_the_loop.html)
 
 *(Concept described here; the runnable notebook is authored in the notebook phase, in `../notebooks/`. Python is formally introduced in Unit 8.)*
 
@@ -128,9 +128,9 @@ print(f"It is {'above' if z > 0 else 'below'} the origin by {abs(z)} m.")
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson01_quiz.html" title="Physical AI and the Physical World knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson01_quiz.html" title="Physical AI and the Physical World knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson01_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson01_quiz.html)
 
 *Formative — unlimited attempts, immediate feedback. Not graded (D-015). Check your understanding, not your score.*
 

@@ -49,9 +49,9 @@ Apply a couple of $2\times2$ matrices to a set of points with NumPy and describe
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson25_quiz.html" title="Matrices as Operators knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson25_quiz.html" title="Matrices as Operators knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson25_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson25_quiz.html)
 
 A check that a matrix is an operator (points in → moved points out) and that its columns are the images of the unit arrows.
 

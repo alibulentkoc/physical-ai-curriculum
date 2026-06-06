@@ -45,9 +45,9 @@ A short capstone that uses the whole toolkit in one greenhouse scenario — posi
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson16_quiz.html" title="Vectors in Physical AI (Unit 2 Recap) knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson16_quiz.html" title="Vectors in Physical AI (Unit 2 Recap) knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson16_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson16_quiz.html)
 
 A brief consolidation quiz spanning the unit (formative — unlimited attempts).
 

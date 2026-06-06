@@ -47,9 +47,9 @@ A short capstone: describe one fixed point in world, robot, and camera frames an
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson24_quiz.html" title="Coordinate Frames in Physical AI (Unit 3 Recap) knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson24_quiz.html" title="Coordinate Frames in Physical AI (Unit 3 Recap) knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson24_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson24_quiz.html)
 
 A brief consolidation quiz across the unit (formative — unlimited attempts).
 

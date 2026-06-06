@@ -83,9 +83,9 @@ print(deg_to_rad(90))   # expect ~1.5708
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson02_quiz.html" title="Units and Dimensions knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson02_quiz.html" title="Units and Dimensions knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson02_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson02_quiz.html)
 
 1. What two parts make up a physical quantity?
 2. Give the SI base unit for length, time, and plane angle.

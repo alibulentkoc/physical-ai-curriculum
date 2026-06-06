@@ -47,9 +47,9 @@ Add two matrices with NumPy, confirm it's commutative, and verify that $(A+B)\ma
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson26_quiz.html" title="Matrix Addition knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson26_quiz.html" title="Matrix Addition knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson26_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson26_quiz.html)
 
 A check that addition is entry-wise, commutative, same-shape-only, and distinct from composition.
 

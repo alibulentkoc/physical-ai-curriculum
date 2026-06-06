@@ -43,9 +43,9 @@ Now the robot drives 0.2 m east → base at $(1.6, 1.3)$. Robot-frame coordinate
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson21_frames_viewpoint.html" title="Local and Global Frames interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson21_frames_viewpoint.html" title="Local and Global Frames interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson21_frames_viewpoint.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson21_frames_viewpoint.html)
 
 Switch the active frame and watch the tomato's coordinates change while the tomato stays put. Drive the robot and see the robot/camera readings update as the world reading holds.
 
@@ -60,9 +60,9 @@ Given a fixed world point and a robot offset, print the tomato's coordinates in 
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson21_quiz.html" title="Local and Global Frames knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson21_quiz.html" title="Local and Global Frames knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson21_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson21_quiz.html)
 
 A check that global = fixed reference, local = attached/moving, and that one point yields different per-frame coordinates.
 

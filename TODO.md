@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-✅ **MODULE 1 signed off.** Completion report archived (`curriculum/module01_completion_report.md`). **Module 2 authorized** = "Spatial Transformations and SE(3)". Scaffolding + planning delivered: `curriculum/module02_manifest.md`, `curriculum/module02_production_plan.md`, and `modules/module02/{README,learning_objectives,topic_map,assessments}.md` + dirs.
+➡️ **Module 2 Installment A delivered:** Unit 1 (Why Transformations Matter, 1.1–1.4) + Unit 2 (Homogeneous Coordinates, 2.1–2.5). Each: SVG + notebook + quiz + answer key + two standard sections. Required demo: 2.3 translation-as-a-matrix (2×2 vs homogeneous 3×3). Generator extended for multi-module; Module 1 re-verified strict-clean. `mkdocs build --strict` passes; all 9 notebooks execute clean; all Module 2 embeds resolve. Numbering restarts per module (module02/lessonNN, m02-lN).
 
-**Before Module 2 lessons:** architect to review the manifest, topic map (8 units), and production/demo/asset/assessment plans, and confirm refinements (per-unit recaps; Unit 7 extrinsics-only boundary; inverse placement; faux-3D; numbering restart; midpoint-checkpoint placement). Then begin **Installment A** = Unit 1 (Why Transformations Matter) + Unit 2 (Homogeneous Coordinates), leading with physical movement and the translation-as-a-matrix demo.
+**PAUSE FOR REVIEW before Installment B** (architect directive). Installment B = Unit 3 (SE(2), introduce inverses geometrically) + Unit 4 (SE(3), faux-3D). Then C (U5 Composition + U6 Pose; midpoint checkpoint AFTER U5) and D (U7 Camera-to-Robot extrinsics-only + U8 Mini Project).
 
-> Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` (extend for Module 2) → `mkdocs build --strict`.
+> Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 

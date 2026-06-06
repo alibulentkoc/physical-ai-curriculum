@@ -229,3 +229,16 @@ Module 1 totals: 33 lessons produced (1.1–1.6, 2.1–2.10, 3.1–3.8, 4.1–4.
 - **PAUSE:** no Module 2 lessons generated; awaiting review of manifest/topic map/plans before lesson production.
 
 Open decisions for architect: confirm topic-map refinements (recaps, Unit 7 boundary, inverse placement, 3D approach, numbering); confirm midpoint-checkpoint placement (after Unit 4 vs Unit 5); confirm rubric weighting carry-over.
+
+## D-037 — Module 2 Installment A DELIVERED (Unit 1 + Unit 2) · PAUSE before Installment B
+Installment A produced to standard; Module 2 Units 1–2 are production-complete. Numbering restarted per module (module02/lessonNN, m02-lN); per-unit recaps included.
+- **Unit 1 — Why Transformations Matter (4):** 1.1 The Robot's Constant Problem (lesson01) · 1.2 Position + Orientation Together / pose (lesson02) · 1.3 The Limit We Hit in Module 1 — 2×2 can't translate (lesson03) · 1.4 recap (lesson04). Intuition/motivation-first; no matrix algebra at the open.
+- **Unit 2 — Homogeneous Coordinates (5):** 2.1 One Extra Coordinate / lift to (x,y,1) (lesson05) · 2.2 Points vs Directions / w=1 vs w=0 (lesson06) · 2.3 Translation as a Matrix (lesson07) · 2.4 Rotation + Translation in One Matrix / block form [[R,t],[0,1]] (lesson08) · 2.5 recap (lesson09).
+- **Required demo:** `modules/module02/demos/lesson07_translation_matrix.html` — the module "aha": toggle 2×2 (can't move the origin) vs homogeneous 3×3 (slides the point); drag the offset, watch the last column and point move together; a direction (w=0) stays fixed. JS validated.
+- Per lesson: SVG + notebook + quiz + answer key + the two standard sections + core_idea. 9 SVGs (incl. faux-3D isometric "lift to height-1" for 2.1; block-form matrix for 2.4). 9 notebooks execute "All checks passed." 9 quizzes + 9 answer keys (new coaches/answer-keys/module02/).
+- **Generator extended for multi-module** (MODULES=["01","02"]; quizzes/demos namespaced site_src/{quizzes,demos}/moduleMM/ to avoid lesson01 collisions; SVGs flat with m01-/m02- prefixes). Module 1 re-verified strict-clean.
+- `mkdocs build --strict` passes; all 9 Module 2 notebooks execute clean; all 10 Module 2 embeds + fallback links resolve. Nav has a Module 2 section (Unit 1 1.1–1.4, Unit 2 2.1–2.5).
+- Through-line kept: M1-U3 "different observers, different coordinates" → M1-U4 "transformations change space" → M2 "how transformations are represented and composed." Boundaries: 2D so far; translation now a matrix via homogeneous coords; SE(2)/SE(3) named but not yet formalized (Units 3–4).
+- **PAUSE for review before Installment B** (architect directive). Installment B = Unit 3 (SE(2), with inverses) + Unit 4 (SE(3)).
+
+Module 2 so far: 9 lessons, 9 SVGs, 9 notebooks, 9 quizzes, 9 answer keys, 1 demo.

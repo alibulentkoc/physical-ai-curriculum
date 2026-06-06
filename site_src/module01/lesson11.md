@@ -77,9 +77,9 @@ print(f"distance = {dist:.2f} m -> {'reachable' if dist <= reach else 'too far'}
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson11_quiz.html" title="Magnitude and Direction knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson11_quiz.html" title="Magnitude and Direction knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson11_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson11_quiz.html)
 
 1. Write the magnitude formula for a 3D vector.
 2. Compute $\left\|\begin{bmatrix}6\\8\end{bmatrix}\right\|$.

@@ -32,9 +32,9 @@ Rotate $\mathbf{p}=(1,0)$ by $\theta=90°$: $\cos90°=0,\ \sin90°=1$, so $R(90�
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson29_rotation.html" title="Rotation Matrices interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson29_rotation.html" title="Rotation Matrices interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson29_rotation.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson29_rotation.html)
 
 Drag a single slider from 0° to 360° and watch the greenhouse object turn about the origin — size constant, orientation changing — with the rotation matrix shown live.
 
@@ -49,9 +49,9 @@ Build $R(\theta)$ in NumPy, rotate a set of points, and confirm each point's dis
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson29_quiz.html" title="Rotation Matrices knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson29_quiz.html" title="Rotation Matrices knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson29_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson29_quiz.html)
 
 A check that rotation turns space about the origin, preserves distances, and that $R(0)=I$.
 

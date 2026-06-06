@@ -48,9 +48,9 @@ $$ \mathbf{a}\times\mathbf{b} = \begin{bmatrix} (0)(0)-(0)(1) \\ (0)(0)-(1)(0) \
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson14_cross_product.html" title="Cross Product interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson14_cross_product.html" title="Cross Product interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson14_cross_product.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson14_cross_product.html)
 
 *(Conceptual; notebook version later.)* Two draggable 3D vectors and a live-drawn parallelogram between them, with the cross-product vector rising perpendicular. Readouts show the cross product's components and its magnitude (the area). As the learner makes the two vectors more parallel, the area and the perpendicular arrow shrink to zero; a "swap a,b" button flips the arrow, showing order dependence.
 
@@ -84,9 +84,9 @@ print("perp check:", dot(n, a), dot(n, b))   # 0 0
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson14_quiz.html" title="Cross Product knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson14_quiz.html" title="Cross Product knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson14_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson14_quiz.html)
 
 1. Does the cross product return a scalar or a vector?
 2. What direction does $\mathbf{a}\times\mathbf{b}$ point relative to $\mathbf{a}$ and $\mathbf{b}$?

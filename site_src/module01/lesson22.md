@@ -38,9 +38,9 @@ Now suppose $B$ is also rotated. Conceptually: first shift to $(1.0, 1.0)$ relat
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson22_frame_transform.html" title="Conceptual Frame Transformations interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson22_frame_transform.html" title="Conceptual Frame Transformations interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson22_frame_transform.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson22_frame_transform.html)
 
 Move frame B's offset and rotation with sliders and watch one fixed point's coordinates change in both frames — transformation as something you feel before you write it as math.
 
@@ -55,9 +55,9 @@ Implement a conceptual `convert_A_to_B(point, offset, angle)` using offset + rot
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson22_quiz.html" title="Conceptual Frame Transformations knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson22_quiz.html" title="Conceptual Frame Transformations knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson22_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson22_quiz.html)
 
 A check that a transformation = offset + rotation, that offset-only is subtraction, and that the point doesn't move.
 

@@ -56,9 +56,9 @@ A distance sensor is checked against a true 2.00 m target. Five readings: 1.78, 
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson05_accuracy_precision.html" title="Accuracy and Precision interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../demos/module01/lesson05_accuracy_precision.html" title="Accuracy and Precision interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this demo in a new tab ↗](../demos/lesson05_accuracy_precision.html)
+[Open this demo in a new tab ↗](../demos/module01/lesson05_accuracy_precision.html)
 
 *(Conceptual; notebook version later.)* A dartboard sandbox with two sliders — "bias" (moves the cluster's center off the bullseye → controls accuracy) and "scatter" (spreads the darts → controls precision). The learner sets each independently and watches the cluster, confirming the two effects don't depend on each other. A "calibrate" button slides a tight off-center cluster onto the bullseye, showing why precision-without-accuracy is the easy problem.
 
@@ -86,9 +86,9 @@ print(f"avg={avg:.3f}  bias={bias:.3f}  spread={spread:.3f}")
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson05_quiz.html" title="Accuracy and Precision knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+<iframe src="../../quizzes/module01/lesson05_quiz.html" title="Accuracy and Precision knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
 
-[Open this quiz in a new tab ↗](../quizzes/lesson05_quiz.html)
+[Open this quiz in a new tab ↗](../quizzes/module01/lesson05_quiz.html)
 
 1. In one sentence each, define accuracy and precision.
 2. A cluster of darts is tight but in the top-left corner. Accurate? Precise?
