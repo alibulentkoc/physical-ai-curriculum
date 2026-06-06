@@ -159,3 +159,15 @@ Hardened the generator's asset embedding so interactive demos/quizzes render rel
 - **PAUSE:** production not started; awaiting architect confirmation of the plan/recommendations before Unit 3 production.
 
 Module 1 now: 16 lessons produced (1.1–1.6, 2.1–2.9, 2.10 recap), 17 SVGs, 16 notebooks, 16 quizzes, 16 answer keys, 5 demos.
+
+## D-031 — Unit 3 Installment 1 · DELIVERED (3.1, 3.5, 3.7)
+Intuition cornerstones produced to standard; **PAUSE for review** before remaining Unit 3 lessons (per architect).
+- **3.1 Why Coordinate Frames Matter** (lesson17): lesson + SVG (one tomato, two observers, two readings) + notebook + quiz + answer key. Signature insight foregrounded: *the tomato has not moved; only the observer changed.*
+- **3.5 Local and Global Frames** (lesson21): lesson + SVG (three labeled frames, three readings) + notebook + quiz + answer key + **required demo** `lesson21_frames_viewpoint.html` (World/Robot/Camera switcher; drag the robot; tomato fixed; world reading never changes).
+- **3.7 Robot and Camera Frames** (lesson23, flagship): lesson + SVG (camera→robot→world chain) + notebook + quiz + answer key + **required demo** `lesson23_robot_camera_frames.html` (tri-frame pick; step perceive→act→remember; all three readouts live; world stays fixed).
+- No matrices (offsets/conceptual only), per the confirmed boundary. Faux-3D not needed for these three (2D top-down suffices); isometric SVG reserved for 3.4/3.7-style 3D when 3.2–3.4 are produced.
+- Generator fix: lesson file glob broadened to `lesson[0-9][0-9]_*.md` so Unit 3 files (lesson20+) publish; section anchors already accept unnumbered headings.
+- `mkdocs build --strict` passes; all three notebooks execute clean; all cornerstone embeds + fallback links resolve. Nav now has a "Unit 3" section with 3.1/3.5/3.7.
+- **Remaining Unit 3 (Installment 2, after review):** 3.2 Cartesian, 3.3 2D, 3.4 3D, 3.6 Conceptual Transformations (+ required demo), then 3.8 recap "Coordinate Frames in Physical AI."
+
+Module 1 now: 19 lessons produced (1.1–1.6, 2.1–2.10, 3.1, 3.5, 3.7), 20 SVGs, 19 notebooks, 19 quizzes, 19 answer keys, 7 demos.

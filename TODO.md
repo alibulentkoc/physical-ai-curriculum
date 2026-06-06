@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Unit 2 APPROVED & recapped.** Lesson 2.10 "Vectors in Physical AI" (recap) produced. **Unit 3 authorized** (Coordinate Systems & Reference Frames, 3.1–3.7) — plan + demo specs in `curriculum/unit3_production_plan.md`. Production NOT started (architect pause).
+➡️ **Unit 3 Installment 1 delivered:** 3.1, 3.5, 3.7 (intuition cornerstones) — lesson + SVG + notebook + quiz + answer key each; required demos for 3.5 (viewpoint switcher) and 3.7 (tri-frame pick). `mkdocs build --strict` passes; notebooks execute clean. Nav has a Unit 3 section.
 
-**Before Unit 3 production:** confirm the plan recommendations (no-matrices boundary, 3D approach, demo count, numbering, optional Unit 3 recap). Then produce intuition-first, starting 3.1 → 3.5 viewpoint demo.
+**PAUSE FOR REVIEW** (architect) before producing the rest of Unit 3. After approval, Installment 2: 3.2 Cartesian, 3.3 2D, 3.4 3D, 3.6 Conceptual Transformations (+ required demo), then 3.8 recap.
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 

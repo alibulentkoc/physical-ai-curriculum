@@ -26,7 +26,7 @@ for d in (SITE, S_ASSETS, S_QUIZ, S_DEMO): os.makedirs(d, exist_ok=True)
 
 # canonical lesson files in order; file index NN drives all asset names by convention
 def lesson_files():
-    return sorted(glob.glob(os.path.join(LES, "lesson[0-1][0-9]_*.md")))
+    return sorted(glob.glob(os.path.join(LES, "lesson[0-9][0-9]_*.md")))
 
 def idx_of(path):
     return re.search(r'lesson(\d\d)_', os.path.basename(path)).group(1)

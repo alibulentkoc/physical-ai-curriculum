@@ -36,6 +36,10 @@ nav:
       - "2.8 Cross Product": module01/lesson14.md
       - "2.9 Distance Between Points": module01/lesson15.md
       - "2.10 Vectors in Physical AI (Recap)": module01/lesson16.md
+      - "Unit 3 — Coordinate Systems & Reference Frames":
+        - "3.1 Why Coordinate Frames Matter": module01/lesson17.md
+        - "3.5 Local and Global Frames": module01/lesson21.md
+        - "3.7 Robot and Camera Frames": module01/lesson23.md
 
 markdown_extensions:
   - admonition
