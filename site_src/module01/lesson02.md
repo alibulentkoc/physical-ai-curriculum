@@ -38,19 +38,9 @@ $$30\ \text{cm} \times \frac{1\ \text{m}}{100\ \text{cm}} = 0.30\ \text{m}.$$
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![Units and Dimensions](../assets/m01-l2-units-and-dimensions.svg){ width="680" }
 </figure>
-`[Visual: Unit conversion as a chain of ×1 ratios, plus a dimension-matching check]`
-
-**Rendered asset:** `assets/diagrams/m01-l2-units-and-dimensions.svg` (produced; embedded on the MkDocs page).
-
-**Diagram Specification**
-- **Objective:** show that conversion is repeated multiplication by ratios equal to 1, and that dimensions must match across an equation.
-- **Scene:** left panel — a value (30 cm) flowing through conversion-factor "gates" to become 0.30 m; right panel — a balance scale comparing the dimensions of two sides of an equation, balanced when they match.
-- **Labels:** each conversion ratio; the dimension symbols (L, T) on each side of the scale.
-- **Animation Notes:** the value slides through each gate; the balance tips when dimensions mismatch and levels when they agree.
 
 ## 5. Engineering Example
 
@@ -71,7 +61,6 @@ Quick dimensional sanity check on a reach estimate $d = r\,\theta$ (arc length) 
 
 ## 8. Coding Exercise
 
-
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson02_units_and_dimensions.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track.)*
@@ -90,7 +79,6 @@ print(deg_to_rad(90))   # expect ~1.5708
 **Your task:** add a `mm_to_m` function and a one-line comment stating the *dimension* each function operates on (it should be "length" for two of them and "angle" for one). You are practicing the habit of naming dimensions, not building a library yet.
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -119,7 +107,6 @@ You find an undocumented formula in legacy robot code: `output = a * b / c`, whe
 - **Convert** by multiplying by ratios equal to 1; you can only convert within the same dimension.
 - **Dimensional homogeneity** lets you catch wrong equations before computing anything.
 - Every interface between robot subsystems is a place to declare and convert units deliberately.
-
 
 ## AI Learning Companion
 
@@ -172,7 +159,6 @@ I just completed Lesson 1.2 — Units and Dimensions.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 

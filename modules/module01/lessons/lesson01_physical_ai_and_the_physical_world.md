@@ -67,17 +67,11 @@ Every arrow in that chain is a lesson, or several, later in this curriculum.
 
 The mental image to keep is the **perception–reasoning–action loop**, wrapped around the greenhouse robot.
 
-```
-        ┌─────────────────────────────────────────────┐
-        │                                             │
-        ▼                                             │
-   ┌─────────┐      ┌──────────┐      ┌────────────┐  │
-   │ PERCEIVE │ ──► │  REASON   │ ──► │   ACT       │ ─┘
-   │ (camera) │     │ (where?   │     │ (move arm,  │
-   │  sees    │     │  ripe?    │     │  grip fruit)│
-   │  fruit   │     │  reach?)  │     │             │
-   └─────────┘      └──────────┘      └────────────┘
-   pixels  →        meters / frames →   joint angles
+```mermaid
+flowchart LR
+    P[PERCEIVE<br/>camera sees fruit] --> R[REASON<br/>where? ripe? reach?]
+    R --> A[ACT<br/>move arm, grip fruit]
+    A -.->|check & repeat| P
 ```
 
 The loop is closed: after acting, the robot perceives again to check the result and continue. The caption under each box names the "language" of that stage — and the gaps between the languages are where the mathematics lives.

@@ -27,19 +27,9 @@ A quick test: *if reversing the direction would change the physical situation, t
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![Scalars and Physical Quantities](../assets/m01-l3-scalars-vs-direction.svg){ width="680" }
 </figure>
-`[Visual: Two bins — "fully described by one number" vs "needs a direction too"]`
-
-**Rendered asset:** `assets/diagrams/m01-l3-scalars-vs-direction.svg` (produced; embedded on the MkDocs page).
-
-**Diagram Specification**
-- **Objective:** the viewer sorts greenhouse quantities into scalar vs needs-direction, and sees that speed→velocity is the same magnitude plus an arrow.
-- **Scene:** a sorting board; sensor readouts (temperature, mass, time) dropping into the "scalar" bin; position and velocity readouts dropping into the "needs direction" bin, each sprouting a direction arrow as it lands.
-- **Labels:** each quantity name and unit; "magnitude only" vs "magnitude + direction."
-- **Animation Notes:** the speed tile transforms into a velocity tile by growing an arrow, highlighting the single difference.
 
 ## 5. Engineering Example
 
@@ -66,7 +56,6 @@ The pattern: anything about *motion or location in space* tends to need directio
 
 ## 8. Coding Exercise
 
-
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson03_scalars_and_physical_quantities.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track.)*
@@ -83,7 +72,6 @@ print(f"Mass: {mass['value']} {mass['unit']}")
 **Your task:** add a `gripper_speed` scalar reading, then write a one-line comment explaining what *extra* information you would need to turn that speed into a velocity. (You are not coding the velocity yet — that's Unit 2 — just naming the missing piece.)
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -112,7 +100,6 @@ Energy and force are both physical quantities, but only one is a scalar. Without
 - **Speed is scalar; velocity is not** — the difference is direction.
 - The "would reversing a direction change anything?" test sorts a quantity in one step.
 - Quantities that need a direction are the reason Unit 2 introduces **vectors**.
-
 
 ## AI Learning Companion
 
@@ -165,7 +152,6 @@ I just completed Lesson 1.3 — Scalars and Physical Quantities.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 

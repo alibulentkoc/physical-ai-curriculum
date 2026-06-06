@@ -24,19 +24,9 @@ A special, central case: a **position vector** points from a chosen origin to a 
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![What Is a Vector?](../assets/m01-l7-what-is-a-vector.svg){ width="680" }
 </figure>
-`[Visual: An arrow from the robot's gripper to a tomato, showing length = magnitude, heading = direction]`
-
-**Rendered asset:** `assets/diagrams/m01-l7-what-is-a-vector.svg` (produced; embedded on the MkDocs page).
-
-**Diagram Specification**
-- **Objective:** the viewer sees a vector as a single arrow carrying both how-far and which-way, and recognizes the gripper→fruit arrow as a position/displacement vector.
-- **Scene:** the greenhouse robot with an arrow drawn from the gripper to a tomato; a second identical arrow drawn elsewhere in the frame to show "same vector, different location."
-- **Labels:** "magnitude (length)," "direction (heading)," "origin," "tip."
-- **Animation Notes:** the arrow slides to a new position unchanged, illustrating that a vector is defined by length+direction, not by where it's drawn.
 
 ## 5. Engineering Example
 
@@ -56,7 +46,6 @@ Describe the arrow from the gripper to a tomato that sits 0.3 m to the right and
 
 ## 8. Coding Exercise
 
-
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson07_what_is_a_vector.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track.)*
@@ -74,7 +63,6 @@ print(f"Distance ≈ {(x**2 + y**2) ** 0.5:.2f} m")
 **Your task:** change the vector so the tomato is 0.6 m left and 0.2 m up (hint: "left" is a negative x). Print the new instruction and distance. Notice you only changed two numbers to describe a completely different arrow.
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -103,7 +91,6 @@ A drone (not the greenhouse robot) reports its velocity as "3 m/s, heading north
 - A **position vector** points from an origin to a point — this is how a robot represents "where."
 - Positions, displacements, velocities, and forces are vectors; mass, time, temperature are scalars.
 - Vectors are the foundation for everything spatial in this curriculum.
-
 
 ## AI Learning Companion
 
@@ -150,7 +137,6 @@ I just completed Lesson 2.1 — What Is a Vector?.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 

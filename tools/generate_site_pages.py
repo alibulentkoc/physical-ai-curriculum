@@ -105,6 +105,13 @@ def build(path):
 
     out = os.path.join(SITE, "lesson%s.md" % nn)
     published = bool(svgs or quiz or demos)
+
+    # strip authoring scaffolding so the STUDENT page shows only figure + real prose/Mermaid
+    body = re.sub(r'^`\[Visual:.*?`\s*\n', '', body, flags=re.M)                 # [Visual: ...] placeholder
+    body = re.sub(r'\*\*Rendered assets?:?\*\*.*?\n\n', '', body, flags=re.S)    # maintainer "Rendered asset(s)" note
+    body = re.sub(r'\*\*Diagram Specification\*\*.*?(?=\n## )', '', body, flags=re.S)  # production spec (incl. Animation Notes)
+    body = re.sub(r'\n{3,}', '\n\n', body)                                       # tidy blank lines
+
     if published:
         open(out, "w").write(body)
     else:

@@ -29,19 +29,9 @@ Conventions worth fixing now, because sloppiness here causes bugs later:
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![Vector Representation](../assets/m01-l8-vector-representation.svg){ width="680" }
 </figure>
-`[Visual: An arrow with dashed lines dropping to the x- and y-axes, showing each component as a shadow]`
-
-**Rendered asset:** `assets/diagrams/m01-l8-vector-representation.svg` (produced; embedded on the MkDocs page).
-
-**Diagram Specification**
-- **Objective:** the viewer sees components as the vector's projections onto fixed axes, and that the ordered list of components reconstructs the arrow.
-- **Scene:** a 2D grid with the gripper→tomato arrow; dashed perpendiculars dropping to the x-axis (showing 0.3) and y-axis (showing 0.4); the column vector [0.3, 0.4] displayed beside it.
-- **Labels:** $x$, $y$ axes; "$v_x = 0.3$," "$v_y = 0.4$"; the column vector.
-- **Animation Notes:** extend to 3D by adding a z-axis and a third dashed projection (depth), turning the column into three entries.
 
 ## 5. Engineering Example
 
@@ -61,7 +51,6 @@ A tomato is 0.3 m right, 0.4 m up, and 0.6 m forward of the gripper. Write its d
 
 ## 8. Coding Exercise
 
-
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson08_vector_representation.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track; NumPy formalized in Unit 8.)*
@@ -77,7 +66,6 @@ print(f"x={vx} (right), y={vy} (up), z={vz} (forward)")
 **Your task:** create a second vector for a tomato that is 0.5 m left, 0.1 m down, and 0.2 m forward (mind the signs), then print each labeled component. Confirm that swapping two components would describe a *different* arrow.
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -106,7 +94,6 @@ Two engineers store the greenhouse robot's vectors differently: one uses $(x=\te
 - **Order and axes are part of the meaning** — fix them and keep them consistent everywhere.
 - Components turn geometry into arithmetic, enabling every operation in this unit and the matrices of Unit 4.
 - Axis-dependence of components is the first hint of **reference frames** (Unit 3).
-
 
 ## AI Learning Companion
 
@@ -153,7 +140,6 @@ I just completed Lesson 2.2 — Vector Representation.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 

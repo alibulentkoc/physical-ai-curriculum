@@ -46,7 +46,6 @@ Every arrow in that chain is a lesson, or several, later in this curriculum.
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![Physical AI and the Physical World](../assets/m01-l1-perception-action-loop.svg){ width="680" }
 </figure>
@@ -56,33 +55,14 @@ Every arrow in that chain is a lesson, or several, later in this curriculum.
 </figure>
 The mental image to keep is the **perception–reasoning–action loop**, wrapped around the greenhouse robot.
 
-```
-        ┌─────────────────────────────────────────────┐
-        │                                             │
-        ▼                                             │
-   ┌─────────┐      ┌──────────┐      ┌────────────┐  │
-   │ PERCEIVE │ ──► │  REASON   │ ──► │   ACT       │ ─┘
-   │ (camera) │     │ (where?   │     │ (move arm,  │
-   │  sees    │     │  ripe?    │     │  grip fruit)│
-   │  fruit   │     │  reach?)  │     │             │
-   └─────────┘      └──────────┘      └────────────┘
-   pixels  →        meters / frames →   joint angles
+```mermaid
+flowchart LR
+    P[PERCEIVE<br/>camera sees fruit] --> R[REASON<br/>where? ripe? reach?]
+    R --> A[ACT<br/>move arm, grip fruit]
+    A -.->|check & repeat| P
 ```
 
 The loop is closed: after acting, the robot perceives again to check the result and continue. The caption under each box names the "language" of that stage — and the gaps between the languages are where the mathematics lives.
-
-`[Visual: Greenhouse harvesting robot perception → reasoning → action pipeline, closed loop]`
-
-**Rendered assets** (produced, in-repo, renderable):
-- SVG: `assets/diagrams/m01-l1-perception-action-loop.svg`
-- SVG: `assets/diagrams/m01-l1-software-vs-physical-ai.svg` (§5)
-- Mermaid pipeline diagram and an interactive "Trace the loop" demo are embedded on the MkDocs page (`site_src/module01/lesson01.md`); demo source at `modules/module01/demos/lesson01_trace_the_loop.html`.
-
-**Diagram Specification** (production input for the loop SVG)
-- **Objective:** the viewer grasps that intelligence in the physical world is a closed loop, and that each stage speaks a different "language" (pixels / meters / angles).
-- **Scene:** three labeled stages — PERCEIVE (camera), REASON, ACT (arm/gripper) — with forward arrows and a dashed return arrow ("check & repeat").
-- **Labels:** PERCEIVE (pixels), REASON (meters / frames), ACT (joint angles).
-- **Form:** SVG (delivered); the pipeline also rendered as Mermaid on the site.
 
 ## 5. Engineering Example
 
@@ -111,7 +91,6 @@ Notice we solved nothing numerically — and yet every decision pointed at a spe
 
 ## 7. Interactive Demonstration
 
-
 <iframe src="../../demos/lesson01_trace_the_loop.html" title="Physical AI and the Physical World interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
 *(Concept described here; the runnable notebook is authored in the notebook phase, in `../notebooks/`. Python is formally introduced in Unit 8.)*
 
@@ -120,7 +99,6 @@ Notice we solved nothing numerically — and yet every decision pointed at a spe
 The goal is not to compute anything by hand but to *see* that moving the target changes the frame coordinates, which changes the angles, which changes the motion — the chain made tangible.
 
 ## 8. Coding Exercise
-
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson01_physical_ai_and_the_physical_world.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
@@ -142,7 +120,6 @@ print(f"It is {'above' if z > 0 else 'below'} the origin by {abs(z)} m.")
 **What this is teaching (and what it isn't):** you are *not* doing robotics math yet. You are seeing that a position in the physical world becomes a small list of numbers in code — the seed of a "vector," which Unit 2 makes formal.
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -179,7 +156,6 @@ There is no single correct answer — the goal is to show you can map the percep
 - The work of robotics is **translating precisely between those languages**, which is fundamentally geometric — vectors, frames, transformations, and trigonometry.
 - The **Greenhouse Harvesting Robot** is the system we will build the mathematics around for the rest of the curriculum; "find and pick a tomato" is the concrete task every abstract tool serves.
 - You don't need the math yet — you need the **map**: pixels → camera frame → robot frame → joint angles → motion. Units 2–8 fill in each arrow.
-
 
 ## AI Learning Companion
 
@@ -232,7 +208,6 @@ I just completed Lesson 1.1 — Physical AI and the Physical World.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 

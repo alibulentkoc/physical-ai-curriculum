@@ -28,19 +28,9 @@ The mindset throughout: keep one or two significant figures, round aggressively,
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![Engineering Estimation](../assets/m01-l6-engineering-estimation.svg){ width="680" }
 </figure>
-`[Visual: A hard quantity broken into rough factors, multiplied to a ballpark, with a sanity-check bound]`
-
-**Rendered asset:** `assets/diagrams/m01-l6-engineering-estimation.svg` (produced; embedded on the MkDocs page).
-
-**Diagram Specification**
-- **Objective:** the viewer sees estimation as decomposing a hard number into easy factors, then checking the product against a bound.
-- **Scene:** a target question ("tomatoes per hour?") splitting into factor cards (seconds/pick, seconds/hour), the cards combining into a ballpark number, with a separate "plausible range" bar that the answer must fall inside.
-- **Labels:** each factor with its rough guess; the final ballpark; the bound's lower/upper limits.
-- **Animation Notes:** factors snap together into the product; the result drops onto the range bar — green if inside, red if outside.
 
 ## 5. Engineering Example
 
@@ -61,7 +51,6 @@ Estimate whether the greenhouse arm's motor, rated for a 5 kg payload, is comfor
 
 ## 8. Coding Exercise
 
-
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson06_engineering_estimation.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track.)*
@@ -77,7 +66,6 @@ print(f"~{picks_per_hour:.0f} picks/hour per arm")   # ~360
 **Your task:** change `seconds_per_pick` to a faster (and slower) guess and observe how the estimate shifts. In a comment, state the order of magnitude of picks-per-hour and whether a 5,000/hour claim is plausible on one arm.
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -106,7 +94,6 @@ You're told the greenhouse robot's camera processes the scene at "real-time spee
 - **Bounding** (a value the answer must be above/below) gives a decisive sanity check.
 - The dangerous engineering errors are factor-of-1000 mistakes — estimation is built to catch exactly those.
 - This closes Unit 1: the robot's numbers carry **units, error, accuracy/precision, and a plausible magnitude.** Unit 2 now gives the quantities that need *direction* their proper tool — the **vector**.
-
 
 ## AI Learning Companion
 
@@ -159,7 +146,6 @@ I just completed Lesson 1.6 — Engineering Estimation.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 

@@ -32,14 +32,9 @@ For the tomato: $0.03 / 1.23 \approx 0.024 = 2.4\%.$
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![Measurement Error](../assets/m01-l4-measurement-error.svg){ width="680" }
 </figure>
-`[Visual: Number line showing true value, measured value, and the error gap; plus systematic vs random patterns]`
-
-**Rendered asset:** `assets/diagrams/m01-l4-measurement-error.svg` (produced; embedded on the MkDocs page).
-
 The two error types as a quick taxonomy:
 
 ```mermaid
@@ -49,12 +44,6 @@ flowchart TD
     S --> C[Fix: calibrate]
     R --> A[Fix: average / filter]
 ```
-
-**Diagram Specification**
-- **Objective:** the viewer sees error as the gap between measured and true, and sees the difference between a consistent shift (systematic) and scatter (random).
-- **Scene:** top — a number line with a marker at $x_\text{true}$ and another at $x_\text{meas}$, the gap labeled "error"; bottom — two clusters of repeated readings: one shifted off-true but tight (systematic), one centered on-true but spread (random).
-- **Labels:** $x_\text{true}$, $x_\text{meas}$, "absolute error," "systematic (shift)," "random (scatter)."
-- **Animation Notes:** repeated readings drop one by one; the systematic cluster lands consistently off to one side, the random cluster scatters around the true mark.
 
 ## 5. Engineering Example
 
@@ -74,7 +63,6 @@ A joint encoder should read 45.00° but reports 45.30° on a known reference.
 
 ## 8. Coding Exercise
 
-
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson04_measurement_error.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 *(Snippet — full implementation in the notebook track.)*
@@ -93,7 +81,6 @@ print(relative_error(1.20, 1.23) * 100)    # ~2.44 (%)
 **Your task:** given three readings of a 1.23 m target — `1.20, 1.25, 1.22` — compute each one's absolute error, then their average. In a comment, say whether averaging would help more against systematic or random error. (Statistics formalism comes later; this is reasoning, not derivation.)
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -122,7 +109,6 @@ The greenhouse robot misses ripe tomatoes by grabbing slightly *low* almost ever
 - **Systematic** error is a consistent shift — fix it by calibration. **Random** error is scatter — manage it by averaging/filtering.
 - The engineer's job is to identify *which kind* and apply the matching remedy.
 - A robot should treat every measurement as an estimate with known uncertainty, not as ground truth.
-
 
 ## AI Learning Companion
 
@@ -175,7 +161,6 @@ I just completed Lesson 1.4 — Measurement Error.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 

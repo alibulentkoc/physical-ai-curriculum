@@ -30,19 +30,9 @@ Properties that matter for robotics:
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![Vector Addition](../assets/m01-l9-vector-addition.svg){ width="680" }
 </figure>
-`[Visual: Tip-to-tail addition of two displacement arrows, with the resultant arrow from first tail to last tip]`
-
-**Rendered asset:** `assets/diagrams/m01-l9-vector-addition.svg` (produced; embedded on the MkDocs page).
-
-**Diagram Specification**
-- **Objective:** the viewer sees that adding vectors chains them tip-to-tail and the sum is the net displacement; and that link displacements of an arm add to the gripper position.
-- **Scene:** panel A — two arrows (3 east, 4 north) chained tip-to-tail with a dashed resultant; panel B — a simplified 2-link greenhouse arm whose two link-vectors add to give the gripper's position.
-- **Labels:** $\mathbf{a}$, $\mathbf{b}$, $\mathbf{a}+\mathbf{b}$; "link 1," "link 2," "gripper position."
-- **Animation Notes:** the second arrow slides into tip-to-tail position; the resultant draws itself; then morph panel A into the arm of panel B.
 
 ## 5. Engineering Example
 
@@ -58,12 +48,10 @@ Link 1 of a planar arm gives displacement $\mathbf{L_1} = \begin{bmatrix} 0.4 \\
 
 ## 7. Interactive Demonstration
 
-
 <iframe src="../../demos/lesson09_vector_addition.html" title="Vector Addition interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
 *(Conceptual; notebook version later.)* Two draggable arrows on a grid. The demo always draws them tip-to-tail and shows the resultant arrow plus its components. The learner drags either arrow and watches the sum update. A "swap order" button shows the resultant is unchanged (commutativity), and an "add link 3" button extends the chain into a mini arm whose tip is the running sum.
 
 ## 8. Coding Exercise
-
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson09_vector_addition.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
@@ -82,7 +70,6 @@ print(f"Gripper position: {gripper} m")   # [0.5, 0.3]
 **Your task:** add a third link `L3 = [0.0, 0.2]` and compute the gripper position as `add(add(L1, L2), L3)`. Then compute it grouped the other way and confirm you get the same result (associativity).
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -111,7 +98,6 @@ A delivery robot is told to execute three displacements to reach a shelf: $\begi
 - Addition is **commutative and associative**, so chains of links sum cleanly.
 - A robot arm's gripper position is the **sum of its link displacements** — the seed of forward kinematics.
 - The sum is *net* displacement, not path length.
-
 
 ## AI Learning Companion
 
@@ -158,7 +144,6 @@ I just completed Lesson 2.3 — Vector Addition.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 

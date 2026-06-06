@@ -37,19 +37,9 @@ The crucial insight: these are **independent axes.** You can have one without th
 
 ## 4. Visual Explanation
 
-
 <figure markdown>
   ![Accuracy and Precision](../assets/m01-l5-accuracy-precision.svg){ width="680" }
 </figure>
-`[Visual: 2×2 dartboard grid — the four accuracy/precision combinations]`
-
-**Rendered asset:** `assets/diagrams/m01-l5-accuracy-precision.svg` (produced; embedded on the MkDocs page).
-
-**Diagram Specification**
-- **Objective:** the viewer internalizes that accuracy (closeness to center) and precision (closeness to each other) are independent.
-- **Scene:** four dartboards in a 2×2 grid; columns = low/high accuracy, rows = low/high precision; dart clusters placed to show each combination, with the greenhouse gripper's two cases highlighted.
-- **Labels:** each quadrant; "bullseye = true value"; mark the "precise but inaccurate → fix by calibration" board.
-- **Animation Notes:** on the precise-but-inaccurate board, animate a calibration shift sliding the tight cluster onto the bullseye.
 
 ## 5. Engineering Example
 
@@ -66,12 +56,10 @@ A distance sensor is checked against a true 2.00 m target. Five readings: 1.78, 
 
 ## 7. Interactive Demonstration
 
-
 <iframe src="../../demos/lesson05_accuracy_precision.html" title="Accuracy and Precision interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
 *(Conceptual; notebook version later.)* A dartboard sandbox with two sliders — "bias" (moves the cluster's center off the bullseye → controls accuracy) and "scatter" (spreads the darts → controls precision). The learner sets each independently and watches the cluster, confirming the two effects don't depend on each other. A "calibrate" button slides a tight off-center cluster onto the bullseye, showing why precision-without-accuracy is the easy problem.
 
 ## 8. Coding Exercise
-
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson05_accuracy_and_precision.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
@@ -91,7 +79,6 @@ print(f"avg={avg:.3f}  bias={bias:.3f}  spread={spread:.3f}")
 **Your task:** in a comment, classify this sensor as accurate/precise (which of the four cases?), and state the one-line fix. Then describe — in words — a set of readings that would be *accurate but not precise*. (Proper spread statistics come later; `max - min` is a stand-in.)
 
 ## 9. Knowledge Check
-
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
@@ -120,7 +107,6 @@ A greenhouse robot's vision system reports fruit positions that are, on average,
 - They are **independent axes**; all four combinations exist.
 - **Precise-but-inaccurate is the friendly case** — calibrate out the bias. Scatter needs averaging/filtering instead.
 - Robots often exploit high precision (teach-by-demonstration, calibrated offsets) to compensate for weaker accuracy.
-
 
 ## AI Learning Companion
 
@@ -173,7 +159,6 @@ I just completed Lesson 1.5 — Accuracy and Precision.
 Explain this lesson in Turkish. Keep robotics terminology in English where commonly used.
 Then provide: a summary, three practice questions, and one challenge problem.
 ```
-
 
 ---
 
