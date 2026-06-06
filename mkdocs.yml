@@ -38,8 +38,13 @@ nav:
       - "2.10 Vectors in Physical AI (Recap)": module01/lesson16.md
       - "Unit 3 — Coordinate Systems & Reference Frames":
         - "3.1 Why Coordinate Frames Matter": module01/lesson17.md
+        - "3.2 Cartesian Coordinates": module01/lesson18.md
+        - "3.3 2D Coordinate Systems": module01/lesson19.md
+        - "3.4 3D Coordinate Systems": module01/lesson20.md
         - "3.5 Local and Global Frames": module01/lesson21.md
+        - "3.6 Conceptual Frame Transformations": module01/lesson22.md
         - "3.7 Robot and Camera Frames": module01/lesson23.md
+        - "3.8 Coordinate Frames in Physical AI (Recap)": module01/lesson24.md
 
 markdown_extensions:
   - admonition

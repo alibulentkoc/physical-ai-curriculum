@@ -171,3 +171,15 @@ Intuition cornerstones produced to standard; **PAUSE for review** before remaini
 - **Remaining Unit 3 (Installment 2, after review):** 3.2 Cartesian, 3.3 2D, 3.4 3D, 3.6 Conceptual Transformations (+ required demo), then 3.8 recap "Coordinate Frames in Physical AI."
 
 Module 1 now: 19 lessons produced (1.1–1.6, 2.1–2.10, 3.1, 3.5, 3.7), 20 SVGs, 19 notebooks, 19 quizzes, 19 answer keys, 7 demos.
+
+## D-032 — Unit 3 COMPLETE (Installment 2 delivered) · PAUSE before Unit 4
+Installment 2 produced to standard; Unit 3 (Coordinate Systems & Reference Frames) is now production-complete.
+- **3.2 Cartesian Coordinates** (lesson18), **3.3 2D Coordinate Systems** (lesson19), **3.4 3D Coordinate Systems** (lesson20, faux-3D isometric SVG + right-hand rule), **3.6 Conceptual Frame Transformations** (lesson22) — each lesson + SVG + notebook + quiz + answer key.
+- **3.6 required demo** `lesson22_frame_transform.html`: offset (dx, dy) + rotation θ sliders; one fixed point read live in frame A and frame B; offset-only (θ=0) reduces to subtraction; the conceptual bridge to Unit 4 matrices — no matrices shown.
+- **3.8 recap** `lesson24` "Coordinate Frames in Physical AI": short synthesis answering "why can the same tomato have multiple correct coordinates?"; capstone notebook (world/robot/camera + a frame conversion); recap SVG; quiz + answer key. Sets up Unit 4.
+- Through-line kept visible: Unit 2 = "how do we describe position?"; Unit 3 = "who is describing it?"
+- No matrices anywhere in Unit 3 (offset + rotation, hand-rolled helpers). faux-3D isometric for 3.4 (no WebGL), per architect.
+- `mkdocs build --strict` passes; all Unit 3 notebooks execute clean; all embeds + fallback links resolve. Nav has the full Unit 3 section (3.1–3.8).
+- **PAUSE for review before Unit 4 production** (architect directive). Unit 4 = matrix transformations (the offset+rotation packaged as one matrix).
+
+Module 1 totals: 24 lessons produced (1.1–1.6, 2.1–2.10, 3.1–3.8), 25 SVGs, 24 notebooks, 24 quizzes, 24 answer keys, 8 demos.
