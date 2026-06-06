@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Unit 3 COMPLETE (3.1–3.8).** All lessons: SVG + notebook + quiz + answer key + the two standard sections + `core_idea`. Required demos: 3.5 viewpoint switcher, 3.6 conceptual transform, 3.7 tri-frame pick. 3.8 recap done. `mkdocs build --strict` passes; notebooks execute clean. No matrices (offset + rotation only); faux-3D isometric for 3.4.
+➡️ **Unit 3 APPROVED.** Delivered: **Module 1 Midpoint Assessment** (readiness checkpoint between Unit 3 and Unit 4; no matrices) + **Unit 4 production plan** (`curriculum/unit4_production_plan.md`) with three required demo specs (4.4 identity, 4.5 rotation, 4.8 composition). **Unit 4 authorized** = "Transformations of Space" (a matrix is an action on space).
 
-**PAUSE FOR REVIEW before Unit 4** (architect directive). Unit 4 = matrix transformations (packaging offset + rotation into one matrix). Do not start Unit 4 until review passes.
+**Before Unit 4 production:** confirm plan recommendations (geometry-first order, 2D scope, how translation is handled before homogeneous matrices, demo count, 4.9 recap, numbering lesson25–). Then produce geometry-first, starting 4.1 → 4.4 → 4.5.
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 

@@ -183,3 +183,12 @@ Installment 2 produced to standard; Unit 3 (Coordinate Systems & Reference Frame
 - **PAUSE for review before Unit 4 production** (architect directive). Unit 4 = matrix transformations (the offset+rotation packaged as one matrix).
 
 Module 1 totals: 24 lessons produced (1.1–1.6, 2.1–2.10, 3.1–3.8), 25 SVGs, 24 notebooks, 24 quizzes, 24 answer keys, 8 demos.
+
+## D-033 — Unit 3 Approved; Midpoint Assessment + Unit 4 Plan · DELIVERED (production paused)
+- **Unit 3 APPROVED** (no revisions). Signature insight operationalized; strong bridge to Unit 4.
+- **Module 1 Midpoint Assessment** created (`assessments/module01_midpoint_assessment.md`) — readiness checkpoint positioned between Unit 3 and Unit 4. Covers Unit 1 physical quantities, Unit 2 vectors, Unit 3 coordinate frames; **no matrix mathematics**. Mixed format (MC/TF/short/applied); the applied item is the camera→robot→world chain. Key + readiness rubric in `coaches/answer-keys/module01/midpoint_assessment_key.md` (the readiness signal is whether the student can explain *why the same point has multiple correct coordinates*).
+- **Unit 4 AUTHORIZED.** Topic map 4.1–4.8 "Matrices as Transformations" — positioned as **"Transformations of Space," not linear algebra**. Central idea: *a matrix is an action applied to space, not a table of numbers.* Geometry first (rotation/scaling/reflection/composition) before algebra.
+- **Plan delivered:** `curriculum/unit4_production_plan.md` — topic map, per-lesson asset plan, three required demo specs (4.4 identity = do-nothing; 4.5 rotation slider 0°→360°; 4.8 flagship composition scale→rotate→translate with order-matters), asset inventory, geometry-first sequencing, and pre-production recommendations (incl. how to handle translation without 3×3 homogeneous matrices yet, and a recommended 4.9 recap).
+- **PAUSE:** Unit 4 lesson production not started; awaiting architect confirmation of the plan/recommendations.
+
+Module 1 totals unchanged: 24 lessons, 25 SVGs, 24 notebooks, 24 quizzes, 24 answer keys, 8 demos, + the midpoint assessment.
