@@ -143,3 +143,10 @@ Two new standard lesson sections added curriculum-wide (after Key Takeaways, bef
 - **AI Learning Companion** — lesson-specific Tutor / Practice / Explore prompts (≤50 words each, copy/paste ready).
 - **Global Learning Support** — per-language explanation prompts (Español, 中文 Simplified, Türkçe), generated from the lesson title; English authoritative.
 Applied to all six Unit 1 lessons (canonical + site pages). Template updated with both as standard components. Created `curriculum/internationalization_strategy.md` (English authoritative; AI-assisted multilingual workflow; Phase 1 prompts → Phase 2 MkDocs selector → Phase 3 human-reviewed; terminology-preservation rules; supported-language roadmap). `mkdocs build --strict` passes; sections (incl. CJK) render.
+
+## D-029 — Embedded-Visual Robustness · FIXED
+Hardened the generator's asset embedding so interactive demos/quizzes render reliably on lesson pages:
+- Guaranteed blank-line separation around every injected HTML block.
+- Clarified the two path rules: **iframes** (raw HTML, browser-resolved against the output URL) use `../../demos|quizzes/`; **Markdown links** (MkDocs-rewritten, source-relative) use `../demos|quizzes/`.
+- Added a validated Markdown **"Open in a new tab"** fallback link under every demo/quiz, so `mkdocs build --strict` now *validates* every asset path (a broken path fails the build) and students always have a working entry even if an iframe is cached blank.
+- Verified: all 20 iframes + 20 fallback links resolve to existing files; `--strict` passes with no warnings. "Embedded not working" locally is a stale-page/browser-cache symptom — fix by re-running the generator and hard-refreshing.

@@ -54,6 +54,7 @@ Two ripe tomatoes have positions (in the robot's base frame, meters): $\mathbf{r
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson15_distance_between_points.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+
 *(Snippet — full implementation in the notebook track.)*
 
 ```python
@@ -77,7 +78,10 @@ print("nearest tomato index:", nearest)
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson15_quiz.html" title="Distance Between Points knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../quizzes/lesson15_quiz.html" title="Distance Between Points knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this quiz in a new tab ↗](../quizzes/lesson15_quiz.html)
+
 1. Write the distance formula in terms of two position vectors.
 2. Compute the distance between $(1,2,2)$ and $(4,6,2)$.
 3. Is distance symmetric in its two points? Is the direction between them?

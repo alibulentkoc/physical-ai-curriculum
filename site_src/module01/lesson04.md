@@ -35,6 +35,7 @@ For the tomato: $0.03 / 1.23 \approx 0.024 = 2.4\%.$
 <figure markdown>
   ![Measurement Error](../assets/m01-l4-measurement-error.svg){ width="680" }
 </figure>
+
 The two error types as a quick taxonomy:
 
 ```mermaid
@@ -65,6 +66,7 @@ A joint encoder should read 45.00° but reports 45.30° on a known reference.
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson04_measurement_error.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+
 *(Snippet — full implementation in the notebook track.)*
 
 ```python
@@ -84,7 +86,10 @@ print(relative_error(1.20, 1.23) * 100)    # ~2.44 (%)
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson04_quiz.html" title="Measurement Error knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../quizzes/lesson04_quiz.html" title="Measurement Error knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this quiz in a new tab ↗](../quizzes/lesson04_quiz.html)
+
 1. Define true value, measured value, and absolute error.
 2. A reading is 9.8 for a true value of 10.0. Compute the absolute and relative error.
 3. Which error type can be fixed by a fixed calibration offset?

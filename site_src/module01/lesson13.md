@@ -56,13 +56,17 @@ Gripper facing direction $\mathbf{a} = \begin{bmatrix}1\\0\\0\end{bmatrix}$; dir
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson13_dot_product.html" title="Dot Product interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../demos/lesson13_dot_product.html" title="Dot Product interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/lesson13_dot_product.html)
+
 *(Conceptual; notebook version later.)* Two draggable vectors from a shared origin. A readout shows their dot product and the angle between them, color-coded: green when aligned (positive), yellow at perpendicular (zero), red when opposed (negative). As the learner rotates one vector, the projection "shadow" on the other grows, vanishes at 90°, then flips — making the sign's meaning visible.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson13_dot_product.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+
 *(Snippet — full implementation in the notebook track.)*
 
 ```python
@@ -87,7 +91,10 @@ print("angle:", round(angle_between(facing, to_tomato), 1), "deg")  # ~53.1
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson13_quiz.html" title="Dot Product knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../quizzes/lesson13_quiz.html" title="Dot Product knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this quiz in a new tab ↗](../quizzes/lesson13_quiz.html)
+
 1. Write the component formula for the dot product.
 2. What is the dot product of two perpendicular vectors?
 3. What does a negative dot product tell you about two vectors' directions?

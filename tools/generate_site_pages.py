@@ -51,7 +51,9 @@ def inject_after_heading(body, heading_regex, snippet):
     m = pat.search(body)
     if not m: return body, False
     insert_at = m.end()
-    return body[:insert_at] + "\n\n" + snippet + body[insert_at:], True
+    before = body[:insert_at].rstrip()
+    after = body[insert_at:].lstrip("\n")
+    return before + "\n\n" + snippet.strip() + "\n\n" + after, True
 
 def build(path):
     nn = idx_of(path)
@@ -83,8 +85,9 @@ def build(path):
     if demos:
         d = os.path.basename(sorted(demos)[0])
         iframe = ('<iframe src="../../demos/%s" title="%s interactive demo" '
-                  'style="width:100%%;height:520px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>'
-                  % (d, title))
+                  'style="width:100%%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>\n\n'
+                  '[Open this demo in a new tab \u2197](../demos/%s)'
+                  % (d, title, d))
         body, _ = inject_after_heading(body, r'^## 7\. Interactive Demonstration\s*$', iframe)
 
     # notebook tip -> after "## 8. Coding Exercise"
@@ -99,8 +102,9 @@ def build(path):
         q = os.path.basename(quiz[0])
         iframe = ('Formative — unlimited attempts, immediate feedback; does not affect your grade.\n\n'
                   '<iframe src="../../quizzes/%s" title="%s knowledge check" '
-                  'style="width:100%%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>'
-                  % (q, title))
+                  'style="width:100%%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>\n\n'
+                  '[Open this quiz in a new tab \u2197](../quizzes/%s)'
+                  % (q, title, q))
         body, _ = inject_after_heading(body, r'^## 9\. Knowledge Check\s*$', iframe)
 
     out = os.path.join(SITE, "lesson%s.md" % nn)

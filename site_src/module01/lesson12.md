@@ -55,6 +55,7 @@ Normalize the aiming vector $\mathbf{d} = \begin{bmatrix} 0.3 \\ 0.4 \\ 0.0 \end
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson12_unit_vectors.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+
 *(Snippet — full implementation in the notebook track.)*
 
 ```python
@@ -77,7 +78,10 @@ print("2 cm step:", [round(c, 4) for c in step])
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson12_quiz.html" title="Unit Vectors knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../quizzes/lesson12_quiz.html" title="Unit Vectors knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this quiz in a new tab ↗](../quizzes/lesson12_quiz.html)
+
 1. What is the magnitude of a unit vector?
 2. How do you normalize a vector?
 3. Write the three standard basis vectors in 3D.

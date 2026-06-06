@@ -63,6 +63,7 @@ Quick dimensional sanity check on a reach estimate $d = r\,\theta$ (arc length) 
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson02_units_and_dimensions.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+
 *(Snippet — full implementation in the notebook track.)*
 
 ```python
@@ -82,7 +83,10 @@ print(deg_to_rad(90))   # expect ~1.5708
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson02_quiz.html" title="Units and Dimensions knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../quizzes/lesson02_quiz.html" title="Units and Dimensions knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this quiz in a new tab ↗](../quizzes/lesson02_quiz.html)
+
 1. What two parts make up a physical quantity?
 2. Give the SI base unit for length, time, and plane angle.
 3. Convert 250 cm to meters.

@@ -53,6 +53,7 @@ Every arrow in that chain is a lesson, or several, later in this curriculum.
 <figure markdown>
   ![Physical AI and the Physical World](../assets/m01-l1-software-vs-physical-ai.svg){ width="680" }
 </figure>
+
 The mental image to keep is the **perception–reasoning–action loop**, wrapped around the greenhouse robot.
 
 ```mermaid
@@ -91,7 +92,10 @@ Notice we solved nothing numerically — and yet every decision pointed at a spe
 
 ## 7. Interactive Demonstration
 
-<iframe src="../../demos/lesson01_trace_the_loop.html" title="Physical AI and the Physical World interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../demos/lesson01_trace_the_loop.html" title="Physical AI and the Physical World interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/lesson01_trace_the_loop.html)
+
 *(Concept described here; the runnable notebook is authored in the notebook phase, in `../notebooks/`. Python is formally introduced in Unit 8.)*
 
 **Demo: "Trace the loop."** An interactive widget shows the greenhouse scene. The learner clicks a tomato in the camera view; the demo highlights, in turn, (1) the tomato's position in the camera frame, (2) the same position re-expressed in the robot's base frame, and (3) the arm swinging to a set of joint angles to reach it. Sliders let the learner move the tomato and watch every downstream stage update.
@@ -102,6 +106,7 @@ The goal is not to compute anything by hand but to *see* that moving the target 
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson01_physical_ai_and_the_physical_world.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+
 *A gentle first taste only. Full Python begins in Unit 8; here we just represent the idea in code.*
 
 In a Python notebook, represent a tomato's position as three numbers and print a human-readable description. No libraries required.
@@ -123,7 +128,10 @@ print(f"It is {'above' if z > 0 else 'below'} the origin by {abs(z)} m.")
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson01_quiz.html" title="Physical AI and the Physical World knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../quizzes/lesson01_quiz.html" title="Physical AI and the Physical World knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this quiz in a new tab ↗](../quizzes/lesson01_quiz.html)
+
 *Formative — unlimited attempts, immediate feedback. Not graded (D-015). Check your understanding, not your score.*
 
 1. In your own words, what distinguishes **Physical AI** from software-only AI?

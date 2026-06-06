@@ -53,6 +53,7 @@ The gripper is at $\mathbf{r}_g = \begin{bmatrix} 0.2 \\ 0.5 \\ 0.3 \end{bmatrix
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson10_vector_subtraction.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+
 *(Snippet — full implementation in the notebook track.)*
 
 ```python
@@ -71,7 +72,10 @@ print(f"Aim (gripper→tomato): {aim} m")   # [0.3, 0.4, 0.1]
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson10_quiz.html" title="Vector Subtraction knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../quizzes/lesson10_quiz.html" title="Vector Subtraction knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this quiz in a new tab ↗](../quizzes/lesson10_quiz.html)
+
 1. Write the formula for the displacement from point A to point B.
 2. Subtract $\begin{bmatrix}5\\2\end{bmatrix} - \begin{bmatrix}1\\3\end{bmatrix}$.
 3. What is $-\mathbf{b}$ relative to $\mathbf{b}$?

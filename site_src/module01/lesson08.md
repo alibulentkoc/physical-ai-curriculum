@@ -53,6 +53,7 @@ A tomato is 0.3 m right, 0.4 m up, and 0.6 m forward of the gripper. Write its d
 
 !!! tip "Run the hands-on notebook"
     `modules/module01/notebooks/lesson08_vector_representation.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+
 *(Snippet — full implementation in the notebook track; NumPy formalized in Unit 8.)*
 
 ```python
@@ -69,7 +70,10 @@ print(f"x={vx} (right), y={vy} (up), z={vz} (forward)")
 
 Formative — unlimited attempts, immediate feedback; does not affect your grade.
 
-<iframe src="../../quizzes/lesson08_quiz.html" title="Vector Representation knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px" loading="lazy"></iframe>
+<iframe src="../../quizzes/lesson08_quiz.html" title="Vector Representation knowledge check" style="width:100%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this quiz in a new tab ↗](../quizzes/lesson08_quiz.html)
+
 1. How many components does a 3D vector have, and what does each represent?
 2. Write the column vector for "0.2 m right, 0.5 m up."
 3. Why does component order matter?
