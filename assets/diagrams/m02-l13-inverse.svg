@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A pose moved by T to a new place, and T-inverse curving back exactly onto the start, with notes to undo the rotation then undo the translation.">
+  <defs>
+    <marker id="go" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1d4ed8"/></marker>
+    <marker id="back" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f766e"/></marker>
+    <style>.t{font-size:17px;font-weight:700;fill:#0f172a}.c{font-size:11.5px;fill:#64748b}.go{font-size:12.5px;font-weight:700;fill:#1d4ed8}.bk{font-size:12.5px;font-weight:700;fill:#0f766e}</style>
+  </defs>
+  <text x="340" y="26" text-anchor="middle" class="t">The inverse is the return trip: T⁻¹T = identity</text>
+  <!-- start pose -->
+  <g transform="translate(150,210)"><circle r="14" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/><line x1="0" y1="0" x2="24" y2="0" stroke="#94a3b8" stroke-width="2"/></g>
+  <text x="150" y="250" text-anchor="middle" class="c">start</text>
+  <!-- moved pose -->
+  <g transform="translate(500,130) rotate(-55)"><circle r="14" fill="#1d4ed822" stroke="#1d4ed8" stroke-width="2"/><line x1="0" y1="0" x2="24" y2="0" stroke="#1d4ed8" stroke-width="2.5"/></g>
+  <text x="500" y="100" text-anchor="middle" class="go">moved</text>
+  <!-- go arrow -->
+  <path d="M 172 200 Q 330 120 478 128" fill="none" stroke="#1d4ed8" stroke-width="2" marker-end="url(#go)"/>
+  <text x="320" y="135" text-anchor="middle" class="go">T (rotate, then move)</text>
+  <!-- back arrow -->
+  <path d="M 482 150 Q 330 250 172 222" fill="none" stroke="#0f766e" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#back)"/>
+  <text x="330" y="245" text-anchor="middle" class="bk">T⁻¹ (rotate back, then move back)</text>
+  <text x="340" y="300" text-anchor="middle" class="c">The inverse of an SE(2) motion is itself an SE(2) motion — the same kind of move, arranged to cancel.</text>
+</svg>

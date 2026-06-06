@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-✅ **Curriculum-wide UX fixes applied (Issues 1–4).** (1) All Interactive Demonstration sections student-facing: Mode-A embedded demo + intro, Mode-B guided-prediction activity using the lesson's own figure — no maintainer notes or future-demo refs. (2) Nav = Module → Unit → Lesson everywhere. (3) "You are here" Module/Unit/Lesson banner on every page. (4) Notebooks carry an identity header and are renamed M{MM}_U{UU}_L{lesson}_{Title}.ipynb (42/42); generator + tips updated. `mkdocs build --strict` passes; 42 pages, 43 images, 0 broken, 0 visual-without-image; notebooks execute clean.
+✅ **Module 2 Installment B COMPLETE** (Unit 3 SE(2) + Unit 4 SE(3)). Units 1–4 done: 20 lessons, 20 SVGs, 20 notebooks, 20 quizzes, 20 answer keys, 3 demos (translation-as-a-matrix, SE(2) playground w/ inverse, SE(3) faux-3D viewer). `mkdocs build --strict` passes; all embeds + "You are here" headers resolve; notebooks execute clean.
 
-**Do NOT start Module 2 Installment B yet** — wait for UX verification/approval. On approval: Installment B = Unit 3 (SE(2), geometric inverses) + Unit 4 (SE(3), faux-3D).
+**Next: Installment C = Unit 5 (Transformation Composition) + Unit 6 (Robot Pose Representation).** Midpoint checkpoint AFTER Unit 5 (`assessments/module02_midpoint_assessment.md` + coaches key). Then Installment D = Unit 7 (Camera-to-Robot, extrinsics only) + Unit 8 (Mini Project: Perception-to-Pose). Required demos still to build: composition chain (U5), pose explorer (U6, optional), flagship perception-to-pose (U8).
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 

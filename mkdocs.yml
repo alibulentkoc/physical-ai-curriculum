@@ -69,6 +69,19 @@ nav:
         - "2.3 Translation as a Matrix": module02/lesson07.md
         - "2.4 Rotation and Translation in One Matrix": module02/lesson08.md
         - "2.5 Homogeneous Coordinates in Physical AI (Recap)": module02/lesson09.md
+      - "Unit 3 — SE(2) Transformations":
+        - "3.1 What \"Rigid\" Means": module02/lesson10.md
+        - "3.2 The SE(2) Transformation": module02/lesson11.md
+        - "3.3 Applying SE(2) to Points and Shapes": module02/lesson12.md
+        - "3.4 Inverse Transformations": module02/lesson13.md
+        - "3.5 Rigid Motion in the Plane (Recap)": module02/lesson14.md
+      - "Unit 4 — SE(3) Transformations":
+        - "4.1 From 2D to 3D Rigid Motion": module02/lesson15.md
+        - "4.2 3D Rotation": module02/lesson16.md
+        - "4.3 The SE(3) Transformation": module02/lesson17.md
+        - "4.4 Translation Vectors in 3D": module02/lesson18.md
+        - "4.5 Applying SE(3); Inverses in 3D": module02/lesson19.md
+        - "4.6 Rigid Motion in 3D (Recap)": module02/lesson20.md
 
 markdown_extensions:
   - admonition

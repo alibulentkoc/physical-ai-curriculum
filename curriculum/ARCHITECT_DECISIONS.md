@@ -263,3 +263,15 @@ Applied across Module 1 + Module 2 (no new lesson content). Existing standards (
 - **Issue 4 (notebook identity):** every notebook now opens with a Module/Unit/Lesson/Title markdown header cell, and all 42 notebooks renamed to the standard **M{MM}_U{UU}_L{lesson}_{Title}.ipynb** (e.g. M02_U02_L2_3_Translation_As_A_Matrix.ipynb). Generator notebook discovery updated to the new names (with legacy fallback); notebook tips link to the new filenames. Sampled renamed notebooks still execute "All checks passed."
 - **Verification:** `mkdocs build --strict` passes; generator validator passes for all 42 pages; cross-module scan = 42 pages, 42 context headers, 43 images, 0 broken paths, 0 visual-sections-without-image; section-7 maintainer-reference scan clean (the only remaining "interactive demo" mention is a Mode-A same-page self-reference in 3.6). 42/42 notebooks match the naming standard.
 No Module 2 Installment B produced; awaiting approval after UX verification.
+
+## D-040 — Module 2 Unit 3 (SE(2)) DELIVERED
+- Lessons 3.1–3.5 (lesson10–14): What "Rigid" Means · The SE(2) Transformation · Applying SE(2) · Inverse Transformations (geometric, "rotate back then move back"; SE(2) inverse is itself SE(2)) · Unit 3 recap.
+- 5 SVGs (m02-l10..l14), 5 notebooks (M02_U03_*; execute "All checks passed."), 5 quizzes + 5 answer keys, required demo `lesson12_se2_playground.html` (θ/tx/ty sliders, live 3×3, tracked edge-length proving rigidity, Apply-inverse returns shape). Nav Unit 3 subsection added.
+- build --strict PASS; all Unit 3 embeds + headers resolve. Proceeding to Unit 4 (SE(3)) to complete Installment B before pausing.
+
+## D-041 — Module 2 Unit 4 (SE(3)) DELIVERED · Installment B COMPLETE
+- Lessons 4.1–4.6 (lesson15–20): From 2D to 3D Rigid Motion · 3D Rotation (axis+angle; Rx/Ry/Rz) · The SE(3) Transformation (4×4) · Translation Vectors in 3D (points w=1 vs directions w=0) · Applying SE(3); Inverses in 3D (rotate back, then move back; inverse is itself SE(3)) · Unit 4 recap.
+- 6 faux-3D isometric SVGs (m02-l15..l20, no WebGL, single viewpoint), 6 notebooks (M02_U04_*; execute "All checks passed."), 6 quizzes + 6 answer keys, required demo `lesson17_se3_viewer.html` (axis/angle + tx/ty/tz, live 4×4, rigid frame). Nav Unit 4 subsection added.
+- build --strict PASS; all Unit 4 embeds + headers resolve.
+- **Installment B (Unit 3 SE(2) + Unit 4 SE(3)) COMPLETE.** Module 2 now: 20 lessons, 20 SVGs, 20 notebooks, 20 quizzes, 20 answer keys, 3 demos (Units 1–4 done; Units 5–8 remain).
+- PAUSE at Installment-B milestone for review. Next: Installment C = Unit 5 (Composition) + Unit 6 (Robot Pose); midpoint checkpoint AFTER Unit 5.
