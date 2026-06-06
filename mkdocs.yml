@@ -113,6 +113,16 @@ nav:
         - "2.2 The Image Plane and Focal Length": module03/lesson06.md
         - "2.3 Perspective Projection of a 3D Point": module03/lesson07.md
         - "2.4 The Pinhole Camera Model (Unit 2 Recap)": module03/lesson08.md
+      - "Unit 3 — Camera Intrinsics":
+        - "3.1 From Metric to Pixels": module03/lesson09.md
+        - "3.2 The Intrinsic Matrix K": module03/lesson10.md
+        - "3.3 Principal Point and Focal Length in Pixels": module03/lesson11.md
+        - "3.4 Camera Intrinsics (Unit 3 Recap)": module03/lesson12.md
+      - "Unit 4 — Projection in Practice":
+        - "4.1 The Full Projection Pipeline": module03/lesson13.md
+        - "4.2 Projecting Points with K": module03/lesson14.md
+        - "4.3 Seeing It in Code (OpenCV Introduction)": module03/lesson15.md
+        - "4.4 Projection in Practice (Unit 4 Recap · Midpoint)": module03/lesson16.md
 
 markdown_extensions:
   - admonition

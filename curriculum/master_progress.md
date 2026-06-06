@@ -6,7 +6,7 @@ authority: Updated continuously during production; ARCHITECT_DECISIONS.md remain
 
 # Master Progress Tracker
 
-_Last updated: Module 3 Installment A (Units 1–2) complete._
+_Last updated: Module 3 Installment B (Units 3–4) complete; module midpoint reached._
 
 ## Module status
 
@@ -14,7 +14,7 @@ _Last updated: Module 3 Installment A (Units 1–2) complete._
 |---|--------|--------|--------:|----------:|-----:|------:|--------:|------------:|-------------|
 | 01 | Mathematical Foundations | ✅ COMPLETE | 33 | 33 | 34 | 12 | 33 | 34 | midpoint + module (2) |
 | 02 | Spatial Transformations and SE(3) | ✅ COMPLETE | 36 | 36 | 36 | 6 | 36 | 36 | midpoint + key (2) |
-| 03 | Camera Geometry and Robotic Perception | 🔧 IN PRODUCTION (Units 1–2 of 8) | 8 | 8 | 8 | 1 | 8 | 8 | planned |
+| 03 | Camera Geometry and Robotic Perception | 🔧 IN PRODUCTION (Units 1–4 of 8) | 16 | 16 | 16 | 2 | 16 | 16 | midpoint ✓ |
 | 04 | Forward Kinematics (DH parameters) | ⬜ planned | — | — | — | — | — | — | — |
 | 05 | Inverse Kinematics | ⬜ planned | — | — | — | — | — | — | — |
 | 06 | Jacobians and Differential Motion | ⬜ planned | — | — | — | — | — | — | — |

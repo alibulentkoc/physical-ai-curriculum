@@ -81,9 +81,11 @@ Content for each module is authored only after its manifest exists. Each module 
 
 **Installment A COMPLETE (Units 1–2, lessons 01–08):** 8 lessons, 8 SVGs, 8 notebooks (execute clean), 8 quizzes, 8 answer keys, 1 demo (perspective projection). `mkdocs build --strict` passes; all embeds + "You are here" headers resolve. Manifest `curriculum/module03_manifest.md`; topic map `modules/module03/topic_map.md`; tracker `curriculum/master_progress.md`.
 
-**Next: Installment B** — Unit 3 Camera Intrinsics (matrix K, principal point, focal length in pixels) + Unit 4 Projection in Practice (full pipeline, projecting with K, **OpenCV introduction**). **Midpoint checkpoint after Unit 4.** Notebooks should degrade gracefully where OpenCV isn't essential (use NumPy math) so they execute headless; add a short Module-3 software_environment note at first OpenCV use.
+**Installment B COMPLETE (Units 3–4, lessons 09–16):** 8 lessons, 8 SVGs, 8 notebooks (execute clean; OpenCV cross-check vs NumPy ground truth), 8 quizzes, 8 answer keys, 1 demo (full projection pipeline, lesson13), midpoint assessment + key, and `modules/module03/software_environment_module3.md` (OpenCV introduction; graceful-degradation notebook policy). `mkdocs build --strict` passes; all embeds + "You are here" headers resolve. **Module 3 midpoint reached** — forward map world→pixel complete and OpenCV-verified. (D-046)
 
-Then Installment C (U5 Lens Distortion + U6 Back-Projection), Installment D (U7 From Pixels to the Robot + U8 Mini Project capstone + completion report).
+**Next: Installment C** — Unit 5 Lens Distortion (radial/tangential, undistortion) + Unit 6 Back-Projection (pixel = ray, add depth → 3D point). Keep OpenCV notebooks degrading gracefully (try/except cv2, NumPy ground truth).
+
+Then Installment D (U7 From Pixels to the Robot + U8 Mini Project capstone + completion report).
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`. Pause only at unit/module/milestone completion or for the 5 escalation reasons.
 
