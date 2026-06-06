@@ -218,3 +218,14 @@ Installment 2 produced to standard; Unit 4 (Matrices as Transformations) and **M
 - **PAUSE for review before Module 2 production** (architect directive). Module 2 = homogeneous coordinates / SE(3) / kinematics.
 
 Module 1 totals: 33 lessons produced (1.1–1.6, 2.1–2.10, 3.1–3.8, 4.1–4.9), 34 SVGs, 33 notebooks, 33 quizzes, 34 answer keys (incl. midpoint), 14 demos, + midpoint assessment.
+
+## D-036 — Module 1 Signed Off; Module 2 Authorized (Planning) · DELIVERED
+- **Module 1 APPROVED & signed off** (no revisions). All objectives achieved across Units 1–4.
+- **Module 1 completion report** created: `curriculum/module01_completion_report.md` — objectives, full lesson/asset/demo/notebook/assessment inventories, lessons learned, recommendations. Archival record.
+- **Module 2 AUTHORIZED** = "Spatial Transformations and SE(3)" (highest-priority workstream). Teaches how transformations are represented and composed in robotics: homogeneous coordinates, rigid-body transforms, rotation matrices, translation vectors, transformation chains, SE(2), SE(3) — NOT full kinematics yet.
+- **Module 2 scaffolding created:** `modules/module02/` with README.md, learning_objectives.md, topic_map.md, assessments.md, and lessons/ notebooks/ assets/ demos/ quizzes/ dirs. Manifest at `curriculum/module02_manifest.md`; production plan (roadmap + demo + asset + risks) at `curriculum/module02_production_plan.md`.
+- **Topic map (proposed, 8 units):** 1 Why Transformations Matter · 2 Homogeneous Coordinates · 3 SE(2) · 4 SE(3) · 5 Composition · 6 Robot Pose · 7 Camera-to-Robot · 8 Mini Project (Perception-to-Pose). Refinements flagged: per-unit recaps; Unit 7 concept-level (extrinsics yes, intrinsics deferred); inverses introduced in SE(2); faux-3D isometric for 3D; mini project = assessment centerpiece; numbering restart per module (module02/lesson01…, m02-l01…).
+- **Production cadence:** intuition-first; lead Module 2 with physical movement (Unit 1) before homogeneous-coordinate algebra; installments A(U1+U2) → B(U3+U4) → C(U5+U6) → D(U7+U8) with pause-for-review between, mirroring Module 1.
+- **PAUSE:** no Module 2 lessons generated; awaiting review of manifest/topic map/plans before lesson production.
+
+Open decisions for architect: confirm topic-map refinements (recaps, Unit 7 boundary, inverse placement, 3D approach, numbering); confirm midpoint-checkpoint placement (after Unit 4 vs Unit 5); confirm rubric weighting carry-over.

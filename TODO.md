@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-✅ **MODULE 1 COMPLETE.** Units 1–4 (33 lessons) + Midpoint Assessment. Unit 4 (Matrices as Transformations) done: 4.1–4.9, required demos 4.4/4.5/4.6 + flagship 4.8 composition (order matters). `mkdocs build --strict` passes; all notebooks execute clean; all embeds resolve. Geometry-first; 2D; translation conceptual (homogeneous form deferred to Module 2).
+✅ **MODULE 1 signed off.** Completion report archived (`curriculum/module01_completion_report.md`). **Module 2 authorized** = "Spatial Transformations and SE(3)". Scaffolding + planning delivered: `curriculum/module02_manifest.md`, `curriculum/module02_production_plan.md`, and `modules/module02/{README,learning_objectives,topic_map,assessments}.md` + dirs.
 
-**PAUSE FOR REVIEW before Module 2** (architect directive). Module 2 = homogeneous coordinates / SE(3) / robot kinematics. Do not start Module 2 until review passes.
+**Before Module 2 lessons:** architect to review the manifest, topic map (8 units), and production/demo/asset/assessment plans, and confirm refinements (per-unit recaps; Unit 7 extrinsics-only boundary; inverse placement; faux-3D; numbering restart; midpoint-checkpoint placement). Then begin **Installment A** = Unit 1 (Why Transformations Matter) + Unit 2 (Homogeneous Coordinates), leading with physical movement and the translation-as-a-matrix demo.
 
-> Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
+> Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` (extend for Module 2) → `mkdocs build --strict`.
 
