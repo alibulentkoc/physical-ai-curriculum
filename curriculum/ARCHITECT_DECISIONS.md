@@ -192,3 +192,15 @@ Module 1 totals: 24 lessons produced (1.1–1.6, 2.1–2.10, 3.1–3.8), 25 SVGs
 - **PAUSE:** Unit 4 lesson production not started; awaiting architect confirmation of the plan/recommendations.
 
 Module 1 totals unchanged: 24 lessons, 25 SVGs, 24 notebooks, 24 quizzes, 24 answer keys, 8 demos, + the midpoint assessment.
+
+## D-034 — Unit 4 Installment 1 · DELIVERED (4.1, 4.4, 4.5, 4.6)
+Operator-intuition cornerstones produced to standard; **PAUSE for review** before remaining Unit 4 lessons.
+- **4.1 Matrices as Operators** (lesson25): lesson + SVG (matrix-as-machine: points in → moved points out; columns = images of unit arrows) + notebook + quiz + answer key. Frames the unit: a matrix is an action, not a table.
+- **4.4 The Identity Matrix** (lesson28): lesson + SVG (pass-through) + notebook + quiz + key + **required demo** `lesson28_identity.html` (apply identity → nothing moves; toggle a non-identity to contrast). identity = do nothing.
+- **4.5 Rotation Matrices** (lesson29): lesson + SVG (rotate about origin, ghost original, distance circle) + notebook + quiz + key + **required demo** `lesson29_rotation.html` (single slider 0°→360°; matrix shown live; distance preserved). rotation as geometry first.
+- **4.6 Scaling Transformations** (lesson30): lesson + SVG (stretch along axes, area note) + notebook + quiz + key + **required demo** `lesson30_scaling.html` (sx, sy sliders; uniform vs non-uniform; live area factor).
+- Boundaries honored: 2D; geometry-first; no homogeneous matrices; translation stays conceptual (will appear as an action in the 4.8 composition demo). Through-line visible: Unit 3 "who describes the position?" → Unit 4 "what can we do to it?"
+- `mkdocs build --strict` passes; all four notebooks execute clean; all embeds + fallback links resolve. Nav now has a "Unit 4" section (4.1/4.4/4.5/4.6).
+- **Remaining Unit 4 (Installment 2, after review):** 4.7 Reflection, 4.2 Matrix Addition, 4.3 Matrix Multiplication, 4.8 Composition (+ required flagship demo), then 4.9 recap "Transformations in Physical AI."
+
+Module 1 now: 28 lessons produced, 29 SVGs, 28 notebooks, 28 quizzes, 29 answer keys (incl. midpoint), 11 demos, + midpoint assessment.

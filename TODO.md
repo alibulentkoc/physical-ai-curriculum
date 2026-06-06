@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Unit 3 APPROVED.** Delivered: **Module 1 Midpoint Assessment** (readiness checkpoint between Unit 3 and Unit 4; no matrices) + **Unit 4 production plan** (`curriculum/unit4_production_plan.md`) with three required demo specs (4.4 identity, 4.5 rotation, 4.8 composition). **Unit 4 authorized** = "Transformations of Space" (a matrix is an action on space).
+➡️ **Unit 4 Installment 1 delivered:** 4.1 Matrices as Operators, 4.4 Identity, 4.5 Rotation, 4.6 Scaling — lesson + SVG + notebook + quiz + answer key each; required demos for 4.4 (identity=do-nothing), 4.5 (rotation slider 0–360°), 4.6 (scaling sliders). `mkdocs build --strict` passes; notebooks execute clean. Nav has a Unit 4 section. Geometry-first; 2D; no homogeneous matrices.
 
-**Before Unit 4 production:** confirm plan recommendations (geometry-first order, 2D scope, how translation is handled before homogeneous matrices, demo count, 4.9 recap, numbering lesson25–). Then produce geometry-first, starting 4.1 → 4.4 → 4.5.
+**PAUSE FOR REVIEW** before the rest of Unit 4. Installment 2: 4.7 Reflection, 4.2 Addition, 4.3 Multiplication, 4.8 Composition (+ flagship demo), then 4.9 recap.
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 

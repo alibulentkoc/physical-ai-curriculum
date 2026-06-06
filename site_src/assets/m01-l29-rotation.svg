@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A rotation matrix turns a shape about the origin by an angle theta. A ghost of the original and the rotated shape are shown; a point keeps its distance from the origin.">
+  <defs>
+    <marker id="ra" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:12px;fill:#64748b}.l{font-size:13px;font-weight:700;fill:#334155}</style>
+  </defs>
+  <text x="320" y="30" text-anchor="middle" class="t">Rotation: turn space about the origin by θ</text>
+  <!-- axes + origin -->
+  <line x1="320" y1="320" x2="320" y2="70" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="120" y1="220" x2="540" y2="220" stroke="#e2e8f0" stroke-width="1"/>
+  <circle cx="320" cy="220" r="4" fill="#0f172a"/><text x="300" y="240" class="c">origin</text>
+  <!-- distance circle -->
+  <circle cx="320" cy="220" r="120" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="4 4"/>
+  <!-- ghost original shape (pointing right) -->
+  <polygon points="420,210 460,220 420,230" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="440" y="200" class="c" fill="#94a3b8">original</text>
+  <!-- rotated shape (up-right by ~50 deg) -->
+  <g transform="rotate(-50 320 220)">
+    <polygon points="420,210 460,220 420,230" fill="#0ea5e922" stroke="#0ea5e9" stroke-width="2"/>
+  </g>
+  <text x="392" y="120" class="l" fill="#0284c7">rotated</text>
+  <!-- angle arc -->
+  <path d="M 380 220 A 60 60 0 0 0 358 174" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="372" y="196" class="c">θ</text>
+  <text x="320" y="346" text-anchor="middle" class="c">R(θ) = [[cosθ, −sinθ],[sinθ, cosθ]] · Size and shape preserved; only orientation changes. R(0)=I.</text>
+</svg>

@@ -45,6 +45,11 @@ nav:
         - "3.6 Conceptual Frame Transformations": module01/lesson22.md
         - "3.7 Robot and Camera Frames": module01/lesson23.md
         - "3.8 Coordinate Frames in Physical AI (Recap)": module01/lesson24.md
+      - "Unit 4 — Matrices as Transformations":
+        - "4.1 Matrices as Operators": module01/lesson25.md
+        - "4.4 The Identity Matrix": module01/lesson28.md
+        - "4.5 Rotation Matrices": module01/lesson29.md
+        - "4.6 Scaling Transformations": module01/lesson30.md
 
 markdown_extensions:
   - admonition
