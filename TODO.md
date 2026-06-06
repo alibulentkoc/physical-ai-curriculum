@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Unit 4 Installment 1 delivered:** 4.1 Matrices as Operators, 4.4 Identity, 4.5 Rotation, 4.6 Scaling — lesson + SVG + notebook + quiz + answer key each; required demos for 4.4 (identity=do-nothing), 4.5 (rotation slider 0–360°), 4.6 (scaling sliders). `mkdocs build --strict` passes; notebooks execute clean. Nav has a Unit 4 section. Geometry-first; 2D; no homogeneous matrices.
+✅ **MODULE 1 COMPLETE.** Units 1–4 (33 lessons) + Midpoint Assessment. Unit 4 (Matrices as Transformations) done: 4.1–4.9, required demos 4.4/4.5/4.6 + flagship 4.8 composition (order matters). `mkdocs build --strict` passes; all notebooks execute clean; all embeds resolve. Geometry-first; 2D; translation conceptual (homogeneous form deferred to Module 2).
 
-**PAUSE FOR REVIEW** before the rest of Unit 4. Installment 2: 4.7 Reflection, 4.2 Addition, 4.3 Multiplication, 4.8 Composition (+ flagship demo), then 4.9 recap.
+**PAUSE FOR REVIEW before Module 2** (architect directive). Module 2 = homogeneous coordinates / SE(3) / robot kinematics. Do not start Module 2 until review passes.
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 

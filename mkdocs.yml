@@ -47,9 +47,14 @@ nav:
         - "3.8 Coordinate Frames in Physical AI (Recap)": module01/lesson24.md
       - "Unit 4 — Matrices as Transformations":
         - "4.1 Matrices as Operators": module01/lesson25.md
+        - "4.2 Matrix Addition": module01/lesson26.md
+        - "4.3 Matrix Multiplication": module01/lesson27.md
         - "4.4 The Identity Matrix": module01/lesson28.md
         - "4.5 Rotation Matrices": module01/lesson29.md
         - "4.6 Scaling Transformations": module01/lesson30.md
+        - "4.7 Reflection Transformations": module01/lesson31.md
+        - "4.8 Composition of Transformations": module01/lesson32.md
+        - "4.9 Transformations in Physical AI (Recap)": module01/lesson33.md
 
 markdown_extensions:
   - admonition

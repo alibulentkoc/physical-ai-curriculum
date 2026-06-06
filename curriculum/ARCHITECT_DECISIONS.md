@@ -204,3 +204,17 @@ Operator-intuition cornerstones produced to standard; **PAUSE for review** befor
 - **Remaining Unit 4 (Installment 2, after review):** 4.7 Reflection, 4.2 Matrix Addition, 4.3 Matrix Multiplication, 4.8 Composition (+ required flagship demo), then 4.9 recap "Transformations in Physical AI."
 
 Module 1 now: 28 lessons produced, 29 SVGs, 28 notebooks, 28 quizzes, 29 answer keys (incl. midpoint), 11 demos, + midpoint assessment.
+
+## D-035 — Unit 4 COMPLETE (Installment 2 delivered) → MODULE 1 COMPLETE · PAUSE before Module 2
+Installment 2 produced to standard; Unit 4 (Matrices as Transformations) and **Module 1** are now production-complete.
+- **4.7 Reflection** (lesson31): lesson + SVG (mirror across axis, backwards-Я handedness flip) + notebook + quiz + key. det = −1, reflect-twice = identity.
+- **4.2 Matrix Addition** (lesson26, lightweight): entry-wise; explicitly NOT composition. SVG + notebook + quiz + key.
+- **4.3 Matrix Multiplication** (lesson27): geometry-first — "do A, then B = apply BA"; first action on the right; not commutative. SVG + notebook + quiz + key.
+- **4.8 Composition** (lesson32, flagship): order matters (scale→rotate ≠ rotate→scale) + **flagship demo** `lesson32_composition.html` (drag-reorder scale/rotate/translate, reverse-order button, live result + tracked point). Translation included as an action conceptually (homogeneous form deferred to Module 2).
+- **4.9 recap** (lesson33) "Transformations in Physical AI": consolidates identity/rotation/scaling/reflection/composition; answers "what can a matrix do to space?"; capstone notebook; bridges to Module 2 (homogeneous coords, SE(3)).
+- Through-line kept: Unit 3 "the same point can have different coordinates" → Unit 4 "the same point can be transformed in different ways." Core belief reinforced: a matrix is an action, not a table.
+- `mkdocs build --strict` passes; all Unit 4 notebooks execute clean; all embeds + fallback links resolve. Nav has the full Unit 4 section (4.1–4.9).
+- **MODULE 1 COMPLETE:** Units 1–4 + the Module 1 Midpoint Assessment.
+- **PAUSE for review before Module 2 production** (architect directive). Module 2 = homogeneous coordinates / SE(3) / kinematics.
+
+Module 1 totals: 33 lessons produced (1.1–1.6, 2.1–2.10, 3.1–3.8, 4.1–4.9), 34 SVGs, 33 notebooks, 33 quizzes, 34 answer keys (incl. midpoint), 14 demos, + midpoint assessment.
