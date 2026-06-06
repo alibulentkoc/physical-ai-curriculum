@@ -29,6 +29,12 @@ nav:
       - "2.1 What Is a Vector?": module01/lesson07.md
       - "2.2 Vector Representation": module01/lesson08.md
       - "2.3 Vector Addition": module01/lesson09.md
+      - "2.4 Vector Subtraction": module01/lesson10.md
+      - "2.5 Magnitude and Direction": module01/lesson11.md
+      - "2.6 Unit Vectors": module01/lesson12.md
+      - "2.7 Dot Product": module01/lesson13.md
+      - "2.8 Cross Product": module01/lesson14.md
+      - "2.9 Distance Between Points": module01/lesson15.md
 
 markdown_extensions:
   - admonition

@@ -77,8 +77,8 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Single-source generator live** (`tools/generate_site_pages.py`) — site pages build from canonical lessons; double-maintenance gone. **core_idea** on all 15 lessons. **Gemini fully removed.** **Unit 2 launched:** 2.1–2.3 fully produced (SVG + notebook + quiz; 2.3 has the required interactive demo); all six Unit 2 lessons carry the two standard sections. `mkdocs build --strict` passes; all notebooks execute clean.
+➡️ **Unit 2 complete (2.1–2.9).** Every lesson: SVG + executed notebook + interactive quiz + answer key + MkDocs page + AI Companion + Global Learning Support + `core_idea`. Required demos delivered: 2.3 (addition), 2.7 (dot product), 2.8 (cross product). `mkdocs build --strict` passes; all notebooks execute clean. Module 1 now has 15 produced lessons.
 
-**Next installment — finish Unit 2:** produce assets for **2.4–2.9** (SVGs, notebooks, quizzes) and the two remaining required demos — **2.7 Dot Product** and **2.8 Cross Product** — then add them to nav.
+**PAUSE FOR REVIEW** (architect): review flagship lessons 2.3 / 2.7 / 2.8 and the overall vector learning experience before authorizing Unit 3. Do **not** start Unit 3 / Module 2 until the review passes.
 
-> Workflow reminder: edit canonical lessons → run `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
+> Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
