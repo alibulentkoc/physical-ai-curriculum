@@ -39,12 +39,11 @@ Origin at the greenhouse corner; $x$ points east, $y$ points north (meters). A t
 
 ## 7. Interactive Demonstration
 
-*(No new demo here; the 3.5 viewpoint switcher and the 3.6 transform demo cover the interactive coordinate work for this unit.)*
-
+**Guided prediction.** Using the anatomy figure above, predict the coordinates of a point two steps right and one step down from the origin, then a point two steps left and one up. State each sign before you check, and confirm the signs match which side of each axis the point lands on.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson18_cartesian_coordinates.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U03_L3_2_Cartesian_Coordinates.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Given an origin and axis directions, convert a few "so-many-meters-this-way" descriptions into signed Cartesian coordinates and back.
 

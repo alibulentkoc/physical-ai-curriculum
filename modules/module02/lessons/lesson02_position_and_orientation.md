@@ -53,8 +53,7 @@ A tomato sits at robot-frame position $(0.35, 0.15)$ with its stem pointing up-a
 
 ## 7. Interactive Demonstration
 
-*(The pose explorer in Unit 6 makes this manipulable; here the two-panel figure shows why orientation is non-negotiable.)*
-
+**Guided prediction.** Look at the two panels above. Predict which grasp succeeds when the position is identical but the gripper orientation differs, and explain why. Then state the full pose — position *and* orientation — the robot must send for a clean grasp of a tomato whose stem points up-and-left.
 ## 8. Coding Exercise
 
 Represent a 2D pose as a small record (x, y, theta) and write a one-line check that two poses are equal only if *both* position and orientation match.

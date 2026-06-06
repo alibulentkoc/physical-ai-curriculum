@@ -37,12 +37,11 @@ $\begin{bmatrix}1&2\\0&1\end{bmatrix} + \begin{bmatrix}0&1\\3&2\end{bmatrix} = \
 
 ## 7. Interactive Demonstration
 
-*(No demo for this lightweight lesson; the figure above and the worked example suffice. Composition gets the flagship demo in 4.8.)*
-
+**Guided prediction.** Predict the sum of [[1, 2], [0, 1]] and [[0, 1], [3, 2]] by adding cell to cell. Then predict whether applying A and then B to a point gives the same result as applying (A + B) to that point. Check against the caution in the figure: addition blends matrices; it does not chain actions.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson26_matrix_addition.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U04_L4_2_Matrix_Addition.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Add two matrices with NumPy, confirm it's commutative, and verify that $(A+B)\mathbf{p} \neq B(A\mathbf{p})$ in general (addition is not composition).
 

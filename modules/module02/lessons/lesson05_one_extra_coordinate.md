@@ -57,8 +57,7 @@ The point $(2, 3)$ becomes $\begin{bmatrix}2\\3\\1\end{bmatrix}$. Applying the $
 
 ## 7. Interactive Demonstration
 
-*(The translation-as-a-matrix demo in 2.3 shows the payoff directly; here the figure introduces the lift.)*
-
+**Guided prediction.** Using the lifted-plane figure, predict the homogeneous form of the point (2, 3). Then predict what applying the 3×3 identity returns. Confirm the point is unchanged — you re-dressed its representation without moving it, which is exactly why the geometry is untouched.
 ## 8. Coding Exercise
 
 Write a function that converts a 2D point to homogeneous form (append 1) and back (drop the last entry); confirm round-tripping a few points returns them unchanged.

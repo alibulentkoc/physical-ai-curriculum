@@ -40,7 +40,7 @@ Take the rotation $R(90°)=\begin{bmatrix}0&-1\\1&0\end{bmatrix}$. Apply to the 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module02/notebooks/lesson03_module1_limit.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module02/notebooks/M02_U01_L1_3_The_Limit_We_Hit_In_Module_1.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Show numerically that several 2×2 matrices all map (0,0) to (0,0), and that "add a translation vector" is a separate operation a 2×2 matrix can't absorb.
 

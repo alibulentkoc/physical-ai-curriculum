@@ -35,12 +35,11 @@ Let $A=R(90°)=\begin{bmatrix}0&-1\\1&0\end{bmatrix}$ (rotate) and $B=\begin{bma
 
 ## 7. Interactive Demonstration
 
-*(The flagship 4.8 composition demo lets you chain actions and swap their order; this lesson uses the figure and worked example.)*
-
+**Guided prediction.** Predict the result of applying a 90° rotation and then a ×2 scale to the point (1, 0): first as two separate steps, then as the single product matrix. Confirm both give the same point, then predict whether reversing the order would change the answer.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson27_matrix_multiplication.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U04_L4_3_Matrix_Multiplication.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Multiply two matrices in NumPy; verify $(BA)\mathbf{p}$ equals applying $A$ then $B$; and show $AB \neq BA$ for a rotation and a non-uniform scale.
 

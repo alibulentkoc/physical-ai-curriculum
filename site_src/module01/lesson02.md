@@ -60,14 +60,12 @@ Quick dimensional sanity check on a reach estimate $d = r\,\theta$ (arc length) 
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; runnable version in the notebook track.)* A unit-converter panel: type a value and pick "from" and "to" units (cm↔m, deg↔rad, mm↔m). The panel shows the conversion ratio it applied and flags an error if you try an impossible conversion (e.g. meters → seconds), reinforcing that only same-dimension conversions are valid.
+A unit-converter panel: type a value and pick "from" and "to" units (cm↔m, deg↔rad, mm↔m). The panel shows the conversion ratio it applied and flags an error if you try an impossible conversion (e.g. meters → seconds), reinforcing that only same-dimension conversions are valid.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson02_units_and_dimensions.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U01_L1_2_Units_And_Dimensions.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 def cm_to_m(value_cm):

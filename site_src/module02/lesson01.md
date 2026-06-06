@@ -38,7 +38,7 @@ The camera reports a tomato "0.3 m ahead of the lens." The arm is 0.05 m behind 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module02/notebooks/lesson01_robots_constant_problem.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module02/notebooks/M02_U01_L1_1_The_Robots_Constant_Problem.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 List the frames in a harvesting robot (camera, arm/base, world) and, for one tomato, write by hand the three different "there" descriptions — no transforms yet, just to feel the restating.
 

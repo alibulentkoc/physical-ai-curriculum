@@ -54,8 +54,7 @@ Reflect $\mathbf{p}=(2,3)$ across the $x$-axis: $F_x(2,3) = (2,-3)$ — same hor
 
 ## 7. Interactive Demonstration
 
-*(Reflection is shown via the static figure here; the flagship 4.8 demo lets you chain reflections with other actions.)*
-
+**Guided prediction.** Predict where (2, 3) lands after reflecting across the x-axis, then across the y-axis. Predict whether reflecting twice across the same axis returns the original point. Confirm the handedness flip using the mirrored shape in the figure above — same size, reversed orientation.
 ## 8. Coding Exercise
 
 Reflect a shape across each axis with NumPy; confirm size is preserved (distances unchanged) and the determinant is $-1$ (orientation flip).

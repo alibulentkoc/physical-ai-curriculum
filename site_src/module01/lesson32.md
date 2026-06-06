@@ -45,7 +45,7 @@ Build a chain — scale, rotate, translate — and watch it apply step by step; 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson32_composition_of_transformations.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U04_L4_8_Composition_Of_Transformations.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Compose rotation, scaling, and a (conceptual) translation in NumPy; show scale→rotate ≠ rotate→scale on a sample point, and apply a full chain to a shape.
 

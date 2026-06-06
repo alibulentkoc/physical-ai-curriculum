@@ -55,14 +55,12 @@ $$ \mathbf{a}\times\mathbf{b} = \begin{bmatrix} (0)(0)-(0)(1) \\ (0)(0)-(1)(0) \
 
 [Open this demo in a new tab ↗](../demos/module01/lesson14_cross_product.html)
 
-*(Conceptual; notebook version later.)* Two draggable 3D vectors and a live-drawn parallelogram between them, with the cross-product vector rising perpendicular. Readouts show the cross product's components and its magnitude (the area). As the learner makes the two vectors more parallel, the area and the perpendicular arrow shrink to zero; a "swap a,b" button flips the arrow, showing order dependence.
+Two draggable 3D vectors and a live-drawn parallelogram between them, with the cross-product vector rising perpendicular. Readouts show the cross product's components and its magnitude (the area). As the learner makes the two vectors more parallel, the area and the perpendicular arrow shrink to zero; a "swap a,b" button flips the arrow, showing order dependence.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson14_cross_product.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U02_L2_8_Cross_Product.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 def cross(a, b):

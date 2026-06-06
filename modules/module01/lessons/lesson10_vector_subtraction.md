@@ -70,11 +70,8 @@ The gripper is at $\mathbf{r}_g = \begin{bmatrix} 0.2 \\ 0.5 \\ 0.3 \end{bmatrix
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* Two draggable points, "gripper" and "tomato," each with a position vector from the origin. The demo draws the aiming vector tomato − gripper between them and shows its components. A "reverse" toggle swaps the subtraction order and flips the arrow, hammering home that order sets direction. Dragging the points changes the aiming vector live.
-
+**Guided prediction.** Picture a gripper and a tomato as two points, each with a position vector from the origin. Predict the aiming vector tomato − gripper: which way does it point? Now predict what happens if you swap the order to gripper − tomato. Sketch both and confirm the arrow flips — the order of subtraction sets the direction.
 ## 8. Coding Exercise
-
-*(Snippet — full implementation in the notebook track.)*
 
 ```python
 def subtract(b, a):                 # returns vector from a to b

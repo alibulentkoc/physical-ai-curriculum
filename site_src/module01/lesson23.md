@@ -50,7 +50,7 @@ Step through a pick and watch the tomato's coordinates in the camera, robot, and
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson23_robot_and_camera_frames.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U03_L3_7_Robot_And_Camera_Frames.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Implement the camera → robot → world chain for one tomato as two offset steps and print the coordinates at each stage.
 

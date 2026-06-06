@@ -52,14 +52,12 @@ Normalize the aiming vector $\mathbf{d} = \begin{bmatrix} 0.3 \\ 0.4 \\ 0.0 \end
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* A draggable aiming arrow shown alongside its normalized version (always length 1) on the same line. A "step size" slider multiplies the unit vector to produce a step arrow; the learner sees that changing step size rescales the move while the direction (the unit vector) stays put unless the target moves.
+A draggable aiming arrow shown alongside its normalized version (always length 1) on the same line. A "step size" slider multiplies the unit vector to produce a step arrow; the learner sees that changing step size rescales the move while the direction (the unit vector) stays put unless the target moves.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson12_unit_vectors.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U02_L2_6_Unit_Vectors.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 import math

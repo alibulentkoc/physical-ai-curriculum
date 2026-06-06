@@ -52,7 +52,7 @@ Same tomato. World says $(2,1)$; robot says $(1,0)$. Both correct; different ori
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson17_why_coordinate_frames_matter.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U03_L3_1_Why_Coordinate_Frames_Matter.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Describe one fixed point from two different origins and confirm you get two different coordinate pairs.
 

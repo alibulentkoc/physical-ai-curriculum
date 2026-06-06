@@ -47,7 +47,7 @@ Switch a point between a plain 2×2 (which can't move the origin) and the homoge
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module02/notebooks/lesson07_translation_as_a_matrix.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module02/notebooks/M02_U02_L2_3_Translation_As_A_Matrix.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Build $T(t_x, t_y)$ as a 3×3 NumPy matrix, apply it to homogeneous points and directions, and confirm points translate while directions don't.
 

@@ -39,12 +39,11 @@ Gripper at $(0.10, 0.10, 0.05)$, tomato at $(0.40, 0.30, 0.25)$ (meters, robot b
 
 ## 7. Interactive Demonstration
 
-*(The 3.6 transform demo handles the interactive frame work; this lesson uses the isometric figure above.)*
-
+**Guided prediction.** Using the isometric axes above, picture a tomato at (0.4, 0.3, 0.25) and another at (0.4, 0.3, 0.10): same floor spot, different height. Predict which the arm reaches more easily and why the third coordinate (z) is the deciding factor a flat map can't capture.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson20_3d_coordinate_systems.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U03_L3_4_3D_Coordinate_Systems.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Place a few tomatoes in 3D, compute 3D distances from the gripper, and pick the nearest reachable one.
 

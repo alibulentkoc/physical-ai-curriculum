@@ -46,7 +46,7 @@ Apply the identity to a greenhouse object and watch nothing happen — then togg
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson28_identity_matrix.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U04_L4_4_The_Identity_Matrix.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Build the identity with NumPy, apply it to several points, and assert each point is unchanged; then apply a non-identity and show it differs.
 

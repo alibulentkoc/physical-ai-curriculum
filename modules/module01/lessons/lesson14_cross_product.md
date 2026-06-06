@@ -71,11 +71,9 @@ $$ \mathbf{a}\times\mathbf{b} = \begin{bmatrix} (0)(0)-(0)(1) \\ (0)(0)-(1)(0) \
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* Two draggable 3D vectors and a live-drawn parallelogram between them, with the cross-product vector rising perpendicular. Readouts show the cross product's components and its magnitude (the area). As the learner makes the two vectors more parallel, the area and the perpendicular arrow shrink to zero; a "swap a,b" button flips the arrow, showing order dependence.
+Two draggable 3D vectors and a live-drawn parallelogram between them, with the cross-product vector rising perpendicular. Readouts show the cross product's components and its magnitude (the area). As the learner makes the two vectors more parallel, the area and the perpendicular arrow shrink to zero; a "swap a,b" button flips the arrow, showing order dependence.
 
 ## 8. Coding Exercise
-
-*(Snippet — full implementation in the notebook track.)*
 
 ```python
 def cross(a, b):

@@ -73,11 +73,9 @@ The aiming vector to a tomato is $\mathbf{d} = \begin{bmatrix} 0.3 \\ 0.4 \\ 0.1
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* A draggable arrow with a live readout of its magnitude and its angle (2D). A circle of radius = "arm reach" is drawn; when the arrowhead is inside the circle, a green "reachable" badge shows; outside, red "out of reach." Rotating the arrow at fixed length keeps the magnitude constant while the angle changes — reinforcing the magnitude/direction split.
+A draggable arrow with a live readout of its magnitude and its angle (2D). A circle of radius = "arm reach" is drawn; when the arrowhead is inside the circle, a green "reachable" badge shows; outside, red "out of reach." Rotating the arrow at fixed length keeps the magnitude constant while the angle changes — reinforcing the magnitude/direction split.
 
 ## 8. Coding Exercise
-
-*(Snippet — full implementation in the notebook track.)*
 
 ```python
 import math

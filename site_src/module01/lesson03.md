@@ -55,14 +55,11 @@ The pattern: anything about *motion or location in space* tends to need directio
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* A drag-and-sort game: greenhouse quantities appear as tiles; the learner drops each into "scalar" or "needs direction." When a velocity tile is sorted correctly, a direction arrow appears on it; the demo then asks the learner to flip the arrow and observe that the physical meaning changes — the test from §3 made tangible.
-
+**Guided prediction.** Sort these greenhouse quantities into *scalar* (a single number is enough) versus *needs a direction*: air temperature, the robot's speed of travel, the wind, battery charge, the push a gripper applies to a stem. For each one you place in *needs a direction*, say what physically changes if you flip its direction — the test from §3 made tangible.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson03_scalars_and_physical_quantities.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U01_L1_3_Scalars_And_Physical_Quantities.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 # A scalar reading: one value + a unit label.

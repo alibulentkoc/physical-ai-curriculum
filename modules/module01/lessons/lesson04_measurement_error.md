@@ -85,11 +85,8 @@ A joint encoder should read 45.00° but reports 45.30° on a known reference.
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* A "measure the tomato" widget: the true distance is fixed but hidden; pressing "measure" returns a noisy reading. The learner takes one reading (sees the error), then takes twenty and watches the running average settle close to the true value — making visible that averaging tames random error but would *not* remove a built-in systematic offset.
-
+**Guided prediction.** Imagine measuring one fixed tomato distance ten times and getting ten slightly different readings. Predict: does averaging them move you closer to the true value? Now predict what averaging does for a ruler that always reads 2 cm too long. Check both predictions against the difference between *random* and *systematic* error in §3 — averaging tames the first but never the second.
 ## 8. Coding Exercise
-
-*(Snippet — full implementation in the notebook track.)*
 
 ```python
 def absolute_error(measured, true):

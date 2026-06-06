@@ -51,14 +51,12 @@ Two ripe tomatoes have positions (in the robot's base frame, meters): $\mathbf{r
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* A scene with a gripper and several draggable tomatoes. The demo draws the connecting arrow to each, labels each distance, highlights the **nearest** one in green, and greys out any beyond a "reach" slider. A toggle "use wrong frame for one tomato" deliberately offsets a point's origin to show how a frame mismatch produces a nonsensical distance — motivating Unit 3.
+A scene with a gripper and several draggable tomatoes. The demo draws the connecting arrow to each, labels each distance, highlights the **nearest** one in green, and greys out any beyond a "reach" slider. A toggle "use wrong frame for one tomato" deliberately offsets a point's origin to show how a frame mismatch produces a nonsensical distance.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson15_distance_between_points.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U02_L2_9_Distance_Between_Points.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 import math

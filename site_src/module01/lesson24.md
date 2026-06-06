@@ -42,7 +42,7 @@ Put together: **perception** happens in the camera frame, **action** in the robo
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson24_coordinate_frames_recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U03_L3_8_Coordinate_Frames_In_Physical_AI_Unit_3_Recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 A short capstone: describe one fixed point in world, robot, and camera frames and convert between two of them with an offset (and optionally a simple rotation) — confirming the point is unchanged.
 

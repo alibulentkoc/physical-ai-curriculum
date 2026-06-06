@@ -99,16 +99,11 @@ Notice we solved nothing numerically — and yet every decision pointed at a spe
 
 [Open this demo in a new tab ↗](../demos/module01/lesson01_trace_the_loop.html)
 
-*(Concept described here; the runnable notebook is authored in the notebook phase, in `../notebooks/`. Python is formally introduced in Unit 8.)*
-
-**Demo: "Trace the loop."** An interactive widget shows the greenhouse scene. The learner clicks a tomato in the camera view; the demo highlights, in turn, (1) the tomato's position in the camera frame, (2) the same position re-expressed in the robot's base frame, and (3) the arm swinging to a set of joint angles to reach it. Sliders let the learner move the tomato and watch every downstream stage update.
-
-The goal is not to compute anything by hand but to *see* that moving the target changes the frame coordinates, which changes the angles, which changes the motion — the chain made tangible.
-
+Trace the perception→action loop yourself: take a real task — a wilting plant that needs water — and step it once around the loop, naming what each stage (sense → decide → act) contributes. Then predict which stage breaks first if the camera lens is smudged, and confirm against the loop that physical AI is a closed cycle, not a one-way pipeline.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson01_physical_ai_and_the_physical_world.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U01_L1_1_Physical_AI_And_The_Physical_World.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 *A gentle first taste only. Full Python begins in Unit 8; here we just represent the idea in code.*
 

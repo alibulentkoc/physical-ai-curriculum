@@ -50,7 +50,7 @@ Move frame B's offset and rotation with sliders and watch one fixed point's coor
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson22_conceptual_frame_transformations.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U03_L3_6_Conceptual_Frame_Transformations.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Implement a conceptual `convert_A_to_B(point, offset, angle)` using offset + rotation (no matrix libraries) and verify the offset-only case matches 3.5.
 

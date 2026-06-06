@@ -58,8 +58,7 @@ Origin at the greenhouse corner; $x$ points east, $y$ points north (meters). A t
 
 ## 7. Interactive Demonstration
 
-*(No new demo here; the 3.5 viewpoint switcher and the 3.6 transform demo cover the interactive coordinate work for this unit.)*
-
+**Guided prediction.** Using the anatomy figure above, predict the coordinates of a point two steps right and one step down from the origin, then a point two steps left and one up. State each sign before you check, and confirm the signs match which side of each axis the point lands on.
 ## 8. Coding Exercise
 
 Given an origin and axis directions, convert a few "so-many-meters-this-way" descriptions into signed Cartesian coordinates and back.

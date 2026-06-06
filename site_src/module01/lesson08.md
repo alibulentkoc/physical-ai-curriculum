@@ -50,14 +50,12 @@ A tomato is 0.3 m right, 0.4 m up, and 0.6 m forward of the gripper. Write its d
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* A 2D grid where the learner drags an arrowhead; the panel live-updates the column vector $[v_x, v_y]$ and draws the dashed projection lines to each axis. A toggle adds a third axis to show how the same idea extends to 3D. Dragging straight up changes only $v_y$, reinforcing that each component is independent.
+A 2D grid where the learner drags an arrowhead; the panel live-updates the column vector $[v_x, v_y]$ and draws the dashed projection lines to each axis. A toggle adds a third axis to show how the same idea extends to 3D. Dragging straight up changes only $v_y$, reinforcing that each component is independent.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson08_vector_representation.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track; NumPy formalized in Unit 8.)*
+    `modules/module01/notebooks/M01_U02_L2_2_Vector_Representation.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 # Represent vectors as lists of components (x, y, z), in meters.

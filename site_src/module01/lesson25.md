@@ -39,12 +39,11 @@ The point $(2,0)$ (pointing east) became $(0,2)$ (pointing north) — this matri
 
 ## 7. Interactive Demonstration
 
-*(The identity, rotation, and scaling demos in 4.4–4.6 let you apply operators and watch space respond; this lesson uses the machine figure above.)*
-
+**Guided prediction.** Treat the matrix as a machine. Predict where the unit arrows (1, 0) and (0, 1) land after the operator [[0, −1], [1, 0]], then describe in words what that machine does to *any* shape fed through it. Confirm with the worked example — the columns are exactly where the arrows go.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson25_matrices_as_operators.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U04_L4_1_Matrices_As_Operators.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Apply a couple of $2\times2$ matrices to a set of points with NumPy and describe, in words, what each one *did* to the shape.
 

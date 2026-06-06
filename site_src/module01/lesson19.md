@@ -37,12 +37,11 @@ Origin at the southwest corner; $x$ east, $y$ north. Dock at $(0.5, 0.5)$, a rip
 
 ## 7. Interactive Demonstration
 
-*(Covered by the 3.5 and 3.6 demos; this lesson uses the static plane figure above.)*
-
+**Guided prediction.** Before reading on, predict the quadrant of each point: (3, 2), (−2, 1), (−2, −1), (2, −1). Then place a tomato at (3, 2) and the dock at (0.5, 0.5) and predict the displacement dock→tomato. Check both against the quadrant figure above.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson19_2d_coordinate_systems.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U03_L3_3_2D_Coordinate_Systems.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Place several points on a 2D greenhouse map, classify each by quadrant from its signs, and compute a couple of displacements/distances.
 

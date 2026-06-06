@@ -67,11 +67,9 @@ Describe the arrow from the gripper to a tomato that sits 0.3 m to the right and
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; runnable version in the notebook track.)* A canvas showing the robot gripper at the origin and a draggable tomato. As the learner drags the tomato, an arrow from gripper to tomato updates live, and a readout shows the arrow's length (magnitude) and heading (direction). Dragging the tomato to the same distance but a different angle keeps the length but changes the direction — making "magnitude vs direction" tangible.
+A canvas showing the robot gripper at the origin and a draggable tomato. As the learner drags the tomato, an arrow from gripper to tomato updates live, and a readout shows the arrow's length (magnitude) and heading (direction). Dragging the tomato to the same distance but a different angle keeps the length but changes the direction — making "magnitude vs direction" tangible.
 
 ## 8. Coding Exercise
-
-*(Snippet — full implementation in the notebook track.)*
 
 ```python
 # A 2D vector from gripper to tomato: (x_right, y_up), in meters.

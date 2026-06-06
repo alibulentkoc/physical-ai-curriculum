@@ -44,7 +44,7 @@ Drag a single slider from 0° to 360° and watch the greenhouse object turn abou
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson29_rotation_matrices.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U04_L4_5_Rotation_Matrices.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Build $R(\theta)$ in NumPy, rotate a set of points, and confirm each point's distance from the origin is unchanged (rotation preserves length).
 

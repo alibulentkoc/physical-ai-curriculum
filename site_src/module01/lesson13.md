@@ -63,14 +63,12 @@ Gripper facing direction $\mathbf{a} = \begin{bmatrix}1\\0\\0\end{bmatrix}$; dir
 
 [Open this demo in a new tab ↗](../demos/module01/lesson13_dot_product.html)
 
-*(Conceptual; notebook version later.)* Two draggable vectors from a shared origin. A readout shows their dot product and the angle between them, color-coded: green when aligned (positive), yellow at perpendicular (zero), red when opposed (negative). As the learner rotates one vector, the projection "shadow" on the other grows, vanishes at 90°, then flips — making the sign's meaning visible.
+Two draggable vectors from a shared origin. A readout shows their dot product and the angle between them, color-coded: green when aligned (positive), yellow at perpendicular (zero), red when opposed (negative). As the learner rotates one vector, the projection "shadow" on the other grows, vanishes at 90°, then flips — making the sign's meaning visible.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson13_dot_product.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U02_L2_7_Dot_Product.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 import math

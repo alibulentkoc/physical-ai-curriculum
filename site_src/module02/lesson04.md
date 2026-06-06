@@ -36,7 +36,7 @@ Unit 2 introduces **homogeneous coordinates**: add one extra coordinate so that 
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module02/notebooks/lesson04_why_transformations_recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module02/notebooks/M02_U01_L1_4_Why_Transformations_Matter_Unit_1_Recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 A short consolidation: confirm a 2×2 handles rotation but cannot translate the origin — the gap Unit 2 closes.
 

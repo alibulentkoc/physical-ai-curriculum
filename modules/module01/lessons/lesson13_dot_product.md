@@ -79,11 +79,9 @@ Gripper facing direction $\mathbf{a} = \begin{bmatrix}1\\0\\0\end{bmatrix}$; dir
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* Two draggable vectors from a shared origin. A readout shows their dot product and the angle between them, color-coded: green when aligned (positive), yellow at perpendicular (zero), red when opposed (negative). As the learner rotates one vector, the projection "shadow" on the other grows, vanishes at 90°, then flips — making the sign's meaning visible.
+Two draggable vectors from a shared origin. A readout shows their dot product and the angle between them, color-coded: green when aligned (positive), yellow at perpendicular (zero), red when opposed (negative). As the learner rotates one vector, the projection "shadow" on the other grows, vanishes at 90°, then flips — making the sign's meaning visible.
 
 ## 8. Coding Exercise
-
-*(Snippet — full implementation in the notebook track.)*
 
 ```python
 import math

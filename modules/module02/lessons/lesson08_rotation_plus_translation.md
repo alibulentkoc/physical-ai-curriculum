@@ -58,8 +58,7 @@ The point was rotated $90°$ (to $(0,1)$) and then shifted by $(1,0)$ (to $(1,1)
 
 ## 7. Interactive Demonstration
 
-*(The SE(2) playground in Unit 3 lets you set θ and (t_x, t_y) and watch the combined matrix act, with an inverse to undo; this lesson uses the annotated figure.)*
-
+**Guided prediction.** Using the block-form matrix above, predict where (1, 0) lands after rotating 90° and translating by (1, 0) in one multiply. Then predict whether translating first and rotating second gives the same point, and identify which part of the matrix would differ.
 ## 8. Coding Exercise
 
 Assemble the 3×3 matrix from a rotation angle and a translation vector, apply it to points, and confirm it equals "rotate then translate" done in two steps.

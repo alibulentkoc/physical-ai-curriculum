@@ -127,7 +127,8 @@ def build(path, mod):
     svgs  = sorted(glob.glob(os.path.join(DIAG, "m%s-l%s-*.svg" % (mod, li))))
     quiz  = glob.glob(os.path.join(quiz_dir, "lesson%s_quiz.html" % nn))
     demos = glob.glob(os.path.join(demo_dir, "lesson%s_*.html" % nn))
-    nbs   = glob.glob(os.path.join(nb_dir, "lesson%s_*.ipynb" % nn))
+    nbs   = glob.glob(os.path.join(nb_dir, "M%s_U%s_L%s_*.ipynb" % (mod, uu, num.replace(".", "_")))) \
+            or glob.glob(os.path.join(nb_dir, "lesson%s_*.ipynb" % nn))
 
     for s in svgs: shutil.copy(s, S_ASSETS)
     for q in quiz: shutil.copy(q, s_quiz)

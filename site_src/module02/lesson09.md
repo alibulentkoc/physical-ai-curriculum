@@ -43,7 +43,7 @@ Units 3 and 4 give this template its proper names: **SE(2)** (rigid motion in th
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module02/notebooks/lesson09_homogeneous_recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module02/notebooks/M02_U02_L2_5_Homogeneous_Coordinates_In_Physical_AI_Unit_2_Recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 A short capstone: chain two combined homogeneous transforms by multiplication and apply to a point; confirm a direction keeps w = 0.
 

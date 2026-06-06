@@ -40,7 +40,7 @@ Notice the pattern: **perception** gives positions (vectors), **reasoning** comb
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson16_vectors_recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U02_L2_10_Vectors_In_Physical_AI_Unit_2_Recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 A short capstone that uses the whole toolkit in one greenhouse scenario — position, displacement, distance, direction, alignment, and a surface normal — in a single script.
 

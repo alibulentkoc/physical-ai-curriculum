@@ -50,14 +50,12 @@ Estimate whether the greenhouse arm's motor, rated for a 5 kg payload, is comfor
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* An "estimate-then-reveal" game: the learner is asked a greenhouse question (e.g. "how many liters of water per day for 200 plants?"), enters factor guesses, and the widget combines them into a ballpark. It then reveals a plausible range; the learner sees whether their estimate landed inside, reinforcing that rough reasoning gets you to the right order of magnitude.
+An "estimate-then-reveal" game: the learner is asked a greenhouse question (e.g. "how many liters of water per day for 200 plants?"), enters factor guesses, and the widget combines them into a ballpark. It then reveals a plausible range; the learner sees whether their estimate landed inside, reinforcing that rough reasoning gets you to the right order of magnitude.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson06_engineering_estimation.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U01_L1_6_Engineering_Estimation.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 seconds_per_pick = 10        # rough guess

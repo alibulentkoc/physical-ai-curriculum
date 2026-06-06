@@ -81,11 +81,9 @@ A distance sensor is checked against a true 2.00 m target. Five readings: 1.78, 
 
 ## 7. Interactive Demonstration
 
-*(Conceptual; notebook version later.)* A dartboard sandbox with two sliders — "bias" (moves the cluster's center off the bullseye → controls accuracy) and "scatter" (spreads the darts → controls precision). The learner sets each independently and watches the cluster, confirming the two effects don't depend on each other. A "calibrate" button slides a tight off-center cluster onto the bullseye, showing why precision-without-accuracy is the easy problem.
+A dartboard sandbox with two sliders — "bias" (moves the cluster's center off the bullseye → controls accuracy) and "scatter" (spreads the darts → controls precision). The learner sets each independently and watches the cluster, confirming the two effects don't depend on each other. A "calibrate" button slides a tight off-center cluster onto the bullseye, showing why precision-without-accuracy is the easy problem.
 
 ## 8. Coding Exercise
-
-*(Snippet — full implementation in the notebook track.)*
 
 ```python
 readings = [1.78, 1.80, 1.79, 1.81, 1.80]

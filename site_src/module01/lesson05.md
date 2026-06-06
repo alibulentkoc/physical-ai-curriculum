@@ -63,14 +63,12 @@ A distance sensor is checked against a true 2.00 m target. Five readings: 1.78, 
 
 [Open this demo in a new tab ↗](../demos/module01/lesson05_accuracy_precision.html)
 
-*(Conceptual; notebook version later.)* A dartboard sandbox with two sliders — "bias" (moves the cluster's center off the bullseye → controls accuracy) and "scatter" (spreads the darts → controls precision). The learner sets each independently and watches the cluster, confirming the two effects don't depend on each other. A "calibrate" button slides a tight off-center cluster onto the bullseye, showing why precision-without-accuracy is the easy problem.
+A dartboard sandbox with two sliders — "bias" (moves the cluster's center off the bullseye → controls accuracy) and "scatter" (spreads the darts → controls precision). The learner sets each independently and watches the cluster, confirming the two effects don't depend on each other. A "calibrate" button slides a tight off-center cluster onto the bullseye, showing why precision-without-accuracy is the easy problem.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson05_accuracy_and_precision.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U01_L1_5_Accuracy_And_Precision.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 readings = [1.78, 1.80, 1.79, 1.81, 1.80]

@@ -55,7 +55,7 @@ Switch the active frame and watch the tomato's coordinates change while the toma
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson21_local_and_global_frames.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U03_L3_5_Local_And_Global_Frames.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Given a fixed world point and a robot offset, print the tomato's coordinates in the world and robot frames; move the robot and show only the local reading changes.
 

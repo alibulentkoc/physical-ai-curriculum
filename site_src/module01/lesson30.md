@@ -44,7 +44,7 @@ Use two sliders ($s_x$, $s_y$) to stretch and shrink a greenhouse object; watch 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson30_scaling_transformations.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U04_L4_6_Scaling_Transformations.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Build a scaling matrix in NumPy, scale a shape's points, and verify the area scales by $s_x\,s_y$.
 

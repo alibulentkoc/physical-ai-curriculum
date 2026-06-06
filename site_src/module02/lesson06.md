@@ -38,12 +38,11 @@ The only difference was the last coordinate; the translation respected it automa
 
 ## 7. Interactive Demonstration
 
-*(The 2.3 translation demo lets you watch a point move while a direction stays fixed under the same translation.)*
-
+**Guided prediction.** Predict what happens to a point (2, 3, 1) and a direction (2, 3, 0) when both are translated by (5, 0). Which one moves, and which keeps its values? Confirm with the figure above, then explain why a surface normal must be tagged w = 0 so it is never shifted.
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module02/notebooks/lesson06_points_vs_directions.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module02/notebooks/M02_U02_L2_2_Points_Vs_Directions.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 Represent a point as (x, y, 1) and a displacement as (dx, dy, 0); apply a translation matrix to both and confirm only the point moves.
 

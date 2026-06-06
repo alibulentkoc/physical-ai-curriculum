@@ -42,7 +42,7 @@ A robot arm is a *chain* of transformations — one per joint — composed in or
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson33_transformations_recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
+    `modules/module01/notebooks/M01_U04_L4_9_Transformations_In_Physical_AI_Unit_4_Recap.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 A short capstone: apply identity, rotation, scaling, and reflection to one shape, then compose two of them in both orders and confirm the results differ.
 

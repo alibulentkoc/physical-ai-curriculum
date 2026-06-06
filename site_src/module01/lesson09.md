@@ -55,14 +55,12 @@ Link 1 of a planar arm gives displacement $\mathbf{L_1} = \begin{bmatrix} 0.4 \\
 
 [Open this demo in a new tab ↗](../demos/module01/lesson09_vector_addition.html)
 
-*(Conceptual; notebook version later.)* Two draggable arrows on a grid. The demo always draws them tip-to-tail and shows the resultant arrow plus its components. The learner drags either arrow and watches the sum update. A "swap order" button shows the resultant is unchanged (commutativity), and an "add link 3" button extends the chain into a mini arm whose tip is the running sum.
+Two draggable arrows on a grid. The demo always draws them tip-to-tail and shows the resultant arrow plus its components. The learner drags either arrow and watches the sum update. A "swap order" button shows the resultant is unchanged (commutativity), and an "add link 3" button extends the chain into a mini arm whose tip is the running sum.
 
 ## 8. Coding Exercise
 
 !!! tip "Run the hands-on notebook"
-    `modules/module01/notebooks/lesson09_vector_addition.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
-
-*(Snippet — full implementation in the notebook track.)*
+    `modules/module01/notebooks/M01_U02_L2_3_Vector_Addition.ipynb` — open in JupyterLab and run **Kernel → Restart & Run All**.
 
 ```python
 def add(a, b):
