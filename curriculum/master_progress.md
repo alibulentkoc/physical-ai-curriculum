@@ -1,0 +1,49 @@
+---
+title: Master Progress Tracker
+purpose: Single-glance status of curriculum production across all modules.
+authority: Updated continuously during production; ARCHITECT_DECISIONS.md remains the decision record.
+---
+
+# Master Progress Tracker
+
+_Last updated: Module 3 Installment A (Units 1–2) complete._
+
+## Module status
+
+| # | Module | Status | Lessons | Notebooks | SVGs | Demos | Quizzes | Answer keys | Assessments |
+|---|--------|--------|--------:|----------:|-----:|------:|--------:|------------:|-------------|
+| 01 | Mathematical Foundations | ✅ COMPLETE | 33 | 33 | 34 | 12 | 33 | 34 | midpoint + module (2) |
+| 02 | Spatial Transformations and SE(3) | ✅ COMPLETE | 36 | 36 | 36 | 6 | 36 | 36 | midpoint + key (2) |
+| 03 | Camera Geometry and Robotic Perception | 🔧 IN PRODUCTION (Units 1–2 of 8) | 8 | 8 | 8 | 1 | 8 | 8 | planned |
+| 04 | Forward Kinematics (DH parameters) | ⬜ planned | — | — | — | — | — | — | — |
+| 05 | Inverse Kinematics | ⬜ planned | — | — | — | — | — | — | — |
+| 06 | Jacobians and Differential Motion | ⬜ planned | — | — | — | — | — | — | — |
+| 07 | Trajectory Generation and Motion Planning | ⬜ planned | — | — | — | — | — | — | — |
+| 08 | Control and Actuation (ROS 2) | ⬜ planned | — | — | — | — | — | — | — |
+| 09 | System Integration | ⬜ planned | — | — | — | — | — | — | — |
+| 10 | Digital Twin Capstone | ⬜ planned | — | — | — | — | — | — | — |
+
+## Totals (completed modules)
+
+- **Modules complete:** 2 of 10
+- **Lessons:** 69
+- **Notebooks:** 69
+- **SVGs:** 70
+- **Demos:** 18
+- **Quizzes:** 69
+- **Answer keys:** 70
+- **Assessments:** 4 (2 per module: midpoint + module/key)
+
+## In production
+
+- **Module 3 — Camera Geometry and Robotic Perception.** Scope (per roadmap D-004): how a camera turns the world into pixels and back; perceive fruit and estimate its position. Absorbs the perception stack deferred from Module 2 (intrinsics, projection, image formation). OpenCV enters here. Feeds the Module 2 extrinsics chain to place a detection in the world.
+
+## Deferred / parked
+
+- **Asset-hardening audit** (post-production): SVG embedding, HTML demo consistency, nav labels, notebook naming, page-header consistency — tracked in `curriculum/future_roadmap.md`.
+
+## Conventions (stable)
+
+- Generator: `tools/generate_site_pages.py`; `MODULES` list drives which modules build. Gate: `mkdocs build --strict`.
+- Per module MM: lessons `modules/moduleMM/lessons/lessonNN_*.md`; diagrams `assets/diagrams/mMM-lNN-*.svg`; notebooks `MMM_UUU_L*_*.ipynb`; quizzes/demos `lessonNN_*`; answer keys `coaches/answer-keys/moduleMM/`.
+- Five-layer pedagogy; greenhouse-harvesting-robot narrative; AI Learning Companion + Global Learning Support on every lesson.

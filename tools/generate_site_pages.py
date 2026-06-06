@@ -36,12 +36,13 @@ S_ASSETS = os.path.join(ROOT, "site_src/assets")
 os.makedirs(S_ASSETS, exist_ok=True)
 
 # modules to build (extend as new modules are produced)
-MODULES = ["01", "02"]
+MODULES = ["01", "02", "03"]
 
 # module + unit titles, for the in-page context header (Module / Unit / Lesson)
 MODULE_TITLES = {
     "01": "Mathematical Foundations",
     "02": "Spatial Transformations and SE(3)",
+    "03": "Camera Geometry and Robotic Perception",
 }
 UNIT_TITLES = {
     ("01", "01"): "Physical Quantities & Measurement",
@@ -56,6 +57,14 @@ UNIT_TITLES = {
     ("02", "06"): "Robot Pose Representation",
     ("02", "07"): "Camera-to-Robot Transformations",
     ("02", "08"): "Mini Project: Perception-to-Pose Pipeline",
+    ("03", "01"): "Why Perception",
+    ("03", "02"): "The Pinhole Camera Model",
+    ("03", "03"): "Camera Intrinsics",
+    ("03", "04"): "Projection in Practice",
+    ("03", "05"): "Lens Distortion",
+    ("03", "06"): "Back-Projection: Pixels to 3D",
+    ("03", "07"): "From Pixels to the Robot",
+    ("03", "08"): "Mini Project: See the Fruit, Place It in the World",
 }
 
 def unit_of(text):

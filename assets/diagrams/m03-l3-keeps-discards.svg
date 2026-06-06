@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Two identical tomatoes at near and far depth along rays from the camera produce different apparent sizes on the image plane; direction is kept while depth and size are discarded.">
+  <defs><style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.l{font-size:12px;font-weight:700;fill:#334155}</style></defs>
+  <text x="340" y="24" text-anchor="middle" class="t">Projection keeps direction, discards depth (apparent size ∝ 1/Z)</text>
+  <circle cx="70" cy="180" r="4" fill="#0f172a"/><text x="55" y="170" class="c">camera</text>
+  <!-- image plane -->
+  <line x1="150" y1="80" x2="150" y2="280" stroke="#94a3b8" stroke-width="2"/><text x="150" y="298" text-anchor="middle" class="c">image plane</text>
+  <!-- near tomato (large) -->
+  <circle cx="300" cy="120" r="26" fill="#e11d4833" stroke="#e11d48" stroke-width="2"/><text x="300" y="95" text-anchor="middle" class="c">near (big)</text>
+  <!-- far tomato (small), same true size shown same radius but farther -->
+  <circle cx="520" cy="120" r="26" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4 3"/><text x="520" y="90" text-anchor="middle" class="c">far (same true size)</text>
+  <!-- rays to image plane -->
+  <line x1="70" y1="180" x2="300" y2="120" stroke="#f59e0b" stroke-width="1.3"/>
+  <line x1="70" y1="180" x2="300" y2="146" stroke="#f59e0b" stroke-width="1.3"/>
+  <line x1="70" y1="180" x2="520" y2="120" stroke="#0ea5e9" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <line x1="70" y1="180" x2="520" y2="146" stroke="#0ea5e9" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <!-- images on plane -->
+  <rect x="146" y="150" width="8" height="22" fill="#e11d48"/><text x="120" y="200" class="c" fill="#e11d48">big image</text>
+  <rect x="147" y="158" width="6" height="11" fill="#0ea5e9"/><text x="120" y="240" class="c" fill="#0284c7">small image</text>
+  <text x="340" y="314" text-anchor="middle" class="c">Same true size; the far tomato images smaller. Direction (the ray) is preserved.</text>
+</svg>

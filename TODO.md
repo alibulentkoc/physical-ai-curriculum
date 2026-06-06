@@ -77,11 +77,13 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-✅ **MODULE 2 COMPLETE** (all 8 units). 36 lessons, 36 SVGs, 36 notebooks, 36 quizzes, 36 answer keys, 6 demos, midpoint assessment + key. `mkdocs build --strict` passes; all embeds + "You are here" headers resolve; all notebooks execute clean; all quiz/demo JS validates. Completion report: `curriculum/module02_completion_report.md`.
+🔧 **MODULE 3 IN PRODUCTION** — *Camera Geometry and Robotic Perception*.
 
-**PAUSE for Module 2 review (per architect).** After sign-off, two workstreams:
-1. **Module 3** — kinematics (target pose → joint motion) and the deferred perception stack (camera intrinsics, projection, image formation, CV math).
-2. **Asset-hardening audit pass** (parked in `curriculum/future_roadmap.md`): SVG embedding, HTML demo consistency, nav labels, notebook naming, page-header consistency.
+**Installment A COMPLETE (Units 1–2, lessons 01–08):** 8 lessons, 8 SVGs, 8 notebooks (execute clean), 8 quizzes, 8 answer keys, 1 demo (perspective projection). `mkdocs build --strict` passes; all embeds + "You are here" headers resolve. Manifest `curriculum/module03_manifest.md`; topic map `modules/module03/topic_map.md`; tracker `curriculum/master_progress.md`.
 
-> Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
+**Next: Installment B** — Unit 3 Camera Intrinsics (matrix K, principal point, focal length in pixels) + Unit 4 Projection in Practice (full pipeline, projecting with K, **OpenCV introduction**). **Midpoint checkpoint after Unit 4.** Notebooks should degrade gracefully where OpenCV isn't essential (use NumPy math) so they execute headless; add a short Module-3 software_environment note at first OpenCV use.
+
+Then Installment C (U5 Lens Distortion + U6 Back-Projection), Installment D (U7 From Pixels to the Robot + U8 Mini Project capstone + completion report).
+
+> Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`. Pause only at unit/module/milestone completion or for the 5 escalation reasons.
 
