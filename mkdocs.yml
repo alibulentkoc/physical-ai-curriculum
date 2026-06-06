@@ -92,6 +92,16 @@ nav:
         - "6.2 A Pose Is a Transformation": module02/lesson26.md
         - "6.3 Reading and Writing Poses": module02/lesson27.md
         - "6.4 Pose in Physical AI (Recap)": module02/lesson28.md
+      - "Unit 7 — Camera-to-Robot Transformations":
+        - "7.1 The Camera Sees Its Own World": module02/lesson29.md
+        - "7.2 Camera Extrinsics": module02/lesson30.md
+        - "7.3 Building the Transformation Chain": module02/lesson31.md
+        - "7.4 Camera-to-Robot Reasoning (Recap)": module02/lesson32.md
+      - "Unit 8 — Mini Project: Perception-to-Pose Pipeline":
+        - "8.1 The Mini Project: From Detection to Reach": module02/lesson33.md
+        - "8.2 Building the Pipeline": module02/lesson34.md
+        - "8.3 Verifying and Visualizing": module02/lesson35.md
+        - "8.4 Wrap-Up and the Road to Kinematics": module02/lesson36.md
 
 markdown_extensions:
   - admonition

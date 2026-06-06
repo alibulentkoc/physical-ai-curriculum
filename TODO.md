@@ -77,9 +77,11 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-✅ **Module 2 Installment C COMPLETE** (Unit 5 Composition + Unit 6 Robot Pose), midpoint checkpoint placed after Unit 5. Units 1–6 done: 28 lessons, 28 SVGs, 28 notebooks, 28 quizzes, 28 answer keys, 5 demos. `mkdocs build --strict` passes; all embeds + "You are here" headers resolve; notebooks execute clean.
+✅ **MODULE 2 COMPLETE** (all 8 units). 36 lessons, 36 SVGs, 36 notebooks, 36 quizzes, 36 answer keys, 6 demos, midpoint assessment + key. `mkdocs build --strict` passes; all embeds + "You are here" headers resolve; all notebooks execute clean; all quiz/demo JS validates. Completion report: `curriculum/module02_completion_report.md`.
 
-**Next: Installment D = Unit 7 (Camera-to-Robot Transformations, extrinsics only) + Unit 8 (Mini Project: Perception-to-Pose Pipeline).** U7 = camera→robot→world chain as composed SE(3); extrinsics = camera's pose on the robot; turn a detection into a world-frame target (concept-level; NO intrinsics/projection — deferred to Module 3). U8 = capstone, module assessment centerpiece: detected tomato in camera frame + camera pose on robot + robot pose in world → compute tomato world pose as composed SE(3) chain, verified in notebook + visualized; build the flagship perception-to-pose demo. After Module 2: separate asset-hardening audit pass (parked in future_roadmap.md).
+**PAUSE for Module 2 review (per architect).** After sign-off, two workstreams:
+1. **Module 3** — kinematics (target pose → joint motion) and the deferred perception stack (camera intrinsics, projection, image formation, CV math).
+2. **Asset-hardening audit pass** (parked in `curriculum/future_roadmap.md`): SVG embedding, HTML demo consistency, nav labels, notebook naming, page-header consistency.
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 

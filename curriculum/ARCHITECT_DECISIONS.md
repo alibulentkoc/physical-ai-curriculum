@@ -289,3 +289,17 @@ No Module 2 Installment B produced; awaiting approval after UX verification.
 - **Installment C (Unit 5 Composition + Unit 6 Pose) COMPLETE**, midpoint checkpoint placed after Unit 5.
 - Module 2 now: 28 lessons, 28 SVGs, 28 notebooks, 28 quizzes, 28 answer keys (+ midpoint assessment & key), 5 demos. Units 1–6 done; Units 7–8 remain (Installment D).
 - PAUSE at Installment-C milestone. Next: Installment D = Unit 7 (Camera-to-Robot, extrinsics only) + Unit 8 (Mini Project: Perception-to-Pose).
+
+## D-044 — Module 2 Unit 7 (Camera-to-Robot, extrinsics only) DELIVERED
+- Lessons 7.1–7.4 (lesson29–32): The Camera Sees Its Own World (detections in camera frame) · Camera Extrinsics (camera's pose on robot, SE(3); vs intrinsics deferred to M3) · Building the Transformation Chain (camera→world = arm-pose · extrinsics; convert in one multiply; inverse chain) · Unit 7 recap ("how does a detected object become a robot pose?").
+- Scope honored: extrinsics/coordinate-relationships/pose-interpretation/chains ONLY; intrinsics, projection, image formation, CV math deferred to Module 3 (stated explicitly in lessons).
+- 4 faux-3D SVGs (m02-l29..l32), 4 notebooks (M02_U07_*; "All checks passed."), 4 quizzes + 4 answer keys. Nav Unit 7 subsection added.
+- build --strict PASS; all Unit 7 embeds + headers resolve. Proceeding to Unit 8 capstone (Mini Project: Perception-to-Pose).
+
+## D-044 — Module 2 Installment D (Units 7 & 8) DELIVERED · MODULE 2 COMPLETE
+- **Unit 7 — Camera-to-Robot Transformations** (7.1–7.4, lesson29–32): the camera sees its own world · camera extrinsics (camera's pose) · building the transformation chain (camera→arm→world) · recap. Extrinsics ONLY; intrinsics/projection deferred to Module 3. (Lessons/SVGs/notebooks/quizzes/keys were already present from a prior session; verified complete.)
+- **Unit 8 — Mini Project: Perception-to-Pose Pipeline** (8.1–8.4, lesson33–36): from detection to reach · building the pipeline · verifying and visualizing · wrap-up and the road to kinematics. Built this session: 2 missing SVGs (m02-l35 verify, m02-l36 module-arc), 4 notebooks (M02_U08_*; execute "All checks passed."), 4 quizzes + 4 answer keys, and the flagship demo `lesson33_perception_to_pose.html` (faux-3D scene, sliders for detection/extrinsics/arm pose, live composed world target + verification view: inverse round-trip + distance preservation). Unit 7 & 8 nav subsections added.
+- Capstone equation T(world←tomato)=T(world←arm)·T(arm←cam)·T(cam←tomato); worked example (detection (0,0,0.3), extrinsics (0,0,0.1), arm (1.0,0.5,0)) → world (1.0,0.5,0.4); verified by inverse round-trip + 0.3 m distance preservation, consistent across lessons, notebooks, and demo.
+- build --strict PASS; all Units 7–8 embeds + "You are here" headers resolve.
+- **MODULE 2 COMPLETE:** 36 lessons, 36 SVGs, 36 notebooks, 36 quizzes, 36 answer keys, 6 demos, midpoint assessment + key. Completion report at `curriculum/module02_completion_report.md`.
+- PAUSE for Module 2 review. After review: Module 3 (kinematics; camera intrinsics/projection/perception) + the parked asset-hardening audit pass.
