@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 1 — Physical Quantities & Measurement**  ·  **Lesson 1.1 — Physical AI and the Physical World**
+
 # Lesson 1.1 — Physical AI and the Physical World
 
 > **Module 1 · Unit 1 · Lesson 1.1** · Pilot lesson

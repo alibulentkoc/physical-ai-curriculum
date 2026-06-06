@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 2 — Spatial Transformations and SE(3)**  ·  **Unit 2 — Homogeneous Coordinates**  ·  **Lesson 2.5 — Homogeneous Coordinates in Physical AI (Unit 2 Recap)**
+
 # Lesson 2.5 — Homogeneous Coordinates in Physical AI (Unit 2 Recap)
 
 *A short synthesis — no new mathematics. It ties Unit 2 together and names what comes next.*

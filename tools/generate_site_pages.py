@@ -38,6 +38,30 @@ os.makedirs(S_ASSETS, exist_ok=True)
 # modules to build (extend as new modules are produced)
 MODULES = ["01", "02"]
 
+# module + unit titles, for the in-page context header (Module / Unit / Lesson)
+MODULE_TITLES = {
+    "01": "Mathematical Foundations",
+    "02": "Spatial Transformations and SE(3)",
+}
+UNIT_TITLES = {
+    ("01", "01"): "Physical Quantities & Measurement",
+    ("01", "02"): "Vectors",
+    ("01", "03"): "Coordinate Systems & Reference Frames",
+    ("01", "04"): "Matrices as Transformations",
+    ("02", "01"): "Why Transformations Matter",
+    ("02", "02"): "Homogeneous Coordinates",
+    ("02", "03"): "SE(2) Transformations",
+    ("02", "04"): "SE(3) Transformations",
+    ("02", "05"): "Transformation Composition",
+    ("02", "06"): "Robot Pose Representation",
+    ("02", "07"): "Camera-to-Robot Transformations",
+    ("02", "08"): "Mini Project: Perception-to-Pose Pipeline",
+}
+
+def unit_of(text):
+    m = re.search(r'^unit:\s*([0-9]+)', text, re.M)
+    return ("%02d" % int(m.group(1))) if m else None
+
 def lesson_files(les_dir):
     return sorted(glob.glob(os.path.join(les_dir, "lesson[0-9][0-9]_*.md")))
 
@@ -82,7 +106,22 @@ def build(path, mod):
     raw = open(path).read()
     num = lesson_number(raw)
     title = title_of(raw)
+    uu = unit_of(raw) or "01"
     body = strip_frontmatter(raw)
+
+    # Context header (Issue 3): make Module / Unit / Lesson visible on every page,
+    # inserted just above the lesson H1 ("# Lesson X.Y — Title").
+    mod_title = MODULE_TITLES.get(mod, "")
+    unit_title = UNIT_TITLES.get((mod, uu), "")
+    context = (
+        '!!! abstract "You are here"\n'
+        '    **Module %s — %s**  ·  **Unit %s — %s**  ·  **Lesson %s — %s**'
+        % (str(int(mod)), mod_title, str(int(uu)), unit_title, num, title)
+    )
+    # place the admonition immediately before the first H1
+    m_h1 = re.search(r'^# Lesson .+$', body, re.M)
+    if m_h1:
+        body = body[:m_h1.start()] + context + "\n\n" + body[m_h1.start():]
 
     li = str(int(nn))
     svgs  = sorted(glob.glob(os.path.join(DIAG, "m%s-l%s-*.svg" % (mod, li))))
@@ -137,6 +176,25 @@ def build(path, mod):
     body = re.sub(r'\n{3,}', '\n\n', body)
 
     if published:
+        # VALIDATOR (Issue 1): a published page that has a "Visual Explanation"
+        # heading MUST contain an injected figure. This makes the recap-style
+        # "anchor missing -> figure silently dropped" bug impossible to ship.
+        if re.search(r'^##\s+(?:\d+\.\s+)?Visual Explanation\s*$', body, re.M):
+            section = body.split("Visual Explanation", 1)[1]
+            nxt = re.search(r'\n##\s', section)
+            section = section[:nxt.start()] if nxt else section
+            if "<figure" not in section and "<img" not in section:
+                raise SystemExit(
+                    "VISUAL EMBED MISSING: module %s lesson %s (%s) has a 'Visual Explanation' "
+                    "section but no figure was injected. Check that an SVG named "
+                    "assets/diagrams/m%s-l%s-*.svg exists." % (mod, nn, num, mod, str(int(nn)))
+                )
+        # also: a leftover [Visual: ...] placeholder should never reach a student page
+        if re.search(r'`\[Visual:', body):
+            raise SystemExit(
+                "VISUAL PLACEHOLDER LEFTOVER: module %s lesson %s (%s) still contains a "
+                "`[Visual: ...]` placeholder in the published page." % (mod, nn, num)
+            )
         open(out, "w").write(body)
     else:
         if os.path.exists(out): os.remove(out)

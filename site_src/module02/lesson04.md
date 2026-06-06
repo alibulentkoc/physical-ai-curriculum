@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 2 — Spatial Transformations and SE(3)**  ·  **Unit 1 — Why Transformations Matter**  ·  **Lesson 1.4 — Why Transformations Matter (Unit 1 Recap)**
+
 # Lesson 1.4 — Why Transformations Matter (Unit 1 Recap)
 
 *A short synthesis — no new mathematics. It ties Unit 1's motivation together and points into Unit 2.*

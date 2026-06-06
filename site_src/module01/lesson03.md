@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 1 — Physical Quantities & Measurement**  ·  **Lesson 1.3 — Scalars and Physical Quantities**
+
 # Lesson 1.3 — Scalars and Physical Quantities
 
 > Some of the robot's world is captured by a single number; some of it isn't. Learning to tell which is which is the doorway to vectors.

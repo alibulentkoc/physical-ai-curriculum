@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.10 — Vectors in Physical AI (Unit 2 Recap)**
+
 # Lesson 2.10 — Vectors in Physical AI (Unit 2 Recap)
 
 *A short synthesis lesson. No new mathematics — just tying Unit 2 together before Unit 3.*

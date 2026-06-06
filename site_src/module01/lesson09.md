@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.3 — Vector Addition**
+
 # Lesson 2.3 — Vector Addition
 
 > A robot arm is a chain of segments, each a displacement. Where the gripper ends up is the sum of those displacements — which is exactly what vector addition computes.

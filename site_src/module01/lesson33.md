@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 4 — Matrices as Transformations**  ·  **Lesson 4.9 — Transformations in Physical AI (Unit 4 Recap)**
+
 # Lesson 4.9 — Transformations in Physical AI (Unit 4 Recap)
 
 *A short synthesis lesson — no new mathematics. It ties Unit 4 together and points toward Module 2.*

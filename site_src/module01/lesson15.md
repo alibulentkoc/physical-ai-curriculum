@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.9 — Distance Between Points**
+
 # Lesson 2.9 — Distance Between Points
 
 > The unit's capstone idea, assembled from two earlier ones: subtract to get the connecting arrow, take its magnitude to get the distance. And it raises the question that opens Unit 3 — *distance in whose frame?*

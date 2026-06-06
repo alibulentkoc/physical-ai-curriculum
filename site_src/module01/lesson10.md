@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.4 — Vector Subtraction**
+
 # Lesson 2.4 — Vector Subtraction
 
 > "Where do I aim?" The arrow from the gripper to the fruit is the single most-used vector in the whole robot — and it's a subtraction.

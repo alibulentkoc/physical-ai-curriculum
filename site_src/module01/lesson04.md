@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 1 — Physical Quantities & Measurement**  ·  **Lesson 1.4 — Measurement Error**
+
 # Lesson 1.4 — Measurement Error
 
 > Every sensor lies a little. A robot that trusts its measurements blindly will reach for where the tomato *seemed* to be — this lesson is about measuring how wrong "seemed" can be.

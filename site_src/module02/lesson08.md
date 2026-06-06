@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 2 — Spatial Transformations and SE(3)**  ·  **Unit 2 — Homogeneous Coordinates**  ·  **Lesson 2.4 — Rotation and Translation in One Matrix**
+
 # Lesson 2.4 — Rotation and Translation in One Matrix
 
 ## 1. Why This Matters

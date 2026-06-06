@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.1 — What Is a Vector?**
+
 # Lesson 2.1 — What Is a Vector?
 
 > In Unit 1 we found quantities that one number couldn't hold — the ones that need a direction. This lesson gives them their tool: the vector.

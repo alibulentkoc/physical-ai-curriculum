@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 4 — Matrices as Transformations**  ·  **Lesson 4.1 — Matrices as Operators**
+
 # Lesson 4.1 — Matrices as Operators
 
 ## 1. Why This Matters

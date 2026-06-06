@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 2 — Spatial Transformations and SE(3)**  ·  **Unit 1 — Why Transformations Matter**  ·  **Lesson 1.3 — The Limit We Hit in Module 1**
+
 # Lesson 1.3 — The Limit We Hit in Module 1
 
 ## 1. Why This Matters

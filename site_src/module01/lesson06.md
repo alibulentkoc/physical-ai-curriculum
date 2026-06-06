@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 1 — Physical Quantities & Measurement**  ·  **Lesson 1.6 — Engineering Estimation**
+
 # Lesson 1.6 — Engineering Estimation
 
 > Before you compute precisely, compute roughly. A ten-second estimate is the cheapest error-catcher an engineer owns — and it closes Unit 1 by tying measurement sense to judgment.

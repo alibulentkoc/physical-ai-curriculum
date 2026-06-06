@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 4 — Matrices as Transformations**  ·  **Lesson 4.7 — Reflection Transformations**
+
 # Lesson 4.7 — Reflection Transformations
 
 ## 1. Why This Matters

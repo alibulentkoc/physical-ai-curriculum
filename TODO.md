@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-➡️ **Module 2 Installment A delivered:** Unit 1 (Why Transformations Matter, 1.1–1.4) + Unit 2 (Homogeneous Coordinates, 2.1–2.5). Each: SVG + notebook + quiz + answer key + two standard sections. Required demo: 2.3 translation-as-a-matrix (2×2 vs homogeneous 3×3). Generator extended for multi-module; Module 1 re-verified strict-clean. `mkdocs build --strict` passes; all 9 notebooks execute clean; all Module 2 embeds resolve. Numbering restarts per module (module02/lessonNN, m02-lN).
+➡️ **UX FIXES delivered (production still paused for review).** (1) Visuals: root cause = stale build + the two recaps' missing anchors (fixed); added a generator VALIDATOR so no page can ship a placeholder-only Visual Explanation. (2) Nav: restructured so every unit is a named "Unit Y — Title" subsection (Module → Unit → Lesson everywhere). (3) Page headers: generator injects a "You are here" Module/Unit/Lesson banner above every H1. Notebook-naming standard (M01_U02_L01_Title.ipynb) PROPOSED, awaiting confirm before the 42-file rename. `mkdocs build --strict` passes; 43 images, 0 broken, 0 missing-visual sections.
 
-**PAUSE FOR REVIEW before Installment B** (architect directive). Installment B = Unit 3 (SE(2), introduce inverses geometrically) + Unit 4 (SE(3), faux-3D). Then C (U5 Composition + U6 Pose; midpoint checkpoint AFTER U5) and D (U7 Camera-to-Robot extrinsics-only + U8 Mini Project).
+**Resume Module 2 production (Installment B = Unit 3 SE(2) + Unit 4 SE(3)) only after the architect approves these UX fixes** (and confirms the notebook-naming convention).
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 

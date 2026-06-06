@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 2 — Spatial Transformations and SE(3)**  ·  **Unit 2 — Homogeneous Coordinates**  ·  **Lesson 2.2 — Points vs Directions**
+
 # Lesson 2.2 — Points vs Directions
 
 ## 1. Why This Matters

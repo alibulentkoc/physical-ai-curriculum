@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 1 — Physical Quantities & Measurement**  ·  **Lesson 1.5 — Accuracy and Precision**
+
 # Lesson 1.5 — Accuracy and Precision
 
 > In everyday speech they're synonyms. In engineering they're different axes — and a robot can be excellent at one while terrible at the other.

@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 4 — Matrices as Transformations**  ·  **Lesson 4.4 — The Identity Matrix**
+
 # Lesson 4.4 — The Identity Matrix
 
 ## 1. Why This Matters

@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 1 — Physical Quantities & Measurement**  ·  **Lesson 1.2 — Units and Dimensions**
+
 # Lesson 1.2 — Units and Dimensions
 
 > A robot acts in meters, radians, and seconds. A number without a unit is an instruction the robot cannot follow — this lesson makes every quantity say what it *is*.

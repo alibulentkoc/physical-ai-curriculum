@@ -242,3 +242,15 @@ Installment A produced to standard; Module 2 Units 1–2 are production-complete
 - **PAUSE for review before Installment B** (architect directive). Installment B = Unit 3 (SE(2), with inverses) + Unit 4 (SE(3)).
 
 Module 2 so far: 9 lessons, 9 SVGs, 9 notebooks, 9 quizzes, 9 answer keys, 1 demo.
+
+## D-038 — UX FIXES: visual embedding + navigation hierarchy + page-header context (production pause)
+Addressed the UX review (Issues 1–3). Module 2 lesson production paused per directive until visuals + nav verified — both now done.
+- **Issue 1 (missing visuals) — ROOT CAUSE:** source/build were correct for 1.1,1.2,1.3,2.1,2.2,2.4 (SVG present, embed identical to working Module 1 pattern, anchor correct; a clean build resolves every img). The genuinely-broken pages were the two recaps (1.4, 2.5) whose lighter structure omitted the "Visual Explanation"/"Knowledge Check" anchors — fixed earlier (D-037 follow-up). Remaining user-visible gaps trace to a STALE build being tested (recurring sync issue). MkDocs rewrites the source-relative `../assets/` to output-relative `../../assets/` under use_directory_urls — confirmed resolving.
+  - **Hardening:** generator now has a VALIDATOR that aborts the build if any published page has a "Visual Explanation" heading without an injected `<figure>/<img>`, or if a `[Visual: …]` placeholder leaks to a student page. Placeholder-only visual sections can no longer ship.
+- **Issue 2 (navigation hierarchy) — ROOT CAUSE:** Module 1 nav was inconsistent — Units 3–4 were grouped under named "Unit —" subsections but Units 1–2 listed lessons flat under the module. **Fix:** restructured mkdocs.yml so every unit (M1 U1–U4, M2 U1–U2) is a named "Unit Y — Title" subsection → Module → Unit → Lesson everywhere. Nav labels already include lesson titles.
+- **Issue 3 (context-free titles):**
+  - **Page-header standard (implemented):** generator injects a "You are here" admonition above every H1: **Module X — Title · Unit Y — Title · Lesson Y.Z — Title** (driven by frontmatter module/unit/lesson + a MODULE_TITLES/UNIT_TITLES map in the generator).
+  - **Notebook naming standard (PROPOSED, awaiting confirm before mass-rename):** `M{MM}_U{UU}_L{lesson}_{Title}.ipynb`, e.g. `M01_U02_L01_What_Is_A_Vector.ipynb`. Executing requires updating the generator's notebook glob + renaming 42 files; proposed as a dedicated follow-up pass once the convention is confirmed (architect allowed "or equivalent").
+- **Verification:** `mkdocs build --strict` passes; generator validator passes for all 42 pages; automated check across both modules: 43 images, 0 broken paths, 0 "Visual Explanation" sections without an image → ALL VISUALS RENDER. Module 1 fully re-verified.
+
+No new lessons produced. Module 2 lesson production remains paused pending architect review of these UX fixes (and the notebook-naming confirmation).

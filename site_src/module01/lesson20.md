@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 3 — Coordinate Systems & Reference Frames**  ·  **Lesson 3.4 — 3D Coordinate Systems**
+
 # Lesson 3.4 — 3D Coordinate Systems
 
 ## 1. Why This Matters

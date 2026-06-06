@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.7 — Dot Product**
+
 # Lesson 2.7 — Dot Product
 
 > The dot product answers "how much do these two vectors point the same way?" — alignment as a single number. It's the first operation that turns two vectors into a scalar with deep meaning.

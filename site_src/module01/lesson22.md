@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 3 — Coordinate Systems & Reference Frames**  ·  **Lesson 3.6 — Conceptual Frame Transformations**
+
 # Lesson 3.6 — Conceptual Frame Transformations
 
 ## 1. Why This Matters

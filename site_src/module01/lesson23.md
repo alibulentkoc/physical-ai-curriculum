@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 3 — Coordinate Systems & Reference Frames**  ·  **Lesson 3.7 — Robot and Camera Frames**
+
 # Lesson 3.7 — Robot and Camera Frames
 
 ## 1. Why This Matters

@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.2 — Vector Representation**
+
 # Lesson 2.2 — Vector Representation
 
 > An arrow is great for intuition, but a robot can't compute with a drawing. This lesson turns the arrow into numbers — components — without losing the geometry.

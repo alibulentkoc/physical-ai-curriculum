@@ -20,22 +20,24 @@ theme:
 nav:
   - Home: index.md
   - Module 1 — Mathematical Foundations:
-      - "1.1 Physical AI and the Physical World": module01/lesson01.md
-      - "1.2 Units and Dimensions": module01/lesson02.md
-      - "1.3 Scalars and Physical Quantities": module01/lesson03.md
-      - "1.4 Measurement Error": module01/lesson04.md
-      - "1.5 Accuracy and Precision": module01/lesson05.md
-      - "1.6 Engineering Estimation": module01/lesson06.md
-      - "2.1 What Is a Vector?": module01/lesson07.md
-      - "2.2 Vector Representation": module01/lesson08.md
-      - "2.3 Vector Addition": module01/lesson09.md
-      - "2.4 Vector Subtraction": module01/lesson10.md
-      - "2.5 Magnitude and Direction": module01/lesson11.md
-      - "2.6 Unit Vectors": module01/lesson12.md
-      - "2.7 Dot Product": module01/lesson13.md
-      - "2.8 Cross Product": module01/lesson14.md
-      - "2.9 Distance Between Points": module01/lesson15.md
-      - "2.10 Vectors in Physical AI (Recap)": module01/lesson16.md
+      - "Unit 1 — Physical Quantities & Measurement":
+        - "1.1 Physical AI and the Physical World": module01/lesson01.md
+        - "1.2 Units and Dimensions": module01/lesson02.md
+        - "1.3 Scalars and Physical Quantities": module01/lesson03.md
+        - "1.4 Measurement Error": module01/lesson04.md
+        - "1.5 Accuracy and Precision": module01/lesson05.md
+        - "1.6 Engineering Estimation": module01/lesson06.md
+      - "Unit 2 — Vectors":
+        - "2.1 What Is a Vector?": module01/lesson07.md
+        - "2.2 Vector Representation": module01/lesson08.md
+        - "2.3 Vector Addition": module01/lesson09.md
+        - "2.4 Vector Subtraction": module01/lesson10.md
+        - "2.5 Magnitude and Direction": module01/lesson11.md
+        - "2.6 Unit Vectors": module01/lesson12.md
+        - "2.7 Dot Product": module01/lesson13.md
+        - "2.8 Cross Product": module01/lesson14.md
+        - "2.9 Distance Between Points": module01/lesson15.md
+        - "2.10 Vectors in Physical AI (Recap)": module01/lesson16.md
       - "Unit 3 — Coordinate Systems & Reference Frames":
         - "3.1 Why Coordinate Frames Matter": module01/lesson17.md
         - "3.2 Cartesian Coordinates": module01/lesson18.md

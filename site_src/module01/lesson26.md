@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 4 — Matrices as Transformations**  ·  **Lesson 4.2 — Matrix Addition**
+
 # Lesson 4.2 — Matrix Addition
 
 *A short, lightweight lesson. The big idea of Unit 4 is composition (4.3, 4.8); addition is a simpler operation worth knowing but not the star.*

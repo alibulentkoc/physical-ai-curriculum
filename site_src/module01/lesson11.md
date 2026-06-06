@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.5 — Magnitude and Direction**
+
 # Lesson 2.5 — Magnitude and Direction
 
 > A vector bundles "how far" and "which way." This lesson extracts each as a number: magnitude for distance, direction for heading.

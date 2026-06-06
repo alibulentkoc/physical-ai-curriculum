@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.6 — Unit Vectors**
+
 # Lesson 2.6 — Unit Vectors
 
 > Sometimes the robot needs only the *direction* — "which way," with the "how far" set aside. A unit vector is pure direction: length exactly 1.

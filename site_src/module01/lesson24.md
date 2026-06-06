@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 3 — Coordinate Systems & Reference Frames**  ·  **Lesson 3.8 — Coordinate Frames in Physical AI (Unit 3 Recap)**
+
 # Lesson 3.8 — Coordinate Frames in Physical AI (Unit 3 Recap)
 
 *A short synthesis lesson — no new mathematics. It ties Unit 3 together and sets up Unit 4.*

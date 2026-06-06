@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 2 — Spatial Transformations and SE(3)**  ·  **Unit 1 — Why Transformations Matter**  ·  **Lesson 1.2 — Why Position and Orientation Must Travel Together**
+
 # Lesson 1.2 — Why Position and Orientation Must Travel Together
 
 ## 1. Why This Matters

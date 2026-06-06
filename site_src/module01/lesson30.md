@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 4 — Matrices as Transformations**  ·  **Lesson 4.6 — Scaling Transformations**
+
 # Lesson 4.6 — Scaling Transformations
 
 ## 1. Why This Matters

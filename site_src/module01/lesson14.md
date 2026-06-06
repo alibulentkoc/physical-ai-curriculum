@@ -1,3 +1,6 @@
+!!! abstract "You are here"
+    **Module 1 — Mathematical Foundations**  ·  **Unit 2 — Vectors**  ·  **Lesson 2.8 — Cross Product**
+
 # Lesson 2.8 — Cross Product
 
 > The dot product gave a number; the cross product gives a *vector* — one perpendicular to both inputs. It's how the robot finds the direction "out of a surface" and the axis to rotate about.
