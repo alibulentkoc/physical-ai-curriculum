@@ -275,3 +275,17 @@ No Module 2 Installment B produced; awaiting approval after UX verification.
 - build --strict PASS; all Unit 4 embeds + headers resolve.
 - **Installment B (Unit 3 SE(2) + Unit 4 SE(3)) COMPLETE.** Module 2 now: 20 lessons, 20 SVGs, 20 notebooks, 20 quizzes, 20 answer keys, 3 demos (Units 1–4 done; Units 5–8 remain).
 - PAUSE at Installment-B milestone for review. Next: Installment C = Unit 5 (Composition) + Unit 6 (Robot Pose); midpoint checkpoint AFTER Unit 5.
+
+## D-042 — Module 2 Unit 5 (Composition) + Midpoint Checkpoint DELIVERED
+- Lessons 5.1–5.4 (lesson21–24): Chaining Transforms (product, right-to-left) · Order Matters, Revisited (non-commutativity) · Frames as a Graph (compose along path, invert backward edges) · Unit 5 recap.
+- 4 SVGs (m02-l21..l24), 4 notebooks (M02_U05_*; "All checks passed."), 4 quizzes + 4 answer keys, required demo `lesson21_composition_chain.html` (chain two SE(2), toggle order, live combined matrix). Nav Unit 5 subsection added.
+- **Midpoint checkpoint placed AFTER Unit 5** per D-036: `assessments/module02_midpoint_assessment.md` + `coaches/answer-keys/module02/midpoint_assessment_key.md` (covers Units 1–5; readiness signal = build/apply/compose/invert rigid transforms; excludes pose/extrinsics/mini-project).
+- build --strict PASS; all Unit 5 embeds + headers resolve. Proceeding to Unit 6 (Robot Pose) to complete Installment C.
+
+## D-043 — Module 2 Unit 6 (Robot Pose) DELIVERED · Installment C COMPLETE
+- Lessons 6.1–6.4 (lesson25–28): What Is a Pose? (position+orientation = one SE(2)/SE(3) element) · A Pose Is a Transformation (pose = frame-to-frame transform; poses compose/invert like transforms) · Reading and Writing Poses (read t/R; update by composing motion, right vs left multiply) · Unit 6 recap.
+- 4 SVGs (m02-l25..l28; pose = little coordinate frame), 4 notebooks (M02_U06_*; "All checks passed."), 4 quizzes + 4 answer keys, recommended demo `lesson27_pose_explorer.html` (x/y/θ sliders, live SE(2), "Move in robot frame" composes a motion). Nav Unit 6 subsection added.
+- build --strict PASS (one transient I/O flake on first attempt; clean on retry); all Unit 6 embeds + headers resolve.
+- **Installment C (Unit 5 Composition + Unit 6 Pose) COMPLETE**, midpoint checkpoint placed after Unit 5.
+- Module 2 now: 28 lessons, 28 SVGs, 28 notebooks, 28 quizzes, 28 answer keys (+ midpoint assessment & key), 5 demos. Units 1–6 done; Units 7–8 remain (Installment D).
+- PAUSE at Installment-C milestone. Next: Installment D = Unit 7 (Camera-to-Robot, extrinsics only) + Unit 8 (Mini Project: Perception-to-Pose).

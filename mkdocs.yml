@@ -82,6 +82,16 @@ nav:
         - "4.4 Translation Vectors in 3D": module02/lesson18.md
         - "4.5 Applying SE(3); Inverses in 3D": module02/lesson19.md
         - "4.6 Rigid Motion in 3D (Recap)": module02/lesson20.md
+      - "Unit 5 — Transformation Composition":
+        - "5.1 Chaining Transforms": module02/lesson21.md
+        - "5.2 Order Matters, Revisited": module02/lesson22.md
+        - "5.3 Frames as a Graph": module02/lesson23.md
+        - "5.4 Composing Rigid Motions (Recap)": module02/lesson24.md
+      - "Unit 6 — Robot Pose Representation":
+        - "6.1 What Is a Pose?": module02/lesson25.md
+        - "6.2 A Pose Is a Transformation": module02/lesson26.md
+        - "6.3 Reading and Writing Poses": module02/lesson27.md
+        - "6.4 Pose in Physical AI (Recap)": module02/lesson28.md
 
 markdown_extensions:
   - admonition

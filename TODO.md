@@ -77,9 +77,9 @@ Content for each module is authored only after its manifest exists. Each module 
 
 ## Immediate next step
 
-✅ **Module 2 Installment B COMPLETE** (Unit 3 SE(2) + Unit 4 SE(3)). Units 1–4 done: 20 lessons, 20 SVGs, 20 notebooks, 20 quizzes, 20 answer keys, 3 demos (translation-as-a-matrix, SE(2) playground w/ inverse, SE(3) faux-3D viewer). `mkdocs build --strict` passes; all embeds + "You are here" headers resolve; notebooks execute clean.
+✅ **Module 2 Installment C COMPLETE** (Unit 5 Composition + Unit 6 Robot Pose), midpoint checkpoint placed after Unit 5. Units 1–6 done: 28 lessons, 28 SVGs, 28 notebooks, 28 quizzes, 28 answer keys, 5 demos. `mkdocs build --strict` passes; all embeds + "You are here" headers resolve; notebooks execute clean.
 
-**Next: Installment C = Unit 5 (Transformation Composition) + Unit 6 (Robot Pose Representation).** Midpoint checkpoint AFTER Unit 5 (`assessments/module02_midpoint_assessment.md` + coaches key). Then Installment D = Unit 7 (Camera-to-Robot, extrinsics only) + Unit 8 (Mini Project: Perception-to-Pose). Required demos still to build: composition chain (U5), pose explorer (U6, optional), flagship perception-to-pose (U8).
+**Next: Installment D = Unit 7 (Camera-to-Robot Transformations, extrinsics only) + Unit 8 (Mini Project: Perception-to-Pose Pipeline).** U7 = camera→robot→world chain as composed SE(3); extrinsics = camera's pose on the robot; turn a detection into a world-frame target (concept-level; NO intrinsics/projection — deferred to Module 3). U8 = capstone, module assessment centerpiece: detected tomato in camera frame + camera pose on robot + robot pose in world → compute tomato world pose as composed SE(3) chain, verified in notebook + visualized; build the flagship perception-to-pose demo. After Module 2: separate asset-hardening audit pass (parked in future_roadmap.md).
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`.
 
