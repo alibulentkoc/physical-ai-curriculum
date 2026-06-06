@@ -150,3 +150,12 @@ Hardened the generator's asset embedding so interactive demos/quizzes render rel
 - Clarified the two path rules: **iframes** (raw HTML, browser-resolved against the output URL) use `../../demos|quizzes/`; **Markdown links** (MkDocs-rewritten, source-relative) use `../demos|quizzes/`.
 - Added a validated Markdown **"Open in a new tab"** fallback link under every demo/quiz, so `mkdocs build --strict` now *validates* every asset path (a broken path fails the build) and students always have a working entry even if an iframe is cached blank.
 - Verified: all 20 iframes + 20 fallback links resolve to existing files; `--strict` passes with no warnings. "Embedded not working" locally is a stale-page/browser-cache symptom — fix by re-running the generator and hard-refreshing.
+
+## D-030 — Unit 2 Approved; Recap Built; Unit 3 Authorized (Plan) · DELIVERED
+- **Unit 2 APPROVED** as production complete (flagship review of 2.3/2.7/2.8 passed).
+- **Unit 2 recap built:** Lesson 2.10 "Vectors in Physical AI" (lesson16) — short synthesis lesson answering "why do robots need vectors?", with a summary SVG (the toolkit in one reach), a capstone notebook (all ops together, executes clean), a recap quiz + answer key, and the two standard sections. In nav; `mkdocs build --strict` passes. Generator anchors generalized to accept unnumbered section headings so shorter lessons embed assets correctly.
+- **Unit 3 AUTHORIZED.** Topic map 3.1–3.7 (Coordinate Systems and Reference Frames). Intuition-first; "the same tomato has different coordinates depending on who is looking"; **no matrices in Unit 3** (frames/transforms taught conceptually).
+- **Plan delivered:** `curriculum/unit3_production_plan.md` — topic map, per-lesson asset plan, three required demo specs (3.5 viewpoint switcher, 3.6 conceptual transform, 3.7 flagship tri-frame pick), asset inventory, sequencing, and pre-production recommendations.
+- **PAUSE:** production not started; awaiting architect confirmation of the plan/recommendations before Unit 3 production.
+
+Module 1 now: 16 lessons produced (1.1–1.6, 2.1–2.9, 2.10 recap), 17 SVGs, 16 notebooks, 16 quizzes, 16 answer keys, 5 demos.

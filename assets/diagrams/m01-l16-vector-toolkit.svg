@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="One greenhouse reach annotated with every Unit 2 vector tool: position, displacement, magnitude, direction, unit vector, dot product, cross product, and reach distance.">
+  <defs>
+    <marker id="tk" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/></marker>
+    <marker id="tu" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0ea5e9"/></marker>
+    <marker id="tn" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8b5cf6"/></marker>
+    <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.l{font-size:12.5px;font-weight:600;fill:#334155}.c{font-size:11.5px;fill:#64748b}</style>
+  </defs>
+  <text x="360" y="28" text-anchor="middle" class="t">The Unit 2 toolkit, in one reach</text>
+  <!-- reach circle (distance) -->
+  <circle cx="120" cy="300" r="240" fill="#10b98110" stroke="#10b98144" stroke-dasharray="5 5"/>
+  <text x="300" y="120" class="c" fill="#0d9488">reach (distance 2.9)</text>
+  <!-- axes -->
+  <line x1="120" y1="300" x2="600" y2="300" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="120" y1="300" x2="120" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- gripper origin -->
+  <rect x="111" y="291" width="18" height="18" rx="3" fill="#0f172a"/>
+  <text x="96" y="332" class="c">gripper = origin (2.1)</text>
+  <!-- tomato + position -->
+  <circle cx="430" cy="150" r="13" fill="#e11d48"/><text x="448" y="146" class="l">tomato (position 2.1/2.2)</text>
+  <!-- displacement (subtraction) -->
+  <line x1="120" y1="300" x2="418" y2="158" stroke="#0d9488" stroke-width="3.5" marker-end="url(#tk)"/>
+  <text x="230" y="252" class="l" fill="#0d9488" transform="rotate(-25 230 252)">displacement b−a (2.4)</text>
+  <text x="300" y="210" class="c" fill="#0d9488">|v| magnitude (2.5) · θ direction (2.5)</text>
+  <!-- unit vector -->
+  <line x1="120" y1="300" x2="190" y2="266" stroke="#0ea5e9" stroke-width="4" marker-end="url(#tu)"/>
+  <text x="150" y="285" class="c" fill="#0284c7">v̂ (2.6)</text>
+  <!-- facing / dot product -->
+  <line x1="430" y1="150" x2="360" y2="180" stroke="#334155" stroke-width="2.5"/>
+  <text x="470" y="186" class="c">gripper facing → a·b checks alignment (2.7)</text>
+  <!-- surface normal / cross -->
+  <line x1="430" y1="150" x2="470" y2="92" stroke="#8b5cf6" stroke-width="3" marker-end="url(#tn)"/>
+  <text x="486" y="86" class="c" fill="#7c3aed">surface normal a×b (2.8)</text>
+  <text x="360" y="366" text-anchor="middle" class="c">Perception gives positions; reasoning combines them (subtract, dot, distance); action follows the resulting vector.</text>
+</svg>

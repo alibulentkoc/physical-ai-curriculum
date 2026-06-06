@@ -79,7 +79,7 @@ def build(path):
         figs = "\n\n".join(
             '<figure markdown>\n  ![%s](../assets/%s){ width="680" }\n</figure>' %
             (title, os.path.basename(s)) for s in svgs)
-        body, _ = inject_after_heading(body, r'^## 4\. Visual Explanation\s*$', figs)
+        body, _ = inject_after_heading(body, r'^##\s+(?:\d+\.\s+)?Visual Explanation\s*$', figs)
 
     # demo iframe -> after "## 7. Interactive Demonstration"
     if demos:
@@ -88,14 +88,14 @@ def build(path):
                   'style="width:100%%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>\n\n'
                   '[Open this demo in a new tab \u2197](../demos/%s)'
                   % (d, title, d))
-        body, _ = inject_after_heading(body, r'^## 7\. Interactive Demonstration\s*$', iframe)
+        body, _ = inject_after_heading(body, r'^##\s+(?:\d+\.\s+)?Interactive Demonstration\s*$', iframe)
 
     # notebook tip -> after "## 8. Coding Exercise"
     if nbs:
         nbname = os.path.basename(sorted(nbs)[0])
         tip = ('!!! tip "Run the hands-on notebook"\n'
                '    `modules/module01/notebooks/%s` — open in JupyterLab and run **Kernel → Restart & Run All**.' % nbname)
-        body, _ = inject_after_heading(body, r'^## 8\. Coding Exercise\s*$', tip)
+        body, _ = inject_after_heading(body, r'^##\s+(?:\d+\.\s+)?Coding Exercise\s*$', tip)
 
     # quiz iframe -> after "## 9. Knowledge Check"
     if quiz:
@@ -105,7 +105,7 @@ def build(path):
                   'style="width:100%%;height:720px;border:1px solid #e2e8f0;border-radius:12px"></iframe>\n\n'
                   '[Open this quiz in a new tab \u2197](../quizzes/%s)'
                   % (q, title, q))
-        body, _ = inject_after_heading(body, r'^## 9\. Knowledge Check\s*$', iframe)
+        body, _ = inject_after_heading(body, r'^##\s+(?:\d+\.\s+)?Knowledge Check\s*$', iframe)
 
     out = os.path.join(SITE, "lesson%s.md" % nn)
     published = bool(svgs or quiz or demos)
