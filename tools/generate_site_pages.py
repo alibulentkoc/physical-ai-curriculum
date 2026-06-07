@@ -36,13 +36,14 @@ S_ASSETS = os.path.join(ROOT, "site_src/assets")
 os.makedirs(S_ASSETS, exist_ok=True)
 
 # modules to build (extend as new modules are produced)
-MODULES = ["01", "02", "03"]
+MODULES = ["01", "02", "03", "04"]
 
 # module + unit titles, for the in-page context header (Module / Unit / Lesson)
 MODULE_TITLES = {
     "01": "Mathematical Foundations",
     "02": "Spatial Transformations and SE(3)",
     "03": "Camera Geometry and Robotic Perception",
+    "04": "Forward Kinematics using Denavit–Hartenberg Parameters",
 }
 UNIT_TITLES = {
     ("01", "01"): "Physical Quantities & Measurement",
@@ -65,6 +66,14 @@ UNIT_TITLES = {
     ("03", "06"): "Back-Projection: Pixels to 3D",
     ("03", "07"): "From Pixels to the Robot",
     ("03", "08"): "Mini Project: See the Fruit, Place It in the World",
+    ("04", "01"): "Why Kinematics (Joints, Links, and Pose)",
+    ("04", "02"): "One Joint at a Time",
+    ("04", "03"): "Chaining Transforms (Two and Three Links)",
+    ("04", "04"): "The Forward Kinematics Map",
+    ("04", "05"): "Denavit–Hartenberg Parameters",
+    ("04", "06"): "Building and Using a DH Table",
+    ("04", "07"): "Pose, Workspace, and Back to Perception",
+    ("04", "08"): "Mini Project: From Joints to the Fruit",
 }
 
 def unit_of(text):

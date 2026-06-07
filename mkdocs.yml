@@ -143,6 +143,47 @@ nav:
         - "8.2 Building the Perception → World Pipeline": module03/lesson30.md
         - "8.3 Verifying and Visualizing": module03/lesson31.md
         - "8.4 Wrap-Up and the Road to Kinematics": module03/lesson32.md
+  - "Module 4 — Forward Kinematics using Denavit–Hartenberg Parameters":
+      - "Unit 1 — Why Kinematics (Joints, Links, and Pose)":
+        - "1.1 The Arm Has to Move": module04/lesson01.md
+        - "1.2 Links and Joints": module04/lesson02.md
+        - "1.3 Configuration vs. Pose": module04/lesson03.md
+        - "1.4 Why Kinematics (Unit 1 Recap)": module04/lesson04.md
+      - "Unit 2 — One Joint at a Time":
+        - "2.1 A One-Joint Arm": module04/lesson05.md
+        - "2.2 The Joint Transform": module04/lesson06.md
+        - "2.3 Where Is the Tip?": module04/lesson07.md
+        - "2.4 One Joint at a Time (Unit 2 Recap)": module04/lesson08.md
+      - "Unit 3 — Chaining Transforms (Two and Three Links)":
+        - "3.1 Adding a Second Joint": module04/lesson09.md
+        - "3.2 Composing the Chain": module04/lesson10.md
+        - "3.3 A Planar 2-/3-Link Arm": module04/lesson11.md
+        - "3.4 Chaining Transforms (Unit 3 Recap)": module04/lesson12.md
+      - "Unit 4 — The Forward Kinematics Map":
+        - "4.1 The General Chain T₀ⁿ(θ)": module04/lesson13.md
+        - "4.2 Position and Orientation of the Gripper": module04/lesson14.md
+        - "4.3 Forward Kinematics in Code": module04/lesson15.md
+        - "4.4 The Forward Kinematics Map (Unit 4 Recap · Midpoint)": module04/lesson16.md
+      - "Unit 5 — Denavit–Hartenberg Parameters":
+        - "5.1 Why a Convention": module04/lesson17.md
+        - "5.2 The Four DH Parameters": module04/lesson18.md
+        - "5.3 Assigning Frames": module04/lesson19.md
+        - "5.4 Denavit–Hartenberg Parameters (Unit 5 Recap)": module04/lesson20.md
+      - "Unit 6 — Building and Using a DH Table":
+        - "6.1 The DH Link Transform": module04/lesson21.md
+        - "6.2 Reading a Robot into a Table": module04/lesson22.md
+        - "6.3 DH Forward Kinematics in Code": module04/lesson23.md
+        - "6.4 Building and Using a DH Table (Unit 6 Recap)": module04/lesson24.md
+      - "Unit 7 — Pose, Workspace, and Back to Perception":
+        - "7.1 Reading the End-Effector Pose": module04/lesson25.md
+        - "7.2 The Reachable Workspace": module04/lesson26.md
+        - "7.3 Closing the Loop with Perception": module04/lesson27.md
+        - "7.4 Pose, Workspace, and Perception (Unit 7 Recap)": module04/lesson28.md
+      - "Unit 8 — Mini Project: From Joints to the Fruit":
+        - "8.1 The Project": module04/lesson29.md
+        - "8.2 Building the Arm's DH Model": module04/lesson30.md
+        - "8.3 Verifying the Forward Kinematics": module04/lesson31.md
+        - "8.4 Wrap-Up and the Road to Inverse Kinematics": module04/lesson32.md
 
 markdown_extensions:
   - admonition

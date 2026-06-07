@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A forward arrow from joint angles theta to pose T 0 n labeled forward evaluate, and a dashed reverse arrow from a desired pose to theta labeled inverse solve, Module 5 inverse kinematics.">
+  <defs>
+    <marker id="f32" markerWidth="11" markerHeight="11" refX="9" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#10b981"/></marker>
+    <marker id="i32" markerWidth="11" markerHeight="11" refX="9" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#7c3aed"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}</style>
+  </defs>
+  <text x="350" y="24" text-anchor="middle" class="t">Forward (this module) vs inverse (Module 5)</text>
+  <rect x="70" y="75" width="150" height="50" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="145" y="105" text-anchor="middle" class="b">joint angles θ</text>
+  <rect x="480" y="75" width="150" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="555" y="105" text-anchor="middle" class="b">pose T₀ⁿ</text>
+  <line x1="225" y1="92" x2="475" y2="92" stroke="#10b981" stroke-width="2.4" marker-end="url(#f32)"/><text x="350" y="84" text-anchor="middle" class="c" fill="#047857">forward: evaluate (easy, one answer)</text>
+  <line x1="475" y1="116" x2="225" y2="116" stroke="#7c3aed" stroke-width="2.4" stroke-dasharray="6 4" marker-end="url(#i32)"/><text x="350" y="134" text-anchor="middle" class="c" fill="#7c3aed">inverse: solve (hard; 0, 1, or many)</text>
+  <text x="350" y="176" text-anchor="middle" class="c">Forward kinematics is the map; inverse kinematics inverts it (Module 5).</text>
+</svg>

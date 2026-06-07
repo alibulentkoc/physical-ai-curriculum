@@ -89,6 +89,34 @@ Content for each module is authored only after its manifest exists. Each module 
 
 **MODULE 3 COMPLETE.** 32 lessons / 32 notebooks / 32 SVGs / 32 quizzes / 4 demos / 32 answer keys / midpoint + Unit-8 capstone. Completion report: `curriculum/module03_completion_report.md`. Totals now M1+M2+M3 = 101/101/102/22/101/102.
 
+**Module 4 LAUNCHED — Installment A (Units 1–2, lessons 01–08) COMPLETE.** Manifest, topic map (8 units × 4), scaffold, generator wiring (MODULES+="04", titles, nav) done. 8 lessons, 8 SVGs (m04-l1..l8), 8 notebooks (execute clean), 1 demo (lesson05 one-joint arm), 8 quizzes, 8 answer keys. `mkdocs build --strict` passes (109 pages). Unit 1 = Why Kinematics (FK: θ → pose = T(world←arm); links/joints/DOF; config vs pose, many-to-one). Unit 2 = One Joint at a Time (T_0^1(θ); joint transform; pose extraction; FK = product). (D-049)
+
+**Module 4 Installment B (Units 3–4, lessons 09–16) COMPLETE — midpoint reached.** 8 lessons, 8 SVGs (m04-l9..l16), 8 notebooks (execute clean, incl. SymPy symbolic FK), 1 demo (lesson09 two-link arm), midpoint assessment + key, 8 quizzes, 8 answer keys. Nav added; generated (117 pages); `mkdocs build --strict` passes; site cleared. Unit 3 = Chaining Transforms (2-/3-link, accumulated angles, matrix product = Module 2 composition). Unit 4 = General T_0^n(θ) + position/orientation + FK in code (NumPy + SymPy) + midpoint. (D-050)
+
+**Module 4 Installment C (Units 5–6, lessons 17–24) COMPLETE.** 8 lessons, 8 SVGs (m04-l17..l24), 8 notebooks (execute clean, incl. symbolic DH FK via SymPy), 1 demo (lesson18 DH parameter explorer), 8 quizzes, 8 answer keys. Nav added; generated (125 pages); `mkdocs build --strict` passes (clean); site cleared. Unit 5 = Denavit–Hartenberg Parameters (why a convention; the four params θ,d,a,α; assigning frames; recap). Unit 6 = Building and Using a DH Table (DH link transform; reading a robot into a table — 3-DOF capstone arm; DH FK in code; recap). (D-051)
+
+**✅ MODULE 4 COMPLETE (D-052).** Installment D (Units 7–8, lessons 25–32) done: 8 lessons, 8 SVGs (m04-l25..l32), 8 notebooks (execute clean; 5-check FK verification suite + SymPy), flagship capstone demo (lesson29 From Joints to the Fruit), 8 quizzes, 8 answer keys. Nav added; generated (133 pages); `mkdocs build --strict` passes (clean); site cleared; completion report at curriculum/module04_completion_report.md.
+
+**Module 4 totals:** 32 lessons / 32 notebooks / 32 SVGs / 4 demos (lesson05, lesson09, lesson18, lesson29) / 32 quizzes / 32 answer keys / midpoint + capstone. Forward kinematics only; IK deferred to M5.
+
+**Curriculum totals after M4:** 4 of 10 modules · 133 lessons · 133 notebooks · 134 SVGs · 26 demos · 133 quizzes · 134 answer keys · 7 assessments.
+
+**PAUSE — Module 4 completion checkpoint per standing directive.** Next: Module 5 — Inverse Kinematics (awaiting architect launch decision: scope, unit breakdown, sequencing). M5 inverts the forward map T_0^n(θ) built in M4.
+
+---
+_(superseded note kept for history)_
+**Next: Module 4 Installment D — Units 7–8 (lessons 25–32) — FINAL installment.** Unit 7 Pose, Workspace, and Back to Perception (reading the end-effector pose; the reachable workspace; closing the loop with perception T_0^n = T(world←arm), reconnect to M3 pipeline; recap). Unit 8 Mini Project: From Joints to the Fruit (the project; building the arm's DH model; verifying the FK; wrap-up + road to inverse kinematics — flagship capstone demo, place a perceived fruit target in the arm's frame, points to Module 5). Then Module 4 COMPLETION: completion report, totals (4 of 10 / 133 lessons), rebuild zip, present_files, short report, PAUSE.
+
+---
+_(superseded note kept for history)_
+**Next: Module 4 Installment C — Units 5–6 (lessons 17–24).** Unit 5 Denavit–Hartenberg Parameters (why a convention; the four params θ,d,a,α; assigning frames; standard/distal convention). Unit 6 Building and Using a DH Table (DH link transform from 4 params; reading a robot into a table; DH FK in code, SymPy for symbolic DH). Then D (Units 7–8: pose/workspace/back-to-perception 25–28; capstone From Joints to the Fruit 29–32). Pause at Module 4 completion (completion report, rebuild zip, present_files, short report).
+
+---
+_(superseded note kept for history)_
+**Next: Module 4 Installment B — Units 3–4 (lessons 09–16, includes midpoint).** Unit 3 Chaining Transforms (two/three links, Module 2 composition, planar 2-link worked example). Unit 4 The Forward Kinematics Map T_0^n(θ) (general chain, position+orientation, FK in code) + write assessments/module04_midpoint_assessment.md + key. Then C (Units 5–6 DH parameters, 17–24), D (Units 7–8 capstone, 25–32). Pause at Module 4 completion.
+
+---
+_(superseded note kept for history)_
 **Next: Module 4 — Forward Kinematics using Denavit–Hartenberg Parameters.** Create manifest (`curriculum/module04_manifest.md`), topic map (`modules/module04/topic_map.md`), scaffold dirs, `coaches/answer-keys/module04/`; lessons/notebooks/quizzes/answer-keys/SVGs/demos per standards. Wire generator: MODULES += "04", MODULE_TITLES["04"], UNIT_TITLES for M4 units, manual nav. Numbering restarts (module04/lesson01…, m04-l01…, M04_U0Y_*). Kinematics now permitted. M4 computes T(world←arm) — the transform M3 assumed. Pause at Module 4 completion.
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`. Pause only at unit/module/milestone completion or for the 5 escalation reasons.

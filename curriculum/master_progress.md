@@ -15,7 +15,7 @@ _Last updated: Module 3 Installment B (Units 3–4) complete; module midpoint re
 | 01 | Mathematical Foundations | ✅ COMPLETE | 33 | 33 | 34 | 12 | 33 | 34 | midpoint + module (2) |
 | 02 | Spatial Transformations and SE(3) | ✅ COMPLETE | 36 | 36 | 36 | 6 | 36 | 36 | midpoint + key (2) |
 | 03 | Camera Geometry and Robotic Perception | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 | midpoint + capstone ✓|
-| 04 | Forward Kinematics (DH parameters) | ⬜ planned | — | — | — | — | — | — | — |
+| 04 | Forward Kinematics using Denavit–Hartenberg Parameters | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 | midpoint + capstone ✓|
 | 05 | Inverse Kinematics | ⬜ planned | — | — | — | — | — | — | — |
 | 06 | Jacobians and Differential Motion | ⬜ planned | — | — | — | — | — | — | — |
 | 07 | Trajectory Generation and Motion Planning | ⬜ planned | — | — | — | — | — | — | — |
@@ -25,18 +25,18 @@ _Last updated: Module 3 Installment B (Units 3–4) complete; module midpoint re
 
 ## Totals (completed modules)
 
-- **Modules complete:** 3 of 10
-- **Lessons:** 101
-- **Notebooks:** 101
-- **SVGs:** 102
-- **Demos:** 22
-- **Quizzes:** 101
-- **Answer keys:** 102
-- **Assessments:** 6 (midpoint + capstone/module per module)
+- **Modules complete:** 4 of 10
+- **Lessons:** 133
+- **Notebooks:** 133
+- **SVGs:** 134
+- **Demos:** 26
+- **Quizzes:** 133
+- **Answer keys:** 134
+- **Assessments:** 7 (midpoint + capstone/module per module)
 
 ## In production
 
-- _(none — Module 3 complete; Module 4 next.)_
+- **None.** Module 4 complete (D-052). **Module 5 — Inverse Kinematics** pending architect launch decision. Scope (roadmap D-004): given a desired end-effector pose, solve for the joint angles — inverting the forward map T_0^n(θ) built in Module 4 (0/1/many solutions). Velocity/Jacobians (M6), control/planning (M7) remain deferred.
 
 <!-- Module 3 (now complete): -->
 - **Module 3 — Camera Geometry and Robotic Perception.** Scope (per roadmap D-004): how a camera turns the world into pixels and back; perceive fruit and estimate its position. Absorbs the perception stack deferred from Module 2 (intrinsics, projection, image formation). OpenCV enters here. Feeds the Module 2 extrinsics chain to place a detection in the world.
