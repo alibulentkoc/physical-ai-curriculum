@@ -123,6 +123,26 @@ nav:
         - "4.2 Projecting Points with K": module03/lesson14.md
         - "4.3 Seeing It in Code (OpenCV Introduction)": module03/lesson15.md
         - "4.4 Projection in Practice (Unit 4 Recap · Midpoint)": module03/lesson16.md
+      - "Unit 5 — Lens Distortion":
+        - "5.1 Why Straight Lines Bend": module03/lesson17.md
+        - "5.2 Radial and Tangential Distortion": module03/lesson18.md
+        - "5.3 Undistortion": module03/lesson19.md
+        - "5.4 Lens Distortion (Unit 5 Recap)": module03/lesson20.md
+      - "Unit 6 — Back-Projection: Pixels to 3D":
+        - "6.1 A Pixel Is a Ray": module03/lesson21.md
+        - "6.2 Adding Depth Recovers a Point": module03/lesson22.md
+        - "6.3 Back-Projection in Code": module03/lesson23.md
+        - "6.4 Back-Projection (Unit 6 Recap)": module03/lesson24.md
+      - "Unit 7 — From Pixels to the Robot":
+        - "7.1 The Camera-Frame 3D Point": module03/lesson25.md
+        - "7.2 Bridging to Module 2 — The Extrinsics Chain": module03/lesson26.md
+        - "7.3 Estimating the Fruit's World Position": module03/lesson27.md
+        - "7.4 From Pixels to the Robot (Unit 7 Recap)": module03/lesson28.md
+      - "Unit 8 — Mini Project: See the Fruit, Place It in the World":
+        - "8.1 The Project: Pixel to World": module03/lesson29.md
+        - "8.2 Building the Perception → World Pipeline": module03/lesson30.md
+        - "8.3 Verifying and Visualizing": module03/lesson31.md
+        - "8.4 Wrap-Up and the Road to Kinematics": module03/lesson32.md
 
 markdown_extensions:
   - admonition

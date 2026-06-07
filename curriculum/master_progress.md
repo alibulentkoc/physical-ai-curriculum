@@ -14,7 +14,7 @@ _Last updated: Module 3 Installment B (Units 3–4) complete; module midpoint re
 |---|--------|--------|--------:|----------:|-----:|------:|--------:|------------:|-------------|
 | 01 | Mathematical Foundations | ✅ COMPLETE | 33 | 33 | 34 | 12 | 33 | 34 | midpoint + module (2) |
 | 02 | Spatial Transformations and SE(3) | ✅ COMPLETE | 36 | 36 | 36 | 6 | 36 | 36 | midpoint + key (2) |
-| 03 | Camera Geometry and Robotic Perception | 🔧 IN PRODUCTION (Units 1–4 of 8) | 16 | 16 | 16 | 2 | 16 | 16 | midpoint ✓ |
+| 03 | Camera Geometry and Robotic Perception | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 | midpoint + capstone ✓|
 | 04 | Forward Kinematics (DH parameters) | ⬜ planned | — | — | — | — | — | — | — |
 | 05 | Inverse Kinematics | ⬜ planned | — | — | — | — | — | — | — |
 | 06 | Jacobians and Differential Motion | ⬜ planned | — | — | — | — | — | — | — |
@@ -25,17 +25,20 @@ _Last updated: Module 3 Installment B (Units 3–4) complete; module midpoint re
 
 ## Totals (completed modules)
 
-- **Modules complete:** 2 of 10
-- **Lessons:** 69
-- **Notebooks:** 69
-- **SVGs:** 70
-- **Demos:** 18
-- **Quizzes:** 69
-- **Answer keys:** 70
-- **Assessments:** 4 (2 per module: midpoint + module/key)
+- **Modules complete:** 3 of 10
+- **Lessons:** 101
+- **Notebooks:** 101
+- **SVGs:** 102
+- **Demos:** 22
+- **Quizzes:** 101
+- **Answer keys:** 102
+- **Assessments:** 6 (midpoint + capstone/module per module)
 
 ## In production
 
+- _(none — Module 3 complete; Module 4 next.)_
+
+<!-- Module 3 (now complete): -->
 - **Module 3 — Camera Geometry and Robotic Perception.** Scope (per roadmap D-004): how a camera turns the world into pixels and back; perceive fruit and estimate its position. Absorbs the perception stack deferred from Module 2 (intrinsics, projection, image formation). OpenCV enters here. Feeds the Module 2 extrinsics chain to place a detection in the world.
 
 ## Deferred / parked

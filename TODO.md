@@ -83,9 +83,13 @@ Content for each module is authored only after its manifest exists. Each module 
 
 **Installment B COMPLETE (Units 3–4, lessons 09–16):** 8 lessons, 8 SVGs, 8 notebooks (execute clean; OpenCV cross-check vs NumPy ground truth), 8 quizzes, 8 answer keys, 1 demo (full projection pipeline, lesson13), midpoint assessment + key, and `modules/module03/software_environment_module3.md` (OpenCV introduction; graceful-degradation notebook policy). `mkdocs build --strict` passes; all embeds + "You are here" headers resolve. **Module 3 midpoint reached** — forward map world→pixel complete and OpenCV-verified. (D-046)
 
-**Next: Installment C** — Unit 5 Lens Distortion (radial/tangential, undistortion) + Unit 6 Back-Projection (pixel = ray, add depth → 3D point). Keep OpenCV notebooks degrading gracefully (try/except cv2, NumPy ground truth).
+**Installment C COMPLETE (Units 5–6, lessons 17–24):** 8 lessons, 8 SVGs (m03-l17..l24), 8 notebooks (execute clean; fixed a NumPy in-place aliasing bug in the 5.4 undistortion round-trip), 8 quizzes, 8 answer keys, 1 demo (back-projection ray, lesson21). `mkdocs build --strict` passes; all embeds + "You are here" headers resolve. Lens distortion (radial k1,k2,k3 + tangential p1,p2, before K) + undistortion (iterative) and back-projection (pixel→ray via K⁻¹, +depth → camera-frame point) complete. (D-047)
 
-Then Installment D (U7 From Pixels to the Robot + U8 Mini Project capstone + completion report).
+**Installment D COMPLETE (Units 7–8, lessons 25–32):** 8 lessons, 8 SVGs (m03-l25..l32), 8 notebooks (execute clean), 8 quizzes, 8 answer keys, flagship capstone demo (lesson29 See the Fruit, Place It in the World). `mkdocs build --strict` passes (101 pages); all embeds + "You are here" resolve. Unit 7 connects perception to Module 2 extrinsics; Unit 8 assembles/verifies/visualizes the full pixel→world pipeline (canonical P_w=(1.06,0.47,0.4)). (D-048)
+
+**MODULE 3 COMPLETE.** 32 lessons / 32 notebooks / 32 SVGs / 32 quizzes / 4 demos / 32 answer keys / midpoint + Unit-8 capstone. Completion report: `curriculum/module03_completion_report.md`. Totals now M1+M2+M3 = 101/101/102/22/101/102.
+
+**Next: Module 4 — Forward Kinematics using Denavit–Hartenberg Parameters.** Create manifest (`curriculum/module04_manifest.md`), topic map (`modules/module04/topic_map.md`), scaffold dirs, `coaches/answer-keys/module04/`; lessons/notebooks/quizzes/answer-keys/SVGs/demos per standards. Wire generator: MODULES += "04", MODULE_TITLES["04"], UNIT_TITLES for M4 units, manual nav. Numbering restarts (module04/lesson01…, m04-l01…, M04_U0Y_*). Kinematics now permitted. M4 computes T(world←arm) — the transform M3 assumed. Pause at Module 4 completion.
 
 > Workflow: edit canonical lessons → `python3 tools/generate_site_pages.py` → `mkdocs build --strict`. Pause only at unit/module/milestone completion or for the 5 escalation reasons.
 
