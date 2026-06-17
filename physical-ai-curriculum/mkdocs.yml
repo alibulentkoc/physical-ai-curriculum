@@ -1,0 +1,206 @@
+site_name: Physical AI Curriculum
+site_description: A curriculum in Physical AI, Robotics, Computer Vision, Mechatronics, and Digital Twins, built around a greenhouse harvesting robot.
+docs_dir: site_src
+
+# The published student site is generated from site_src/ (presentation layer).
+# Authoring sources live in modules/ and curriculum/. See note in site_src/index.md.
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: green
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+
+nav:
+  - Home: index.md
+  - Module 1 — Mathematical Foundations:
+      - "Unit 1 — Physical Quantities & Measurement":
+        - "1.1 Physical AI and the Physical World": module01/lesson01.md
+        - "1.2 Units and Dimensions": module01/lesson02.md
+        - "1.3 Scalars and Physical Quantities": module01/lesson03.md
+        - "1.4 Measurement Error": module01/lesson04.md
+        - "1.5 Accuracy and Precision": module01/lesson05.md
+        - "1.6 Engineering Estimation": module01/lesson06.md
+      - "Unit 2 — Vectors":
+        - "2.1 What Is a Vector?": module01/lesson07.md
+        - "2.2 Vector Representation": module01/lesson08.md
+        - "2.3 Vector Addition": module01/lesson09.md
+        - "2.4 Vector Subtraction": module01/lesson10.md
+        - "2.5 Magnitude and Direction": module01/lesson11.md
+        - "2.6 Unit Vectors": module01/lesson12.md
+        - "2.7 Dot Product": module01/lesson13.md
+        - "2.8 Cross Product": module01/lesson14.md
+        - "2.9 Distance Between Points": module01/lesson15.md
+        - "2.10 Vectors in Physical AI (Recap)": module01/lesson16.md
+      - "Unit 3 — Coordinate Systems & Reference Frames":
+        - "3.1 Why Coordinate Frames Matter": module01/lesson17.md
+        - "3.2 Cartesian Coordinates": module01/lesson18.md
+        - "3.3 2D Coordinate Systems": module01/lesson19.md
+        - "3.4 3D Coordinate Systems": module01/lesson20.md
+        - "3.5 Local and Global Frames": module01/lesson21.md
+        - "3.6 Conceptual Frame Transformations": module01/lesson22.md
+        - "3.7 Robot and Camera Frames": module01/lesson23.md
+        - "3.8 Coordinate Frames in Physical AI (Recap)": module01/lesson24.md
+      - "Unit 4 — Matrices as Transformations":
+        - "4.1 Matrices as Operators": module01/lesson25.md
+        - "4.2 Matrix Addition": module01/lesson26.md
+        - "4.3 Matrix Multiplication": module01/lesson27.md
+        - "4.4 The Identity Matrix": module01/lesson28.md
+        - "4.5 Rotation Matrices": module01/lesson29.md
+        - "4.6 Scaling Transformations": module01/lesson30.md
+        - "4.7 Reflection Transformations": module01/lesson31.md
+        - "4.8 Composition of Transformations": module01/lesson32.md
+        - "4.9 Transformations in Physical AI (Recap)": module01/lesson33.md
+  - "Module 2 — Spatial Transformations and SE(3)":
+      - "Unit 1 — Why Transformations Matter":
+        - "1.1 The Robot's Constant Problem": module02/lesson01.md
+        - "1.2 Position and Orientation Together": module02/lesson02.md
+        - "1.3 The Limit We Hit in Module 1": module02/lesson03.md
+        - "1.4 Why Transformations Matter (Recap)": module02/lesson04.md
+      - "Unit 2 — Homogeneous Coordinates":
+        - "2.1 The Idea: One Extra Coordinate": module02/lesson05.md
+        - "2.2 Points vs Directions": module02/lesson06.md
+        - "2.3 Translation as a Matrix": module02/lesson07.md
+        - "2.4 Rotation and Translation in One Matrix": module02/lesson08.md
+        - "2.5 Homogeneous Coordinates in Physical AI (Recap)": module02/lesson09.md
+      - "Unit 3 — SE(2) Transformations":
+        - "3.1 What \"Rigid\" Means": module02/lesson10.md
+        - "3.2 The SE(2) Transformation": module02/lesson11.md
+        - "3.3 Applying SE(2) to Points and Shapes": module02/lesson12.md
+        - "3.4 Inverse Transformations": module02/lesson13.md
+        - "3.5 Rigid Motion in the Plane (Recap)": module02/lesson14.md
+      - "Unit 4 — SE(3) Transformations":
+        - "4.1 From 2D to 3D Rigid Motion": module02/lesson15.md
+        - "4.2 3D Rotation": module02/lesson16.md
+        - "4.3 The SE(3) Transformation": module02/lesson17.md
+        - "4.4 Translation Vectors in 3D": module02/lesson18.md
+        - "4.5 Applying SE(3); Inverses in 3D": module02/lesson19.md
+        - "4.6 Rigid Motion in 3D (Recap)": module02/lesson20.md
+      - "Unit 5 — Transformation Composition":
+        - "5.1 Chaining Transforms": module02/lesson21.md
+        - "5.2 Order Matters, Revisited": module02/lesson22.md
+        - "5.3 Frames as a Graph": module02/lesson23.md
+        - "5.4 Composing Rigid Motions (Recap)": module02/lesson24.md
+      - "Unit 6 — Robot Pose Representation":
+        - "6.1 What Is a Pose?": module02/lesson25.md
+        - "6.2 A Pose Is a Transformation": module02/lesson26.md
+        - "6.3 Reading and Writing Poses": module02/lesson27.md
+        - "6.4 Pose in Physical AI (Recap)": module02/lesson28.md
+      - "Unit 7 — Camera-to-Robot Transformations":
+        - "7.1 The Camera Sees Its Own World": module02/lesson29.md
+        - "7.2 Camera Extrinsics": module02/lesson30.md
+        - "7.3 Building the Transformation Chain": module02/lesson31.md
+        - "7.4 Camera-to-Robot Reasoning (Recap)": module02/lesson32.md
+      - "Unit 8 — Mini Project: Perception-to-Pose Pipeline":
+        - "8.1 The Mini Project: From Detection to Reach": module02/lesson33.md
+        - "8.2 Building the Pipeline": module02/lesson34.md
+        - "8.3 Verifying and Visualizing": module02/lesson35.md
+        - "8.4 Wrap-Up and the Road to Kinematics": module02/lesson36.md
+  - "Module 3 — Camera Geometry and Robotic Perception":
+      - "Unit 1 — Why Perception":
+        - "1.1 The Robot Needs to See": module03/lesson01.md
+        - "1.2 World → Pixels → World": module03/lesson02.md
+        - "1.3 What Projection Keeps and Discards": module03/lesson03.md
+        - "1.4 Why Perception (Unit 1 Recap)": module03/lesson04.md
+      - "Unit 2 — The Pinhole Camera Model":
+        - "2.1 The Pinhole Idea": module03/lesson05.md
+        - "2.2 The Image Plane and Focal Length": module03/lesson06.md
+        - "2.3 Perspective Projection of a 3D Point": module03/lesson07.md
+        - "2.4 The Pinhole Camera Model (Unit 2 Recap)": module03/lesson08.md
+      - "Unit 3 — Camera Intrinsics":
+        - "3.1 From Metric to Pixels": module03/lesson09.md
+        - "3.2 The Intrinsic Matrix K": module03/lesson10.md
+        - "3.3 Principal Point and Focal Length in Pixels": module03/lesson11.md
+        - "3.4 Camera Intrinsics (Unit 3 Recap)": module03/lesson12.md
+      - "Unit 4 — Projection in Practice":
+        - "4.1 The Full Projection Pipeline": module03/lesson13.md
+        - "4.2 Projecting Points with K": module03/lesson14.md
+        - "4.3 Seeing It in Code (OpenCV Introduction)": module03/lesson15.md
+        - "4.4 Projection in Practice (Unit 4 Recap · Midpoint)": module03/lesson16.md
+      - "Unit 5 — Lens Distortion":
+        - "5.1 Why Straight Lines Bend": module03/lesson17.md
+        - "5.2 Radial and Tangential Distortion": module03/lesson18.md
+        - "5.3 Undistortion": module03/lesson19.md
+        - "5.4 Lens Distortion (Unit 5 Recap)": module03/lesson20.md
+      - "Unit 6 — Back-Projection: Pixels to 3D":
+        - "6.1 A Pixel Is a Ray": module03/lesson21.md
+        - "6.2 Adding Depth Recovers a Point": module03/lesson22.md
+        - "6.3 Back-Projection in Code": module03/lesson23.md
+        - "6.4 Back-Projection (Unit 6 Recap)": module03/lesson24.md
+      - "Unit 7 — From Pixels to the Robot":
+        - "7.1 The Camera-Frame 3D Point": module03/lesson25.md
+        - "7.2 Bridging to Module 2 — The Extrinsics Chain": module03/lesson26.md
+        - "7.3 Estimating the Fruit's World Position": module03/lesson27.md
+        - "7.4 From Pixels to the Robot (Unit 7 Recap)": module03/lesson28.md
+      - "Unit 8 — Mini Project: See the Fruit, Place It in the World":
+        - "8.1 The Project: Pixel to World": module03/lesson29.md
+        - "8.2 Building the Perception → World Pipeline": module03/lesson30.md
+        - "8.3 Verifying and Visualizing": module03/lesson31.md
+        - "8.4 Wrap-Up and the Road to Kinematics": module03/lesson32.md
+  - "Module 4 — Forward Kinematics using Denavit–Hartenberg Parameters":
+      - "Unit 1 — Why Kinematics (Joints, Links, and Pose)":
+        - "1.1 The Arm Has to Move": module04/lesson01.md
+        - "1.2 Links and Joints": module04/lesson02.md
+        - "1.3 Configuration vs. Pose": module04/lesson03.md
+        - "1.4 Why Kinematics (Unit 1 Recap)": module04/lesson04.md
+      - "Unit 2 — One Joint at a Time":
+        - "2.1 A One-Joint Arm": module04/lesson05.md
+        - "2.2 The Joint Transform": module04/lesson06.md
+        - "2.3 Where Is the Tip?": module04/lesson07.md
+        - "2.4 One Joint at a Time (Unit 2 Recap)": module04/lesson08.md
+      - "Unit 3 — Chaining Transforms (Two and Three Links)":
+        - "3.1 Adding a Second Joint": module04/lesson09.md
+        - "3.2 Composing the Chain": module04/lesson10.md
+        - "3.3 A Planar 2-/3-Link Arm": module04/lesson11.md
+        - "3.4 Chaining Transforms (Unit 3 Recap)": module04/lesson12.md
+      - "Unit 4 — The Forward Kinematics Map":
+        - "4.1 The General Chain T₀ⁿ(θ)": module04/lesson13.md
+        - "4.2 Position and Orientation of the Gripper": module04/lesson14.md
+        - "4.3 Forward Kinematics in Code": module04/lesson15.md
+        - "4.4 The Forward Kinematics Map (Unit 4 Recap · Midpoint)": module04/lesson16.md
+      - "Unit 5 — Denavit–Hartenberg Parameters":
+        - "5.1 Why a Convention": module04/lesson17.md
+        - "5.2 The Four DH Parameters": module04/lesson18.md
+        - "5.3 Assigning Frames": module04/lesson19.md
+        - "5.4 Denavit–Hartenberg Parameters (Unit 5 Recap)": module04/lesson20.md
+      - "Unit 6 — Building and Using a DH Table":
+        - "6.1 The DH Link Transform": module04/lesson21.md
+        - "6.2 Reading a Robot into a Table": module04/lesson22.md
+        - "6.3 DH Forward Kinematics in Code": module04/lesson23.md
+        - "6.4 Building and Using a DH Table (Unit 6 Recap)": module04/lesson24.md
+      - "Unit 7 — Pose, Workspace, and Back to Perception":
+        - "7.1 Reading the End-Effector Pose": module04/lesson25.md
+        - "7.2 The Reachable Workspace": module04/lesson26.md
+        - "7.3 Closing the Loop with Perception": module04/lesson27.md
+        - "7.4 Pose, Workspace, and Perception (Unit 7 Recap)": module04/lesson28.md
+      - "Unit 8 — Mini Project: From Joints to the Fruit":
+        - "8.1 The Project": module04/lesson29.md
+        - "8.2 Building the Arm's DH Model": module04/lesson30.md
+        - "8.3 Verifying the Forward Kinematics": module04/lesson31.md
+        - "8.4 Wrap-Up and the Road to Inverse Kinematics": module04/lesson32.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

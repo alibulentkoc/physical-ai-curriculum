@@ -1,0 +1,3 @@
+# Lesson 2.10 (Unit 2 Recap) — Answer Key & Feedback (instructor only)
+**Q1 (match)** move→subtraction, far→distance, aligned→dot, surface→cross. **Q2** pure direction without distance. **Q3 (T/F)** True. **Q4 (short)** robots need precise, computable answers to where/how far/which way → vectors provide magnitude+direction in components.
+**Capstone (notebook) rubric:** correct use of subtraction (move), magnitude (distance), normalization (heading), dot (alignment), cross (normal), and a nearest-fruit + reachability decision. This is a synthesis check — look for the operations used together coherently in the greenhouse scenario, not new theory.

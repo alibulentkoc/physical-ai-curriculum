@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conceptual Frame Transform — Lesson 3.6</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;
+        --a:#0d9488;--b:#1d4ed8;--fruit:#e11d48;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 340px;min-width:300px}
+  .panel{flex:1 1 240px;min-width:230px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  label{font-size:13px;color:var(--muted);display:block;margin-top:12px}
+  input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px;margin-top:10px}
+  .readout .a{color:#0f766e;font-weight:700}.readout .b{color:#1d4ed8;font-weight:700}
+  .val{font-variant-numeric:tabular-nums}
+  .steps{font-size:12px;color:var(--muted);margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 380 360" role="application" aria-label="Frame A is fixed; frame B can be offset and rotated with the sliders. One fixed point is shown with its coordinates read in both frames. Drag the point to move it.">
+        <rect x="8" y="8" width="364" height="344" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+        <!-- frame A (fixed) -->
+        <line x1="60" y1="300" x2="170" y2="300" stroke="#0d9488" stroke-width="2.5"/>
+        <line x1="60" y1="300" x2="60" y2="190" stroke="#0d9488" stroke-width="2.5"/>
+        <text x="40" y="320" font-size="12" font-weight="700" fill="#0f766e">frame A</text>
+        <!-- frame B (offset + rotated) -->
+        <g id="frameB">
+          <line id="bx" x1="0" y1="0" x2="0" y2="0" stroke="#1d4ed8" stroke-width="2.5"/>
+          <line id="by" x1="0" y1="0" x2="0" y2="0" stroke="#1d4ed8" stroke-width="2.5"/>
+          <text id="blabel" x="0" y="0" font-size="12" font-weight="700" fill="#1d4ed8">frame B</text>
+        </g>
+        <!-- offset arrow -->
+        <line id="offset" x1="60" y1="300" x2="0" y2="0" stroke="#0f172a" stroke-width="1.3" stroke-dasharray="5 4"/>
+        <!-- the fixed point -->
+        <circle id="pt" cx="270" cy="120" r="11" fill="#e11d48" style="cursor:grab" tabindex="0" aria-label="point, draggable"/>
+        <text x="270" y="104" text-anchor="middle" font-size="11" fill="#64748b">same point</text>
+      </svg>
+      <div class="hint">Move frame B's offset and rotation. The point stays put; its coordinates in each frame change.</div>
+    </div>
+    <div class="panel">
+      <label for="dx">Frame B offset X: <span id="dxV">1.1</span> m</label>
+      <input id="dx" type="range" min="0" max="2.2" step="0.05" value="1.1">
+      <label for="dy">Frame B offset Y: <span id="dyV">0.6</span> m</label>
+      <input id="dy" type="range" min="0" max="1.6" step="0.05" value="0.6">
+      <label for="th">Frame B rotation θ: <span id="thV">0</span>°</label>
+      <input id="th" type="range" min="-90" max="90" step="1" value="0">
+      <div class="readout" aria-live="polite">
+        <div>point in <span class="a">frame A</span>: <span class="val" id="pa">(0.00, 0.00)</span></div>
+        <div>point in <span class="b">frame B</span>: <span class="val" id="pb">(0.00, 0.00)</span></div>
+        <div class="steps" id="steps">B aligned with A (θ = 0): conversion is just subtract the offset.</div>
+      </div>
+      <button id="reset" class="btn">Reset frame B</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  // frame A origin at pixel (60,300), 100 px = 1 m, y up
+  var AOX=60, AOY=300, S=100;
+  var ptPx=[270,120];
+  var dx=1.1, dy=0.6, th=0;
+  var scene=document.getElementById('scene');
+  var bx=document.getElementById('bx'), by=document.getElementById('by'), blabel=document.getElementById('blabel');
+  var offset=document.getElementById('offset'), pt=document.getElementById('pt');
+  var dxV=document.getElementById('dxV'), dyV=document.getElementById('dyV'), thV=document.getElementById('thV');
+  var pa=document.getElementById('pa'), pb=document.getElementById('pb'), steps=document.getElementById('steps');
+  var Sdx=document.getElementById('dx'), Sdy=document.getElementById('dy'), Sth=document.getElementById('th');
+
+  function bOriginPx(){ return [AOX + dx*S, AOY - dy*S]; }
+  function fmt(c){ return '('+c[0].toFixed(2)+', '+c[1].toFixed(2)+')'; }
+
+  function render(){
+    // point in frame A (meters)
+    var Ax = (ptPx[0]-AOX)/S, Ay = (AOY-ptPx[1])/S;
+    // frame B origin
+    var bo = bOriginPx();
+    // draw B axes (rotated by th, drawn in screen space: y-up means rotate visually)
+    var a = th*Math.PI/180;
+    // x axis end (length ~1.1m) rotated; screen y is inverted
+    var L=110;
+    var xEnd=[ bo[0] + L*Math.cos(a), bo[1] - L*Math.sin(a) ];
+    var yEnd=[ bo[0] - L*Math.sin(a), bo[1] - L*Math.cos(a) ];
+    bx.setAttribute('x1',bo[0]);bx.setAttribute('y1',bo[1]);bx.setAttribute('x2',xEnd[0]);bx.setAttribute('y2',xEnd[1]);
+    by.setAttribute('x1',bo[0]);by.setAttribute('y1',bo[1]);by.setAttribute('x2',yEnd[0]);by.setAttribute('y2',yEnd[1]);
+    blabel.setAttribute('x',bo[0]-10);blabel.setAttribute('y',bo[1]+22);
+    offset.setAttribute('x2',bo[0]);offset.setAttribute('y2',bo[1]);
+    pt.setAttribute('cx',ptPx[0]);pt.setAttribute('cy',ptPx[1]);
+    // point in frame B = rotate(-th) of (A - offset)
+    var sx = Ax - dx, sy = Ay - dy;
+    var Bx =  sx*Math.cos(a) + sy*Math.sin(a);
+    var By = -sx*Math.sin(a) + sy*Math.cos(a);
+    pa.textContent=fmt([Ax,Ay]); pb.textContent=fmt([Bx,By]);
+    dxV.textContent=dx.toFixed(2); dyV.textContent=dy.toFixed(2); thV.textContent=Math.round(th);
+    steps.textContent = (Math.abs(th)<0.5)
+      ? 'B aligned with A (θ = 0): conversion is just subtract the offset.'
+      : 'Step 1: subtract the offset ('+dx.toFixed(2)+', '+dy.toFixed(2)+'). Step 2: turn by θ = '+Math.round(th)+'° to read along B\u2019s axes.';
+  }
+  Sdx.addEventListener('input',function(){dx=parseFloat(this.value);render();});
+  Sdy.addEventListener('input',function(){dy=parseFloat(this.value);render();});
+  Sth.addEventListener('input',function(){th=parseFloat(this.value);render();});
+  document.getElementById('reset').addEventListener('click',function(){dx=1.1;dy=0.6;th=0;Sdx.value=1.1;Sdy.value=0.6;Sth.value=0;render();});
+
+  var drag=false;
+  function P(e){var r=scene.getBoundingClientRect();return [ (e.clientX-r.left)/r.width*380, (e.clientY-r.top)/r.height*360 ];}
+  pt.addEventListener('pointerdown',function(e){drag=true;pt.style.cursor='grabbing';if(e.cancelable)e.preventDefault();});
+  window.addEventListener('pointermove',function(e){if(!drag)return;var p=P(e);
+    ptPx=[Math.max(40,Math.min(360,p[0])),Math.max(30,Math.min(330,p[1]))];render();});
+  window.addEventListener('pointerup',function(){drag=false;pt.style.cursor='grab';});
+  pt.addEventListener('keydown',function(e){var s=8,m=true;
+    if(e.key==='ArrowLeft')ptPx[0]-=s;else if(e.key==='ArrowRight')ptPx[0]+=s;
+    else if(e.key==='ArrowUp')ptPx[1]-=s;else if(e.key==='ArrowDown')ptPx[1]+=s;else m=false;
+    if(m){e.preventDefault();render();}});
+  render();
+})();
+</script>
+</body>
+</html>

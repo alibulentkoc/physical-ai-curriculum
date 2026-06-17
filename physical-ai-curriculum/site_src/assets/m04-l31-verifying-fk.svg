@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 260" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Five independent verification checks — zero config, planar reduction, single-joint revolution, SymPy match, and rotation validity — all confirming the same T 0 3.">
+  <defs><style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:10.5px;fill:#64748b}.b{font-size:11px;font-weight:700;fill:#334155}.ok{font-size:12px;font-weight:800;fill:#047857}</style></defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Verifying forward kinematics: independent checks → trust</text>
+  <circle cx="350" cy="135" r="40" fill="#ecfdf5" stroke="#10b981"/><text x="350" y="132" text-anchor="middle" class="b">T₀³(θ)</text><text x="350" y="148" text-anchor="middle" class="c">verified</text>
+  <!-- spokes -->
+  <g class="c">
+    <line x1="310" y1="115" x2="170" y2="70" stroke="#94a3b8" stroke-width="1.4"/><text x="90" y="66" class="ok">✓</text><text x="105" y="66">θ=0 known pose</text>
+    <line x1="312" y1="135" x2="160" y2="135" stroke="#94a3b8" stroke-width="1.4"/><text x="40" y="131" class="ok">✓</text><text x="55" y="131">planar = fk_planar</text>
+    <line x1="310" y1="155" x2="170" y2="200" stroke="#94a3b8" stroke-width="1.4"/><text x="60" y="204" class="ok">✓</text><text x="75" y="204">θ1 sweep = revolution</text>
+    <line x1="390" y1="115" x2="540" y2="70" stroke="#94a3b8" stroke-width="1.4"/><text x="548" y="66" class="ok">✓</text><text x="562" y="66">SymPy = numeric</text>
+    <line x1="390" y1="155" x2="540" y2="200" stroke="#94a3b8" stroke-width="1.4"/><text x="548" y="204" class="ok">✓</text><text x="562" y="204">RᵀR=I, det R=1</text>
+  </g>
+  <text x="350" y="246" text-anchor="middle" class="c">Diverse checks each probe a different failure mode — one mismatch catches a bug.</text>
+</svg>

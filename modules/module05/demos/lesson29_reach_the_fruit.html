@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reach the Fruit — Lesson 8.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--arm:#1d4ed8;--ghost:#cbd5e1;--joint:#10b981;--grip:#e11d48;--ok:#15803d;--okbg:#dcfce7;--bad:#b91c1c;--badbg:#fee2e2;--warn:#b45309;--warnbg:#fef3c7;--cam:#8b5cf6;--info:#1d4ed8;--infobg:#eff6ff;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:840px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 390px;min-width:300px}
+  .panel{flex:1 1 250px;min-width:240px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  #fruit{cursor:grab}#fruit:active{cursor:grabbing}
+  label{font-size:12px;color:var(--muted);display:block;margin-top:9px}
+  input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:12.5px;margin-top:12px;font-variant-numeric:tabular-nums;line-height:1.6}
+  .state{display:inline-block;padding:2px 9px;border-radius:999px;font-weight:700;font-size:12px}
+  .state.ok{background:var(--okbg);color:var(--ok)}
+  .state.bad{background:var(--badbg);color:var(--bad)}
+  .state.warn{background:var(--warnbg);color:var(--warn)}
+  .pipe{font-size:11px;line-height:1.85;margin-top:4px}
+  .pipe div{padding:2px 0}
+  .tick{color:var(--ok);font-weight:700}.cross{color:var(--bad);font-weight:700}.dot{color:var(--muted)}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px}
+  .btn:hover{background:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 400 340" role="img" aria-label="A greenhouse arm based at the center with a draggable fruit. The camera, offset from the base, perceives the fruit; the pipeline transforms it into the base frame, solves inverse kinematics, filters by joint limits, verifies with forward kinematics, and the arm reaches the fruit — or a message explains why it cannot.">
+        <!-- workspace annulus -->
+        <circle cx="160" cy="180" r="140" fill="#ecfdf5" stroke="#a7f3d0" stroke-dasharray="3 4"/>
+        <circle cx="160" cy="180" r="20" fill="#ffffff" stroke="#a7f3d0" stroke-dasharray="3 4"/>
+        <!-- camera marker -->
+        <rect id="cam" x="150" y="300" width="20" height="14" rx="3" fill="var(--cam)"/>
+        <text id="camlbl" x="160" y="328" text-anchor="middle" fill="var(--cam)" font-size="10" font-weight="700">camera</text>
+        <!-- rejected candidate (ghost) -->
+        <polyline id="armGhost" fill="none" stroke="var(--ghost)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+        <!-- chosen arm -->
+        <polyline id="arm" fill="none" stroke="var(--arm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle id="elbow" r="4.5" fill="#475569"/>
+        <circle cx="160" cy="180" r="6" fill="var(--joint)"/>
+        <text x="160" y="201" text-anchor="middle" fill="var(--muted)" font-size="11">base</text>
+        <circle id="grip" r="6" fill="var(--grip)" opacity="0"/>
+        <!-- fruit (draggable) -->
+        <g id="fruit" tabindex="0" role="slider" aria-label="Fruit position. Drag or use arrow keys." aria-valuetext="fruit">
+          <circle id="fruitDot" cx="280" cy="140" r="9" fill="var(--grip)" stroke="#fff" stroke-width="2"/>
+          <path id="fruitStem" d="M280 131 q3 -6 8 -5" stroke="#15803d" stroke-width="2" fill="none"/>
+        </g>
+      </svg>
+      <div class="hint">Drag the fruit (or focus it and use arrow keys). The camera perceives it; the pipeline places it in the base frame, solves, filters by joint limits, verifies with FK, and reaches — or tells you why it can't.</div>
+    </div>
+    <div class="panel">
+      <label>camera offset (forward): <span id="coV">0.10</span> m</label><input id="co" type="range" min="0" max="0.2" step="0.01" value="0.1">
+      <label>θ₁ limit (±): <span id="l1V">45</span>°</label><input id="l1" type="range" min="15" max="180" step="5" value="45">
+      <label>θ₂ range: <span id="l2V">0–150</span>°</label><input id="l2" type="range" min="0" max="180" step="5" value="150">
+      <div class="readout" aria-live="polite" id="msg"></div>
+      <div class="readout pipe" id="pipe"></div>
+      <button id="reset" class="btn">Reset</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var L1=0.4,L2=0.3,S=140/0.75,bx=160,by=180;
+  var el=function(id){return document.getElementById(id);};
+  function rad(d){return d*Math.PI/180;}function deg(r){return r*180/Math.PI;}
+  function fk(t1,t2){return [L1*Math.cos(t1)+L2*Math.cos(t1+t2),L1*Math.sin(t1)+L2*Math.sin(t1+t2)];}
+  function toPx(p){return [bx+p[0]*S,by-p[1]*S];}
+  function fromPx(px,py){return [(px-bx)/S,(by-py)/S];}
+  function norm180(a){return ((a+180)%360+360)%360-180;}
+  function reachable(x,y){var r=Math.hypot(x,y);return r<=L1+L2+1e-9 && r>=Math.abs(L1-L2)-1e-9;}
+  function ikClosed(x,y){
+    var c2=(x*x+y*y-L1*L1-L2*L2)/(2*L1*L2);
+    if(c2<-1-1e-9||c2>1+1e-9)return [];
+    c2=Math.max(-1,Math.min(1,c2));var out=[];
+    var signs=[1,-1];
+    for(var i=0;i<signs.length;i++){var s2=signs[i]*Math.sqrt(Math.max(0,1-c2*c2));var t2=Math.atan2(s2,c2);
+      var t1=Math.atan2(y,x)-Math.atan2(L2*Math.sin(t2),L1+L2*Math.cos(t2));out.push([t1,t2]);
+      if(Math.abs(s2)<1e-6)break;}
+    return out;
+  }
+  var fruitPx=[280,140], thetaCur=[rad(-30),rad(80)];
+
+  function camOffset(){return parseFloat(el('co').value);}
+  function limits(){var a=parseFloat(el('l1').value),b=parseFloat(el('l2').value);return [[-a,a],[0,b]];}
+
+  function run(){
+    el('coV').textContent=camOffset().toFixed(2);
+    el('l1V').textContent=el('l1').value;
+    el('l2V').textContent='0–'+el('l2').value;
+    // camera sits on the base x-axis, offset forward by camOffset (drawn near base bottom)
+    var camPx=toPx([camOffset(),-0.0]); // marker near base, purely illustrative
+    el('cam').setAttribute('x', (bx+camOffset()*S-10).toFixed(1)); el('cam').setAttribute('y', by+96);
+    el('camlbl').setAttribute('x',(bx+camOffset()*S).toFixed(1));
+    // fruit position in base frame (the scene IS the base frame; camera offset shifts the perceived->base mapping)
+    var pBase=fromPx(fruitPx[0],fruitPx[1]);
+    // model: perception reports relative to camera; base = perceived + offset. We treat the drawn point as base-truth,
+    // and show the pipeline operating on it.
+    var pipe=[]; var status, chosen=null, ghost=null;
+    var lim=limits();
+    // stage 1 perceive (always succeeds here)
+    pipe.push(['perceive (camera)', 'ok']);
+    // stage 2 place
+    pipe.push(['place in base frame', 'ok']);
+    // stage 3 reachable
+    if(!reachable(pBase[0],pBase[1])){ status='unreachable'; pipe.push(['reachable?','fail']); }
+    else {
+      pipe.push(['reachable?','ok']);
+      var cands=ikClosed(pBase[0],pBase[1]);
+      if(cands.length===0){ status='no_solution'; pipe.push(['solve','fail']); }
+      else {
+        pipe.push(['solve ('+cands.length+' candidate'+(cands.length>1?'s':'')+')','ok']);
+        // verify
+        var verified=cands.filter(function(c){return Math.hypot(pBase[0]-fk(c[0],c[1])[0],pBase[1]-fk(c[0],c[1])[1])<1e-3;});
+        pipe.push(['verify FK','ok']);
+        // filter limits
+        var feas=verified.filter(function(c){var d1=norm180(deg(c[0])),d2=norm180(deg(c[1]));return d1>=lim[0][0]&&d1<=lim[0][1]&&d2>=lim[1][0]&&d2<=lim[1][1];});
+        var infeas=verified.filter(function(c){return feas.indexOf(c)<0;});
+        if(infeas.length) ghost=infeas[0];
+        if(feas.length===0){ status='no_feasible'; pipe.push(['filter joint limits','fail']); }
+        else {
+          pipe.push(['filter joint limits ('+feas.length+' feasible)','ok']);
+          // select nearest to current
+          chosen=feas.reduce(function(best,c){
+            var dc=Math.hypot(norm180(deg(c[0])-deg(thetaCur[0])),norm180(deg(c[1])-deg(thetaCur[1])));
+            var db=Math.hypot(norm180(deg(best[0])-deg(thetaCur[0])),norm180(deg(best[1])-deg(thetaCur[1])));
+            return dc<db?c:best;});
+          pipe.push(['select (nearest)','ok']);
+          status='ok';
+        }
+      }
+    }
+    drawArms(chosen,ghost,pBase);
+    // message
+    var badge = status==='ok' ? '<span class="state ok">reached ✓</span>'
+              : '<span class="state bad">'+status.replace('_',' ')+'</span>';
+    var detail = status==='ok'
+      ? '<br>θ⋆ = ('+deg(chosen[0]).toFixed(1)+'°, '+deg(chosen[1]).toFixed(1)+'°)<br>verified on base target ('+pBase[0].toFixed(2)+', '+pBase[1].toFixed(2)+')'
+      : '<br>base target ('+pBase[0].toFixed(2)+', '+pBase[1].toFixed(2)+') — '+
+        (status==='unreachable'?'outside the workspace':status==='no_feasible'?'no solution within joint limits':'no solution');
+    el('msg').innerHTML = badge + detail;
+    el('pipe').innerHTML = pipe.map(function(s){
+      var icon = s[1]==='ok' ? '<span class="tick">✓</span>' : '<span class="cross">✗</span>';
+      return '<div>'+icon+' '+s[0]+'</div>';
+    }).join('');
+  }
+
+  function armPoly(t){var e=[L1*Math.cos(t[0]),L1*Math.sin(t[0])];var g=fk(t[0],t[1]);return [toPx([0,0]),toPx(e),toPx(g)];}
+  function drawArms(chosen,ghost,pBase){
+    if(ghost){var pg=armPoly(ghost);el('armGhost').setAttribute('points',pg.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' '));}
+    else el('armGhost').setAttribute('points','');
+    if(chosen){var pc=armPoly(chosen);el('arm').setAttribute('points',pc.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' '));
+      el('elbow').setAttribute('cx',pc[1][0]);el('elbow').setAttribute('cy',pc[1][1]);el('elbow').setAttribute('opacity',1);
+      el('grip').setAttribute('cx',pc[2][0]);el('grip').setAttribute('cy',pc[2][1]);el('grip').setAttribute('opacity',1);
+    } else { el('arm').setAttribute('points','');el('elbow').setAttribute('opacity',0);el('grip').setAttribute('opacity',0); }
+  }
+
+  // dragging the fruit
+  var svg=el('scene'),dragging=false;
+  function svgPt(evt){var r=svg.getBoundingClientRect();var x=(evt.touches?evt.touches[0].clientX:evt.clientX)-r.left;
+    var y=(evt.touches?evt.touches[0].clientY:evt.clientY)-r.top;return [x*400/r.width, y*340/r.height];}
+  function moveFruit(px,py){fruitPx=[Math.max(10,Math.min(390,px)),Math.max(10,Math.min(300,py))];
+    el('fruitDot').setAttribute('cx',fruitPx[0]);el('fruitDot').setAttribute('cy',fruitPx[1]);
+    el('fruitStem').setAttribute('d','M'+fruitPx[0]+' '+(fruitPx[1]-9)+' q3 -6 8 -5');run();}
+  el('fruit').addEventListener('pointerdown',function(e){dragging=true;e.preventDefault();});
+  window.addEventListener('pointermove',function(e){if(dragging){var p=svgPt(e);moveFruit(p[0],p[1]);}});
+  window.addEventListener('pointerup',function(){dragging=false;});
+  el('fruit').addEventListener('keydown',function(e){var s=6;var k=e.key;
+    if(k==='ArrowLeft')moveFruit(fruitPx[0]-s,fruitPx[1]);
+    else if(k==='ArrowRight')moveFruit(fruitPx[0]+s,fruitPx[1]);
+    else if(k==='ArrowUp')moveFruit(fruitPx[0],fruitPx[1]-s);
+    else if(k==='ArrowDown')moveFruit(fruitPx[0],fruitPx[1]+s);else return;e.preventDefault();});
+  ['co','l1','l2'].forEach(function(id){el(id).addEventListener('input',run);});
+  el('reset').addEventListener('click',function(){fruitPx=[280,140];el('co').value=0.1;el('l1').value=45;el('l2').value=150;
+    el('fruitDot').setAttribute('cx',280);el('fruitDot').setAttribute('cy',140);el('fruitStem').setAttribute('d','M280 131 q3 -6 8 -5');run();});
+  run();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Full Projection Pipeline — Lesson 4.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--fruit:#e11d48;--cam:#8b5cf6;--ext:#1d4ed8;--intr:#7c3aed;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:780px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 340px;min-width:300px}
+  .panel{flex:1 1 240px;min-width:230px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  h4{margin:8px 0 2px;font-size:12.5px;color:var(--ext)}
+  h4.b{color:var(--intr)}
+  label{font-size:12px;color:var(--muted);display:block;margin-top:6px}
+  input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13px;margin-top:10px;font-variant-numeric:tabular-nums}
+  .badge{display:inline-block;border-radius:6px;padding:2px 7px;font-size:11px;font-weight:700;margin-top:6px}
+  .ok{background:#ecfdf5;color:#15803d;border:1px solid #10b981}
+  .no{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="img" viewBox="0 0 320 240" role="img" aria-label="A camera image of 640 by 480, scaled to fit. A world tomato is projected through the full pipeline (extrinsics then intrinsics K) to a pixel, shown as a red dot when valid. The principal point is marked at the center.">
+        <rect x="0" y="0" width="320" height="240" fill="#0f172a"/>
+        <line x1="160" y1="0" x2="160" y2="240" stroke="#1e293b"/>
+        <line x1="0" y1="120" x2="320" y2="120" stroke="#1e293b"/>
+        <circle id="pp" cx="160" cy="120" r="3" fill="#64748b"/>
+        <circle id="dot" cx="160" cy="120" r="8" fill="#e11d48"/>
+      </svg>
+      <div class="hint">Image (640×480 scaled to fit). Stage 1 places the tomato in the camera frame; Stage 2 (K, ÷Z) images it. The dot hides when the point is behind the camera or out of frame.</div>
+    </div>
+    <div class="panel">
+      <h4>World tomato</h4>
+      <label>X_w: <span id="xV">0.06</span> m</label><input id="x" type="range" min="-0.4" max="0.4" step="0.01" value="0.06">
+      <label>Y_w: <span id="yV">-0.03</span> m</label><input id="y" type="range" min="-0.3" max="0.3" step="0.01" value="-0.03">
+      <label>Z_w: <span id="z" >0.30</span> m</label><input id="z" type="range" min="0.1" max="1.0" step="0.01" value="0.30">
+      <h4>Stage 1 — extrinsics (camera pose)</h4>
+      <label>camera tx: <span id="txV">0.00</span> m</label><input id="tx" type="range" min="-0.3" max="0.3" step="0.01" value="0">
+      <label>camera yaw: <span id="yawV">0</span>°</label><input id="yaw" type="range" min="-40" max="40" step="1" value="0">
+      <h4 class="b">Stage 2 — intrinsics K</h4>
+      <label>focal f (px): <span id="fV">800</span></label><input id="f" type="range" min="400" max="1200" step="10" value="800">
+      <div class="readout" aria-live="polite" id="msg"></div>
+      <button id="reset" class="btn">Reset</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=640,H=480, sc=320/640; // image scale to svg
+  function rotZ(deg){var a=deg*Math.PI/180,c=Math.cos(a),s=Math.sin(a);return [[c,-s,0],[s,c,0],[0,0,1]];}
+  function matvec(M,v){return [M[0][0]*v[0]+M[0][1]*v[1]+M[0][2]*v[2], M[1][0]*v[0]+M[1][1]*v[1]+M[1][2]*v[2], M[2][0]*v[0]+M[2][1]*v[1]+M[2][2]*v[2]];}
+  function val(id){return +document.getElementById(id).value;}
+  function draw(){
+    var Xw=val('x'),Yw=val('y'),Zw=val('z'),tx=val('tx'),yaw=val('yaw'),f=val('f');
+    document.getElementById('xV').textContent=Xw.toFixed(2);
+    document.getElementById('yV').textContent=Yw.toFixed(2);
+    document.getElementById('txV').textContent=tx.toFixed(2);
+    document.getElementById('yawV').textContent=yaw;
+    document.getElementById('fV').textContent=f;
+    // Stage 1: camera-frame point. Camera pose T(world<-cam): rot about y? keep simple: yaw about Y handled via rotZ on (X,Z)
+    // We treat extrinsics T(cam<-world) = inverse of a camera placed at (tx,0,0) yawed about vertical.
+    // Simplify: cam-frame = Rz(-yaw) * (world - cam_origin)
+    var rel=[Xw-tx, Yw, Zw];
+    var Pc=matvec(rotZ(-yaw), rel);
+    var cx=320,cy=240; // principal point in full-res px
+    var inFront = Pc[2] > 1e-6;
+    var u = f*Pc[0]/Pc[2] + cx;
+    var v = f*Pc[1]/Pc[2] + cy;
+    var inFrame = inFront && u>=0 && u<W && v>=0 && v<H;
+    var dot=document.getElementById('dot');
+    if(inFrame){ dot.setAttribute('cx',u*sc); dot.setAttribute('cy',v*sc); dot.setAttribute('opacity','1'); }
+    else { dot.setAttribute('opacity','0'); }
+    var state = !inFront ? '<span class="badge no">behind camera</span>'
+              : (!inFrame ? '<span class="badge no">out of frame</span>'
+                          : '<span class="badge ok">in frame</span>');
+    document.getElementById('msg').innerHTML =
+      'camera-frame: ('+Pc[0].toFixed(2)+', '+Pc[1].toFixed(2)+', '+Pc[2].toFixed(2)+')<br>'+
+      'pixel: '+(inFront?('('+u.toFixed(0)+', '+v.toFixed(0)+')'):'(invalid)')+'<br>'+state;
+  }
+  ['x','y','z','tx','yaw','f'].forEach(function(id){document.getElementById(id).addEventListener('input',draw);});
+  document.getElementById('reset').addEventListener('click',function(){
+    var d={x:0.06,y:-0.03,z:0.30,tx:0,yaw:0,f:800};
+    for(var k in d){document.getElementById(k).value=d[k];}
+    draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

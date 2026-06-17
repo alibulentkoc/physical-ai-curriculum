@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 460" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A two by two dartboard grid showing the four combinations of accuracy and precision: accuracy is closeness to the bullseye, precision is closeness of the darts to each other.">
+  <defs>
+    <style>
+      .t{font-size:18px;font-weight:700;fill:#0f172a}
+      .ax{font-size:13px;font-weight:700;fill:#0f172a}
+      .c{font-size:12px;fill:#64748b}
+      .lab{font-size:12.5px;font-weight:600;fill:#334155}
+    </style>
+  </defs>
+  <text x="310" y="28" text-anchor="middle" class="t">Accuracy vs Precision are independent axes</text>
+
+  <!-- axis labels -->
+  <text x="310" y="56" text-anchor="middle" class="ax">Accuracy &#8594; (closeness to bullseye)</text>
+  <text x="22" y="300" class="ax" transform="rotate(-90 22 300)">Precision &#8594; (repeatability)</text>
+
+  <!-- four boards: centers -->
+  <!-- helper: each board is a target with rings -->
+  <!-- Board TL: low acc, high prec -->
+  <g>
+    <circle cx="190" cy="150" r="62" fill="#fff" stroke="#cbd5e1"/><circle cx="190" cy="150" r="40" fill="none" stroke="#e2e8f0"/><circle cx="190" cy="150" r="18" fill="#fee2e2" stroke="#fecaca"/>
+    <circle cx="150" cy="120" r="4" fill="#0f172a"/><circle cx="156" cy="126" r="4" fill="#0f172a"/><circle cx="148" cy="128" r="4" fill="#0f172a"/><circle cx="154" cy="118" r="4" fill="#0f172a"/>
+    <text x="190" y="232" text-anchor="middle" class="lab">Precise, not accurate</text>
+    <text x="190" y="248" text-anchor="middle" class="c">tight but off &#8212; calibrate</text>
+  </g>
+  <!-- Board TR: high acc, high prec -->
+  <g>
+    <circle cx="430" cy="150" r="62" fill="#fff" stroke="#cbd5e1"/><circle cx="430" cy="150" r="40" fill="none" stroke="#e2e8f0"/><circle cx="430" cy="150" r="18" fill="#dcfce7" stroke="#86efac"/>
+    <circle cx="428" cy="148" r="4" fill="#0f172a"/><circle cx="433" cy="152" r="4" fill="#0f172a"/><circle cx="426" cy="153" r="4" fill="#0f172a"/><circle cx="432" cy="146" r="4" fill="#0f172a"/>
+    <text x="430" y="232" text-anchor="middle" class="lab">Accurate &amp; precise</text>
+    <text x="430" y="248" text-anchor="middle" class="c">the goal</text>
+  </g>
+  <!-- Board BL: low acc, low prec -->
+  <g>
+    <circle cx="190" cy="330" r="62" fill="#fff" stroke="#cbd5e1"/><circle cx="190" cy="330" r="40" fill="none" stroke="#e2e8f0"/><circle cx="190" cy="330" r="18" fill="#fee2e2" stroke="#fecaca"/>
+    <circle cx="150" cy="300" r="4" fill="#0f172a"/><circle cx="172" cy="356" r="4" fill="#0f172a"/><circle cx="210" cy="306" r="4" fill="#0f172a"/><circle cx="158" cy="340" r="4" fill="#0f172a"/>
+    <text x="190" y="412" text-anchor="middle" class="lab">Neither</text>
+    <text x="190" y="428" text-anchor="middle" class="c">scattered and off</text>
+  </g>
+  <!-- Board BR: high acc, low prec -->
+  <g>
+    <circle cx="430" cy="330" r="62" fill="#fff" stroke="#cbd5e1"/><circle cx="430" cy="330" r="40" fill="none" stroke="#e2e8f0"/><circle cx="430" cy="330" r="18" fill="#dcfce7" stroke="#86efac"/>
+    <circle cx="404" cy="308" r="4" fill="#0f172a"/><circle cx="456" cy="318" r="4" fill="#0f172a"/><circle cx="418" cy="356" r="4" fill="#0f172a"/><circle cx="448" cy="348" r="4" fill="#0f172a"/>
+    <text x="430" y="412" text-anchor="middle" class="lab">Accurate, not precise</text>
+    <text x="430" y="428" text-anchor="middle" class="c">centered on average, scattered</text>
+  </g>
+</svg>

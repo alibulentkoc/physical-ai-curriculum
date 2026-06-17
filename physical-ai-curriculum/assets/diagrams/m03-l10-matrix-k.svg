@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The 3 by 3 intrinsic matrix K with focal lengths and principal point labeled, acting on a camera-frame point and then divided by Z to land at a pixel near the principal point on an image grid.">
+  <defs>
+    <marker id="ka" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.m{font-size:14px;font-weight:700;fill:#1d4ed8;font-family:monospace}.lbl{font-size:10px;fill:#7c3aed;font-weight:700}.k{font-size:12px;font-weight:800;fill:#0f766e}</style>
+  </defs>
+  <text x="340" y="24" text-anchor="middle" class="t">The intrinsic matrix K maps a direction to a pixel</text>
+  <!-- K matrix -->
+  <text x="120" y="120" text-anchor="middle" class="m">f_x   0   c_x</text>
+  <text x="120" y="150" text-anchor="middle" class="m"> 0   f_y  c_y</text>
+  <text x="120" y="180" text-anchor="middle" class="m"> 0    0    1</text>
+  <line x1="40" y1="100" x2="40" y2="192" stroke="#1d4ed8" stroke-width="2"/><line x1="200" y1="100" x2="200" y2="192" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="120" y="92" text-anchor="middle" class="k">K</text>
+  <text x="80" y="212" class="lbl">f_x,f_y: focal length (px)</text>
+  <text x="80" y="228" class="lbl">c_x,c_y: principal point</text>
+  <!-- arrow -->
+  <text x="290" y="135" text-anchor="middle" class="c">K·(X,Y,Z)</text>
+  <text x="290" y="152" text-anchor="middle" class="c">then ÷ Z</text>
+  <line x1="240" y1="145" x2="370" y2="145" stroke="#0f172a" stroke-width="1.8" marker-end="url(#ka)"/>
+  <!-- image -->
+  <rect x="400" y="70" width="240" height="160" rx="6" fill="#0f172a"/>
+  <g stroke="#1e293b"><line x1="400" y1="150" x2="640" y2="150"/><line x1="520" y1="70" x2="520" y2="230"/></g>
+  <circle cx="520" cy="150" r="3" fill="#94a3b8"/><text x="520" y="245" text-anchor="middle" class="c">principal point</text>
+  <circle cx="560" cy="130" r="7" fill="#e11d48"/><text x="575" y="120" class="c" fill="#fca5a5">pixel (u,v)</text>
+  <text x="340" y="284" text-anchor="middle" class="c">u = f_x·X/Z + c_x,  v = f_y·Y/Z + c_y.  Point on the axis → principal point.</text>
+</svg>

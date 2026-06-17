@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The transform chain camera to arm to world as composed SE3 hops carrying the camera-frame point to the world frame.">
+  <defs>
+    <marker id="ca" markerWidth="11" markerHeight="11" refX="9" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}.f{font-size:11px;font-weight:800;fill:#7c3aed}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Composing extrinsic hops: camera → arm → world</text>
+  <circle cx="90" cy="110" r="26" fill="#e0f2fe" stroke="#7dd3fc"/><text x="90" y="114" text-anchor="middle" class="b">cam</text>
+  <circle cx="290" cy="110" r="26" fill="#eef2ff" stroke="#c7d2fe"/><text x="290" y="114" text-anchor="middle" class="b">arm</text>
+  <circle cx="500" cy="110" r="28" fill="#e0e7ff" stroke="#a5b4fc"/><text x="500" y="114" text-anchor="middle" class="b">world</text>
+  <line x1="118" y1="110" x2="262" y2="110" stroke="#0f172a" stroke-width="1.8" marker-end="url(#ca)"/>
+  <text x="190" y="100" text-anchor="middle" class="c">T(arm←cam)</text><text x="190" y="128" text-anchor="middle" class="c">(calibration)</text>
+  <line x1="318" y1="110" x2="470" y2="110" stroke="#0f172a" stroke-width="1.8" marker-end="url(#ca)"/>
+  <text x="394" y="100" text-anchor="middle" class="c">T(world←arm)</text><text x="394" y="128" text-anchor="middle" class="c">(from robot)</text>
+  <text x="350" y="180" text-anchor="middle" class="f">T(world←cam) = T(world←arm) · T(arm←cam)   — compose right-to-left</text>
+  <text x="350" y="208" text-anchor="middle" class="c">P_w = T(world←cam) · P_c  (the same chain as the Module 2 capstone)</text>
+</svg>

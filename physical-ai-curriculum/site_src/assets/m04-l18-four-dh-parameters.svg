@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The four DH parameters on two consecutive joints: theta and d about the z joint axis, a and alpha about the x link axis.">
+  <defs>
+    <marker id="p18" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#475569"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.z{font-size:12px;font-weight:800;fill:#0d9488}.x{font-size:12px;font-weight:800;fill:#dc2626}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">The four DH parameters</text>
+  <!-- z axes (joint axes) vertical -->
+  <line x1="200" y1="230" x2="200" y2="70" stroke="#0d9488" stroke-width="2.5"/><text x="186" y="66" class="z">z_{i-1}</text>
+  <line x1="420" y1="210" x2="420" y2="60" stroke="#0d9488" stroke-width="2.5"/><text x="406" y="56" class="z">z_i</text>
+  <!-- common normal x along link -->
+  <line x1="200" y1="120" x2="420" y2="120" stroke="#dc2626" stroke-width="2.5" marker-end="url(#p18)"/><text x="300" y="112" text-anchor="middle" class="x">x_i (common normal)</text>
+  <!-- theta about z (curved) -->
+  <path d="M 224 200 A 24 24 0 0 0 200 176" fill="none" stroke="#475569" stroke-width="1.6"/><text x="232" y="196" class="c">θ: rotate about z</text>
+  <!-- d along z -->
+  <line x1="170" y1="200" x2="170" y2="120" stroke="#7c3aed" stroke-width="1.6" marker-end="url(#p18)"/><text x="120" y="165" class="c">d: slide along z</text>
+  <!-- a along x -->
+  <text x="300" y="142" text-anchor="middle" class="c">a: length along x</text>
+  <!-- alpha about x -->
+  <path d="M 420 96 A 24 24 0 0 1 444 120" fill="none" stroke="#475569" stroke-width="1.6"/><text x="450" y="100" class="c">α: twist about x</text>
+  <text x="350" y="256" text-anchor="middle" class="c">Two about the joint axis (θ, d); two about the link (a, α). Revolute → θ varies; prismatic → d varies.</text>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The identity matrix as a pass-through machine: a shape enters and exits unchanged; the unit arrows land on themselves.">
+  <defs>
+    <marker id="ii" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0ea5e9"/></marker>
+    <marker id="ij" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8b5cf6"/></marker>
+    <marker id="ib" markerWidth="11" markerHeight="11" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#10b981"/></marker>
+    <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.l{font-size:13px;font-weight:700;fill:#334155}.c{font-size:12px;fill:#64748b}.big{font-size:15px;font-weight:700;fill:#0f766e}</style>
+  </defs>
+  <text x="350" y="28" text-anchor="middle" class="t">Identity = do nothing (input = output)</text>
+  <!-- input shape -->
+  <polygon points="70,230 150,230 130,160 90,160" fill="#0ea5e922" stroke="#0ea5e9" stroke-width="1.5"/>
+  <line x1="60" y1="250" x2="60" y2="150" stroke="#94a3b8" stroke-width="1"/>
+  <text x="110" y="276" text-anchor="middle" class="c">input</text>
+  <!-- machine -->
+  <rect x="290" y="150" width="120" height="90" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="350" y="195" text-anchor="middle" class="big">I</text>
+  <text x="350" y="216" text-anchor="middle" class="c">pass-through</text>
+  <line x1="170" y1="195" x2="282" y2="195" stroke="#10b981" stroke-width="2.5" marker-end="url(#ib)"/>
+  <line x1="418" y1="195" x2="530" y2="195" stroke="#10b981" stroke-width="2.5" marker-end="url(#ib)"/>
+  <!-- output shape (identical) -->
+  <polygon points="550,230 630,230 610,160 570,160" fill="#0ea5e922" stroke="#0ea5e9" stroke-width="1.5"/>
+  <line x1="540" y1="250" x2="540" y2="150" stroke="#94a3b8" stroke-width="1"/>
+  <text x="590" y="276" text-anchor="middle" class="c">output (identical)</text>
+  <text x="350" y="304" text-anchor="middle" class="c">I = [[1,0],[0,1]]; rotation by 0° and scale by 1 both equal the identity.</text>
+</svg>

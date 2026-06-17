@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 260" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="An end-effector pose at a fruit showing the position p, the approach axis z-hat-g toward the fruit, and the finger-facing axes, with the pose matrix beside it.">
+  <defs>
+    <marker id="a25" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1d4ed8"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:11.5px;font-weight:700;fill:#334155}.m{font-family:monospace;font-size:12px;fill:#0f172a}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Reading the end-effector pose</text>
+  <!-- gripper + fruit -->
+  <circle cx="430" cy="120" r="16" fill="#fee2e2" stroke="#e11d48"/><circle cx="430" cy="120" r="6" fill="#e11d48"/><text x="452" y="124" class="c">fruit</text>
+  <g transform="translate(330,150)">
+    <circle cx="0" cy="0" r="5" fill="#0f172a"/><text x="-44" y="4" class="c">p (where)</text>
+    <line x1="0" y1="0" x2="84" y2="-26" stroke="#1d4ed8" stroke-width="2.6" marker-end="url(#a25)"/><text x="40" y="-30" class="b" fill="#1d4ed8">ẑ_g approach</text>
+    <line x1="0" y1="0" x2="-6" y2="-34" stroke="#10b981" stroke-width="2"/><text x="-30" y="-30" class="c">x̂_g/ŷ_g facing</text>
+  </g>
+  <!-- matrix -->
+  <text x="60" y="92" class="m">R | p</text>
+  <text x="60" y="112" class="m">[ x̂_g ŷ_g ẑ_g | p ]</text>
+  <text x="60" y="132" class="m">[  0   0   0  | 1 ]</text>
+  <rect x="52" y="98" width="150" height="22" fill="none" stroke="#7c3aed"/>
+  <text x="60" y="170" class="c">position p = translation column</text>
+  <text x="60" y="190" class="c">approach = ẑ_g (3rd column of R)</text>
+  <text x="350" y="240" text-anchor="middle" class="c">Grasp when T₀ⁿ ≈ T_grasp in both position and approach.</text>
+</svg>

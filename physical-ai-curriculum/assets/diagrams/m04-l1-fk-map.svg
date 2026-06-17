@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A multi-joint arm with joint angles labeled, and an arrow labeled forward kinematics mapping the joint angles to the gripper's pose (position and orientation) in the base frame.">
+  <defs>
+    <marker id="fk1" markerWidth="11" markerHeight="11" refX="9" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#10b981"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}.g{font-size:12px;font-weight:800;fill:#047857}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Forward kinematics: joint angles → gripper pose</text>
+  <!-- base frame -->
+  <circle cx="80" cy="170" r="5" fill="#0f172a"/><text x="80" y="190" text-anchor="middle" class="c">base frame</text>
+  <!-- arm links -->
+  <line x1="80" y1="170" x2="170" y2="110" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+  <line x1="170" y1="110" x2="270" y2="120" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+  <line x1="270" y1="120" x2="330" y2="75" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="80" cy="170" r="6" fill="#10b981"/><circle cx="170" cy="110" r="6" fill="#10b981"/><circle cx="270" cy="120" r="6" fill="#10b981"/>
+  <text x="105" y="150" class="c">θ1</text><text x="195" y="100" class="c">θ2</text><text x="285" y="105" class="c">θ3</text>
+  <!-- gripper frame -->
+  <line x1="330" y1="75" x2="358" y2="75" stroke="#e11d48" stroke-width="2"/><line x1="330" y1="75" x2="330" y2="47" stroke="#7c3aed" stroke-width="2"/>
+  <text x="345" y="40" text-anchor="middle" class="c">gripper pose</text>
+  <line x1="390" y1="120" x2="470" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#fk1)"/>
+  <text x="430" y="110" text-anchor="middle" class="g">FK</text>
+  <rect x="480" y="92" width="200" height="58" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/>
+  <text x="580" y="116" text-anchor="middle" class="b">T₀ⁿ(θ): position + orientation</text>
+  <text x="580" y="136" text-anchor="middle" class="c">= the T(world←arm) Module 3 assumed</text>
+</svg>

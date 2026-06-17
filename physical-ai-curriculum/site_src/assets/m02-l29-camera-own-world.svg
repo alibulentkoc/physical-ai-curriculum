@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A camera viewing a tomato with the detection drawn in the camera frame, and a dashed question-mark arrow to the robot world frame showing the needed transform.">
+  <defs>
+    <marker id="ca" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#334155"/></marker>
+    <marker id="cq" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#b91c1c"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.l{font-size:12px;font-weight:700;fill:#334155}.q{font-size:13px;font-weight:800;fill:#b91c1c}</style>
+  </defs>
+  <text x="340" y="26" text-anchor="middle" class="t">The camera reports in its own frame</text>
+  <!-- camera -->
+  <g transform="translate(120,150)">
+    <rect x="-26" y="-18" width="52" height="36" rx="6" fill="#8b5cf622" stroke="#8b5cf6"/>
+    <polygon points="26,-10 46,-20 46,20 26,10" fill="#8b5cf622" stroke="#8b5cf6"/>
+    <line x1="0" y1="0" x2="40" y2="0" stroke="#e11d48" stroke-width="2" marker-end="url(#ca)"/>
+    <line x1="0" y1="0" x2="0" y2="-34" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ca)"/>
+  </g>
+  <text x="120" y="205" text-anchor="middle" class="l">camera frame</text>
+  <!-- tomato + detection -->
+  <circle cx="300" cy="150" r="12" fill="#e11d48"/>
+  <line x1="146" y1="150" x2="286" y2="150" stroke="#0f172a" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ca)"/>
+  <text x="215" y="140" text-anchor="middle" class="c">p_cam (detection)</text>
+  <!-- world frame -->
+  <g transform="translate(560,210)">
+    <line x1="0" y1="0" x2="36" y2="0" stroke="#e11d48" stroke-width="2.5" marker-end="url(#ca)"/>
+    <line x1="0" y1="0" x2="0" y2="-36" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#ca)"/>
+    <circle r="3.5" fill="#0f172a"/>
+  </g>
+  <text x="560" y="234" text-anchor="middle" class="l">robot / world frame</text>
+  <!-- need transform -->
+  <path d="M 140 130 Q 360 60 540 190" fill="none" stroke="#b91c1c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#cq)"/>
+  <text x="350" y="80" text-anchor="middle" class="q">T(world←cam) = ?</text>
+  <text x="340" y="312" text-anchor="middle" class="c">The detection is correct in the camera frame; the robot needs the camera's pose to re-express it.</text>
+</svg>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composition: Order Matters — Lesson 4.8</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--accent:#0ea5e9;--p:#8b5cf6;--ok:#10b981;--warn:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 340px;min-width:300px}
+  .panel{flex:1 1 250px;min-width:240px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  label{font-size:13px;color:var(--muted);display:block;margin-top:10px}
+  input[type=range]{width:100%}
+  .order{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+  .chip{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:#fff;font-size:13.5px;font-weight:700;cursor:grab}
+  .chip .n{width:20px;height:20px;border-radius:50%;background:#0f172a;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 13px;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:10px}
+  .btn.primary{background:#0f172a;color:#fff;border-color:#0f172a}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;margin-top:10px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  .seq{font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 360 320" role="img" aria-label="A shape transformed by a chain of scale, rotate, and translate. A ghost shows the original; reordering the steps changes the final result.">
+        <line x1="30" y1="220" x2="340" y2="220" stroke="#e2e8f0"/>
+        <line x1="120" y1="30" x2="120" y2="300" stroke="#e2e8f0"/>
+        <circle cx="120" cy="220" r="3.5" fill="#0f172a"/><text x="96" y="236" font-size="10" fill="#64748b">origin</text>
+        <polygon id="ghost" points="" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <polygon id="shape" points="" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="2"/>
+      </svg>
+      <div class="hint">The dashed shape is the original. Reorder the steps and watch the result land somewhere different.</div>
+    </div>
+    <div class="panel">
+      <label>Step order (drag to reorder)</label>
+      <div class="order" id="order"></div>
+      <button id="swap" class="btn">Reverse the order</button>
+      <label for="sc">Scale x: <span id="scV">2.0</span></label>
+      <input id="sc" type="range" min="0.5" max="2.5" step="0.1" value="2.0">
+      <label for="rt">Rotate: <span id="rtV">90</span>°</label>
+      <input id="rt" type="range" min="0" max="360" step="5" value="90">
+      <label for="tx">Translate x: <span id="txV">1.0</span></label>
+      <input id="tx" type="range" min="-1.5" max="1.5" step="0.1" value="1.0">
+      <div class="readout" aria-live="polite">
+        order: <span class="seq" id="seq">scale → rotate → translate</span><br>
+        a tracked point lands at <b id="pt">(0,0)</b>
+      </div>
+      <button id="reset" class="btn primary">Reset</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var OX=120, OY=220, S=60;
+  var base=[[0.2,0.2],[1.2,0.2],[1.2,0.8],[0.2,0.8]];
+  var track=[1.2,0.2];
+  var steps=['scale','rotate','translate'];
+  var sc=2.0, rt=90, tx=1.0;
+  var labels={scale:'Scale ×x',rotate:'Rotate',translate:'Translate'};
+  var shape=document.getElementById('shape'), ghost=document.getElementById('ghost');
+  var orderEl=document.getElementById('order'), seqEl=document.getElementById('seq'), ptEl=document.getElementById('pt');
+  function px(p){ return (OX+p[0]*S)+','+(OY-p[1]*S); }
+  function applyStep(name,p){
+    if(name==='scale') return [p[0]*sc, p[1]];
+    if(name==='rotate'){var a=rt*Math.PI/180; return [p[0]*Math.cos(a)-p[1]*Math.sin(a), p[0]*Math.sin(a)+p[1]*Math.cos(a)];}
+    if(name==='translate') return [p[0]+tx, p[1]];
+    return p;
+  }
+  function chain(p){ var q=p.slice(); for(var i=0;i<steps.length;i++) q=applyStep(steps[i],q); return q; }
+  function renderOrder(){
+    orderEl.innerHTML='';
+    steps.forEach(function(s,i){
+      var d=document.createElement('div'); d.className='chip'; d.draggable=true; d.dataset.idx=i;
+      d.innerHTML='<span class="n">'+(i+1)+'</span> '+labels[s];
+      d.addEventListener('dragstart',function(e){e.dataTransfer.setData('text/plain',i);});
+      d.addEventListener('dragover',function(e){e.preventDefault();});
+      d.addEventListener('drop',function(e){e.preventDefault();var from=+e.dataTransfer.getData('text/plain');var to=i;var m=steps.splice(from,1)[0];steps.splice(to,0,m);draw();});
+      orderEl.appendChild(d);
+    });
+  }
+  function draw(){
+    ghost.setAttribute('points', base.map(px).join(' '));
+    shape.setAttribute('points', base.map(function(p){return px(chain(p));}).join(' '));
+    seqEl.textContent = steps.map(function(s){return s;}).join(' → ');
+    var t=chain(track); ptEl.textContent='('+t[0].toFixed(2)+', '+t[1].toFixed(2)+')';
+    document.getElementById('scV').textContent=sc.toFixed(1);
+    document.getElementById('rtV').textContent=Math.round(rt);
+    document.getElementById('txV').textContent=tx.toFixed(1);
+    renderOrder();
+  }
+  document.getElementById('sc').addEventListener('input',function(){sc=parseFloat(this.value);draw();});
+  document.getElementById('rt').addEventListener('input',function(){rt=parseFloat(this.value);draw();});
+  document.getElementById('tx').addEventListener('input',function(){tx=parseFloat(this.value);draw();});
+  document.getElementById('swap').addEventListener('click',function(){steps.reverse();draw();});
+  document.getElementById('reset').addEventListener('click',function(){steps=['scale','rotate','translate'];sc=2.0;rt=90;tx=1.0;document.getElementById('sc').value=2.0;document.getElementById('rt').value=90;document.getElementById('tx').value=1.0;draw();});
+  draw();
+})();
+</script>
+</body>
+</html>
