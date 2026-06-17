@@ -1,0 +1,32 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.python-version
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# --- Build / cache ---
+.cache/
+dist/
+build/
+
+# --- MkDocs build output ---
+/site/
+.cache
+
+# --- Large media (consider Git LFS instead) ---
+# *.mp4
+# *.mov

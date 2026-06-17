@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 260" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The end-effector pose matrix with translation column labeled position p and rotation block whose three columns are the gripper x y z axes, with the z axis labeled approach direction.">
+  <defs>
+    <marker id="ax" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1d4ed8"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}.m{font-family:monospace;font-size:13px;fill:#0f172a}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Reading position and orientation out of T₀ⁿ</text>
+  <text x="55" y="95" class="m">r11 r12 r13 │ px</text>
+  <text x="55" y="120" class="m">r21 r22 r23 │ py</text>
+  <text x="55" y="145" class="m">r31 r32 r33 │ pz</text>
+  <text x="55" y="170" class="m"> 0   0   0  │  1</text>
+  <rect x="48" y="78" width="140" height="78" fill="none" stroke="#7c3aed" stroke-width="2"/><text x="118" y="196" text-anchor="middle" class="b" fill="#7c3aed">orientation R</text>
+  <rect x="196" y="78" width="56" height="78" fill="none" stroke="#e11d48" stroke-width="2"/><text x="224" y="212" text-anchor="middle" class="b" fill="#e11d48">position p</text>
+  <!-- gripper axes -->
+  <g transform="translate(470,130)">
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#e11d48" stroke-width="2.5" marker-end="url(#ax)"/><text x="56" y="4" class="c">x_g</text>
+    <line x1="0" y1="0" x2="0" y2="-50" stroke="#10b981" stroke-width="2.5"/><text x="4" y="-56" class="c">y_g</text>
+    <line x1="0" y1="0" x2="-36" y2="28" stroke="#1d4ed8" stroke-width="2.5"/><text x="-70" y="40" class="c">z_g (approach)</text>
+    <circle cx="0" cy="0" r="5" fill="#0f172a"/>
+  </g>
+  <text x="350" y="244" text-anchor="middle" class="c">R's columns are the gripper's x, y, z axes in the base frame; p is its origin.</text>
+</svg>

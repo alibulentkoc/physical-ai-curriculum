@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 270" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A clean pinhole projection summary: scene point, ray through the center of projection, image plane at focal length f, image point x = fX/Z with the divide-by-Z highlighted.">
+  <defs>
+    <marker id="rk" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.l{font-size:12.5px;font-weight:700;fill:#334155}.k{font-size:13px;font-weight:800;fill:#0f766e}</style>
+  </defs>
+  <text x="340" y="24" text-anchor="middle" class="t">The pinhole model in one rule</text>
+  <circle cx="90" cy="120" r="14" fill="#e11d48"/><text x="90" y="98" text-anchor="middle" class="c">scene point (X,Y,Z)</text>
+  <rect x="300" y="50" width="8" height="150" fill="#334155"/><circle cx="304" cy="125" r="4" fill="#fff" stroke="#0f172a"/>
+  <text x="304" y="42" text-anchor="middle" class="c">center of projection</text>
+  <line x1="104" y1="120" x2="304" y2="125" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="304" y1="125" x2="430" y2="150" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#rk)"/>
+  <line x1="430" y1="60" x2="430" y2="200" stroke="#94a3b8" stroke-width="2"/><text x="430" y="218" text-anchor="middle" class="c">image plane</text>
+  <circle cx="430" cy="150" r="8" fill="#e11d48"/>
+  <line x1="308" y1="190" x2="430" y2="190" stroke="#0d9488" stroke-width="1.4"/><text x="369" y="184" text-anchor="middle" class="l" fill="#0f766e">f</text>
+  <rect x="500" y="105" width="160" height="44" rx="9" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="580" y="132" text-anchor="middle" class="k">x = f·X/Z  (÷Z)</text>
+  <text x="340" y="258" text-anchor="middle" class="c">Direction in, scaled by f, divided by depth — the whole forward geometry.</text>
+</svg>

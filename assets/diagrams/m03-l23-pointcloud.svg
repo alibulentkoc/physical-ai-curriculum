@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 260" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A small depth image whose valid pixels are deprojected into a 3D point cloud; pixels with no depth are skipped and absent from the cloud.">
+  <defs>
+    <marker id="pa3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:11px;font-weight:700;fill:#334155}.z{font-size:9px;fill:#0369a1;font-family:monospace}.x{font-size:11px;font-weight:800;fill:#b91c1c}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Deproject a depth image into a point cloud</text>
+  <!-- depth grid -->
+  <g>
+    <rect x="40" y="55" width="180" height="135" fill="#f0f9ff" stroke="#bae6fd"/>
+    <g stroke="#bae6fd"><line x1="40" y1="100" x2="220" y2="100"/><line x1="40" y1="145" x2="220" y2="145"/><line x1="100" y1="55" x2="100" y2="190"/><line x1="160" y1="55" x2="160" y2="190"/></g>
+    <text x="70" y="82" text-anchor="middle" class="z">.30</text><text x="130" y="82" text-anchor="middle" class="z">.32</text><text x="190" y="82" text-anchor="middle" class="z">.35</text>
+    <text x="70" y="127" text-anchor="middle" class="z">.31</text><text x="130" y="127" text-anchor="middle" class="x">×</text><text x="190" y="127" text-anchor="middle" class="z">.36</text>
+    <text x="70" y="172" text-anchor="middle" class="z">.33</text><text x="130" y="172" text-anchor="middle" class="z">.34</text><text x="190" y="172" text-anchor="middle" class="x">×</text>
+  </g>
+  <text x="130" y="208" text-anchor="middle" class="c">depth image (Z per pixel; × = no depth)</text>
+  <!-- arrow -->
+  <line x1="240" y1="125" x2="320" y2="125" stroke="#0f172a" stroke-width="1.8" marker-end="url(#pa3)"/>
+  <text x="280" y="115" text-anchor="middle" class="c">deproject</text>
+  <!-- point cloud (faux-3D scatter) -->
+  <g fill="#10b981">
+    <circle cx="400" cy="95" r="4"/><circle cx="450" cy="88" r="4"/><circle cx="510" cy="82" r="4"/>
+    <circle cx="395" cy="135" r="4"/><circle cx="515" cy="128" r="4"/>
+    <circle cx="405" cy="175" r="4"/><circle cx="455" cy="172" r="4"/>
+  </g>
+  <text x="455" y="208" text-anchor="middle" class="c">point cloud (invalid pixels skipped)</text>
+  <text x="350" y="240" text-anchor="middle" class="b">P_c = ((u−c_x)Z/f_x, (v−c_y)Z/f_y, Z) per valid pixel · verify with a round-trip</text>
+</svg>

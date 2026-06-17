@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A 3D serial arm with small coordinate frames at each joint and the product T 0 1 times T 1 2 and so on equals T 0 n mapping base to gripper.">
+  <defs>
+    <marker id="g13" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:11px;font-weight:700;fill:#334155}.f{font-family:monospace;font-size:13px;fill:#0f172a}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">General serial chain in SE(3)</text>
+  <!-- base frame -->
+  <g transform="translate(70,150)"><line x1="0" y1="0" x2="22" y2="0" stroke="#e11d48" stroke-width="2"/><line x1="0" y1="0" x2="0" y2="-22" stroke="#10b981" stroke-width="2"/><text x="-10" y="22" class="c">base</text></g>
+  <line x1="100" y1="150" x2="210" y2="120" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round" marker-end="url(#g13)"/><text x="150" y="120" class="b">T₀¹</text>
+  <g transform="translate(220,118)"><line x1="0" y1="0" x2="18" y2="0" stroke="#e11d48" stroke-width="2"/><line x1="0" y1="0" x2="0" y2="-18" stroke="#10b981" stroke-width="2"/></g>
+  <line x1="240" y1="118" x2="350" y2="100" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round" marker-end="url(#g13)"/><text x="295" y="92" class="b">T₁²</text>
+  <g transform="translate(360,98)"><line x1="0" y1="0" x2="18" y2="0" stroke="#e11d48" stroke-width="2"/><line x1="0" y1="0" x2="0" y2="-18" stroke="#10b981" stroke-width="2"/></g>
+  <line x1="380" y1="98" x2="470" y2="80" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round" stroke-dasharray="3 3" marker-end="url(#g13)"/><text x="425" y="72" class="b">…</text>
+  <circle cx="470" cy="80" r="7" fill="#e11d48"/><text x="482" y="80" class="c">gripper</text>
+  <text x="350" y="200" text-anchor="middle" class="f">T₀ⁿ(θ) = T₀¹(θ1) · T₁²(θ2) · … · Tₙ₋₁ⁿ(θn) = ∏ T(i−1→i)</text>
+  <text x="350" y="226" text-anchor="middle" class="c">each factor ∈ SE(3) · base→tip · order matters (3D rotations don't commute)</text>
+</svg>

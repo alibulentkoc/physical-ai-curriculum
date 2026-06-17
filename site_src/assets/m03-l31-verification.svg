@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A verification panel: the re-projected pixel landing back on the detection, plus a faux-3D plot of camera, ray, fruit, and world frame, with three checks passing.">
+  <defs>
+    <marker id="va" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#f59e0b"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:11px;font-weight:700;fill:#334155}.ok{font-size:11px;font-weight:800;fill:#15803d}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Verify, then trust: numeric + visual</text>
+  <!-- left: image with reprojected pixel -->
+  <rect x="30" y="55" width="200" height="150" fill="#f0f9ff" stroke="#bae6fd"/><text x="130" y="222" text-anchor="middle" class="c">image: detection vs re-projection</text>
+  <circle cx="150" cy="120" r="9" fill="none" stroke="#e11d48" stroke-width="2"/><text x="150" y="100" text-anchor="middle" class="c" fill="#e11d48">detected</text>
+  <circle cx="150" cy="120" r="3" fill="#0d9488"/><text x="150" y="146" text-anchor="middle" class="ok">re-proj ≤1px</text>
+  <!-- right: faux-3D -->
+  <g transform="translate(420,60)">
+    <circle cx="0" cy="80" r="5" fill="#0f172a"/><text x="0" y="100" text-anchor="middle" class="c">camera</text>
+    <line x1="0" y1="80" x2="200" y2="20" stroke="#f59e0b" stroke-width="2" marker-end="url(#va)"/>
+    <circle cx="130" cy="59" r="8" fill="#e11d48"/><text x="130" y="44" text-anchor="middle" class="c" fill="#e11d48">fruit on ray</text>
+    <line x1="180" y1="120" x2="220" y2="120" stroke="#1d4ed8" stroke-width="2"/><line x1="180" y1="120" x2="180" y2="86" stroke="#7c3aed" stroke-width="2"/>
+    <text x="200" y="138" text-anchor="middle" class="c">world frame</text>
+  </g>
+  <text x="350" y="240" text-anchor="middle" class="ok">✓ re-projection   ✓ distance preserved (‖P_c‖ = ‖P_w − t‖ ≈ 0.307 m)   ✓ in workspace</text>
+</svg>

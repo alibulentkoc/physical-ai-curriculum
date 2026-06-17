@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A gripper-outline shape shown as a ghost at the origin and as a solid copy after an SE(2) transform, rotated and shifted, with one edge labeled the same length in both to show the motion is rigid.">
+  <defs>
+    <marker id="a3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:17px;font-weight:700;fill:#0f172a}.c{font-size:11.5px;fill:#64748b}.l{font-size:12.5px;font-weight:700;fill:#334155}.len{font-size:11px;font-weight:700;fill:#15803d}</style>
+  </defs>
+  <text x="340" y="26" text-anchor="middle" class="t">Apply SE(2) to every point: the whole shape moves rigidly</text>
+  <line x1="40" y1="280" x2="640" y2="280" stroke="#e2e8f0"/><line x1="120" y1="60" x2="120" y2="280" stroke="#e2e8f0"/>
+  <!-- ghost shape at origin -->
+  <polygon points="120,250 200,250 210,210 160,185 120,210" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="120" y1="250" x2="200" y2="250" stroke="#15803d" stroke-width="2"/>
+  <text x="150" y="268" class="len">d</text>
+  <text x="160" y="172" text-anchor="middle" class="c">ghost (original)</text>
+  <!-- transformed shape -->
+  <g transform="translate(430,150) rotate(-35)">
+    <polygon points="0,40 80,40 90,0 40,-25 0,0" fill="#0ea5e922" stroke="#0ea5e9" stroke-width="2"/>
+    <line x1="0" y1="40" x2="80" y2="40" stroke="#15803d" stroke-width="2"/>
+  </g>
+  <text x="470" y="120" text-anchor="middle" class="l" fill="#0284c7">after T (same shape)</text>
+  <text x="455" y="205" class="len">d (unchanged)</text>
+  <!-- arrow -->
+  <line x1="215" y1="215" x2="380" y2="170" stroke="#0f172a" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#a3)"/>
+  <text x="295" y="180" text-anchor="middle" class="c">apply T (θ, tx, ty)</text>
+  <text x="340" y="306" text-anchor="middle" class="c">Transform a few key points; the rigid matrix carries the rest faithfully — no warping.</text>
+</svg>

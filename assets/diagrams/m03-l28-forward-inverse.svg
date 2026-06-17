@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 220" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The complete picture: world to pixel projection on top, pixel to world back-projection and transform on the bottom, both meeting at the same fruit.">
+  <defs>
+    <marker id="fwd" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#7c3aed"/></marker>
+    <marker id="inv" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}.fw{font-size:11px;font-weight:800;fill:#7c3aed}.iv{font-size:11px;font-weight:800;fill:#0d9488}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Forward and inverse: the world ↔ pixel round trip</text>
+  <rect x="40" y="90" width="120" height="46" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="100" y="118" text-anchor="middle" class="b">world (fruit)</text>
+  <rect x="540" y="90" width="120" height="46" rx="10" fill="#0f172a"/><text x="600" y="118" text-anchor="middle" class="b" fill="#fff">pixel</text>
+  <path d="M 162 100 Q 350 60 538 100" fill="none" stroke="#7c3aed" stroke-width="1.8" marker-end="url(#fwd)"/>
+  <text x="350" y="62" text-anchor="middle" class="fw">forward (Units 1–5): extrinsics · distortion · K</text>
+  <path d="M 538 126 Q 350 166 162 126" fill="none" stroke="#0d9488" stroke-width="1.8" marker-end="url(#inv)"/>
+  <text x="350" y="182" text-anchor="middle" class="iv">inverse (Units 6–7): undistort · K⁻¹ ray + depth · T(world←cam)</text>
+  <text x="350" y="206" text-anchor="middle" class="c">Next: Unit 8 capstone end-to-end; Module 4 supplies T(world←arm) via forward kinematics.</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A tomato seen by the camera must be restated in the arm frame and the world frame, repeatedly, as the robot acts and moves.">
+  <defs>
+    <marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.l{font-size:12.5px;font-weight:700}.c{font-size:11.5px;fill:#64748b}</style>
+  </defs>
+  <text x="340" y="28" text-anchor="middle" class="t">The robot's constant problem: perceive here, act there</text>
+  <circle cx="120" cy="150" r="11" fill="#e11d48"/><text x="120" y="128" text-anchor="middle" class="c">tomato</text>
+  <!-- camera -->
+  <rect x="70" y="210" width="100" height="46" rx="9" fill="#8b5cf622" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="120" y="231" text-anchor="middle" class="l" fill="#7c3aed">camera</text>
+  <text x="120" y="248" text-anchor="middle" class="c">perceive</text>
+  <!-- arm/base -->
+  <rect x="290" y="210" width="100" height="46" rx="9" fill="#1d4ed822" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="340" y="231" text-anchor="middle" class="l" fill="#1d4ed8">arm / base</text>
+  <text x="340" y="248" text-anchor="middle" class="c">act</text>
+  <!-- world -->
+  <rect x="510" y="210" width="100" height="46" rx="9" fill="#0d948822" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="560" y="231" text-anchor="middle" class="l" fill="#0f766e">world</text>
+  <text x="560" y="248" text-anchor="middle" class="c">remember</text>
+  <!-- restate arrows -->
+  <line x1="170" y1="233" x2="288" y2="233" stroke="#0f172a" stroke-width="1.8" marker-end="url(#a1)"/><text x="229" y="224" text-anchor="middle" class="c">restate</text>
+  <line x1="390" y1="233" x2="508" y2="233" stroke="#0f172a" stroke-width="1.8" marker-end="url(#a1)"/><text x="449" y="224" text-anchor="middle" class="c">restate</text>
+  <!-- loop -->
+  <path d="M 560 270 q 0 60 -220 60 q -220 0 -220 -60" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a1)"/>
+  <text x="340" y="346" text-anchor="middle" class="c">every time the robot moves, repeat — carrying the location between frames is the machine's heartbeat</text>
+</svg>

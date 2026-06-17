@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 260" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The full loop: camera sees fruit P cam, through the camera mount to P base; forward kinematics gives T 0 n; the target is expressed in the arm frame to produce a motion command.">
+  <defs>
+    <marker id="p27" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:10.5px;fill:#64748b}.b{font-size:10.5px;font-weight:700;fill:#334155}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Closing the loop: perception meets kinematics</text>
+  <rect x="20" y="55" width="120" height="44" rx="9" fill="#e0f2fe" stroke="#7dd3fc"/><text x="80" y="74" text-anchor="middle" class="b">camera → P_cam</text><text x="80" y="90" text-anchor="middle" class="c">Module 3</text>
+  <line x1="140" y1="77" x2="172" y2="77" stroke="#0f172a" stroke-width="1.5" marker-end="url(#p27)"/>
+  <rect x="176" y="55" width="120" height="44" rx="9" fill="#f8fafc" stroke="#e2e8f0"/><text x="236" y="74" text-anchor="middle" class="b">T_base^cam</text><text x="236" y="90" text-anchor="middle" class="c">calibrated mount</text>
+  <line x1="296" y1="77" x2="328" y2="77" stroke="#0f172a" stroke-width="1.5" marker-end="url(#p27)"/>
+  <rect x="332" y="55" width="110" height="44" rx="9" fill="#ecfdf5" stroke="#a7f3d0"/><text x="387" y="80" text-anchor="middle" class="b">P_base</text>
+  <!-- FK branch -->
+  <rect x="176" y="135" width="170" height="44" rx="9" fill="#eef2ff" stroke="#c7d2fe"/><text x="261" y="154" text-anchor="middle" class="b">FK: T₀ⁿ (Module 4)</text><text x="261" y="170" text-anchor="middle" class="c">= T(world←arm)</text>
+  <line x1="346" y1="157" x2="388" y2="120" stroke="#0f172a" stroke-width="1.5" marker-end="url(#p27)"/>
+  <line x1="442" y1="77" x2="500" y2="120" stroke="#0f172a" stroke-width="1.5" marker-end="url(#p27)"/>
+  <rect x="470" y="120" width="200" height="48" rx="9" fill="#fff7ed" stroke="#fed7aa"/><text x="570" y="142" text-anchor="middle" class="b">target in gripper frame</text><text x="570" y="160" text-anchor="middle" class="c">→ motion command</text>
+  <text x="350" y="232" text-anchor="middle" class="c">Same frame: "the fruit is there" and "my gripper is here" → the difference is a move.</text>
+</svg>

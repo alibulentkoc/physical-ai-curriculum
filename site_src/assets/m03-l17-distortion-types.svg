@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Three square grids: the ideal pinhole grid with straight lines, a barrel-distorted grid bowing outward, and a pincushion-distorted grid pinching inward. The center is nearly unchanged in all three; edges bend most.">
+  <defs><style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.lab{font-size:12px;font-weight:700;fill:#334155}</style></defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Distortion bends straight lines (most at the edges)</text>
+  <!-- ideal -->
+  <g stroke="#0ea5e9" stroke-width="1.4" fill="none">
+    <rect x="40" y="60" width="120" height="120"/>
+    <line x1="40" y1="100" x2="160" y2="100"/><line x1="40" y1="140" x2="160" y2="140"/>
+    <line x1="80" y1="60" x2="80" y2="180"/><line x1="120" y1="60" x2="120" y2="180"/>
+  </g>
+  <text x="100" y="200" text-anchor="middle" class="lab">ideal (pinhole)</text>
+  <!-- barrel: bow outward -->
+  <g stroke="#7c3aed" stroke-width="1.4" fill="none">
+    <path d="M290,60 Q300,70 310,60"/>
+    <path d="M280,70 Q300,60 320,70 Q330,120 320,170 Q300,180 280,170 Q270,120 280,70 Z"/>
+    <path d="M280,100 Q300,92 320,100"/><path d="M280,140 Q300,148 320,140"/>
+    <path d="M290,72 Q282,120 290,168"/><path d="M310,72 Q318,120 310,168"/>
+  </g>
+  <text x="300" y="200" text-anchor="middle" class="lab" fill="#7c3aed">barrel (k&gt;0)</text>
+  <!-- pincushion: pinch inward -->
+  <g stroke="#e11d48" stroke-width="1.4" fill="none">
+    <path d="M480,60 Q500,72 520,60 Q510,120 520,180 Q500,168 480,180 Q490,120 480,60 Z"/>
+    <path d="M480,100 Q500,108 520,100"/><path d="M480,140 Q500,132 520,140"/>
+    <path d="M490,60 Q498,120 490,180"/><path d="M510,60 Q502,120 510,180"/>
+  </g>
+  <text x="500" y="200" text-anchor="middle" class="lab" fill="#e11d48">pincushion (k&lt;0)</text>
+  <text x="350" y="232" text-anchor="middle" class="c">Nothing in the world is curved — the lens maps angles nonlinearly; the error grows with radius.</text>
+</svg>
