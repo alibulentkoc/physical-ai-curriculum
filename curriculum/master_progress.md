@@ -16,7 +16,7 @@ _Last updated: 2026-06 — Module 6 (Jacobians and Differential Motion) COMPLETE
 | 02 | Spatial Transformations and SE(3) | ✅ COMPLETE | 36 | 36 | 36 | 6 | 36 | 36 + midpoint key | midpoint |
 | 03 | Camera Geometry and Robotic Perception | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 | midpoint + capstone |
 | 04 | Forward Kinematics using Denavit–Hartenberg Parameters | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 + midpoint key | midpoint + capstone |
-| 05 | Inverse Kinematics | 🟩 COMPLETE | 32/32 | 32 | 32 | 4 | 32 | 32 + midpoint key | midpoint + Reach-the-Fruit capstone |
+| 05 | Inverse Kinematics | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 + midpoint key | midpoint + Reach-the-Fruit capstone |
 | 06 | Jacobians and Differential Motion | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 + midpoint key | midpoint + 4-part velocity-layer capstone |
 | 07 | Trajectory Generation and Motion Planning | ⬜ planned | — | — | — | — | — | — | — |
 | 08 | Communication, Embedded Systems, and Control (ROS 2) | ⬜ planned | — | — | — | — | — | — | — |
