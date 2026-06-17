@@ -26,16 +26,6 @@ the geometry.
   ![Force and Velocity Duality: τ = JᵀF and the Force Ellipsoid](../assets/m06-l16-force-velocity-duality.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — velocity ellipsoid:** long axis = easy-to-move direction (large $\sigma$),
-  short axis = hard-to-move.
-- **Panel 2 — force ellipsoid (overlaid or beside):** same axis directions, but lengths
-  $1/\sigma$ — long where velocity was short. Arrows show "easy to move here = weak to
-  push here."
-- Caption: "Force ellipsoid = velocity ellipsoid with reciprocal axes. Move easily one
-  way, push hard the other."
-
 ## 4. Mathematical Foundations
 *In words first:* power must match whether you compute it at the joints or at the tool;
 equating the two gives the transpose relationship.

@@ -24,17 +24,6 @@ doesn't care where the commands come from; it only resolves them.
   ![Capstone IV — The Velocity Layer for Module 7](../assets/m06-l32-capstone-velocity-layer.svg){ width="680" }
 </figure>
 
-**Diagram Specification (stack)**
-
-- Top block: "Module 7 — trajectory generation (produces $\boldsymbol{\xi}_d(t)$)" — greyed,
-  *future*.
-- A dashed boundary line "Module 6 / Module 7 handoff."
-- Middle block: "Module 6 velocity layer = analyzer + resolved-rate tracker" with ports
-  $\boldsymbol{\xi}_d$ in, $\dot{\mathbf{q}}$ out.
-- Bottom: "robot joints."
-- Caption: "Module 6 delivers the velocity layer; Module 7 drives it; Module 8 would wrap it
-  with feedback."
-
 ## 4. Mathematical Foundations
 *In words first:* one function — twist in, joint rates out — with everything robust handled
 inside.

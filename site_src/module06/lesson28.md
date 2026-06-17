@@ -25,16 +25,6 @@ rate into joint rates, continuously — hence "resolved-rate."
   ![Resolved-Rate Motion: The Open-Loop Velocity Layer](../assets/m06-l28-resolved-rate-motion.svg){ width="680" }
 </figure>
 
-**Diagram Specification (single flow)**
-
-- A cycle of four boxes: **(1)** commanded tool twist $\boldsymbol{\xi}_d$ → **(2)** resolve
-  $\dot{\mathbf{q}} = J^{+}_{\lambda}(\mathbf{q})\,\boldsymbol{\xi}_d$ → **(3)** integrate
-  $\mathbf{q}\leftarrow\mathbf{q}+\dot{\mathbf{q}}\,\Delta t$ → **(4)** recompute
-  $J(\mathbf{q})$ → back to (1).
-- A small inset: the tool tracing a straight line in the commanded direction.
-- Caption: "Resolved-rate motion: resolve the commanded twist into joint rates, step
-  forward, repeat — the open-loop velocity layer."
-
 ## 4. Mathematical Foundations
 *In words first:* loop — desired twist to joint rates, take a small Euler step, recompute the
 Jacobian, repeat.

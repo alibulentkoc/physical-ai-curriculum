@@ -209,7 +209,7 @@ def build(path, mod):
     # strip authoring scaffolding from the STUDENT page
     body = re.sub(r'^`\[Visual:.*?`\s*\n', '', body, flags=re.M)
     body = re.sub(r'\*\*Rendered assets?:?\*\*.*?\n\n', '', body, flags=re.S)
-    body = re.sub(r'\*\*Diagram Specification\*\*.*?(?=\n## )', '', body, flags=re.S)
+    body = re.sub(r'\*\*Diagram Specification[^*\n]*\*\*.*?(?=\n## )', '', body, flags=re.S)
     body = re.sub(r'\n{3,}', '\n\n', body)
 
     if published:

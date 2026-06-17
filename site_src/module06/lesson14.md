@@ -26,16 +26,6 @@ ellipsoid flattens into a disk or line, the geometric face of an impossible dire
   ![The Manipulability Ellipsoid: A Picture of What the Robot Can Do](../assets/m06-l14-manipulability-ellipsoid.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — the mapping:** left, a unit circle of joint-rate vectors $\lVert\dot{\mathbf{q}}\rVert=1$;
-  an arrow "through $J$"; right, the resulting tool-velocity ellipse with long axis tagged
-  "easy" and short axis tagged "hard."
-- **Panel 2 — collapse:** the same ellipse at a near-singular pose, flattened toward a
-  line; the vanishing axis marked "impossible direction."
-- Caption: "The manipulability ellipsoid is what one unit of joint effort buys, in every
-  direction — long = easy, short = hard, flat = impossible."
-
 ## 4. Mathematical Foundations
 *In words first:* the ellipsoid is just the image of the unit ball of joint velocities
 under the Jacobian; its axes point along the easy/hard directions and their lengths say

@@ -28,16 +28,6 @@ the column.
   ![Numerical Validation: Geometric J vs Finite Differences](../assets/m06-l8-numerical-validation.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Left panel — central difference:** the arm drawn at three nearby configurations
-  (faint at $q\pm\varepsilon$, solid at $q$); a red $\Delta\text{pose}$ arrow at the
-  tool; label $J_i \approx [\,\text{FK}(q+\varepsilon e_i)-\text{FK}(q-\varepsilon e_i)\,]/2\varepsilon$.
-- **Right panel — convergence:** a log–log plot of $\lVert J_{\text{geo}}-J_{\text{fd}}\rVert$
-  vs step size $\varepsilon$, points on a line of slope $\approx 2$.
-- Caption: "Measure the tool's motion to discover each column; central differences
-  agree with the analytic Jacobian to second order."
-
 ## 4. Mathematical Foundations
 *In words first:* perturb a joint both ways, measure the change in tool pose, divide by
 the total nudge. The linear part is an ordinary central difference; the angular part

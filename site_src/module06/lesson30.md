@@ -23,14 +23,6 @@ clean boundary.
   ![Capstone II — The Resolved-Rate Tracker](../assets/m06-l30-capstone-tracker.svg){ width="680" }
 </figure>
 
-**Diagram Specification (component view)**
-
-- A labeled box "Resolved-Rate Tracker": input port $\boldsymbol{\xi}_d$ (commanded twist),
-  output port $\dot{\mathbf{q}}$ (joint rates); inside, the loop resolve → integrate →
-  recompute $J$.
-- Below: the tool tracing the commanded direction (open-loop).
-- Caption: "A narrow interface: commanded twist in, joint rates out — the velocity layer."
-
 ## 4. Mathematical Foundations
 *In words first:* a function that, given the current pose and a commanded twist, returns the
 joint rates and the next pose — looped.

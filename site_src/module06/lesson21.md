@@ -26,16 +26,6 @@ decomposition — all describing the same ellipsoid.
   ![The SVD as the Ellipsoid's Anatomy: U, Σ, V Explain the Picture](../assets/m06-l21-svd-ellipsoid-anatomy.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — input ($V$):** the unit sphere of joint rates with two orthonormal
-  directions $\mathbf{v}_1,\mathbf{v}_2$ marked.
-- **Panel 2 — stretch ($\Sigma$):** an arrow labeled "scale axis $i$ by $\sigma_i$."
-- **Panel 3 — output ($U$):** the tool-velocity ellipsoid with axes
-  $\mathbf{u}_1,\mathbf{u}_2$ of lengths $\sigma_1,\sigma_2$.
-- Caption: "SVD = the ellipsoid's anatomy: pick a clean input direction ($V$), stretch it
-  by its gain ($\Sigma$), land on an output axis ($U$)."
-
 ## 4. Mathematical Foundations
 *In words first:* every matrix turns a sphere into an ellipsoid by rotating to special
 input axes, stretching along them, and rotating to output axes — the SVD just lists

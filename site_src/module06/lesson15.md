@@ -24,15 +24,6 @@ a singularity — and the volume goes to zero. That volume is the manipulability
   ![Putting a Number on It: The Yoshikawa Manipulability Measure](../assets/m06-l15-yoshikawa-measure.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — three ellipses:** round/isotropic (label "large $w$"), elongated (label
-  "smaller $w$"), nearly flat (label "$w\to 0$, near singular").
-- **Panel 2 — workspace heatmap:** a planar arm's reachable area shaded by $w$, bright in
-  well-conditioned regions, dark along singularity loci.
-- Caption: "$w$ = ellipsoid volume: one number for overall freedom — but it cannot tell a
-  round shape from an elongated one of equal area."
-
 ## 4. Mathematical Foundations
 *In words first:* multiply the ellipsoid's semi-axis lengths together — that product (the
 volume) is the measure.

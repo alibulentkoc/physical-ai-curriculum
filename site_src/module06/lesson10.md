@@ -30,16 +30,6 @@ ordinary turn. The conversion from "dial rates" to "real turning" is therefore
   ![The Representation Map B(φ): Linking ω to Angle Rates](../assets/m06-l10-representation-map.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — conversion:** three needle-rates $\dot r,\dot p,\dot y$ entering a block
-  $B(\boldsymbol{\phi})$, out comes one arrow $\boldsymbol{\omega}$.
-- **Panel 2 — near gimbal:** the roll and yaw rotation axes drawn nearly coincident as
-  pitch $\to 90^\circ$; a note that $B$ loses rank there (huge dial-rates needed for a
-  small turn).
-- Caption: "B(φ) converts dial-rates to real turning; how it converts depends on the
-  current angles — and it breaks down at gimbal lock."
-
 ## 4. Mathematical Foundations
 *In words first:* each angle, when its dial moves, rotates the body about some axis;
 add those contributions and you get $\boldsymbol{\omega}$, so $\boldsymbol{\omega}$ is a

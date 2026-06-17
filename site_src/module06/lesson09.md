@@ -31,17 +31,6 @@ of the real motion. The analytic Jacobian is the second person's answer.
   ![The Analytic Jacobian: Differentiating Forward Kinematics](../assets/m06-l9-analytic-jacobian.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — the motion:** the tool translating and tilting, with its linear velocity
-  $\mathbf{v}$ and a physical angular-velocity arrow $\boldsymbol{\omega}$.
-- **Panel 2 — two readouts:** on one side $\boldsymbol{\omega}$ (axis-and-rate); on the
-  other, three dials roll/pitch/yaw with needle-rates $\dot r,\dot p,\dot y$.
-- Annotate: "position rows agree; orientation rows differ — $\dot{\boldsymbol{\phi}}
-  \neq \boldsymbol{\omega}$."
-- Caption: "The analytic Jacobian reports how the *angle numbers* change, not the
-  body's true angular velocity."
-
 ## 4. Mathematical Foundations
 *In words first:* stack the tool's position and its orientation angles into one pose
 vector, then differentiate that whole vector with respect to the joints.

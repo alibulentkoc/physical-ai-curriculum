@@ -26,16 +26,6 @@ deliberate, graceful surrender right where pure inversion would panic.
   ![Pseudoinverse and Damped Least Squares via the SVD](../assets/m06-l24-pseudoinverse-dls.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — the two gains:** plot $1/\sigma$ (pseudoinverse, → ∞ as $\sigma\to 0$) and
-  $\sigma/(\sigma^2+\lambda^2)$ (damped, peaks at $1/(2\lambda)$ then → 0). Shade the small-σ
-  region "blow-up vs bounded."
-- **Panel 2 — effect:** the same tool command near a singularity producing a huge joint-rate
-  vector (pseudoinverse) vs a modest one (damped), with a small tracking-error note for the
-  damped case.
-- Caption: "Inversion divides by σ; damping replaces 1/σ with the bounded σ/(σ²+λ²)."
-
 ## 4. Mathematical Foundations
 *In words first:* the pseudoinverse inverts each nonzero singular value; damping softens the
 inversion of the small ones so nothing blows up.

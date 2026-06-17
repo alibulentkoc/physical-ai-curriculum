@@ -28,17 +28,6 @@ in a real robot as a sudden frantic whir.
   ![Boundary vs Internal Singularities, and Joint-Rate Blow-Up](../assets/m06-l18-boundary-internal-singularities.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — where they live:** a planar 2R workspace annulus; the outer and inner circles
-  labeled "boundary singularities (arm straight / folded)"; a marked interior point labeled
-  "internal singularity (special alignment)."
-- **Panel 2 — the blow-up:** required $\lVert\dot{\mathbf{q}}\rVert$ to hold a unit tool
-  velocity in the lost direction, plotted against $\sigma_{\min}$ heading to zero — a
-  $1/\sigma_{\min}$ curve rising to a vertical asymptote.
-- Caption: "Two locations, one hazard: near any singularity, chasing the lost direction
-  sends joint rates to infinity."
-
 ## 4. Mathematical Foundations
 *In words first:* to move the tool a given way you invert the velocity map; if the way you
 want is the nearly-lost direction, dividing by the tiny shrinking axis makes the joint

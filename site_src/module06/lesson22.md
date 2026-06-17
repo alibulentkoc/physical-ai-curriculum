@@ -25,15 +25,6 @@ singular.
   ![Singular Values and the Condition Number](../assets/m06-l22-condition-number.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — isotropic:** a near-circular ellipse, label "$\kappa \approx 1$: equal
-  capability all directions."
-- **Panel 2 — ill-conditioned:** a long thin ellipse of the *same area*, label "$\kappa
-  \gg 1$: near singular." Both annotated with $w$ (equal) to make the blind-spot point.
-- Caption: "Same volume $w$, very different shape — the condition number $\kappa$ tells
-  them apart."
-
 ## 4. Mathematical Foundations
 *In words first:* singular values are the axis lengths; their ratio is the shape; equal
 volume can hide very different shapes, so report both.

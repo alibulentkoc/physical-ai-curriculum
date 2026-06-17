@@ -24,15 +24,6 @@ or clear of obstacles while the tool stays on command.
   ![Capstone III — Integration: Scheduled Damping and Redundancy](../assets/m06-l31-capstone-integration.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — schedule:** $\lambda$ vs $\sigma_{\min}$: $\lambda\approx 0$ for large
-  $\sigma_{\min}$, rising smoothly as $\sigma_{\min}\to 0$.
-- **Panel 2 — effect along a path:** two $\lVert\dot{\mathbf{q}}\rVert$ traces vs path parameter —
-  a spike (no scheduling) vs a bounded bump (scheduled), as the path nears a singularity.
-- Caption: "The analyzer's σ_min schedules the damping: faithful far away, bounded near
-  singularities."
-
 ## 4. Mathematical Foundations
 *In words first:* read $\sigma_{\min}$ from the analyzer, turn it into a damping value, resolve
 with that damping, and (if redundant) add a null-space secondary velocity.

@@ -26,16 +26,6 @@ doesn't move the tool, the task is undisturbed. Primary task plus a free seconda
   ![Redundancy Resolution: The Pseudoinverse and Null-Space Motion](../assets/m06-l26-redundancy-resolution.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — many solutions:** a redundant 3R arm shown in two postures with the *same*
-  tool position; a curved "self-motion" arrow linking them; caption "same tool, different
-  posture = null-space freedom."
-- **Panel 2 — the decomposition:** $\dot{\mathbf{q}} = \underbrace{J^{+}\boldsymbol{\xi}_d}_{\text{min-norm, does the task}} + \underbrace{(I-J^{+}J)\mathbf{z}}_{\text{null-space, secondary goal}}$,
-  with the second term annotated "no tool motion."
-- Caption: "Pseudoinverse does the task with least effort; the null space spends the rest
-  on a secondary goal."
-
 ## 4. Mathematical Foundations
 *In words first:* take the smallest joint-rate solution that does the task, then add any
 self-motion you like for a secondary purpose.

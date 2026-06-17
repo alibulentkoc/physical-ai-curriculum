@@ -25,14 +25,6 @@ instrument.
   ![Capstone I — The Manipulability & Singularity Analyzer](../assets/m06-l29-capstone-analyzer.svg){ width="680" }
 </figure>
 
-**Diagram Specification (dashboard)**
-
-- Center: the manipulability ellipse for the current pose, axes labeled $\sigma_1\mathbf{u}_1,
-  \sigma_2\mathbf{u}_2$.
-- Side gauges: $\sigma_1,\sigma_2$ bars; $w$ and $\kappa$ numeric readouts; a status light
-  (green healthy / amber ill-conditioned / red near-singular).
-- Caption: "One pose in, the whole capability report out — all from a single SVD."
-
 ## 4. Mathematical Foundations
 *In words first:* compute the Jacobian, take its SVD once, and read every capability metric
 off the result.

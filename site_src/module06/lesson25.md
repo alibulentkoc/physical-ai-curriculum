@@ -26,15 +26,6 @@ ellipsoid has nearly lost — and the inverse strains (the next lessons handle t
   ![Inverse Velocity Kinematics: From Desired Twist to Joint Rates](../assets/m06-l25-inverse-velocity-kinematics.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — forward:** unit joint-rate circle → ellipse (via $J$), labeled "Unit 2."
-- **Panel 2 — inverse:** a chosen desired tool velocity $\boldsymbol{\xi}$ inside the
-  ellipse, mapped back (via $J^{-1}$) to the joint rates $\dot{\mathbf{q}}$ that produce it
-  — "un-stretching" the ellipse to the circle.
-- Caption: "Inverse velocity kinematics = run the ellipsoid backwards: desired tool
-  motion → the joint rates that make it."
-
 ## 4. Mathematical Foundations
 *In words first:* solve the linear system "Jacobian times unknown joint rates equals
 desired tool twist."

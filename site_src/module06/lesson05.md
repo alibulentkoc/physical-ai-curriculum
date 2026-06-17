@@ -62,18 +62,6 @@ columns straight off the arm's geometry instead of differentiating formulas.
   ![Forward Velocity Kinematics: Defining the Jacobian](../assets/m06-l5-forward-velocity-kinematics.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — "spin joint 1":** the arm with only joint 1 turning; draw the resulting
-  tool velocity arrow (this is $\dot q_1 J_1$).
-- **Panel 2 — "spin joint 2":** same arm, only joint 2 turning; draw its tool velocity
-  arrow ($\dot q_2 J_2$).
-- **Panel 3 — "both together":** both joints turning; draw the two contribution arrows
-  and their vector sum as the total tool twist $\boldsymbol{\xi}=J\dot{\mathbf{q}}$.
-- Annotate: "each joint pushes the tool; the Jacobian columns are those pushes."
-- Caption: "Forward velocity kinematics: the tool twist is the rate-weighted sum of
-  per-joint pushes — that sum is $J(\mathbf{q})\dot{\mathbf{q}}$."
-
 ## 5. Engineering Example
 When an operator jogs a robot with a teach pendant — "move the tool +X at 50 mm/s,
 hold orientation" — the controller is living in this equation. The desired tool twist

@@ -58,19 +58,6 @@ S(\boldsymbol{\omega})R$ is how that arrow drives the turning.
   ![Angular Velocity and the Skew Operator](../assets/m06-l2-angular-velocity.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — "instant t":** a tilted body with its angular-velocity arrow
-  $\boldsymbol{\omega}$ through it (direction = axis, length = rate).
-- **Panel 2 — "instant t + dt":** the same body rotated slightly further about the
-  same axis; a small arc shows the increment $\boldsymbol{\omega}\,dt$, illustrating
-  $R(t+dt)\approx(I+S(\boldsymbol{\omega})dt)R(t)$.
-- **Panel 3 — "two viewpoints":** the identical spin with $\boldsymbol{\omega}_s$
-  drawn in the world frame and $\boldsymbol{\omega}_b$ in the body frame, joined by
-  the label $\boldsymbol{\omega}_s = R\,\boldsymbol{\omega}_b$.
-- Caption: "Angular velocity is an axis-and-rate arrow; $\dot R = S(\boldsymbol{\omega})R$
-  is how it drives the turning, read in either frame."
-
 ## 5. Engineering Example
 This is not abstract: it is how a robot knows its own orientation. A strapdown IMU
 measures body angular velocity $\boldsymbol{\omega}_b$ with its gyroscope at, say,

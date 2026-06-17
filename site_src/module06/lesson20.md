@@ -26,16 +26,6 @@ direction with nowhere to go.
   ![Singularity Loci and Workspace Boundaries; from M5 Recognition to Full Theory](../assets/m06-l20-singularity-loci.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — the annulus:** reachable workspace between radius $L_1+L_2$ (outer) and
-  $|L_1-L_2|$ (inner); both circles highlighted and labeled "singularity locus (arm
-  straight / folded)."
-- **Panel 2 — inset:** $w(\theta_2)=|L_1L_2\sin\theta_2|$ over $\theta_2\in[-\pi,\pi]$, zeros
-  marked at $0$ and $\pm\pi$.
-- Caption: "Singular configurations = arm straight or folded = the hand on the workspace
-  rim."
-
 ## 4. Mathematical Foundations
 *In words first:* the singularity locus is just the solution set of "manipulability is
 zero," and for the 2R that equation is $\sin\theta_2=0$.

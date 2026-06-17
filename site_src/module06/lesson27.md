@@ -25,16 +25,6 @@ little accuracy to keep the motion bounded and safe.
   ![Singularity-Robust Resolved Rates: Damped Least Squares in Action](../assets/m06-l27-singularity-robust-resolved-rate.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — decomposition:** the desired tool velocity split into a large-$\sigma$
-  component (tracked) and a small-$\sigma$ component (damped, slightly under-tracked).
-- **Panel 2 — joint rates:** two vectors for the same command near a singularity —
-  pseudoinverse (very long, "unsafe") vs DLS (short, "bounded"), with a small "tracking
-  error" tag on the DLS tool motion.
-- Caption: "Damping bounds the joint rates by easing off in the dying direction — safe, with
-  a small, deliberate error."
-
 ## 4. Mathematical Foundations
 *In words first:* replace the inverse with the damped inverse from Lesson 6.4 when resolving
 the desired tool twist into joint rates.

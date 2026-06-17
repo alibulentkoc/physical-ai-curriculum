@@ -28,19 +28,6 @@ $J$.
   ![What the Tool Can and Cannot Do: Rank, Range, and Null Space](../assets/m06-l13-rank-range-nullspace.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — available directions:** non-singular arm; the columns of $J$ span the
-  plane; tool-velocity arrows in many directions. Caption "range = reachable directions."
-- **Panel 2 — impossible direction:** straight/singular arm; arrows collapse to a line;
-  the perpendicular direction marked with an ✗. Caption "rank drops ⇒ a direction is
-  lost."
-- **Panel 3 — internal motion:** redundant (3-link) arm; elbow swung to a second pose
-  with the **same** tool position; a looping arrow on the elbow, tool marked "still."
-  Caption "null space = self-motion the tool doesn't feel."
-- Overall caption: "Available · impossible · internal — the three things J tells you
-  about capability."
-
 ## 4. Mathematical Foundations
 *In words first:* the columns of $J$ are the per-joint pushes; what they can add up to is
 the range, what they can't reach is impossible, and any joint-rate combination that

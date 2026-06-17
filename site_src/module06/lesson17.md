@@ -26,17 +26,6 @@ direction is the lost motion. Nothing broke; the geometry simply ran out of a di
   ![When the Ellipsoid Collapses: Singularity as Lost Motion](../assets/m06-l17-ellipsoid-collapse.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — healthy:** mid-workspace arm, round-ish ellipse (both directions easy).
-- **Panel 2 — straining:** more-extended arm, elongated ellipse (one direction getting
-  hard).
-- **Panel 3 — collapsed:** fully extended arm, ellipse flattened to a line; mark the
-  **surviving** direction (along the line) and the **lost** direction (perpendicular, with
-  an ✗).
-- Caption: "A singularity is the ellipsoid going flat — one direction of motion is lost,
-  the rest remain."
-
 ## 4. Mathematical Foundations
 *In words first:* the ellipsoid's shortest axis is the hardest direction; when that axis
 shrinks to zero, that direction becomes impossible — that is the singularity.

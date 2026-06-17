@@ -59,20 +59,6 @@ this 6×6 is the adjoint; we use only the geometric form, per D-057.
   ![Transforming Twists Between Frames](../assets/m06-l4-transforming-twists.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel A — "observer A":** the moving body (e.g., a wheel) with frame $A$;
-  $\boldsymbol{\xi}_A=[\mathbf{v}_A;\boldsymbol{\omega}_A]$ drawn as arrows.
-- **Panel B — "observer B":** the *same* body and motion with frame $B$ offset by
-  $\mathbf{d}$ and rotated by $R$; $\boldsymbol{\xi}_B=[\mathbf{v}_B;\boldsymbol{\omega}_B]$
-  drawn as different arrows.
-- **Between panels:** a labeled transform arrow — "rotate arrows by $R$, shift linear
-  part by $\boldsymbol{\omega}\times\mathbf{d}$."
-- A small annotation that one chosen world point has the **same** physical velocity in
-  both panels.
-- Caption: "Different observers, different twist numbers — same motion. Two moves
-  convert one to the other."
-
 ## 5. Engineering Example
 A peg-in-hole routine wants to command "advance the peg 2 mm/s along the tool's own
 axis." The base-frame Jacobian gives the gripper twist in world coordinates, so the

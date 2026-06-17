@@ -31,16 +31,6 @@ Each is a *picture*, not a formula — a posture you could pose with your own ar
   ![Classifying Singularities: Shoulder, Elbow, and Wrist](../assets/m06-l19-classifying-singularities.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — elbow:** arm straight out; arrow along the reach marked "lost (can't extend)."
-- **Panel 2 — shoulder:** wrist center directly above the base axis; the base-rotation
-  contribution to wrist-center motion marked as collapsing.
-- **Panel 3 — wrist:** the two outer wrist axes drawn collinear; an orientation direction
-  marked "lost (two joints, one rotation)."
-- Caption: "Three nameable postures: elbow (extended), shoulder (over the base axis),
-  wrist (axes aligned)."
-
 ## 4. Mathematical Foundations
 *In words first:* for a spherical wrist the position and orientation parts of the Jacobian
 separate, so you can test the arm and the wrist for rank loss independently.

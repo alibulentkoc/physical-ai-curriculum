@@ -24,17 +24,6 @@ once by sorting its directions into "nonzero gain" and "zero gain."
   ![The Four Fundamental Subspaces of the Jacobian](../assets/m06-l23-four-subspaces.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — joint space:** a box split into **row space** ($\mathbf{v}_1..\mathbf{v}_r$,
-  "moves the tool") and **null space** ($\mathbf{v}_{r+1}..$, "self-motion, tool still").
-- **Panel 2 — task space:** a box split into **range** ($\mathbf{u}_1..\mathbf{u}_r$,
-  "reachable") and **left-null space** ($\mathbf{u}_{r+1}..$, "impossible directions").
-- An arrow $J$ from row space onto range, labeled "$J\mathbf{v}_i=\sigma_i\mathbf{u}_i$";
-  null and left-null marked "zero gain."
-- Caption: "Four subspaces: which joint motions move the tool, which don't; which tool
-  directions are reachable, which aren't."
-
 ## 4. Mathematical Foundations
 *In words first:* split the SVD directions by whether their singular value is nonzero — that
 single cut produces all four subspaces.

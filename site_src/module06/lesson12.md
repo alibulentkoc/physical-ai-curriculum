@@ -29,16 +29,6 @@ other is a problem with the machine.
   ![Representation Singularities vs Kinematic Singularities](../assets/m06-l12-representation-vs-kinematic-singularity.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — representation singularity:** a roll-pitch-yaw gimbal at pitch $90^\circ$,
-  roll and yaw axes coincident; caption "$\det B = 0$ — the angles break, the body
-  doesn't."
-- **Panel 2 — kinematic singularity:** a fully extended planar 2R arm with its two
-  Jacobian-column arrows collapsed onto a single line; caption "rank $J < $ full — the
-  robot loses a direction."
-- Overall caption: "Same word, opposite problems: the description vs the machine."
-
 ## 4. Mathematical Foundations
 *In words first:* check two different matrices. If the *angle map* $B(\boldsymbol{\phi})$
 loses rank, that's a representation singularity. If the *geometric Jacobian*

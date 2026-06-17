@@ -25,16 +25,6 @@ conversion just re-expresses each arrow in the new orientation.
   ![Base-Frame vs Tool-Frame Jacobian](../assets/m06-l11-base-vs-tool-frame.svg){ width="680" }
 </figure>
 
-**Diagram Specification (multi-panel)**
-
-- **Panel 1 — base view:** the tool with its twist arrows resolved along world axes,
-  labeled $\boldsymbol{\xi}_{\text{base}}$.
-- **Panel 2 — tool view:** the same tool/motion with arrows resolved along the tool's
-  own axes, labeled $\boldsymbol{\xi}_{\text{tool}}$, joined by
-  $\boldsymbol{\xi}_{\text{tool}}=\mathrm{blkdiag}(R^\top,R^\top)\,\boldsymbol{\xi}_{\text{base}}$.
-- Note: "same reference point ⇒ rotation only, no lever-arm term."
-- Caption: "Base vs tool frame: turn your head, don't move your feet."
-
 ## 4. Mathematical Foundations
 *In words first:* both Jacobians describe the velocity of the tool origin; only the
 axes differ, so rotate both the linear and angular blocks by the end-effector
