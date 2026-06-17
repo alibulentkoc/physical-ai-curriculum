@@ -1,0 +1,184 @@
+<div id="ec-root">
+<style>
+  #ec-root{--bg:#0f172a;--panel:#13203a;--ink:#e2e8f0;--muted:#94a3b8;--link:#94a3b8;
+    --vel:#38bdf8;--frc:#fb923c;--lost:#f43f5e;--keep:#34d399;--grid:#1e293b;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+    background:var(--bg);border-radius:12px;padding:16px;max-width:760px;box-sizing:border-box}
+  #ec-root *{box-sizing:border-box}
+  #ec-root h3{margin:0 0 2px;font-size:16px;font-weight:650}
+  #ec-root .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px}
+  #ec-wrap{display:flex;gap:16px;flex-wrap:wrap}
+  #ec-canvas{background:var(--panel);border-radius:10px;flex:1 1 440px;min-width:300px;touch-action:none}
+  #ec-side{flex:1 1 220px;min-width:210px;display:flex;flex-direction:column;gap:10px}
+  #ec-root .ctl{display:flex;align-items:center;gap:8px;font-size:13px}
+  #ec-root .ctl label{width:30px;color:var(--muted)}
+  #ec-root input[type=range]{flex:1}
+  #ec-root .val{width:48px;text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #ec-root .bars{background:var(--panel);border-radius:8px;padding:10px 12px;font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #ec-root .bar{height:12px;border-radius:3px;margin:3px 0 8px;background:#1e293b;overflow:hidden}
+  #ec-root .bar > span{display:block;height:100%;border-radius:3px}
+  #ec-root button{background:#1e293b;color:var(--ink);border:1px solid #334155;border-radius:7px;padding:6px 10px;font-size:12.5px;cursor:pointer}
+  #ec-root button[aria-pressed=true]{background:#334155;border-color:#475569}
+  #ec-root .legend{font-size:12px;color:var(--muted);line-height:1.7}
+  #ec-root .swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+  #ec-warn{color:var(--lost);font-size:12.5px;min-height:18px;font-weight:600}
+</style>
+
+  <h3>Ellipsoid Collapse</h3>
+  <div class="sub">Sweep the arm and watch the manipulability ellipse breathe. As the arm
+  straightens (or folds) the short axis shrinks to zero — a direction of motion is
+  <b>lost</b>, while the long axis stays <b>available</b>. Toggle the dual force ellipse:
+  where motion dies, force capacity diverges.</div>
+
+  <div id="ec-wrap">
+    <canvas id="ec-canvas" width="460" height="400" aria-label="Planar 2R arm with its manipulability ellipse"></canvas>
+    <div id="ec-side">
+      <div class="ctl"><label>θ₁</label><input id="e0" type="range" min="-180" max="180" value="35"><span class="val" id="e0v"></span></div>
+      <div class="ctl"><label>θ₂</label><input id="e1" type="range" min="-180" max="180" value="75"><span class="val" id="e1v"></span></div>
+      <div class="ctl">
+        <button id="ec-vel" aria-pressed="true">velocity</button>
+        <button id="ec-frc" aria-pressed="false">+ force</button>
+      </div>
+      <div class="bars" id="ec-bars"></div>
+      <div class="legend">
+        <span class="swatch" style="background:var(--vel)"></span>velocity ellipse &nbsp;
+        <span class="swatch" style="background:var(--frc)"></span>force ellipse<br>
+        <span class="swatch" style="background:var(--keep)"></span>available (long) &nbsp;
+        <span class="swatch" style="background:var(--lost)"></span>lost (short)
+      </div>
+      <div id="ec-warn"></div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var cv=document.getElementById('ec-canvas'), ctx=cv.getContext('2d');
+  var L=[1,1], showF=false;
+  function deg(id){return +document.getElementById(id).value;}
+  function rad(id){return deg(id)*Math.PI/180;}
+
+  // joint positions and planar 2x2 velocity Jacobian J_v
+  function geom(){
+    var t1=rad('e0'), t2=rad('e1');
+    var j1={x:L[0]*Math.cos(t1), y:L[0]*Math.sin(t1)};
+    var tool={x:j1.x+L[1]*Math.cos(t1+t2), y:j1.y+L[1]*Math.sin(t1+t2)};
+    // columns: z x (o_n - o_{i-1}) -> [-(yn-y),(xn-x)]
+    var c1=[-(tool.y-0),(tool.x-0)], c2=[-(tool.y-j1.y),(tool.x-j1.x)];
+    return {j1:j1, tool:tool, J:[[c1[0],c2[0]],[c1[1],c2[1]]]};
+  }
+  // 2x2 SVD-ish: singular values + ellipse axis directions (left singular vectors)
+  function svd2(J){
+    var a=J[0][0],b=J[0][1],c=J[1][0],d=J[1][1];
+    // M = J^T J  (2x2 symmetric)
+    var m00=a*a+c*c, m01=a*b+c*d, m11=b*b+d*d;
+    var tr=m00+m11, det=m00*m11-m01*m01;
+    var disc=Math.sqrt(Math.max(tr*tr-4*det,0));
+    var l1=(tr+disc)/2, l2=(tr-disc)/2;
+    var s1=Math.sqrt(Math.max(l1,0)), s2=Math.sqrt(Math.max(l2,0));
+    // right singular vector v1 for l1
+    var v1;
+    if(Math.abs(m01)>1e-9){ v1=[l1-m11, m01]; } else { v1=(m00>=m11)?[1,0]:[0,1]; }
+    var n1=Math.hypot(v1[0],v1[1])||1; v1=[v1[0]/n1,v1[1]/n1];
+    // left singular vector u1 = J v1 / s1 (s1 is the largest, safe)
+    var u1=[a*v1[0]+b*v1[1], c*v1[0]+d*v1[1]];
+    var nu=Math.hypot(u1[0],u1[1])||1; u1=[u1[0]/nu,u1[1]/nu];
+    var u2=[-u1[1],u1[0]];   // orthonormal complement = lost-axis direction
+    return {s1:s1,s2:s2,u1:u1,u2:u2};
+  }
+
+  function draw(){
+    var W=cv.width,H=cv.height; ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#1e293b'; ctx.lineWidth=1;
+    for(var gx=0;gx<=W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
+    for(var gy=0;gy<=H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+    var ox=W*0.40, oy=H*0.58, s=80;
+    var g=geom(); function px(p){return {x:ox+p.x*s,y:oy-p.y*s};}
+    var o=px({x:0,y:0}), j1=px(g.j1), tool=px(g.tool);
+    // arm
+    ctx.lineWidth=6; ctx.lineCap='round'; ctx.strokeStyle='#94a3b8';
+    ctx.beginPath();ctx.moveTo(o.x,o.y);ctx.lineTo(j1.x,j1.y);ctx.lineTo(tool.x,tool.y);ctx.stroke();
+    ctx.fillStyle='#334155';ctx.beginPath();ctx.arc(o.x,o.y,5,0,7);ctx.fill();
+    ctx.fillStyle='#cbd5e1';ctx.beginPath();ctx.arc(j1.x,j1.y,5,0,7);ctx.fill();
+    ctx.fillStyle='#f1f5f9';ctx.beginPath();ctx.arc(tool.x,tool.y,6,0,7);ctx.fill();
+
+    var sv=svd2(g.J), vs=64;
+    // velocity ellipse: axes u1*s1 (long/available), u2*s2 (short/lost)
+    drawEllipse(tool.x,tool.y, sv.u1,sv.s1*vs, sv.u2,sv.s2*vs, '#38bdf8', 'rgba(56,189,248,0.12)');
+    // available & lost axis markers
+    axis(tool.x,tool.y, sv.u1, sv.s1*vs, '#34d399');
+    axis(tool.x,tool.y, sv.u2, sv.s2*vs, '#f43f5e');
+    // force ellipse (reciprocal axes), capped for drawing
+    if(showF){
+      var f1=1/Math.max(sv.s1,1e-3), f2=1/Math.max(sv.s2,1e-3);
+      var cap=2.2; f1=Math.min(f1,cap); f2=Math.min(f2,cap);
+      drawEllipse(tool.x,tool.y, sv.u1,f1*vs, sv.u2,f2*vs, '#fb923c', 'rgba(251,146,60,0.10)');
+    }
+    bars(sv);
+    warn(sv);
+  }
+  function drawEllipse(cx,cy, a1,la, a2,lb, stroke, fill){
+    ctx.beginPath();
+    for(var t=0;t<=2*Math.PI+0.01;t+=0.06){
+      var x=cx + a1[0]*la*Math.cos(t) + a2[0]*lb*Math.sin(t);
+      var y=cy - (a1[1]*la*Math.cos(t) + a2[1]*lb*Math.sin(t));
+      if(t===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.fillStyle=fill; ctx.fill();
+    ctx.strokeStyle=stroke; ctx.lineWidth=2.4; ctx.stroke();
+  }
+  function axis(cx,cy,u,len,col){
+    ctx.strokeStyle=col; ctx.lineWidth=3; ctx.beginPath();
+    ctx.moveTo(cx-u[0]*len, cy+u[1]*len); ctx.lineTo(cx+u[0]*len, cy-u[1]*len); ctx.stroke();
+  }
+  function bars(sv){
+    var w=(sv.s1*sv.s2);
+    var mx=2.5;
+    var b='σ_max (available) = '+sv.s1.toFixed(3)+'<div class="bar"><span style="width:'+Math.min(100,sv.s1/mx*100)+'%;background:#34d399"></span></div>';
+    b+='σ_min (lost)      = '+sv.s2.toFixed(3)+'<div class="bar"><span style="width:'+Math.min(100,sv.s2/mx*100)+'%;background:#f43f5e"></span></div>';
+    b+='w = σ_max·σ_min (area) = '+w.toFixed(4);
+    document.getElementById('ec-bars').innerHTML=b;
+  }
+  function warn(sv){
+    var el=document.getElementById('ec-warn');
+    if(sv.s2<0.12){ el.textContent='SINGULAR: short axis → 0. The lost (red) direction is gone; joint rates to chase it ≈ 1/σ_min = '+(1/Math.max(sv.s2,1e-3)).toFixed(1)+'.'; }
+    else { el.textContent=''; }
+  }
+
+  // drag-to-pose (2R IK), as in the column explorer
+  var dragging=false;
+  function setFromPointer(ev){
+    var r=cv.getBoundingClientRect();
+    var mx=(ev.touches?ev.touches[0].clientX:ev.clientX)-r.left;
+    var my=(ev.touches?ev.touches[0].clientY:ev.clientY)-r.top;
+    var ox=cv.width*0.40, oy=cv.height*0.58, s=80;
+    var x=(mx-ox)/s, y=(oy-my)/s, d=Math.hypot(x,y);
+    d=Math.min(d,L[0]+L[1]-1e-3); d=Math.max(d,Math.abs(L[0]-L[1])+1e-3);
+    var ux=x/(Math.hypot(x,y)||1), uy=y/(Math.hypot(x,y)||1);
+    var c2=(d*d-L[0]*L[0]-L[1]*L[1])/(2*L[0]*L[1]); c2=Math.max(-1,Math.min(1,c2));
+    var th2=Math.acos(c2), k1=L[0]+L[1]*Math.cos(th2), k2=L[1]*Math.sin(th2);
+    var th1=Math.atan2(uy,ux)-Math.atan2(k2,k1);
+    document.getElementById('e0').value=Math.round(th1*180/Math.PI);
+    document.getElementById('e1').value=Math.round(th2*180/Math.PI);
+    sync();
+  }
+  cv.addEventListener('mousedown',function(e){dragging=true;setFromPointer(e);});
+  window.addEventListener('mousemove',function(e){if(dragging)setFromPointer(e);});
+  window.addEventListener('mouseup',function(){dragging=false;});
+  cv.addEventListener('touchstart',function(e){dragging=true;setFromPointer(e);e.preventDefault();},{passive:false});
+  cv.addEventListener('touchmove',function(e){if(dragging){setFromPointer(e);e.preventDefault();}},{passive:false});
+  cv.addEventListener('touchend',function(){dragging=false;});
+
+  function sync(){
+    document.getElementById('e0v').textContent=deg('e0')+'°';
+    document.getElementById('e1v').textContent=deg('e1')+'°';
+    draw();
+  }
+  ['e0','e1'].forEach(function(id){document.getElementById(id).addEventListener('input',sync);});
+  document.getElementById('ec-vel').addEventListener('click',function(){ this.setAttribute('aria-pressed','true'); });
+  document.getElementById('ec-frc').addEventListener('click',function(){
+    showF=!showF; this.setAttribute('aria-pressed',showF); sync();
+  });
+  sync();
+})();
+</script>
+</div>

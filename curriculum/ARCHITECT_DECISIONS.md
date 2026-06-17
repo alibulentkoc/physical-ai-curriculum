@@ -441,3 +441,43 @@ Nav added (Units 7–8 under "Module 5"; 8.1/lesson29 marked demo); generated (*
 **Module 5 — Inverse Kinematics: COMPLETE.** This is the 5th of 10 modules signed off (after M1 D-036, M2 D-044, M3 D-048, M4 D-052). A Module 5 completion report has been delivered.
 
 **Next:** Module 6 — Differential Kinematics. Not yet started; awaiting the architect's Module 6 launch package. Paused at Module 5 completion for review.
+
+## D-057 — Module 6 launch package APPROVED; Installment A (Units 1–2) delivered
+**Date:** 2026-06 · **Status:** Accepted
+Architect approved the Module 6 (Jacobians and Differential Motion) launch package: (a) midpoint after Unit 4, (b) the 8-unit topic map (Differential Motion & Twists · Geometric Jacobian · Analytic Jacobian/Representations · Rank/Manipulability/Ellipsoid · Singularity Theory · SVD · Inverse Velocity & Resolved-Rate · Capstone), (c) the Jacobian — used in M5 only as the numerical solver's local linear map (D-054) — is now the subject: velocity interpretation, manipulability, singularity theory, and the SVD all come home here, and the M5 damped-least-squares damping introduced numerically is re-derived from the SVD in Unit 6, (d) the open-loop **velocity layer** is the deliverable Module 7 plans on top of (no path planning or feedback control — those remain M7/M8).
+
+Generator wired: `MODULES` now includes `"06"`; `MODULE_TITLES["06"]="Jacobians and Differential Motion"`; all 8 Module 6 `UNIT_TITLES` registered. (Module 5 generation was also restored to the generator — `"05"` + titles re-registered — after an earlier merge had dropped it, so `mkdocs build --strict` resolves M5's served assets again.)
+
+**Installment A — Units 1 (Differential Motion & Twists, lessons 01–04) and 2 (Geometric Jacobian & Forward Velocity Kinematics, lessons 05–08) — complete.** 8 lessons, 8 SVGs (m06-l1..l8), 8 notebooks, 1 demo (lesson07 Jacobian Column Explorer), 8 quizzes + 8 answer keys. Differential rotation $R \approx I + S(\delta\boldsymbol\theta)$, the twist $\boldsymbol\xi=[\mathbf v;\boldsymbol\omega]$ and its frame transforms; the Jacobian defined by $\boldsymbol\xi = J(\mathbf q)\dot{\mathbf q}$ and built column by column for revolute/prismatic/mixed chains, then validated against finite differences. Revision applied during review: L04 differential-rotation sign error caught by an assert and corrected; L02/L05 minor clarifications.
+
+**Next:** Installment B — Units 3–4 + midpoint.
+
+## D-058 — Module 6 Installment B (Units 3–4) delivered; midpoint assessment in place
+**Date:** 2026-06 · **Status:** Accepted
+**Installment B — Units 3 (Analytic Jacobian, Frames & Representations, lessons 09–12) and 4 (Rank, Manipulability & the Ellipsoid, lessons 13–16) — complete, with the module midpoint assessment.** 8 lessons, 8 SVGs (m06-l9..l16), 8 notebooks, 8 quizzes + 8 answer keys. The analytic Jacobian as the derivative of a pose representation; the representation map $B(\boldsymbol\phi)$ linking $\boldsymbol\omega$ to angle rates; base- vs tool-frame Jacobians; representation vs kinematic singularities. Then rank/range/null space as what the tool can/cannot/internally do, the manipulability ellipsoid, the Yoshikawa measure $w=\sqrt{\det(JJ^\top)}$, and force/velocity duality $\boldsymbol\tau=J^\top\mathbf F$. **Midpoint assessment** at `assessments/module06_midpoint_assessment.md` (after Unit 4 — the seam between constructing the Jacobian and reading its geometry) with a coaches' key at `coaches/answer-keys/module06/midpoint_answer_key.md`; the midpoint adds an intuition item (D4) on capability buckets.
+
+**Module 6 status after Installment B:** 16 of 32 lessons · 16 notebooks · 16 SVGs · 1 demo · 16 quizzes · 16 answer keys · 1 midpoint assessment (+ key).
+
+**Next:** Installment C — Units 5–6 (Singularity Theory; SVD), two demos.
+
+## D-059 — Module 6 Installment C (Units 5–6) delivered; two demos added
+**Date:** 2026-06 · **Status:** Accepted
+**Installment C — Units 5 (Singularity Theory, lessons 17–20) and 6 (SVD & Geometry of the Jacobian, lessons 21–24) — complete, with two demos.** 8 lessons, 8 SVGs (m06-l17..l24), 8 notebooks, 8 quizzes + 8 answer keys, and 2 interactive demos: lesson17 Ellipsoid Collapse and lesson21 SVD Bars. Singularity as lost motion (ellipsoid collapse), boundary vs internal singularities and joint-rate blow-up, shoulder/elbow/wrist classification, loci and workspace boundaries — upgrading M5 *recognition* to full theory. Then the SVD $J=U\Sigma V^\top$ as the ellipsoid's anatomy, the condition number, the four fundamental subspaces, and the pseudoinverse and damped least squares derived from the SVD (closing the loop on M5's numerically-introduced DLS). Revision applied: L15 corrected — $w$ computed via $\prod\sigma_i$ (not $\sqrt{\det}$) to avoid a NaN at the singularity, and the worked example replaced with a genuine equal-$w$/different-$\kappa$ case ($\theta_2 = 0.6$ vs $\pi-0.6$: same $w$, $\kappa$ 8.1 vs 1.9).
+
+**Module 6 status after Installment C:** 24 of 32 lessons · 24 notebooks · 24 SVGs · 3 demos · 24 quizzes · 24 answer keys · 1 midpoint assessment (+ key).
+
+**Next:** Installment D — Units 7–8 + capstone, then Module 6 completion.
+
+## D-060 — Module 6 Installment D (Units 7–8) delivered; Module 6 COMPLETE
+**Date:** 2026-06 · **Status:** Accepted
+**Installment D — Units 7 (Inverse Velocity Kinematics & Resolved-Rate Motion, lessons 25–28) and 8 (Capstone: Analyzer → Resolved-Rate Tracker, lessons 29–32) — complete, with the flagship capstone demo.** 8 lessons, 8 SVGs (m06-l25..l32), 8 notebooks, 8 quizzes + 8 answer keys, and the capstone demo lesson29 Resolved-Rate Tracker. Inverting the velocity map (desired twist → joint rates), redundancy resolution and null-space motion, singularity-robust damped least squares, and the open-loop resolved-rate velocity layer; the four-part capstone builds a manipulability/singularity analyzer, a resolved-rate tracker, scheduled damping with redundancy, and packages the **velocity layer for Module 7**. Revision applied: L30 test command drove the arm to full extension — corrected to an in-workspace command.
+
+Nav added (8 units under "Module 6 — Jacobians and Differential Motion", demos marked on 2.3/5.1/6.1/8.1); generated (**197 lesson pages** across M1–M6); `mkdocs build --strict` **passes** (clean, exit 0); validator clean (every Visual-Explanation page carries an injected figure; no `[Visual:]` placeholder leaked). All 32 M6 quizzes converted to the module05 interactive-HTML format (5 MC + 3 short answer each, answers from the coaches' keys; MathJax added to the quiz template so the LaTeX renders).
+
+**Module 6 final totals:** 32 lessons · 32 notebooks · 32 SVGs · 4 demos · 32 quizzes · 32 answer keys · 1 midpoint assessment (+ key). Educational boundaries held: M6 is the first-order (velocity) relationship and its geometry — no trajectory/path planning (M7), no dynamics/feedback control (M8); resolved-rate motion is open-loop and explicitly handed to M7.
+
+**Module 6 — Jacobians and Differential Motion: COMPLETE.** This is the 6th of 10 modules signed off (after M1 D-036, M2 D-044, M3 D-048, M4 D-052, M5 D-056). A Module 6 completion report has been delivered (`curriculum/module06_completion_report.md`).
+
+**Repo reconciliation (integration):** the Module 6 bundle was unzipped into `curriculum/module06/`; it has been relocated into the canonical layout (lessons/notebooks/demos/quizzes under `modules/module06/`, SVGs renamed to `assets/diagrams/m06-lN-*.svg`, answer keys under `coaches/answer-keys/module06/`, midpoint under `assessments/`, report under `curriculum/`). Lesson headings were normalized to the canonical numbered template (renumbered in place; `[Visual:]` lines backticked). The committed nested duplicate `physical-ai-curriculum/` (a stale pre-M5 snapshot) was removed, and the bundle's loose helper files (`MODULE6_NAV_SNIPPET.yml`, `README_PUSH.md`, `MANIFEST.txt`) were discarded. The three trackers, which the bundle had overwritten with stubs, were restored and then extended with the real Module 6 entries.
+
+**Next:** Module 7 — Trajectory Generation and Motion Planning. Awaiting the architect's launch package.

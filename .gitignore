@@ -27,6 +27,9 @@ build/
 /site/
 .cache
 
+# --- graphify knowledge-graph output (tooling, not curriculum) ---
+graphify-out/
+
 # --- Large media (consider Git LFS instead) ---
 # *.mp4
 # *.mov

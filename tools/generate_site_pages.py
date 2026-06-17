@@ -36,7 +36,7 @@ S_ASSETS = os.path.join(ROOT, "site_src/assets")
 os.makedirs(S_ASSETS, exist_ok=True)
 
 # modules to build (extend as new modules are produced)
-MODULES = ["01", "02", "03", "04"]
+MODULES = ["01", "02", "03", "04", "05", "06"]
 
 # module + unit titles, for the in-page context header (Module / Unit / Lesson)
 MODULE_TITLES = {
@@ -44,6 +44,8 @@ MODULE_TITLES = {
     "02": "Spatial Transformations and SE(3)",
     "03": "Camera Geometry and Robotic Perception",
     "04": "Forward Kinematics using Denavit–Hartenberg Parameters",
+    "05": "Inverse Kinematics",
+    "06": "Jacobians and Differential Motion",
 }
 UNIT_TITLES = {
     ("01", "01"): "Physical Quantities & Measurement",
@@ -74,6 +76,22 @@ UNIT_TITLES = {
     ("04", "06"): "Building and Using a DH Table",
     ("04", "07"): "Pose, Workspace, and Back to Perception",
     ("04", "08"): "Mini Project: From Joints to the Fruit",
+    ("05", "01"): "The Inverse Problem",
+    ("05", "02"): "Inverse Kinematics of One and Two Joints",
+    ("05", "03"): "Analytical (Closed-Form) Inverse Kinematics",
+    ("05", "04"): "From Geometry to Numerical IK",
+    ("05", "05"): "Numerical Inverse Kinematics in Practice",
+    ("05", "06"): "Singularities and Solution Selection",
+    ("05", "07"): "Verifying and Connecting to Perception",
+    ("05", "08"): "Mini Project: Reach the Fruit",
+    ("06", "01"): "Differential Motion & Twists",
+    ("06", "02"): "Geometric Jacobian & Forward Velocity Kinematics",
+    ("06", "03"): "Analytic Jacobian, Frames & Representations",
+    ("06", "04"): "Rank, Manipulability & the Ellipsoid",
+    ("06", "05"): "Singularity Theory",
+    ("06", "06"): "SVD & Geometry of the Jacobian",
+    ("06", "07"): "Inverse Velocity Kinematics & Resolved-Rate Motion",
+    ("06", "08"): "Capstone: Analyzer → Resolved-Rate Tracker",
 }
 
 def unit_of(text):

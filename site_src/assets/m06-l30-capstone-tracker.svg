@@ -1,0 +1,22 @@
+<svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="a30" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#2563eb"/></marker></defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">The tracker: commanded twist &#8594; joint rates &#8594; integrate (open-loop)</text>
+  <rect x="40" y="95" width="120" height="56" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8"/>
+  <text x="100" y="118" text-anchor="middle" font-size="12.5" fill="#075985">&#958;_d (twist in)</text>
+  <text x="100" y="136" text-anchor="middle" font-size="10.5" fill="#0369a1">desired tool vel</text>
+  <line x1="162" y1="123" x2="220" y2="123" stroke="#2563eb" stroke-width="2" marker-end="url(#a30)"/>
+  <rect x="222" y="95" width="150" height="56" rx="8" fill="#eef2ff" stroke="#6366f1" stroke-width="1.8"/>
+  <text x="297" y="118" text-anchor="middle" font-size="12.5" fill="#3730a3">q&#775; = J&#8314;(q) &#958;_d</text>
+  <text x="297" y="136" text-anchor="middle" font-size="10.5" fill="#6366f1">(damped) inverse</text>
+  <line x1="374" y1="123" x2="432" y2="123" stroke="#2563eb" stroke-width="2" marker-end="url(#a30)"/>
+  <rect x="434" y="95" width="150" height="56" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.8"/>
+  <text x="509" y="118" text-anchor="middle" font-size="12.5" fill="#065f46">q &#8592; q + q&#775; dt</text>
+  <text x="509" y="136" text-anchor="middle" font-size="10.5" fill="#10b981">open-loop step</text>
+  <path d="M 509 153 C 509 200 297 200 297 153" fill="none" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#a30)"/>
+  <text x="403" y="196" text-anchor="middle" font-size="11" fill="#64748b">recompute J at new q</text>
+  <rect x="600" y="95" width="130" height="56" rx="8" fill="#fff7ed" stroke="#fb923c" stroke-width="1.6"/>
+  <text x="665" y="116" text-anchor="middle" font-size="11" fill="#9a3412">NOT trajectory gen</text>
+  <text x="665" y="132" text-anchor="middle" font-size="11" fill="#9a3412">NOT feedback ctrl</text>
+  <text x="665" y="146" text-anchor="middle" font-size="10" fill="#c2410c">(M7 / M8)</text>
+  <text x="380" y="238" text-anchor="middle" font-size="12" fill="#6b7280">the velocity layer Module 7 will drive &#8212; it only consumes twists, it does not plan them</text>
+</svg>

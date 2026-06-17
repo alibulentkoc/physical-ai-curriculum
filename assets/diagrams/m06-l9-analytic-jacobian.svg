@@ -1,0 +1,21 @@
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="om" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#7c3aed"/></marker>
+  <marker id="vv" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#0d9488"/></marker></defs>
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">Two honest readouts of one tilt: physical &#969; vs dashboard angle-rates</text>
+  <line x1="360" y1="44" x2="360" y2="276" stroke="#e5e7eb" stroke-width="1.5"/>
+  <!-- left: the motion -->
+  <text x="185" y="62" text-anchor="middle" font-size="13" fill="#6b7280">the motion</text>
+  <rect x="135" y="120" width="100" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.2" transform="rotate(-15 185 150)"/>
+  <line x1="185" y1="150" x2="185" y2="86" stroke="#7c3aed" stroke-width="3" marker-end="url(#om)"/><text x="190" y="86" font-size="14" fill="#7c3aed" font-weight="700">&#969;</text>
+  <line x1="185" y1="150" x2="250" y2="150" stroke="#0d9488" stroke-width="3" marker-end="url(#vv)"/><text x="252" y="146" font-size="13" fill="#0d9488" font-weight="700">v</text>
+  <text x="185" y="220" text-anchor="middle" font-size="12" fill="#6b7280">true twist [v ; &#969;]</text>
+  <!-- right: dashboard -->
+  <text x="540" y="62" text-anchor="middle" font-size="13" fill="#6b7280">orientation dashboard</text>
+  <g font-size="11" fill="#374151" text-anchor="middle">
+    <circle cx="455" cy="130" r="26" fill="#fff" stroke="#94a3b8" stroke-width="2"/><line x1="455" y1="130" x2="472" y2="116" stroke="#dc2626" stroke-width="2.5"/><text x="455" y="172">roll  r&#775;</text>
+    <circle cx="540" cy="130" r="26" fill="#fff" stroke="#94a3b8" stroke-width="2"/><line x1="540" y1="130" x2="540" y2="108" stroke="#2563eb" stroke-width="2.5"/><text x="540" y="172">pitch p&#775;</text>
+    <circle cx="625" cy="130" r="26" fill="#fff" stroke="#94a3b8" stroke-width="2"/><line x1="625" y1="130" x2="640" y2="145" stroke="#16a34a" stroke-width="2.5"/><text x="625" y="172">yaw  y&#775;</text>
+  </g>
+  <text x="540" y="208" text-anchor="middle" font-size="12" fill="#6b7280">angle-rates &#966;&#775; (analytic Jacobian)</text>
+  <text x="360" y="262" text-anchor="middle" font-size="13" fill="#111827">position rows agree (J_p = J_v); orientation rows differ (&#966;&#775; &#8800; &#969;)</text>
+</svg>

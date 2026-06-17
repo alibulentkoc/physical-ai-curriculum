@@ -1,0 +1,55 @@
+<svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1f2937"/>
+    </marker>
+    <marker id="arrTrans" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/>
+    </marker>
+    <marker id="arrRot" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="360" y="34" text-anchor="middle" font-size="19" font-weight="600" fill="#111827">A differential motion = small translation + small rotation</text>
+
+  <!-- ORIGINAL FRAME {O} at (180,250) -->
+  <g stroke-width="3" fill="none">
+    <line x1="180" y1="250" x2="300" y2="250" stroke="#1f2937" marker-end="url(#arr)"/>
+    <line x1="180" y1="250" x2="180" y2="130" stroke="#1f2937" marker-end="url(#arr)"/>
+  </g>
+  <circle cx="180" cy="250" r="4.5" fill="#1f2937"/>
+  <text x="166" y="272" font-size="15" fill="#111827" font-weight="600">O</text>
+  <text x="306" y="255" font-size="15" fill="#1f2937">x</text>
+  <text x="170" y="124" font-size="15" fill="#1f2937">y</text>
+
+  <!-- DISPLACED FRAME {O'} at (430,205), rotated ~ -15deg, dashed -->
+  <g stroke-width="3" fill="none" stroke-dasharray="7 5">
+    <!-- x' axis rotated -->
+    <line x1="430" y1="205" x2="546" y2="174" stroke="#374151" marker-end="url(#arr)"/>
+    <!-- y' axis rotated -->
+    <line x1="430" y1="205" x2="461" y2="89" stroke="#374151" marker-end="url(#arr)"/>
+  </g>
+  <circle cx="430" cy="205" r="4.5" fill="#374151"/>
+  <text x="436" y="226" font-size="15" fill="#374151" font-weight="600">O'</text>
+  <text x="552" y="172" font-size="15" fill="#374151">x'</text>
+  <text x="448" y="84" font-size="15" fill="#374151">y'</text>
+
+  <!-- TRANSLATION dp arrow from O to O' -->
+  <line x1="186" y1="248" x2="424" y2="207" stroke="#0d9488" stroke-width="3.2" marker-end="url(#arrTrans)"/>
+  <text x="290" y="218" font-size="16" fill="#0d9488" font-weight="600">d<tspan font-style="italic">p</tspan></text>
+
+  <!-- ROTATION arc near O' -->
+  <path d="M 487 196 A 60 60 0 0 1 467 150" stroke="#b45309" stroke-width="3" fill="none" marker-end="url(#arrRot)"/>
+  <text x="498" y="168" font-size="16" fill="#b45309" font-weight="600">&#948;&#952;</text>
+
+  <!-- legend / caption -->
+  <text x="360" y="372" text-anchor="middle" font-size="14.5" fill="#374151">Because the rotation is tiny,  R &#8776; I + S(&#948;&#952;)  —  so order no longer matters and small motions add like vectors.</text>
+
+  <!-- small key -->
+  <line x1="150" y1="396" x2="178" y2="396" stroke="#0d9488" stroke-width="3.2" marker-end="url(#arrTrans)"/>
+  <text x="184" y="401" font-size="13" fill="#0d9488">differential translation d<tspan font-style="italic">p</tspan></text>
+  <path d="M 392 396 q 14 -10 28 0" stroke="#b45309" stroke-width="3" fill="none" marker-end="url(#arrRot)"/>
+  <text x="426" y="401" font-size="13" fill="#b45309">differential rotation &#948;&#952; = &#948;&#966; k&#770;</text>
+</svg>

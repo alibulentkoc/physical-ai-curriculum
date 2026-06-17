@@ -3,7 +3,7 @@ title: Project State — Physical AI Curriculum
 status: AUTHORITATIVE current-state snapshot
 purpose: A single, current picture of where production stands — current module, what is complete, what is in progress, what is deferred, known issues, and the next milestone. Update this whenever a unit/installment/module completes or a decision changes state.
 authority: Subordinate to ARCHITECT_DECISIONS.md. Counts mirror master_progress.md.
-last_updated: 2026-06 — Module 5 (Inverse Kinematics) COMPLETE (32/32, Installments A–D, D-056); 5 of 10 modules done. Next: Module 6 — Differential Kinematics.
+last_updated: 2026-06 — Module 6 (Jacobians and Differential Motion) COMPLETE (32/32, Installments A–D, D-060); 6 of 10 modules done. Next: Module 7 — Trajectory Generation and Motion Planning.
 ---
 
 # Project State
@@ -12,9 +12,26 @@ last_updated: 2026-06 — Module 5 (Inverse Kinematics) COMPLETE (32/32, Install
 
 ## Current module
 
-**None active — Module 5 just completed; Module 6 awaiting launch package.**
+**None active — Module 6 just completed; Module 7 awaiting launch package.**
 
-**Module 5 — Inverse Kinematics: COMPLETE (D-056).** All 8 units / 32 lessons delivered across Installments A–D, plus the midpoint assessment and the Reach-the-Fruit capstone. Paused at Module 5 completion for architect review before Module 6.
+**Module 6 — Jacobians and Differential Motion: COMPLETE (D-060).** All 8 units / 32 lessons delivered across Installments A–D, plus the midpoint assessment (after Unit 4) and the four-part velocity-layer capstone. The Jacobian, used in M5 only as the numerical solver's local linear map, is now the subject: differential motion & twists → geometric/analytic Jacobian → manipulability, SVD, singularity theory → inverse velocity kinematics, redundancy, and damped least squares (re-derived from the SVD) → the open-loop resolved-rate **velocity layer** handed to Module 7. Paused at Module 6 completion for architect review before Module 7.
+
+Module 6 deliverables (in repo):
+- 32 lessons — `modules/module06/lessons/lesson01..32_*.md` (12-section numbered template).
+- 32 SVGs — `assets/diagrams/m06-l1..l32-*.svg` (embedded in §4 Visual Explanation).
+- 32 notebooks — `modules/module06/notebooks/lesson01..32_*.ipynb`.
+- 4 demos — `modules/module06/demos/`: `lesson07_jacobian_column_explorer.html`, `lesson17_ellipsoid_collapse.html`, `lesson21_svd_bars.html`, `lesson29_resolved_rate_tracker.html`.
+- 32 quizzes — `modules/module06/quizzes/lesson01..32_quiz.html` (5 MC + 3 short answer; MathJax-enabled for LaTeX).
+- 32 answer keys — `coaches/answer-keys/module06/lesson01..32_answer_key.md` (+ `midpoint_answer_key.md`).
+- **Midpoint assessment** — `assessments/module06_midpoint_assessment.md` (after Unit 4) + coaches' key.
+- Completion report — `curriculum/module06_completion_report.md`.
+- Nav blocks for all 8 units; `mkdocs build --strict` passes at **197 lesson pages**.
+
+Educational boundary held end to end: M6 is the first-order (velocity) relationship and its geometry only — no trajectory/path planning (Module 7), no dynamics or feedback control (Module 8). Resolved-rate motion is open-loop and explicitly handed to Module 7 as the velocity layer. Running example: planar 2-link arm L1=0.4, L2=0.3, extended to a redundant chain for null-space motion.
+
+---
+
+**Module 5 — Inverse Kinematics: COMPLETE (D-056).** All 8 units / 32 lessons delivered across Installments A–D, plus the midpoint assessment and the Reach-the-Fruit capstone.
 
 Module 5 deliverables (in repo):
 - 32 lessons — `modules/module05/lessons/lesson01..32_*.md` (12-section template + 2 standard components).
@@ -37,16 +54,17 @@ Educational boundary held end to end: the FK Jacobian is the numerical solver's 
 | 03 | Camera Geometry and Robotic Perception | 32 | ✅ (D-048) |
 | 04 | Forward Kinematics (DH parameters) | 32 | ✅ (D-052) |
 | 05 | Inverse Kinematics | 32 | ✅ (D-056) |
+| 06 | Jacobians and Differential Motion | 32 | ✅ (D-060) |
 
-All five are production-complete with lessons, notebooks, SVGs, interactive quizzes, answer keys, midpoint assessments, and (M3/M4/M5) capstone mini-projects. Each has a completion report in `curriculum/moduleNN_completion_report.md`. **Do not redesign or rewrite these** — they are the reference implementations and the quality bar.
+All six are production-complete with lessons, notebooks, SVGs, interactive quizzes, answer keys, midpoint assessments, and (M3/M4/M5/M6) capstone mini-projects. Each has a completion report in `curriculum/moduleNN_completion_report.md`. **Do not redesign or rewrite these** — they are the reference implementations and the quality bar.
 
 ## Modules in progress
 
-*(none — Module 5 complete; paused for Module 5 review before Module 6 launch.)*
+*(none — Module 6 complete; paused for Module 6 review before Module 7 launch.)*
 
 ## Next milestone
 
-**Module 6 — Differential Kinematics (not yet started; awaiting architect launch package).** This is where the Jacobian — used in Module 5 strictly as the numerical solver's local linear map — is reopened as a **velocity relationship** $\dot{\mathbf p} = J\dot{\boldsymbol\theta}$: differential motion and resolved-rate control, **manipulability**, the **full theory of singularities** (beyond Module 5's recognition), and the **SVD** that makes it precise. The Module 5 deferrals (velocity interpretation, differential motion, manipulability, singularity theory, SVD analysis) are exactly Module 6's opening scope, flagged in Lesson 8.4. Downstream: Module 7 — trajectories / motion planning; Module 8 — control. Awaiting the architect's Module 6 launch package before production begins.
+**Module 7 — Trajectory Generation and Motion Planning (not yet started; awaiting architect launch package).** This is where the **velocity layer** Module 6 produced (resolved-rate motion, the Jacobian as a velocity map, singularity-robust inversion) becomes the substrate for planning *paths and time-parameterized trajectories* through the workspace — beyond the instantaneous, open-loop motion of Module 6. Downstream: Module 8 — communication, embedded systems, and control. Awaiting the architect's Module 7 launch package before production begins.
 
 Then resume the standing production directive (produce module-by-module, pause at module completion).
 
@@ -66,9 +84,8 @@ None of the above blocks production.
 - **Mermaid/MkDocs platform note:** the build runs on `mkdocs build --strict` with Material theme; the Material team prints a forward-looking MkDocs-2.0 advisory banner during builds. It is **advisory only** — not a build warning — and does not affect `--strict` (build exits 0).
 - **Single-source integrity:** prose must stay only in `modules/.../lessons/`. `site_src/` pages are generated; never hand-edit them or the two layers will drift (the recurring "stale build" symptom). Always re-run the generator before building.
 
-## Verification at last update (Module 4 complete)
+## Verification at last update (Module 6 complete)
 
-- Generator: `python3 tools/generate_site_pages.py` → **133 pages generated**, validator clean, no placeholder leaks.
-- Build: `mkdocs build --strict` → **PASS** (134 `index.html` pages = 133 lessons + site index).
-- Notebooks: sampled M4 notebooks execute clean (Restart & Run All equivalent via nbconvert).
-- Counts reconcile with `master_progress.md`: 4/10 modules · 133 lessons · 133 notebooks · 134 SVGs · 26 demos · 133 quizzes · 4 midpoint assessments (+ M3/M4 capstones).
+- Generator: `python tools/generate_site_pages.py` → **197 pages generated** (M1–M6), validator clean, no `[Visual:]` placeholder leaks; every M6 lesson injects [1 SVG, notebook, quiz] (+ demo on 2.3/5.1/6.1/8.1).
+- Build: `mkdocs build --strict` → **PASS** (exit 0, 197 lesson pages + site index). Module 5 generation was restored to the generator (`"05"` + titles) so M5's served assets re-emit; an earlier merge had dropped it, which was breaking `--strict`.
+- Counts reconcile with `master_progress.md`: 6/10 modules · 197 lessons · 197 notebooks · 198 SVGs · 34 demos · 197 quizzes · 6 midpoint assessments (+ M3/M4/M5/M6 capstones).

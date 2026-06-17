@@ -1,0 +1,21 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="ax8b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#475569"/></marker></defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">Two locations, one hazard: joint rates blow up near any singularity</text>
+  <line x1="380" y1="42" x2="380" y2="280" stroke="#e5e7eb" stroke-width="1.5"/>
+  <!-- annulus -->
+  <text x="190" y="58" text-anchor="middle" font-size="12.5" fill="#6b7280">where singularities live</text>
+  <circle cx="190" cy="165" r="86" fill="#eff6ff" stroke="#dc2626" stroke-width="2.6"/>
+  <circle cx="190" cy="165" r="30" fill="#fff" stroke="#dc2626" stroke-width="2.6" stroke-dasharray="5 4"/>
+  <text x="190" y="92" text-anchor="middle" font-size="10.5" fill="#dc2626">outer: arm straight</text>
+  <text x="190" y="170" text-anchor="middle" font-size="10" fill="#dc2626">inner: folded</text>
+  <circle cx="245" cy="120" r="4" fill="#7c3aed"/><text x="252" y="118" font-size="10" fill="#7c3aed">internal</text>
+  <text x="190" y="270" text-anchor="middle" font-size="11" fill="#6b7280">boundary (edges) + internal (inside)</text>
+  <!-- blowup -->
+  <text x="572" y="58" text-anchor="middle" font-size="12.5" fill="#6b7280">required joint speed</text>
+  <g stroke="#475569" stroke-width="1.6" fill="none"><line x1="450" y1="240" x2="690" y2="240" marker-end="url(#ax8b)"/><line x1="470" y1="250" x2="470" y2="90" marker-end="url(#ax8b)"/></g>
+  <text x="690" y="258" font-size="10.5" fill="#6b7280">&#963;_min &#8594; 0</text><text x="430" y="92" font-size="10.5" fill="#6b7280">||q&#775;||</text>
+  <path d="M 660 235 C 540 232 500 200 482 100" stroke="#dc2626" stroke-width="3" fill="none"/>
+  <line x1="478" y1="100" x2="478" y2="240" stroke="#dc2626" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="560" y="150" font-size="12" fill="#dc2626" font-weight="600">~ 1/&#963;_min</text>
+  <text x="572" y="270" text-anchor="middle" font-size="11" fill="#6b7280">chasing the lost direction &#8594; &#8734;</text>
+</svg>

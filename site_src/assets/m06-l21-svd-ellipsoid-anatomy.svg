@@ -1,0 +1,22 @@
+<svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#475569"/></marker></defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">SVD = the ellipsoid's anatomy:  J v&#7522; = &#963;&#7522; u&#7522;</text>
+  <!-- input -->
+  <text x="120" y="56" text-anchor="middle" font-size="12.5" fill="#6b7280">V: joint inputs (sphere)</text>
+  <circle cx="120" cy="150" r="48" fill="none" stroke="#a78bfa" stroke-width="2.4"/>
+  <line x1="120" y1="150" x2="160" y2="125" stroke="#a78bfa" stroke-width="2.4"/><text x="163" y="123" font-size="11" fill="#a78bfa">v&#8321;</text>
+  <line x1="120" y1="150" x2="95" y2="110" stroke="#a78bfa" stroke-width="2.4"/><text x="78" y="108" font-size="11" fill="#a78bfa">v&#8322;</text>
+  <!-- stretch -->
+  <line x1="195" y1="150" x2="300" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#a1)"/>
+  <text x="247" y="140" text-anchor="middle" font-size="12" fill="#475569">&#215; &#931; (stretch)</text>
+  <text x="247" y="166" text-anchor="middle" font-size="11" fill="#6b7280">by &#963;&#7522;</text>
+  <!-- output -->
+  <text x="470" y="56" text-anchor="middle" font-size="12.5" fill="#6b7280">U, &#931;: tool ellipse</text>
+  <ellipse cx="470" cy="150" rx="70" ry="30" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="2.4" transform="rotate(-18 470 150)"/>
+  <line x1="470" y1="150" x2="537" y2="128" stroke="#34d399" stroke-width="3"/><text x="540" y="124" font-size="11" fill="#34d399">&#963;&#8321;u&#8321;</text>
+  <line x1="470" y1="150" x2="461" y2="121" stroke="#f43f5e" stroke-width="3"/><text x="432" y="116" font-size="11" fill="#f43f5e">&#963;&#8322;u&#8322;</text>
+  <text x="650" y="150" font-size="12.5" fill="#111827" text-anchor="middle">drive v&#7522;</text>
+  <text x="650" y="170" font-size="12.5" fill="#111827" text-anchor="middle">&#8594; tool moves</text>
+  <text x="650" y="190" font-size="12.5" fill="#111827" text-anchor="middle">&#963;&#7522; along u&#7522;</text>
+  <text x="380" y="258" text-anchor="middle" font-size="12.5" fill="#6b7280">no new physics &#8212; just names for the ellipsoid we already drew</text>
+</svg>

@@ -1,0 +1,30 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>
+  <marker id="x" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#dc2626"/></marker>
+  <marker id="lp" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#7c3aed"/></marker></defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">Three capability buckets the Jacobian sorts motion into</text>
+  <line x1="253" y1="42" x2="253" y2="280" stroke="#e5e7eb" stroke-width="1.5"/><line x1="507" y1="42" x2="507" y2="280" stroke="#e5e7eb" stroke-width="1.5"/>
+  <!-- available -->
+  <text x="127" y="58" text-anchor="middle" font-size="12.5" fill="#6b7280">available (range)</text>
+  <g stroke="#94a3b8" stroke-width="5" stroke-linecap="round"><line x1="60" y1="220" x2="120" y2="150"/><line x1="120" y1="150" x2="180" y2="120"/></g>
+  <circle cx="180" cy="120" r="5" fill="#0d9488"/>
+  <g stroke="#0d9488" stroke-width="2.4">
+    <line x1="180" y1="120" x2="225" y2="110" marker-end="url(#g)"/><line x1="180" y1="120" x2="210" y2="150" marker-end="url(#g)"/><line x1="180" y1="120" x2="190" y2="80" marker-end="url(#g)"/></g>
+  <text x="127" y="255" text-anchor="middle" font-size="11.5" fill="#6b7280">tool moves any direction</text>
+  <!-- impossible -->
+  <text x="380" y="58" text-anchor="middle" font-size="12.5" fill="#6b7280">impossible (rank drop)</text>
+  <g stroke="#94a3b8" stroke-width="5" stroke-linecap="round"><line x1="300" y1="170" x2="380" y2="170"/><line x1="380" y1="170" x2="450" y2="170"/></g>
+  <circle cx="450" cy="170" r="5" fill="#dc2626"/>
+  <line x1="450" y1="170" x2="450" y2="120" stroke="#0d9488" stroke-width="2.4" marker-end="url(#g)"/>
+  <line x1="450" y1="170" x2="500" y2="170" stroke="#dc2626" stroke-width="2.4" stroke-dasharray="5 4" marker-end="url(#x)"/>
+  <text x="486" y="190" font-size="13" fill="#dc2626" font-weight="700">&#10007;</text>
+  <text x="380" y="255" text-anchor="middle" font-size="11.5" fill="#6b7280">radial direction lost (straight arm)</text>
+  <!-- internal -->
+  <text x="634" y="58" text-anchor="middle" font-size="12.5" fill="#6b7280">internal (null space)</text>
+  <g stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"><line x1="560" y1="220" x2="610" y2="150"/><line x1="610" y1="150" x2="650" y2="190"/><line x1="650" y1="190" x2="710" y2="150"/></g>
+  <g stroke="#94a3b8" stroke-width="5" stroke-linecap="round"><line x1="560" y1="220" x2="600" y2="145"/><line x1="600" y1="145" x2="655" y2="165"/><line x1="655" y1="165" x2="710" y2="150"/></g>
+  <circle cx="710" cy="150" r="6" fill="#7c3aed"/>
+  <path d="M 632 150 q 18 -22 36 0" stroke="#7c3aed" stroke-width="2.2" fill="none" marker-end="url(#lp)"/>
+  <text x="634" y="240" text-anchor="middle" font-size="11.5" fill="#7c3aed" font-weight="600">elbow swings, tool stays still</text>
+  <text x="634" y="256" text-anchor="middle" font-size="11" fill="#6b7280">redundant self-motion</text>
+</svg>

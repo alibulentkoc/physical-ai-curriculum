@@ -1,3 +1,0 @@
-# Lesson 4.9 (Unit 4 Recap) — Answer Key (instructor only)
-**Q1 (match)** identity→do nothing, rotation→turn, scaling→resize, reflection→mirror. **Q2** a matrix product, order matters. **Q3 (T/F)** True. **Q4 (short)** leave unchanged / turn / resize / mirror, chained by composition where order matters.
-**Capstone (notebook) rubric:** apply identity/rotation/scaling/reflection to one shape and compose two in both orders showing different results. Synthesis check — look for "a matrix is an action" framing and correct order-matters demonstration. Bridge: Module 2 adds translation via homogeneous coordinates (SE(3)).

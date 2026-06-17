@@ -1,0 +1,23 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="jm" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#2563eb"/></marker></defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">The four fundamental subspaces (split by zero / nonzero gain)</text>
+  <!-- joint space box -->
+  <text x="170" y="56" text-anchor="middle" font-size="13" fill="#6b7280" font-weight="600">joint space</text>
+  <rect x="60" y="70" width="220" height="80" rx="6" fill="#eef2ff" stroke="#6366f1" stroke-width="1.6"/>
+  <text x="170" y="98" text-anchor="middle" font-size="12.5" fill="#3730a3">row space &#8212; moves the tool</text>
+  <rect x="60" y="160" width="220" height="62" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.6"/>
+  <text x="170" y="188" text-anchor="middle" font-size="12.5" fill="#475569">null space &#8212; self-motion</text>
+  <text x="170" y="206" text-anchor="middle" font-size="11" fill="#64748b">(tool stays still)</text>
+  <!-- task space box -->
+  <text x="590" y="56" text-anchor="middle" font-size="13" fill="#6b7280" font-weight="600">task space</text>
+  <rect x="480" y="70" width="220" height="80" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.6"/>
+  <text x="590" y="98" text-anchor="middle" font-size="12.5" fill="#065f46">range &#8212; reachable directions</text>
+  <rect x="480" y="160" width="220" height="62" rx="6" fill="#fef2f2" stroke="#f87171" stroke-width="1.6"/>
+  <text x="590" y="188" text-anchor="middle" font-size="12.5" fill="#b91c1c">left-null &#8212; impossible</text>
+  <text x="590" y="206" text-anchor="middle" font-size="11" fill="#dc2626">(empty unless singular)</text>
+  <!-- map -->
+  <line x1="285" y1="110" x2="475" y2="110" stroke="#2563eb" stroke-width="2" marker-end="url(#jm)"/>
+  <text x="380" y="100" text-anchor="middle" font-size="12" fill="#2563eb">J v&#7522; = &#963;&#7522; u&#7522;</text>
+  <text x="380" y="150" text-anchor="middle" font-size="11" fill="#6b7280">null &#8594; 0</text>
+  <text x="380" y="270" text-anchor="middle" font-size="12" fill="#111827">the Unit 4 capability buckets, now exact and computable from U, &#931;, V</text>
+</svg>

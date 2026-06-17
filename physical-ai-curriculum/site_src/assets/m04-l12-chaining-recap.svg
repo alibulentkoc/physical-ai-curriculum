@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 210" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The chain product T 0 1 times T 1 2 and so on equals T 0 n, with the planar sum of reaches at accumulated angles shown as its closed form.">
-  <defs><style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}.f{font-family:monospace;font-size:13px;fill:#0f172a}</style></defs>
-  <text x="350" y="24" text-anchor="middle" class="t">Two views of the same pose</text>
-  <rect x="60" y="55" width="580" height="44" rx="9" fill="#eef2ff" stroke="#c7d2fe"/>
-  <text x="350" y="82" text-anchor="middle" class="f">T₀ⁿ = T₀¹ · T₁² · … · Tₙ₋₁ⁿ   (matrix product, general / 3D-ready)</text>
-  <rect x="60" y="110" width="580" height="44" rx="9" fill="#ecfdf5" stroke="#a7f3d0"/>
-  <text x="350" y="137" text-anchor="middle" class="f">gripper = Σ Lk(cosφk, sinφk),  orientation = φn   (planar closed form)</text>
-  <text x="350" y="184" text-anchor="middle" class="c">Matrix product and trig agree. Unit 4: the general T₀ⁿ(θ) map and midpoint.</text>
-</svg>

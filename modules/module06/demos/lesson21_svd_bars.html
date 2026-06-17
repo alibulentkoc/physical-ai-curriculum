@@ -1,0 +1,157 @@
+<div id="sv-root">
+<style>
+  #sv-root{--bg:#0f172a;--panel:#13203a;--ink:#e2e8f0;--muted:#94a3b8;
+    --s1:#34d399;--s2:#f43f5e;--vel:#38bdf8;--in:#a78bfa;--grid:#1e293b;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+    background:var(--bg);border-radius:12px;padding:16px;max-width:760px;box-sizing:border-box}
+  #sv-root *{box-sizing:border-box}
+  #sv-root h3{margin:0 0 2px;font-size:16px;font-weight:650}
+  #sv-root .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px}
+  #sv-wrap{display:flex;gap:16px;flex-wrap:wrap}
+  #sv-canvas{background:var(--panel);border-radius:10px;flex:1 1 420px;min-width:300px;touch-action:none}
+  #sv-side{flex:1 1 230px;min-width:215px;display:flex;flex-direction:column;gap:10px}
+  #sv-root .ctl{display:flex;align-items:center;gap:8px;font-size:13px}
+  #sv-root .ctl label{width:30px;color:var(--muted)}
+  #sv-root input[type=range]{flex:1}
+  #sv-root .val{width:46px;text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #sv-root .panel{background:var(--panel);border-radius:8px;padding:11px 12px;font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #sv-root .barrow{display:flex;align-items:center;gap:8px;margin:4px 0}
+  #sv-root .barrow .lab{width:46px;color:var(--muted)}
+  #sv-root .track{flex:1;height:14px;background:#1e293b;border-radius:3px;overflow:hidden}
+  #sv-root .track>span{display:block;height:100%;border-radius:3px}
+  #sv-root .num{width:46px;text-align:right}
+  #sv-root .kappa{margin-top:8px;font-size:13px}
+  #sv-root .legend{font-size:11.5px;color:var(--muted);line-height:1.7}
+  #sv-root .swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
+  #sv-warn{min-height:16px;font-size:12px;font-weight:600}
+</style>
+
+  <h3>SVD Bars + Condition Number</h3>
+  <div class="sub">The bars are the singular values σ₁, σ₂ — the ellipse's axis lengths. As the
+  arm nears a singularity the σ₂ bar collapses, the ellipse flattens, and the condition number
+  κ = σ₁/σ₂ climbs. The decomposition <b>is</b> the geometry: J·v<sub>i</sub> = σ<sub>i</sub>·u<sub>i</sub>.</div>
+
+  <div id="sv-wrap">
+    <canvas id="sv-canvas" width="420" height="400" aria-label="2R arm with manipulability ellipse and SVD axes"></canvas>
+    <div id="sv-side">
+      <div class="ctl"><label>θ₁</label><input id="s0" type="range" min="-180" max="180" value="30"><span class="val" id="s0v"></span></div>
+      <div class="ctl"><label>θ₂</label><input id="s1" type="range" min="-180" max="180" value="80"><span class="val" id="s1v"></span></div>
+      <div class="panel">
+        <div class="barrow"><span class="lab" style="color:var(--s1)">σ₁</span><span class="track"><span id="b1" style="background:var(--s1)"></span></span><span class="num" id="n1"></span></div>
+        <div class="barrow"><span class="lab" style="color:var(--s2)">σ₂</span><span class="track"><span id="b2" style="background:var(--s2)"></span></span><span class="num" id="n2"></span></div>
+        <div class="kappa" id="kap"></div>
+        <div id="sv-warn"></div>
+      </div>
+      <div class="legend">
+        <span class="swatch" style="background:var(--vel)"></span>velocity ellipse &nbsp;
+        <span class="swatch" style="background:var(--s1)"></span>u₁ (σ_max axis)<br>
+        <span class="swatch" style="background:var(--s2)"></span>u₂ (σ_min axis) &nbsp;
+        <span class="swatch" style="background:var(--in)"></span>input v_i (joint dirs)
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var cv=document.getElementById('sv-canvas'), ctx=cv.getContext('2d');
+  var L=[1,1];
+  function deg(id){return +document.getElementById(id).value;}
+  function rad(id){return deg(id)*Math.PI/180;}
+  function geom(){
+    var t1=rad('s0'), t2=rad('s1');
+    var j1={x:L[0]*Math.cos(t1),y:L[0]*Math.sin(t1)};
+    var tool={x:j1.x+L[1]*Math.cos(t1+t2),y:j1.y+L[1]*Math.sin(t1+t2)};
+    var J=[[-(tool.y-0),-(tool.y-j1.y)],[(tool.x-0),(tool.x-j1.x)]];
+    return {j1:j1,tool:tool,J:J};
+  }
+  function svd2(J){
+    var a=J[0][0],b=J[0][1],c=J[1][0],d=J[1][1];
+    var m00=a*a+c*c,m01=a*b+c*d,m11=b*b+d*d;
+    var tr=m00+m11,det=m00*m11-m01*m01,disc=Math.sqrt(Math.max(tr*tr-4*det,0));
+    var l1=(tr+disc)/2,l2=(tr-disc)/2,s1=Math.sqrt(Math.max(l1,0)),s2=Math.sqrt(Math.max(l2,0));
+    var v1; if(Math.abs(m01)>1e-9){v1=[l1-m11,m01];}else{v1=(m00>=m11)?[1,0]:[0,1];}
+    var n=Math.hypot(v1[0],v1[1])||1; v1=[v1[0]/n,v1[1]/n]; var v2=[-v1[1],v1[0]];
+    var u1=[a*v1[0]+b*v1[1],c*v1[0]+d*v1[1]]; var nu=Math.hypot(u1[0],u1[1])||1; u1=[u1[0]/nu,u1[1]/nu];
+    var u2=[-u1[1],u1[0]];
+    return {s1:s1,s2:s2,u1:u1,u2:u2,v1:v1,v2:v2};
+  }
+  function draw(){
+    var W=cv.width,H=cv.height; ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#1e293b';ctx.lineWidth=1;
+    for(var g=0;g<=W;g+=40){ctx.beginPath();ctx.moveTo(g,0);ctx.lineTo(g,H);ctx.stroke();}
+    for(var g=0;g<=H;g+=40){ctx.beginPath();ctx.moveTo(0,g);ctx.lineTo(W,g);ctx.stroke();}
+    var ox=W*0.40,oy=H*0.58,s=78,gm=geom();
+    function px(p){return {x:ox+p.x*s,y:oy-p.y*s};}
+    var o=px({x:0,y:0}),j1=px(gm.j1),tool=px(gm.tool);
+    ctx.lineWidth=6;ctx.lineCap='round';ctx.strokeStyle='#94a3b8';
+    ctx.beginPath();ctx.moveTo(o.x,o.y);ctx.lineTo(j1.x,j1.y);ctx.lineTo(tool.x,tool.y);ctx.stroke();
+    ctx.fillStyle='#334155';ctx.beginPath();ctx.arc(o.x,o.y,5,0,7);ctx.fill();
+    ctx.fillStyle='#cbd5e1';ctx.beginPath();ctx.arc(j1.x,j1.y,5,0,7);ctx.fill();
+    ctx.fillStyle='#f1f5f9';ctx.beginPath();ctx.arc(tool.x,tool.y,6,0,7);ctx.fill();
+    var sv=svd2(gm.J),vs=60;
+    // ellipse
+    ctx.beginPath();
+    for(var t=0;t<=2*Math.PI+0.01;t+=0.06){
+      var x=tool.x+sv.u1[0]*sv.s1*vs*Math.cos(t)+sv.u2[0]*sv.s2*vs*Math.sin(t);
+      var y=tool.y-(sv.u1[1]*sv.s1*vs*Math.cos(t)+sv.u2[1]*sv.s2*vs*Math.sin(t));
+      if(t===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.closePath();ctx.fillStyle='rgba(56,189,248,0.10)';ctx.fill();ctx.strokeStyle='#38bdf8';ctx.lineWidth=2.2;ctx.stroke();
+    // output axes u1,u2
+    axis(tool.x,tool.y,sv.u1,sv.s1*vs,'#34d399'); axis(tool.x,tool.y,sv.u2,sv.s2*vs,'#f43f5e');
+    // input directions v (joint space) shown as a small inset circle
+    drawInput(70,72,40,sv);
+    bars(sv);
+  }
+  function axis(cx,cy,u,len,col){ctx.strokeStyle=col;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx-u[0]*len,cy+u[1]*len);ctx.lineTo(cx+u[0]*len,cy-u[1]*len);ctx.stroke();}
+  function drawInput(cx,cy,r,sv){
+    ctx.strokeStyle='#334155';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.stroke();
+    ctx.fillStyle='#64748b';ctx.font='10px system-ui';ctx.fillText('joint inputs v',cx-30,cy-r-6);
+    [sv.v1,sv.v2].forEach(function(v){
+      ctx.strokeStyle='#a78bfa';ctx.lineWidth=2.4;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+v[0]*r,cy-v[1]*r);ctx.stroke();
+    });
+  }
+  function bars(sv){
+    var mx=2.6;
+    document.getElementById('b1').style.width=Math.min(100,sv.s1/mx*100)+'%';
+    document.getElementById('b2').style.width=Math.min(100,sv.s2/mx*100)+'%';
+    document.getElementById('n1').textContent=sv.s1.toFixed(3);
+    document.getElementById('n2').textContent=sv.s2.toFixed(3);
+    var kap=sv.s1/Math.max(sv.s2,1e-4);
+    var kEl=document.getElementById('kap');
+    var col = kap>15?'#f43f5e':(kap>5?'#fbbf24':'#34d399');
+    kEl.innerHTML='condition  κ = σ₁/σ₂ = <span style="color:'+col+'">'+kap.toFixed(1)+'</span>'
+      +'<br>w = σ₁·σ₂ = '+(sv.s1*sv.s2).toFixed(3);
+    var w=document.getElementById('sv-warn');
+    w.style.color=col;
+    w.textContent = kap>15 ? 'near singular: ellipse nearly flat (κ large)' : '';
+  }
+  // drag-to-pose
+  var drag=false;
+  function setP(ev){
+    var r=cv.getBoundingClientRect();
+    var mx=(ev.touches?ev.touches[0].clientX:ev.clientX)-r.left;
+    var my=(ev.touches?ev.touches[0].clientY:ev.clientY)-r.top;
+    var ox=cv.width*0.40,oy=cv.height*0.58,s=78;
+    var x=(mx-ox)/s,y=(oy-my)/s,d=Math.hypot(x,y);
+    d=Math.min(d,L[0]+L[1]-1e-3);d=Math.max(d,Math.abs(L[0]-L[1])+1e-3);
+    var ux=x/(Math.hypot(x,y)||1),uy=y/(Math.hypot(x,y)||1);
+    var c2=(d*d-2)/2;c2=Math.max(-1,Math.min(1,c2));var th2=Math.acos(c2);
+    var k1=L[0]+L[1]*Math.cos(th2),k2=L[1]*Math.sin(th2);
+    var th1=Math.atan2(uy,ux)-Math.atan2(k2,k1);
+    document.getElementById('s0').value=Math.round(th1*180/Math.PI);
+    document.getElementById('s1').value=Math.round(th2*180/Math.PI);
+    sync();
+  }
+  cv.addEventListener('mousedown',function(e){drag=true;setP(e);});
+  window.addEventListener('mousemove',function(e){if(drag)setP(e);});
+  window.addEventListener('mouseup',function(){drag=false;});
+  cv.addEventListener('touchstart',function(e){drag=true;setP(e);e.preventDefault();},{passive:false});
+  cv.addEventListener('touchmove',function(e){if(drag){setP(e);e.preventDefault();}},{passive:false});
+  cv.addEventListener('touchend',function(){drag=false;});
+  function sync(){document.getElementById('s0v').textContent=deg('s0')+'°';document.getElementById('s1v').textContent=deg('s1')+'°';draw();}
+  ['s0','s1'].forEach(function(id){document.getElementById(id).addEventListener('input',sync);});
+  sync();
+})();
+</script>
+</div>

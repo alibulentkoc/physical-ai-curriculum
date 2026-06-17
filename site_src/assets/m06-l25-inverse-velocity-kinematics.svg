@@ -1,0 +1,16 @@
+<svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="f25" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#475569"/></marker></defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">Inverse velocity kinematics: run the ellipsoid backwards</text>
+  <text x="150" y="56" text-anchor="middle" font-size="12.5" fill="#6b7280">forward (Unit 2)</text>
+  <circle cx="110" cy="150" r="34" fill="none" stroke="#94a3b8" stroke-width="2.2"/><text x="110" y="200" text-anchor="middle" font-size="11" fill="#6b7280">q&#775; circle</text>
+  <line x1="150" y1="150" x2="210" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#f25)"/><text x="180" y="142" text-anchor="middle" font-size="11" fill="#475569">J</text>
+  <ellipse cx="260" cy="150" rx="46" ry="20" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="2.2" transform="rotate(-18 260 150)"/><text x="260" y="200" text-anchor="middle" font-size="11" fill="#6b7280">tool ellipse</text>
+  <line x1="430" y1="42" x2="430" y2="250" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="600" y="56" text-anchor="middle" font-size="12.5" fill="#6b7280">inverse (this lesson)</text>
+  <ellipse cx="520" cy="150" rx="46" ry="20" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="2.2" transform="rotate(-18 520 150)"/>
+  <line x1="520" y1="150" x2="555" y2="135" stroke="#0d9488" stroke-width="2.6"/><text x="560" y="130" font-size="11" fill="#0d9488">&#958;_d</text>
+  <line x1="575" y1="150" x2="635" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#f25)"/><text x="605" y="142" text-anchor="middle" font-size="11" fill="#475569">J&#8315;&#185;</text>
+  <circle cx="685" cy="150" r="34" fill="none" stroke="#94a3b8" stroke-width="2.2"/>
+  <line x1="685" y1="150" x2="710" y2="135" stroke="#0d9488" stroke-width="2.6"/><text x="685" y="200" text-anchor="middle" font-size="11" fill="#6b7280">q&#775; that makes &#958;_d</text>
+  <text x="380" y="262" text-anchor="middle" font-size="12" fill="#111827">desired tool twist &#958;_d  &#8594;  q&#775; = J&#8315;&#185; &#958;_d = V&#931;&#8315;&#185;U&#7488; &#958;_d  (square, non-singular)</text>
+</svg>

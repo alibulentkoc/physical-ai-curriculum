@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs>
+    <marker id="w" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#7c3aed"/></marker>
+    <marker id="k" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#b45309"/></marker>
+    <marker id="g" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f2937"/></marker>
+  </defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">Angular velocity drives a continuous spin:  R&#775; = S(&#969;) R</text>
+
+  <!-- divider lines -->
+  <line x1="253" y1="44" x2="253" y2="276" stroke="#e5e7eb" stroke-width="1.5"/>
+  <line x1="507" y1="44" x2="507" y2="276" stroke="#e5e7eb" stroke-width="1.5"/>
+
+  <!-- Panel 1: instant t -->
+  <text x="127" y="60" text-anchor="middle" font-size="13" fill="#6b7280">instant t</text>
+  <ellipse cx="127" cy="160" rx="60" ry="24" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.2" transform="rotate(-18 127 160)"/>
+  <line x1="92" y1="208" x2="162" y2="112" stroke="#7c3aed" stroke-width="3" marker-end="url(#w)"/>
+  <text x="166" y="108" font-size="15" fill="#7c3aed" font-weight="700">&#969;</text>
+  <text x="127" y="248" text-anchor="middle" font-size="12" fill="#6b7280">axis = direction, rate = length</text>
+
+  <!-- Panel 2: instant t+dt (rotated a bit more) -->
+  <text x="380" y="60" text-anchor="middle" font-size="13" fill="#6b7280">instant t + dt</text>
+  <ellipse cx="380" cy="160" rx="60" ry="24" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.2" transform="rotate(2 380 160)"/>
+  <line x1="345" y1="208" x2="415" y2="112" stroke="#7c3aed" stroke-width="3" marker-end="url(#w)"/>
+  <path d="M 350 132 A 44 44 0 0 1 405 126" stroke="#b45309" stroke-width="2.4" fill="none" marker-end="url(#k)"/>
+  <text x="384" y="120" font-size="13" fill="#b45309" font-weight="600">&#969; dt</text>
+  <text x="380" y="248" text-anchor="middle" font-size="12" fill="#6b7280">R(t+dt) &#8776; (I + S(&#969;)dt) R(t)</text>
+
+  <!-- Panel 3: two viewpoints -->
+  <text x="634" y="60" text-anchor="middle" font-size="13" fill="#6b7280">two viewpoints</text>
+  <ellipse cx="634" cy="150" rx="50" ry="20" fill="#f5f3ff" stroke="#a78bfa" stroke-width="2" transform="rotate(-12 634 150)"/>
+  <!-- world frame -->
+  <g stroke="#1f2937" stroke-width="2" fill="none">
+    <line x1="566" y1="232" x2="606" y2="232" marker-end="url(#g)"/>
+    <line x1="566" y1="232" x2="566" y2="192" marker-end="url(#g)"/>
+  </g>
+  <text x="560" y="248" font-size="11" fill="#6b7280">world  &#969;&#8347;</text>
+  <!-- body frame -->
+  <g stroke="#1f2937" stroke-width="2" fill="none" transform="rotate(20 690 232)">
+    <line x1="690" y1="232" x2="690" y2="192" marker-end="url(#g)"/>
+    <line x1="690" y1="232" x2="710" y2="232" marker-end="url(#g)"/>
+  </g>
+  <text x="676" y="248" font-size="11" fill="#6b7280">body  &#969;_b</text>
+  <text x="634" y="270" text-anchor="middle" font-size="12" fill="#7c3aed" font-weight="600">&#969;&#8347; = R &#969;_b</text>
+</svg>

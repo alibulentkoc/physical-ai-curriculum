@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Knowledge Check — Lesson 2.4</title>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--greenbg:#dcfce7;--red:#b91c1c;--redbg:#fee2e2;--accent:#0d9488;}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:760px;margin:0 auto;padding:6px}
+.note{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.qhead{font-weight:600;font-size:14.5px;margin-bottom:10px}.qnum{display:inline-block;min-width:22px;color:var(--accent);font-weight:700}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;margin:6px 0;font-size:14px;cursor:pointer}
+.opt:hover{background:var(--soft)}.opt.correct{background:var(--greenbg);border-color:#86efac;color:var(--green);font-weight:600}.opt.wrong{background:var(--redbg);border-color:#fecaca;color:var(--red)}
+.fb{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;display:none}.fb.show{display:block}.fb.ok{background:var(--greenbg);color:var(--green)}.fb.no{background:var(--redbg);color:var(--red)}.fb.info{background:#eff6ff;color:#1d4ed8}
+select{font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;margin-left:6px}.match-row{margin:6px 0;font-size:14px}
+textarea{width:100%;min-height:60px;border:1px solid var(--line);border-radius:9px;padding:8px;font-family:inherit;font-size:14px;resize:vertical}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:8px}.btn:hover{background:var(--soft)}
+.model{display:none;font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;background:#eff6ff;color:#1d4ed8}.model.show{display:block}
+</style></head><body><div class="wrap">
+<div class="note">Formative — unlimited attempts, immediate feedback. This does <b>not</b> affect your grade.</div>
+<div id="quiz"></div></div>
+<script>var questions=[{"type": "mc", "prompt": "The central-difference estimate of the linear column $i$ is:", "options": [{"t": "$[\\mathbf{p}(\\mathbf{q}+\\varepsilon\\mathbf{e}_i)-\\mathbf{p}(\\mathbf{q})]/\\varepsilon$", "ok": false}, {"t": "$[\\mathbf{p}(\\mathbf{q}+\\varepsilon\\mathbf{e}_i)-\\mathbf{p}(\\mathbf{q}-\\varepsilon\\mathbf{e}_i)]/2\\varepsilon$", "ok": true}, {"t": "$\\mathbf{p}(\\mathbf{q})/\\varepsilon$", "ok": false}, {"t": "$\\varepsilon\\,\\mathbf{p}(\\mathbf{q})$", "ok": false}], "ok": "Correct.", "no": "Central difference: $[\\mathbf{p}(+)-\\mathbf{p}(-)]/2\\varepsilon$. (A is the first-order forward difference.)"}, {"type": "mc", "prompt": "The angular part of the finite-difference Jacobian is obtained by:", "options": [{"t": "subtracting rotation matrices and dividing", "ok": false}, {"t": "forming $R(+)R(-)^\\top$ and applying the vee operator", "ok": true}, {"t": "differentiating Euler angles", "ok": false}, {"t": "taking a determinant", "ok": false}], "ok": "Correct.", "no": "Form $R(+)R(-)^\\top \\approx I + S(2\\varepsilon\\boldsymbol{\\omega})$ and apply vee."}, {"type": "mc", "prompt": "Central differences converge at:", "options": [{"t": "first order ($\\varepsilon$)", "ok": false}, {"t": "second order ($\\varepsilon^2$)", "ok": true}, {"t": "third order ($\\varepsilon^3$)", "ok": false}, {"t": "they do not converge", "ok": false}], "ok": "Correct.", "no": "Second order, $\\varepsilon^2$."}, {"type": "mc", "prompt": "Driving $\\varepsilon$ extremely small (e.g. $10^{-12}$) tends to:", "options": [{"t": "keep improving accuracy without limit", "ok": false}, {"t": "hit a round-off floor where error grows again", "ok": true}, {"t": "make the Jacobian singular", "ok": false}, {"t": "have no effect", "ok": false}], "ok": "Correct.", "no": "Round-off floor: below it, error grows again."}, {"type": "mc", "prompt": "A good practice when validating is to:", "options": [{"t": "test at a single configuration", "ok": false}, {"t": "sweep many configurations", "ok": true}, {"t": "only test at the home pose", "ok": false}, {"t": "skip prismatic joints", "ok": false}], "ok": "Correct.", "no": "Sweep many configurations; errors hide near specific geometries."}, {"type": "short", "prompt": "Describe, in plain terms, how to find one Jacobian column by experiment.", "model": "Perturb joint $i$ by $+\\varepsilon$ and $-\\varepsilon$, record the tool pose each time, and divide the change by $2\\varepsilon$; that is column $i$, measured rather than derived."}, {"type": "short", "prompt": "Why can't the angular part be computed by subtracting rotation matrices?", "model": "A difference of rotation matrices is not itself a rotation or an angular velocity; the correct angular rate comes from the relative rotation $R(+)R(-)^\\top$ read through the vee operator (Lesson 1.2)."}, {"type": "short", "prompt": "Why is a finite-difference check a sound gate before trusting a new robot model in a controller?", "model": "It is cheap, model-agnostic, and catches sign/off-by-one/axis errors before the robot moves — comparing predicted columns to measured tool motion across configurations."}];
+var root=document.getElementById("quiz");
+questions.forEach(function(q,i){var card=document.createElement("div");card.className="q";
+var head=document.createElement("div");head.className="qhead";head.innerHTML='<span class="qnum">'+(i+1)+'.</span> '+q.prompt;card.appendChild(head);
+var fb=document.createElement("div");fb.className="fb";
+if(q.type==="mc"||q.type==="tf"){var opts=q.type==="tf"?[{t:"True",ok:q.answer===true},{t:"False",ok:q.answer===false}]:q.options;
+opts.forEach(function(o){var b=document.createElement("button");b.className="opt";b.type="button";b.innerHTML=o.t;
+b.addEventListener("click",function(){Array.prototype.forEach.call(card.querySelectorAll(".opt"),function(el){el.classList.remove("correct","wrong");});
+if(o.ok){b.classList.add("correct");fb.className="fb show ok";fb.innerHTML=q.ok;}else{b.classList.add("wrong");fb.className="fb show no";fb.innerHTML=q.no;}});card.appendChild(b);});card.appendChild(fb);}
+else if(q.type==="short"){var ta=document.createElement("textarea");ta.placeholder="Type your answer, then reveal the model answer to self-check…";card.appendChild(ta);
+var sh=document.createElement("button");sh.className="btn";sh.type="button";sh.textContent="Show model answer";var md=document.createElement("div");md.className="model";md.innerHTML=q.model;
+sh.addEventListener("click",function(){md.classList.toggle("show");sh.textContent=md.classList.contains("show")?"Hide model answer":"Show model answer";});card.appendChild(sh);card.appendChild(md);}
+root.appendChild(card);});
+if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetPromise();}
+</script></body></html>

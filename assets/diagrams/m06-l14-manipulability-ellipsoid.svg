@@ -1,0 +1,20 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#2563eb"/></marker></defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">The manipulability ellipsoid: what one unit of joint effort buys</text>
+  <line x1="380" y1="42" x2="380" y2="280" stroke="#e5e7eb" stroke-width="1.5"/>
+  <!-- unit circle -> through J -> ellipse -->
+  <text x="120" y="58" text-anchor="middle" font-size="12.5" fill="#6b7280">unit joint-rate circle</text>
+  <circle cx="120" cy="165" r="46" fill="none" stroke="#94a3b8" stroke-width="2.4"/>
+  <text x="120" y="240" text-anchor="middle" font-size="11.5" fill="#6b7280">||q&#775;|| = 1</text>
+  <line x1="195" y1="165" x2="255" y2="165" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="225" y="156" text-anchor="middle" font-size="12" fill="#475569">through J</text>
+  <text x="320" y="58" text-anchor="middle" font-size="12.5" fill="#6b7280">tool-velocity ellipse</text>
+  <ellipse cx="320" cy="165" rx="58" ry="22" fill="#dbeafe" stroke="#2563eb" stroke-width="2.4" transform="rotate(-20 320 165)"/>
+  <line x1="320" y1="165" x2="375" y2="145" stroke="#1d4ed8" stroke-width="2.6"/><text x="386" y="138" font-size="11.5" fill="#1d4ed8" font-weight="600">easy</text>
+  <line x1="320" y1="165" x2="305" y2="186" stroke="#1d4ed8" stroke-width="2.6"/><text x="276" y="200" font-size="11.5" fill="#1d4ed8" font-weight="600">hard</text>
+  <!-- collapse -->
+  <text x="600" y="58" text-anchor="middle" font-size="12.5" fill="#6b7280">near singularity: collapse</text>
+  <ellipse cx="600" cy="165" rx="64" ry="5" fill="#fee2e2" stroke="#dc2626" stroke-width="2.4" transform="rotate(-16 600 165)"/>
+  <text x="600" y="235" text-anchor="middle" font-size="11.5" fill="#dc2626" font-weight="600">short axis &#8594; 0 = impossible direction</text>
+  <text x="380" y="276" text-anchor="middle" font-size="12" fill="#111827">long = easy &#183; short = hard &#183; flat = impossible</text>
+</svg>

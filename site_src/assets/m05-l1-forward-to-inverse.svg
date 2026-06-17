@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 260" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Forward kinematics maps joint angles to a pose by evaluating, drawn as a solid arrow; inverse kinematics maps a pose back to joint angles by solving, drawn as a dashed arrow, with a note that there may be zero, one, or many solutions.">
+<defs><marker id="af" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/></marker>
+<marker id="ai" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8b5cf6"/></marker>
+<style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}</style></defs>
+<text x="350" y="26" text-anchor="middle" class="t">Forward evaluates; inverse solves</text>
+<rect x="60" y="90" width="180" height="70" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="150" y="120" text-anchor="middle" class="b">joint angles</text>
+<text x="150" y="142" text-anchor="middle" class="b">θ = (θ₁,…,θₙ)</text>
+<rect x="460" y="90" width="180" height="70" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="550" y="120" text-anchor="middle" class="b">gripper pose</text>
+<text x="550" y="142" text-anchor="middle" class="b">T₀ⁿ</text>
+<line x1="245" y1="112" x2="455" y2="112" stroke="#0d9488" stroke-width="2.5" marker-end="url(#af)"/>
+<text x="350" y="104" text-anchor="middle" class="c">forward: evaluate — one answer (Module 4)</text>
+<line x1="455" y1="150" x2="245" y2="150" stroke="#8b5cf6" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#ai)"/>
+<text x="350" y="172" text-anchor="middle" class="c">inverse: solve — 0, 1, or many (Module 5)</text>
+<text x="350" y="212" text-anchor="middle" class="c">Plug θ in and read the pose, or solve T₀ⁿ(θ) = T_desired for θ.</text>
+<text x="350" y="232" text-anchor="middle" class="c">This module: the dashed arrow.</text>
+</svg>
