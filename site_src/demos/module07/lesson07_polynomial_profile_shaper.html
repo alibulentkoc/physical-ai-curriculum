@@ -1,0 +1,154 @@
+<div id="pps-root">
+<style>
+  #pps-root{--bg:#0f172a;--panel:#13203a;--ink:#e2e8f0;--muted:#94a3b8;--grid:#1e293b;
+    --cubic:#fb7185;--quintic:#34d399;--accent:#0d9488;--warn:#fbbf24;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+    background:var(--bg);border-radius:12px;padding:16px;max-width:780px;box-sizing:border-box}
+  #pps-root *{box-sizing:border-box}
+  #pps-root h3{margin:0 0 2px;font-size:16px;font-weight:650}
+  #pps-root .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px;line-height:1.5}
+  #pps-wrap{display:flex;gap:16px;flex-wrap:wrap}
+  #pps-canvas{background:var(--panel);border-radius:10px;flex:1 1 460px;min-width:300px;touch-action:none}
+  #pps-side{flex:1 1 220px;min-width:210px;display:flex;flex-direction:column;gap:11px}
+  #pps-root .row{display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:8px}
+  #pps-root button{background:#1e293b;color:var(--ink);border:1px solid #334155;border-radius:7px;
+    padding:7px 11px;font-size:12.5px;cursor:pointer}
+  #pps-root button[aria-pressed=true]{background:#334155;border-color:#64748b;font-weight:650}
+  #pps-root button:focus-visible,#pps-root input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  #pps-root .ctl{display:flex;align-items:center;gap:8px;font-size:13px}
+  #pps-root .ctl label{width:78px;color:var(--muted)}
+  #pps-root input[type=range]{flex:1}
+  #pps-root .val{width:60px;text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #pps-root .readout{background:var(--panel);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.7;
+    font-family:ui-monospace,Menlo,Consolas,monospace}
+  #pps-root .swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:baseline}
+  #pps-root .legend{font-size:12px;color:var(--muted);line-height:1.7}
+  #pps-note{font-size:12px;color:var(--warn);min-height:17px;font-weight:600}
+</style>
+
+  <h3>Polynomial Profile Shaper — cubic vs quintic</h3>
+  <div class="sub">One rest-to-rest joint move (0 → 1.2 rad). Toggle the polynomial and drag the duration.
+  Watch the <b>acceleration</b> panel: the cubic leaves a non-zero <b>jump</b> at each end (only C¹);
+  the quintic starts and ends at zero acceleration (C²). Same move, same time — gentler ends.</div>
+
+  <div id="pps-wrap">
+    <canvas id="pps-canvas" width="480" height="380" role="img"
+      aria-label="Stacked plots of position, velocity, acceleration, and jerk over time for the selected polynomial time scaling"></canvas>
+    <div id="pps-side">
+      <div class="row" role="group" aria-label="Polynomial choice">
+        <span>Polynomial:</span>
+        <span>
+          <button id="pps-cubic" aria-pressed="false">Cubic (C¹)</button>
+          <button id="pps-quintic" aria-pressed="true">Quintic (C²)</button>
+        </span>
+      </div>
+      <div class="ctl"><label for="pps-T">Duration T</label>
+        <input id="pps-T" type="range" min="0.6" max="3.0" step="0.05" value="1.5"
+          aria-label="Move duration in seconds"><span class="val" id="pps-Tv"></span></div>
+      <div class="readout" id="pps-readout" aria-live="polite"></div>
+      <div class="legend">
+        <span class="swatch" style="background:var(--cubic)"></span>cubic &nbsp;
+        <span class="swatch" style="background:var(--quintic)"></span>quintic<br>
+        Endpoint acceleration tells the story: 0 ⇒ C² (no jolt), ≠0 ⇒ C¹ (jump).
+      </div>
+      <div id="pps-note"></div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var root=document.getElementById('pps-root');
+  var cv=document.getElementById('pps-canvas'), ctx=cv.getContext('2d');
+  var Tslider=document.getElementById('pps-T'), Tval=document.getElementById('pps-Tv');
+  var bCub=document.getElementById('pps-cubic'), bQui=document.getElementById('pps-quintic');
+  var readout=document.getElementById('pps-readout'), note=document.getElementById('pps-note');
+  var Q0=0.0, QF=1.2, mode='quintic';
+
+  // ascending-coefficient evaluators
+  function polyAll(c,t){ // returns [pos,vel,acc,jerk]
+    var n=c.length, p=0,v=0,a=0,j=0;
+    for(var k=0;k<n;k++){ p+=c[k]*Math.pow(t,k);
+      if(k>=1)v+=k*c[k]*Math.pow(t,k-1);
+      if(k>=2)a+=k*(k-1)*c[k]*Math.pow(t,k-2);
+      if(k>=3)j+=k*(k-1)*(k-2)*c[k]*Math.pow(t,k-3);}
+    return [p,v,a,j];
+  }
+  function cubicCoeffs(q0,qf,T){ // rest-to-rest
+    return [q0,0, (3*(qf-q0))/(T*T), (-2*(qf-q0))/(T*T*T)];
+  }
+  function quinticCoeffs(q0,qf,T){ // rest-to-rest, zero endpoint accel
+    var h=qf-q0,T3=T*T*T,T4=T3*T,T5=T4*T;
+    return [q0,0,0, 10*h/T3, -15*h/T4, 6*h/T5];
+  }
+
+  function sample(c,T,N){
+    var t=[],P=[],V=[],A=[],J=[];
+    for(var i=0;i<=N;i++){var tt=T*i/N; var r=polyAll(c,tt);
+      t.push(tt);P.push(r[0]);V.push(r[1]);A.push(r[2]);J.push(r[3]);}
+    return {t:t,P:P,V:V,A:A,J:J};
+  }
+
+  function panel(x,y,w,h,series,T,color,title,markEnds){
+    // axes box
+    ctx.strokeStyle='#1e293b'; ctx.lineWidth=1; ctx.strokeRect(x,y,w,h);
+    var mn=Math.min.apply(null,series), mx=Math.max.apply(null,series);
+    if(mx-mn<1e-9){mn-=1;mx+=1;}
+    var pad=(mx-mn)*0.15; mn-=pad; mx+=pad;
+    // zero line
+    var zy=y+h-(0-mn)/(mx-mn)*h;
+    if(0>=mn&&0<=mx){ctx.strokeStyle='#334155';ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x,zy);ctx.lineTo(x+w,zy);ctx.stroke();ctx.setLineDash([]);}
+    // curve
+    ctx.strokeStyle=color; ctx.lineWidth=2; ctx.beginPath();
+    for(var i=0;i<series.length;i++){
+      var px=x+ (i/(series.length-1))*w;
+      var py=y+h-(series[i]-mn)/(mx-mn)*h;
+      i?ctx.lineTo(px,py):ctx.moveTo(px,py);
+    }
+    ctx.stroke();
+    // endpoint markers (for acceleration panel)
+    if(markEnds){
+      [[0,series[0]],[series.length-1,series[series.length-1]]].forEach(function(e){
+        var px=x+(e[0]/(series.length-1))*w, py=y+h-(e[1]-mn)/(mx-mn)*h;
+        var jump=Math.abs(e[1])>1e-3;
+        ctx.fillStyle=jump?'#fb7185':'#34d399';
+        ctx.beginPath();ctx.arc(px,py,4,0,7);ctx.fill();
+      });
+    }
+    // title
+    ctx.fillStyle='#94a3b8'; ctx.font='11px system-ui'; ctx.textAlign='left';
+    ctx.fillText(title, x+6, y+13);
+  }
+
+  function draw(){
+    var T=parseFloat(Tslider.value); Tval.textContent=T.toFixed(2)+' s';
+    var c = mode==='cubic'?cubicCoeffs(Q0,QF,T):quinticCoeffs(Q0,QF,T);
+    var col = mode==='cubic'?'#fb7185':'#34d399';
+    var d=sample(c,T,160);
+    ctx.clearRect(0,0,cv.width,cv.height);
+    var W=cv.width, m=10, pw=W-2*m, ph=82, gap=10, y0=8;
+    panel(m,y0,         pw,ph, d.P,T,col,'position  q(t) [rad]',false);
+    panel(m,y0+(ph+gap),pw,ph, d.V,T,col,'velocity  q̇(t) [rad/s]',false);
+    panel(m,y0+2*(ph+gap),pw,ph, d.A,T,col,'acceleration  q̈(t) [rad/s²]  — endpoints dotted',true);
+    panel(m,y0+3*(ph+gap),pw,ph, d.J,T,col,'jerk  q⃛(t) [rad/s³]',false);
+
+    var a0=d.A[0], aT=d.A[d.A.length-1];
+    var vpk=Math.max.apply(null,d.V.map(Math.abs));
+    var apk=Math.max.apply(null,d.A.map(Math.abs));
+    readout.innerHTML='mode: <b>'+mode+'</b><br>endpoint accel: '+a0.toFixed(2)+', '+aT.toFixed(2)+
+      '<br>peak speed: '+vpk.toFixed(2)+' rad/s<br>peak accel: '+apk.toFixed(2)+' rad/s²';
+    if(mode==='cubic'){ note.textContent='Cubic: acceleration JUMPS to '+a0.toFixed(2)+' at the ends → only C¹.'; }
+    else { note.textContent='Quintic: acceleration ≈ 0 at both ends → C². Note the higher peak speed.'; }
+  }
+
+  function setMode(m){ mode=m;
+    bCub.setAttribute('aria-pressed', m==='cubic');
+    bQui.setAttribute('aria-pressed', m==='quintic');
+    draw();
+  }
+  bCub.addEventListener('click',function(){setMode('cubic');});
+  bQui.addEventListener('click',function(){setMode('quintic');});
+  Tslider.addEventListener('input',draw);
+  draw();
+})();
+</script>
+</div>

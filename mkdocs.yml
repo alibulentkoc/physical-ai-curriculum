@@ -266,6 +266,47 @@ nav:
         - "8.2 Capstone II — The Resolved-Rate Tracker": module06/lesson30.md
         - "8.3 Capstone III — Scheduled Damping and Redundancy": module06/lesson31.md
         - "8.4 Capstone IV — The Velocity Layer for Module 7": module06/lesson32.md
+  - "Module 7 — Trajectory Generation and Motion Planning":
+      - "Unit 1 — Motion, Paths, and Trajectories":
+        - "1.1 Why Smooth, Safe, Efficient Motion Matters": module07/lesson01.md
+        - "1.2 Path vs Trajectory: Geometry versus Timing": module07/lesson02.md
+        - "1.3 What Makes a Trajectory \"Good\"": module07/lesson03.md
+        - "1.4 The Motion Pipeline": module07/lesson04.md
+      - "Unit 2 — Time Parameterization and Smoothness":
+        - "2.1 Position, Velocity, Acceleration, Jerk": module07/lesson05.md
+        - "2.2 Continuity Classes C⁰/C¹/C² and Why Jerk Matters": module07/lesson06.md
+        - "2.3 Polynomial Time Scaling: Cubic vs Quintic · demo": module07/lesson07.md
+        - "2.4 Trapezoidal vs S-Curve Velocity Profiles": module07/lesson08.md
+      - "Unit 3 — Joint-Space Trajectories":
+        - "3.1 Point-to-Point Joint Moves: Per-Joint Polynomials": module07/lesson09.md
+        - "3.2 Synchronizing Multiple Joints": module07/lesson10.md
+        - "3.3 Via-Points and Multi-Segment Joint Trajectories": module07/lesson11.md
+        - "3.4 Blending for C² Continuity at Via-Points": module07/lesson12.md
+      - "Unit 4 — Cartesian-Space Trajectories":
+        - "4.1 Why Cartesian Space? Straight-Line Tool Motion": module07/lesson13.md
+        - "4.2 Position Interpolation and the IK-per-Sample Loop": module07/lesson14.md
+        - "4.3 Orientation Interpolation: SLERP": module07/lesson15.md
+        - "4.4 Screw Motion: Unified Position + Orientation Interpolation": module07/lesson16.md
+      - "Unit 5 — Feasibility: Velocity, Acceleration, and Limits":
+        - "5.1 Why a Trajectory Can Be Infeasible: Velocity and Acceleration Limits · demo": module07/lesson17.md
+        - "5.2 Slowing Down to Restore Feasibility: Uniform Time Scaling": module07/lesson18.md
+        - "5.3 The Fastest Feasible Timing: Respecting Velocity and Acceleration Limits": module07/lesson19.md
+        - "5.4 Feasibility Across the Whole Trajectory: Reachability, Limits, and the Workspace": module07/lesson20.md
+      - "Unit 6 — Motion Planning and Collision Awareness":
+        - "6.1 Obstacles and Forbidden Regions: Configuration Space · demo": module07/lesson21.md
+        - "6.2 Collision Checking: Is This Configuration Safe?": module07/lesson22.md
+        - "6.3 Finding a Safe Path: Sampling-Based Planning (RRT)": module07/lesson23.md
+        - "6.4 From Safe Path to Feasible Trajectory: Smoothing and Time Scaling": module07/lesson24.md
+      - "Unit 7 — Trajectory Quality, Validation, and Tracking Prerequisites":
+        - "7.1 What Makes a Trajectory Good? Quality Metrics": module07/lesson25.md
+        - "7.2 Validating a Trajectory: The Complete Check": module07/lesson26.md
+        - "7.3 Tracking Prerequisites: What the Reference Must Provide": module07/lesson27.md
+        - "7.4 Sampling and Representing the Reference: Discretization for Execution": module07/lesson28.md
+      - "Unit 8 — Capstone: Plan → Parameterize → Validate → Execute":
+        - "8.1 The Complete Workflow: Plan → Parameterize → Validate → Execute · demo": module07/lesson29.md
+        - "8.2 Plan and Parameterize: From Task to Timed Trajectory": module07/lesson30.md
+        - "8.3 Validate and Hand Off: The Reference Trajectory Layer": module07/lesson31.md
+        - "8.4 Capstone Integration: The Greenhouse Harvest Cycle": module07/lesson32.md
 
 markdown_extensions:
   - admonition

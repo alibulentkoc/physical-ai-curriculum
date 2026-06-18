@@ -1,0 +1,25 @@
+<svg viewBox="0 0 540 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Module 7 to Module 8 boundary: Module 7 emits a continuous feasible validated reference with feed-forward derivatives across a handoff line into Module 8's tracker, which is out of scope here">
+<title>The Module 7 to Module 8 boundary: Module 7 emits a continuous feasible validated reference with feed-forward derivatives across a handoff line into Module 8's tracker, which is out of scope here</title>
+<rect width="540" height="240" fill="white"/>
+<text x="270" y="26" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="14" font-weight="650" fill="#0f172a">The reference handoff: Module 7 produces, Module 8 tracks</text>
+<!-- M7 box -->
+<rect x="30" y="52" width="220" height="150" rx="8" fill="#f8fafc" stroke="#0d9488" stroke-width="2"/>
+<text x="140" y="72" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" font-weight="650" fill="#0d9488">Module 7 (here)</text>
+<text x="140" y="94" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" font-weight="400" fill="#0f172a">reference q_d(t), q̇_d(t), q̈_d(t)</text>
+<text x="140" y="112" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" font-weight="400" fill="#64748b">continuous · feasible · validated</text>
+<!-- three mini signal curves -->
+<path d="M 60.0 150.0 L 65.0 146.2 L 70.0 143.3 L 75.0 142.0 L 80.0 142.7 L 85.0 145.2 L 90.0 148.9 L 95.0 152.8 L 100.0 156.1 L 105.0 157.8 L 110.0 157.7 L 115.0 155.6 L 120.0 152.2 L 125.0 148.3 L 130.0 144.7 L 135.0 142.5 L 140.0 142.1 L 145.0 143.6 L 150.0 146.7 L 155.0 150.6 L 160.0 154.4 L 165.0 157.0 L 170.0 158.0 L 175.0 157.0 L 180.0 154.3 L 185.0 150.5 L 190.0 146.6 L 195.0 143.6" fill="none" stroke="#0d9488" stroke-width="1.8"/>
+<path d="M 60.0 165.0 L 65.0 165.9 L 70.0 168.2 L 75.0 171.5 L 80.0 174.9 L 85.0 177.6 L 90.0 178.9 L 95.0 178.6 L 100.0 176.6 L 105.0 173.5 L 110.0 170.0 L 115.0 167.0 L 120.0 165.3 L 125.0 165.2 L 130.0 166.7 L 135.0 169.6 L 140.0 173.0 L 145.0 176.2 L 150.0 178.4 L 155.0 179.0 L 160.0 177.9 L 165.0 175.3 L 170.0 172.0 L 175.0 168.6 L 180.0 166.1 L 185.0 165.0 L 190.0 165.6 L 195.0 167.8" fill="none" stroke="#0ea5e9" stroke-width="1.8"/>
+<path d="M 60.0 187.8 L 65.0 187.1 L 70.0 187.1 L 75.0 188.0 L 80.0 189.4 L 85.0 191.3 L 90.0 193.3 L 95.0 195.1 L 100.0 196.4 L 105.0 197.0 L 110.0 196.8 L 115.0 195.9 L 120.0 194.3 L 125.0 192.4 L 130.0 190.4 L 135.0 188.7 L 140.0 187.5 L 145.0 187.0 L 150.0 187.3 L 155.0 188.3 L 160.0 189.9 L 165.0 191.9 L 170.0 193.8 L 175.0 195.5 L 180.0 196.6 L 185.0 197.0 L 190.0 196.6 L 195.0 195.5" fill="none" stroke="#8b5cf6" stroke-width="1.8"/>
+<text x="140" y="170" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="400" fill="#64748b">feed-forward (q̇_d, q̈_d)</text>
+<!-- handoff line -->
+<line x1="270" y1="46" x2="270" y2="208" stroke="#0f172a" stroke-width="2.5"/>
+<text x="270" y="224" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" font-weight="600" fill="#0f172a">reference in →</text>
+<!-- M8 box (dashed/muted) -->
+<rect x="290" y="52" width="220" height="150" rx="8" fill="white" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="400" y="72" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" font-weight="650" fill="#64748b">Module 8 (not built here)</text>
+<text x="400" y="96" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" font-weight="400" fill="#64748b">tracker: error correction</text>
+<text x="400" y="114" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" font-weight="400" fill="#64748b">+ motor commands</text>
+<text x="400" y="150" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" font-weight="400" fill="#64748b">feedback · dynamics · actuators</text>
+<text x="400" y="170" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" font-weight="400" fill="#b91c1c">out of Module 7 scope</text>
+</svg>

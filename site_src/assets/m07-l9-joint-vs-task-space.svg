@@ -1,0 +1,24 @@
+<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two panels: a joint move is a straight line in joint space but a curved path of the tool in task space">
+<title>Two panels: a joint move is a straight line in joint space but a curved path of the tool in task space</title>
+<rect width="700" height="360" fill="white"/>
+<text x="350" y="26" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="16" font-weight="650" fill="#0f172a">One joint move: straight in joint space, curved in task space</text>
+<!-- left panel: joint plane -->
+<text x="190" y="52" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" font-weight="600" fill="#0d9488">joint space (q1,q2)</text>
+<rect x="80" y="64" width="220" height="248" fill="#f8fafc" stroke="#e2e8f0"/>
+<path d="M 90.0 300.0 L 90.0 300.0 L 90.2 299.8 L 90.7 299.4 L 91.6 298.6 L 93.0 297.4 L 94.9 295.7 L 97.4 293.5 L 100.6 290.7 L 104.4 287.4 L 108.9 283.4 L 114.0 279.0 L 119.7 274.0 L 126.0 268.5 L 132.7 262.6 L 139.9 256.3 L 147.5 249.7 L 155.3 242.8 L 163.4 235.8 L 171.6 228.6 L 179.8 221.4 L 188.0 214.2 L 196.1 207.2 L 203.9 200.3 L 211.5 193.7 L 218.7 187.4 L 225.4 181.5 L 231.7 176.0 L 237.4 171.0 L 242.5 166.6 L 247.0 162.6 L 250.8 159.3 L 254.0 156.5 L 256.5 154.3 L 258.5 152.6 L 259.9 151.4 L 260.7 150.6 L 261.2 150.2 L 261.4 150.0 L 261.4 150.0" fill="none" stroke="#0d9488" stroke-width="3"/>
+<circle cx="90" cy="300" r="5" fill="#0f172a"/>
+<circle cx="261" cy="150" r="5" fill="#0f172a"/>
+<text x="90.0" y="318.0" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" font-weight="400" fill="#64748b">start</text><text x="261.4285714285715" y="139.9999999999999" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" font-weight="400" fill="#64748b">goal</text>
+<text x="190" y="304" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" font-weight="400" fill="#0d9488">straight line</text>
+<!-- right panel: task space -->
+<text x="500" y="52" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" font-weight="600" fill="#8b5cf6">task space (x,y)</text>
+<rect x="330" y="64" width="340" height="248" fill="#f8fafc" stroke="#e2e8f0"/>
+<line x1="360" y1="300" x2="478" y2="279" stroke="#334155" stroke-width="5"/>
+<line x1="478" y1="279" x2="556" y2="234" stroke="#334155" stroke-width="5"/>
+<line x1="360" y1="300" x2="401" y2="187" stroke="#64748b" stroke-width="4" stroke-dasharray="4 3"/>
+<line x1="401" y1="187" x2="356" y2="109" stroke="#64748b" stroke-width="4" stroke-dasharray="4 3"/>
+<path d="M 556.1 234.2 L 556.1 234.1 L 556.0 233.9 L 555.7 233.2 L 555.3 231.9 L 554.5 229.9 L 553.4 227.2 L 551.8 223.6 L 549.8 219.2 L 547.2 213.9 L 544.0 207.9 L 540.1 201.2 L 535.4 193.9 L 530.0 186.1 L 523.7 178.0 L 516.5 169.8 L 508.6 161.7 L 499.8 153.8 L 490.4 146.2 L 480.4 139.2 L 470.0 132.8 L 459.2 127.2 L 448.4 122.3 L 437.6 118.2 L 427.1 115.0 L 416.9 112.4 L 407.3 110.6 L 398.4 109.3 L 390.2 108.6 L 382.9 108.2 L 376.5 108.1 L 371.0 108.2 L 366.5 108.4 L 362.9 108.6 L 360.2 108.9 L 358.3 109.1 L 357.0 109.2 L 356.3 109.3 L 356.1 109.3 L 356.0 109.3" fill="none" stroke="#8b5cf6" stroke-width="3"/>
+<line x1="556" y1="234" x2="356" y2="109" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 3"/>
+<circle cx="356" cy="109" r="8" fill="#e11d48"/>
+<text x="500" y="300" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" font-weight="400" fill="#8b5cf6">curved tool path (straight chord dashed)</text>
+</svg>

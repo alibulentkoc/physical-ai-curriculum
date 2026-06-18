@@ -36,7 +36,7 @@ S_ASSETS = os.path.join(ROOT, "site_src/assets")
 os.makedirs(S_ASSETS, exist_ok=True)
 
 # modules to build (extend as new modules are produced)
-MODULES = ["01", "02", "03", "04", "05", "06"]
+MODULES = ["01", "02", "03", "04", "05", "06", "07"]
 
 # module + unit titles, for the in-page context header (Module / Unit / Lesson)
 MODULE_TITLES = {
@@ -46,6 +46,7 @@ MODULE_TITLES = {
     "04": "Forward Kinematics using Denavit–Hartenberg Parameters",
     "05": "Inverse Kinematics",
     "06": "Jacobians and Differential Motion",
+    "07": "Trajectory Generation and Motion Planning",
 }
 UNIT_TITLES = {
     ("01", "01"): "Physical Quantities & Measurement",
@@ -92,6 +93,14 @@ UNIT_TITLES = {
     ("06", "06"): "SVD & Geometry of the Jacobian",
     ("06", "07"): "Inverse Velocity Kinematics & Resolved-Rate Motion",
     ("06", "08"): "Capstone: Analyzer → Resolved-Rate Tracker",
+    ("07", "01"): "Motion, Paths, and Trajectories",
+    ("07", "02"): "Time Parameterization and Smoothness",
+    ("07", "03"): "Joint-Space Trajectories",
+    ("07", "04"): "Cartesian-Space Trajectories",
+    ("07", "05"): "Feasibility: Velocity, Acceleration, and Limits",
+    ("07", "06"): "Motion Planning and Collision Awareness",
+    ("07", "07"): "Trajectory Quality, Validation, and Tracking Prerequisites",
+    ("07", "08"): "Capstone: Plan → Parameterize → Validate → Execute",
 }
 
 def unit_of(text):

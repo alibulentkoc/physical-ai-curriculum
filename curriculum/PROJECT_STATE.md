@@ -3,7 +3,7 @@ title: Project State — Physical AI Curriculum
 status: AUTHORITATIVE current-state snapshot
 purpose: A single, current picture of where production stands — current module, what is complete, what is in progress, what is deferred, known issues, and the next milestone. Update this whenever a unit/installment/module completes or a decision changes state.
 authority: Subordinate to ARCHITECT_DECISIONS.md. Counts mirror master_progress.md.
-last_updated: 2026-06 — Module 6 (Jacobians and Differential Motion) COMPLETE (32/32, Installments A–D, D-060); 6 of 10 modules done. Next: Module 7 — Trajectory Generation and Motion Planning.
+last_updated: 2026-06 — Module 7 COMPLETE: 8 units, 32/32 lessons, 4 demos (A–D; A/B/C APPROVED, D=D-065 capstone delivered); paused at module completion. Next: Module 8 — Feedback Control. Midpoint assessment APPROVED (no revisions). Modules 1–7 COMPLETE; 7 of 10 modules signed off.
 ---
 
 # Project State
@@ -12,9 +12,30 @@ last_updated: 2026-06 — Module 6 (Jacobians and Differential Motion) COMPLETE 
 
 ## Current module
 
-**None active — Module 6 just completed; Module 7 awaiting launch package.**
+**Module 7 — Trajectory Generation and Motion Planning: COMPLETE** (8 units, 32/32 lessons, 4 demos; Installments A–D = D-062…D-065 approved/delivered; paused at module completion).**
 
-**Module 6 — Jacobians and Differential Motion: COMPLETE (D-060).** All 8 units / 32 lessons delivered across Installments A–D, plus the midpoint assessment (after Unit 4) and the four-part velocity-layer capstone. The Jacobian, used in M5 only as the numerical solver's local linear map, is now the subject: differential motion & twists → geometric/analytic Jacobian → manipulability, SVD, singularity theory → inverse velocity kinematics, redundancy, and damped least squares (re-derived from the SVD) → the open-loop resolved-rate **velocity layer** handed to Module 7. Paused at Module 6 completion for architect review before Module 7.
+Module 7 answers "How do I move from here to there smoothly, safely, and efficiently?" — it turns a goal into a path, a path into a smooth, feasible, validated trajectory, and (open-loop, via the M6 velocity layer) demonstrates that motion, producing the reference trajectory Module 8 will later track with feedback. The launch package was approved with all §9 rulings (planning depth = C-space + collision + RRT + smoothing; SLERP/screw applied; strict M7-defines / M8-tracks boundary; open-loop execution via M6; dynamics excluded; demos at L07/L17/L21/L29; static obstacle only).
+
+**Installment A deliverables (in repo):**
+- 8 lessons — `modules/module07/lessons/lesson01..08_*.md` (12-section template + AI Learning Companion + Global Learning Support in 4 languages).
+- 8 SVGs — `assets/diagrams/m07-l1..l8-*.svg` (embedded in §4 Visual Explanation).
+- 8 notebooks — `modules/module07/notebooks/lesson01..08_*.ipynb` (all end "All checks passed." under Restart & Run All; embed the M6 velocity-layer engine verbatim + new time utilities).
+- 1 flagship demo — `modules/module07/demos/lesson07_polynomial_profile_shaper.html` (cubic↔quintic toggle, drag duration, live pos/vel/accel/jerk, accessible, no browser storage).
+- 8 quizzes — `modules/module07/quizzes/lesson01..08_quiz.html` (5 MC + 3 short, MathJax).
+- 8 answer keys — `coaches/answer-keys/module07/lesson01..08_answer_key.md` (model answers + grading notes + common misconceptions).
+- Nav for Units 1–8; generator wired (`"07"` + module/8 unit titles); `mkdocs build --strict` passes at **229 lesson pages** (197 M1–M6 + 32 M7).
+
+Unit 1 (Motion, Paths, and Trajectories) builds motion literacy — smooth/safe/efficient motion, path q(s) vs trajectory q(t)=q(s(t)), the four quality criteria with the C⁰/C¹/C² ladder, and the plan→parameterize→execute-open-loop(M6)→track(M8) pipeline with both fences drawn. Unit 2 (Time Parameterization and Smoothness) builds the timing toolkit — q(t)=q(s(t)) and its derivatives via the chain rule (incl. jerk), continuity classes and why C² means no force jumps, **cubic vs quintic** (cubic leaves endpoint accel ±6Δ/T² → C¹; quintic zeros it → C², at higher mid-move peaks), and trapezoidal (time-optimal, C¹) vs S-curve (jerk-limited, C²) velocity profiles.
+
+**Decision-id note:** the launch package proposed D-058; the architect ruled the authoritative mapping **D-061 Launch · D-062 Installment A**, continuing sequentially (B=D-063, C=D-064, D=D-065). No content impact.
+
+Educational boundaries held in Installment A: no feedback/closed-loop control and no dynamics; open-loop execution is via the imported M6 velocity layer only, to demonstrate feasibility. Running example: planar 2-link arm L1=0.4, L2=0.3 (engine length-agnostic via the DH table).
+
+**Remaining for Module 7:** All four installments delivered (A–D); Module 7 complete. The capstone produced the **reference_trajectory_layer** (reference(t)→q_d,q̇_d,q̈_d) consumed by Module 8 — bookending M6's velocity_layer.
+
+---
+
+**Module 6 — Jacobians and Differential Motion: COMPLETE (D-060).** All 8 units / 32 lessons delivered across Installments A–D, plus the midpoint assessment (after Unit 4) and the four-part velocity-layer capstone. The Jacobian, used in M5 only as the numerical solver's local linear map, is now the subject: differential motion & twists → geometric/analytic Jacobian → manipulability, SVD, singularity theory → inverse velocity kinematics, redundancy, and damped least squares (re-derived from the SVD) → the open-loop resolved-rate **velocity layer** handed to Module 7 (now consumed by M7 Installment A).
 
 Module 6 deliverables (in repo):
 - 32 lessons — `modules/module06/lessons/lesson01..32_*.md` (12-section numbered template).
@@ -60,11 +81,11 @@ All six are production-complete with lessons, notebooks, SVGs, interactive quizz
 
 ## Modules in progress
 
-*(none — Module 6 complete; paused for Module 6 review before Module 7 launch.)*
+*(none — Module 7 complete; paused at module completion before Module 8 launch.)*
 
 ## Next milestone
 
-**Module 7 — Trajectory Generation and Motion Planning (not yet started; awaiting architect launch package).** This is where the **velocity layer** Module 6 produced (resolved-rate motion, the Jacobian as a velocity map, singularity-robust inversion) becomes the substrate for planning *paths and time-parameterized trajectories* through the workspace — beyond the instantaneous, open-loop motion of Module 6. Downstream: Module 8 — communication, embedded systems, and control. Awaiting the architect's Module 7 launch package before production begins.
+**Module 8 — Feedback Control (not yet started; awaiting architect launch package).** This is where the **reference trajectory layer** Module 7 produced (the validated open-loop reference `reference(t) → q_d, q̇_d, q̈_d`) becomes the substrate for *closed-loop tracking* — building the controller that follows the reference on the real arm, adding feedback control, dynamics, and actuator control (all explicitly out of Module 7's scope). Awaiting the architect's Module 8 launch package before production begins.
 
 Then resume the standing production directive (produce module-by-module, pause at module completion).
 
@@ -84,8 +105,8 @@ None of the above blocks production.
 - **Mermaid/MkDocs platform note:** the build runs on `mkdocs build --strict` with Material theme; the Material team prints a forward-looking MkDocs-2.0 advisory banner during builds. It is **advisory only** — not a build warning — and does not affect `--strict` (build exits 0).
 - **Single-source integrity:** prose must stay only in `modules/.../lessons/`. `site_src/` pages are generated; never hand-edit them or the two layers will drift (the recurring "stale build" symptom). Always re-run the generator before building.
 
-## Verification at last update (Module 6 complete)
+## Verification at last update (Module 7 complete)
 
-- Generator: `python tools/generate_site_pages.py` → **197 pages generated** (M1–M6), validator clean, no `[Visual:]` placeholder leaks; every M6 lesson injects [1 SVG, notebook, quiz] (+ demo on 2.3/5.1/6.1/8.1).
-- Build: `mkdocs build --strict` → **PASS** (exit 0, 197 lesson pages + site index). Module 5 generation was restored to the generator (`"05"` + titles) so M5's served assets re-emit; an earlier merge had dropped it, which was breaking `--strict`.
-- Counts reconcile with `master_progress.md`: 6/10 modules · 197 lessons · 197 notebooks · 198 SVGs · 34 demos · 197 quizzes · 6 midpoint assessments (+ M3/M4/M5/M6 capstones).
+- Generator: `python tools/generate_site_pages.py` → **229 pages generated** (M1–M7), validator clean, no `[Visual:]` placeholder leaks; every M7 lesson injects [1 SVG, notebook, quiz] (+ demo on L07/L17/L21/L29).
+- Build: `mkdocs build --strict` → **PASS** (exit 0, 229 lesson pages + site index).
+- Counts reconcile with `master_progress.md`: 7/10 modules · 229 lessons · 229 notebooks · 230 SVGs · 38 demos · 229 quizzes · 7 midpoint assessments (+ M3/M4/M5/M6/M7 capstones).
