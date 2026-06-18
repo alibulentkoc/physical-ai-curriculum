@@ -6,7 +6,7 @@ authority: Updated continuously during production; ARCHITECT_DECISIONS.md remain
 
 # Master Progress Tracker
 
-_Last updated: 2026-06 — Module 7 (Trajectory Generation and Motion Planning) **COMPLETE** (8 units, 32/32 lessons, 4 demos, midpoint; Installments A–D = D-062…D-065, all approved/delivered; paused at module completion). Modules 1–7 COMPLETE (7 of 10 modules done). Next: Module 8 — Feedback Control._
+_Last updated: 2026-06 — Module 8 (Feedback Control and Real-Time Execution (ROS 2)) **IN PRODUCTION** — Installments A–C delivered (Units 1–6, L01–L24, + midpoint; A = D-067, B = D-068, C = D-069). Modules 1–7 COMPLETE (7 of 10). Site at 253 lesson pages._
 
 ## Module status
 
@@ -19,25 +19,29 @@ _Last updated: 2026-06 — Module 7 (Trajectory Generation and Motion Planning) 
 | 05 | Inverse Kinematics | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 + midpoint key | midpoint + Reach-the-Fruit capstone |
 | 06 | Jacobians and Differential Motion | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 + midpoint key | midpoint + 4-part velocity-layer capstone |
 | 07 | Trajectory Generation and Motion Planning | ✅ COMPLETE | 32 | 32 | 32 | 4 | 32 | 32 + midpoint key | midpoint + harvest-cycle capstone |
-| 08 | Communication, Embedded Systems, and Control (ROS 2) | ⬜ planned | — | — | — | — | — | — | — |
+| 08 | Feedback Control and Real-Time Execution (ROS 2) | 🟡 IN PRODUCTION (Inst. A–B: U1–U4) | 16 / 32 | 16 | 16 | 1 | 16 | 16 | midpoint |
 | 09 | Physical AI System Integration | ⬜ planned | — | — | — | — | — | — | — |
 | 10 | Digital Twin Capstone | ⬜ planned | — | — | — | — | — | — | — |
 
 ## Totals (completed modules + in-production, repo-verified)
 
 - **Modules complete:** 7 of 10  (Module 7 COMPLETE: 8 units, 32/32 lessons, 4 demos)
-- **Lessons:** 229  (33 + 36 + 32 + 32 + 32 + 32 + **32**)
-- **Notebooks:** 229  (one per lesson; all execute clean)
-- **SVGs:** 230  (M1 lesson 1 ships two; `assets/diagrams/`, mirrored to `site_src/assets/`)
-- **Demos (interactive HTML):** 38  (12 + 6 + 4 + 4 + 4 + 4 + **4** — M7 L07/L17/L21/L29)
-- **Quizzes (interactive HTML widgets):** 229  (one per lesson)
-- **Answer keys:** 229 lesson keys in `coaches/answer-keys/` + midpoint keys (M1, M2, M4, M5, M6, M7) and capstone rubrics
+- **Lessons:** 253  (33 + 36 + 32 + 32 + 32 + 32 + 32 + **24**)
+- **Notebooks:** 253  (one per lesson; all execute clean)
+- **SVGs:** 254  (M1 lesson 1 ships two; `assets/diagrams/`, mirrored to `site_src/assets/`)
+- **Demos (interactive HTML):** 41  (12 + 6 + 4 + 4 + 4 + 4 + 4 + **3** — M8 L07 PID Playground, L17 Actuator Bench, L21 Message Bus)
+- **Quizzes (interactive HTML widgets):** 253  (one per lesson)
+- **Answer keys:** 253 lesson keys in `coaches/answer-keys/` + midpoint keys (M1, M2, M4, M5, M6, M7, M8) and capstone rubrics
 - **Assessments:** 7 midpoint assessments (`assessments/moduleNN_midpoint_assessment.md`) + M3 & M4 Unit-8 capstone mini-projects + M5/M6/M7 Unit-8 capstones (M7 = the greenhouse harvest cycle)
-- **Site:** `mkdocs build --strict` PASS — 229 lesson pages (133 M1–M4 + 32 M5 + 32 M6 + **32 M7**) + index
+- **Site:** `mkdocs build --strict` PASS — 253 lesson pages (133 M1–M4 + 32 M5 + 32 M6 + 32 M7 + **24 M8**) + index
 
 ## In production
 
-*(none — Module 7 complete; paused at module completion, awaiting the Module 8 launch package.)*
+- **Module 8 — Feedback Control and Real-Time Execution (ROS 2): Installments A–C delivered (Units 1–6, L01–L24 + midpoint).** 24 lessons (12-section template + companion blocks), 24 SVGs (m08-l1..l24), 24 notebooks (all "All checks passed." via Restart & Run All), **3 flagship demos** (L07 PID Playground, L17 Actuator Bench, L21 Message Bus), 24 quizzes (5 MC + 3 short), 24 answer keys, **1 midpoint assessment + coaches' key** (Units 1–4). `mkdocs build --strict` passes at **253 lesson pages**.
+  - **Installment A (Units 1–2, D-067; launch D-066):** the tracking problem and the feedback loop (open-loop-vs-closed-loop opener → tracking error → the sense→compare→correct→actuate loop → the four-part control system) and PID control (proportional + the load/Kp offset → integral + windup → derivative + the noise caveat, L07 demo → the complete PID tracker).
+  - **Installment B (Units 3–4, D-068):** **Unit 3 — Stability, Response, and Tuning**, taught experience-first per the architect (3.1 the correction spectrum: too weak → good → too strong → oscillation → runaway, *behaviour before terminology* → 3.2 naming the response shape: rise/overshoot/settling/steady-state error → 3.3 stable/marginal/unstable + the three destabilisers (gain, damping, **latency**) → 3.4 a practical P→D→I tuning workflow). **Unit 4 — Tracking the Whole Arm: Feedforward + Feedback** (the payoff): 4.1 per-joint feedback-only tracking and its speed-dependent following error → 4.2 feedback reacts / **feedforward anticipates**, consuming M7's q̇_d, q̈_d → 4.3 the **required comparison** feedback-only vs feedforward+feedback on the *identical* trajectory (~4.5× tighter RMS) → 4.4 disturbances prove feedback is essential (feedforward can't reject them) and assemble the complete joint tracker `tracking_controller(reference, measured_state) → actuator_command` (the M9 handoff). Midpoint assessment after Unit 4.
+  - §9 fences held throughout: **no formal manipulator dynamics** (disturbance/load/friction/saturation/model-mismatch intuition only; forbidden topics named only as out-of-scope), **no control-theory formalism** (no Laplace/transfer functions/Bode/Nyquist), plant = **integrator + disturbance + saturation (+ latency)**. **M7 continuity** is the spine of Unit 4: feedforward consumes q̇_d and q̈_d. Running example: planar 2-link arm L1=0.4, L2=0.3 driven against the simulated plant. **Paused at the Installment B milestone for architect review.** Remaining: C (U5–U6), D (U7–U8 + capstone).
+  - **Installment C (Units 5–6, D-069):** **Unit 5 — Actuator Control** (5.1 the actuator as a request→delivery converter: deadband, saturation, rate limit — demo L17 Actuator Bench → 5.2 saturation → integral windup and the anti-windup cure (≈69% vs ≈18% overshoot) → 5.3 deadband/stiction and why integral wins the last millimetre (PD |e|≈0.44 vs PID ≈0.003) → 5.4 the command pipeline and the **feasibility envelope**, tying back to Module 7 feasibility). **Unit 6 — Communication** (6.1 the robot as a nervous system: the loop as messages, latency = Σ hops — demo L21 Message Bus → 6.2 publish/subscribe: nodes, topics, messages, decoupling → 6.3 latency + finite control rate destabilise a fixed-gain loop (Unit-3 lesson, communication-sourced) → 6.4 the data-flow architecture **layered by timing**: latency-critical inner loop vs latency-tolerant outer layers — motivates real-time (Unit 7), frames the ROS 2 stack (Unit 8)). Architect rulings held: actuators **plant-level only** (no motor electrodynamics/current loops/actuator dynamics); communication **conceptual**, pub/sub a **pattern not a framework** (ROS 2 named only as the Unit 8 implementation); L23 control-rate **qualitative** (no discrete-time/sampling formalism); L21 nervous-system analogy **retained with explicit limits**. Engine extended additively (Unit 5: `Actuator`, `apply_stiction`, `step_plant`, `track_reference_actuated`, `feasibility_envelope`; Unit 6: `Bus`, `loop_latency`, `latency_to_steps`, `zoh_reference`, `run_pubsub_loop`; A+B API unchanged, backup at `engine/m8_engine_B_backup.py`). **Paused at the Installment C milestone for architect review.** Remaining: D (U7–U8 + capstone).
 
 ## Recently completed
 

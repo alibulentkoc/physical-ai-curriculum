@@ -28,7 +28,15 @@ Paths:
       demo  -> ../demos/moduleMM/<file>
       quiz  -> ../quizzes/moduleMM/<file>
 """
-import re, os, glob, shutil
+import re, os, glob, shutil, sys
+
+# Ensure console output handles non-ASCII lesson titles (e.g. "->" arrows) on
+# platforms whose default stdout encoding is not UTF-8 (e.g. Windows cp1252).
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8")
+    except (AttributeError, ValueError):
+        pass
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIAG = os.path.join(ROOT, "assets/diagrams")
@@ -36,7 +44,7 @@ S_ASSETS = os.path.join(ROOT, "site_src/assets")
 os.makedirs(S_ASSETS, exist_ok=True)
 
 # modules to build (extend as new modules are produced)
-MODULES = ["01", "02", "03", "04", "05", "06", "07"]
+MODULES = ["01", "02", "03", "04", "05", "06", "07", "08"]
 
 # module + unit titles, for the in-page context header (Module / Unit / Lesson)
 MODULE_TITLES = {
@@ -47,6 +55,7 @@ MODULE_TITLES = {
     "05": "Inverse Kinematics",
     "06": "Jacobians and Differential Motion",
     "07": "Trajectory Generation and Motion Planning",
+    "08": "Feedback Control and Real-Time Execution (ROS 2)",
 }
 UNIT_TITLES = {
     ("01", "01"): "Physical Quantities & Measurement",
@@ -101,6 +110,12 @@ UNIT_TITLES = {
     ("07", "06"): "Motion Planning and Collision Awareness",
     ("07", "07"): "Trajectory Quality, Validation, and Tracking Prerequisites",
     ("07", "08"): "Capstone: Plan → Parameterize → Validate → Execute",
+    ("08", "01"): "The Tracking Problem and the Feedback Loop",
+    ("08", "02"): "Proportional, Integral, and Derivative Control",
+    ("08", "03"): "Stability, Response, and Tuning",
+    ("08", "04"): "Tracking the Whole Arm: Feedforward and Feedback",
+    ("08", "05"): "Actuator Control",
+    ("08", "06"): "Communication",
 }
 
 def unit_of(text):
@@ -148,7 +163,7 @@ def build(path, mod):
     for d in (site_dir, s_quiz, s_demo): os.makedirs(d, exist_ok=True)
 
     nn = idx_of(path)
-    raw = open(path).read()
+    raw = open(path, encoding="utf-8").read()
     num = lesson_number(raw)
     title = title_of(raw)
     uu = unit_of(raw) or "01"
@@ -241,7 +256,7 @@ def build(path, mod):
                 "VISUAL PLACEHOLDER LEFTOVER: module %s lesson %s (%s) still contains a "
                 "`[Visual: ...]` placeholder in the published page." % (mod, nn, num)
             )
-        open(out, "w").write(body)
+        open(out, "w", encoding="utf-8").write(body)
     else:
         if os.path.exists(out): os.remove(out)
 

@@ -1,0 +1,174 @@
+<div id="act-root">
+<style>
+  #act-root{--bg:#0f172a;--panel:#13203a;--ink:#e2e8f0;--muted:#94a3b8;--grid:#1e293b;
+    --req:#0d9488;--del:#e2e8f0;--ceil:#f59e0b;--dead:#334155;--rate:#a78bfa;--bad:#f87171;--ok:#34d399;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+    background:var(--bg);border-radius:12px;padding:16px;max-width:840px;box-sizing:border-box}
+  #act-root *{box-sizing:border-box}
+  #act-root h3{margin:0 0 2px;font-size:16px;font-weight:650}
+  #act-root .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px;line-height:1.5}
+  #act-wrap{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
+  #act-root canvas{background:var(--panel);border-radius:10px}
+  #act-side{flex:1 1 250px;min-width:240px;display:flex;flex-direction:column;gap:11px}
+  #act-root .ctl{display:flex;flex-direction:column;gap:3px}
+  #act-root .ctl-top{display:flex;justify-content:space-between;font-size:12.5px}
+  #act-root .ctl-name{font-weight:650}
+  #act-root input[type=range]{width:100%;height:22px}
+  #act-root .req input{accent-color:var(--req)} #act-root .dead input{accent-color:var(--muted)}
+  #act-root .ceil input{accent-color:var(--ceil)} #act-root .rate input{accent-color:var(--rate)}
+  #act-root .metrics{background:var(--panel);border-radius:8px;padding:9px 11px;font-size:12px;line-height:1.7;
+    font-family:ui-monospace,Menlo,Consolas,monospace}
+  #act-root .mrow{display:flex;justify-content:space-between}
+  #act-root .status{font-weight:650}
+  #act-root button{background:#1e293b;color:var(--ink);border:1px solid #334155;border-radius:7px;
+    padding:6px 9px;font-size:11.5px;cursor:pointer}
+  #act-root button:hover{border-color:#64748b}
+  #act-root button:focus-visible,#act-root input:focus-visible{outline:2px solid #0ea5e9;outline-offset:2px}
+  #act-root .cap{font-size:11px;color:var(--muted);text-align:center;margin-top:3px}
+</style>
+
+  <h3>Actuator Bench — requested command vs delivered effort</h3>
+  <div class="sub">Dial a <b style="color:var(--req)">requested command</b> and watch the
+  <b>delivered effort</b> on the transfer curve. Add a <b style="color:var(--muted)">deadband</b>
+  (tiny requests deliver nothing), lower the <b style="color:var(--ceil)">saturation ceiling</b>
+  (large requests clip), and set a <b style="color:var(--rate)">rate limit</b>, then press
+  <b>Send a step</b> to watch delivery ramp instead of jump.</div>
+
+  <div id="act-wrap">
+    <div>
+      <canvas id="act-canvas" width="380" height="300" role="img"
+        aria-label="Transfer characteristic: requested command on the horizontal axis, delivered effort on the vertical axis, with the current operating point marked, the deadband shaded, and the saturation ceiling drawn"></canvas>
+      <div class="cap">transfer curve — operating point shown as a dot</div>
+      <canvas id="act-step" width="380" height="90" role="img"
+        aria-label="Delivered effort over time after a requested step, ramping under the rate limit"></canvas>
+      <div class="cap">step response — delivered effort over time</div>
+    </div>
+    <div id="act-side">
+      <div class="ctl req">
+        <div class="ctl-top"><span class="ctl-name" style="color:var(--req)">requested command</span><span id="act-req-val">8.0</span></div>
+        <input id="act-req" type="range" min="-20" max="20" step="0.5" value="8" aria-label="Requested command">
+      </div>
+      <div class="ctl dead">
+        <div class="ctl-top"><span class="ctl-name">deadband</span><span id="act-dead-val">2.0</span></div>
+        <input id="act-dead" type="range" min="0" max="10" step="0.5" value="2" aria-label="Deadband half-width">
+      </div>
+      <div class="ctl ceil">
+        <div class="ctl-top"><span class="ctl-name" style="color:var(--ceil)">saturation ceiling u_max</span><span id="act-ceil-val">12</span></div>
+        <input id="act-ceil" type="range" min="2" max="20" step="1" value="12" aria-label="Saturation ceiling u max">
+      </div>
+      <div class="ctl rate">
+        <div class="ctl-top"><span class="ctl-name" style="color:var(--rate)">rate limit (per second)</span><span id="act-rate-val">40</span></div>
+        <input id="act-rate" type="range" min="5" max="200" step="5" value="40" aria-label="Rate limit per second">
+      </div>
+      <div class="metrics" aria-live="polite">
+        <div class="mrow"><span>requested</span><span id="act-m-req">—</span></div>
+        <div class="mrow"><span>delivered (static)</span><span id="act-m-del">—</span></div>
+        <div class="mrow"><span>status</span><span id="act-m-status" class="status">—</span></div>
+      </div>
+      <button id="act-send" type="button">Send a step (watch the ramp)</button>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var root=document.getElementById("act-root");
+  var $=function(id){return document.getElementById(id);};
+  var cv=$("act-canvas"), cx=cv.getContext("2d");
+  var sv=$("act-step"), sx=sv.getContext("2d");
+  var dt=0.02, anim=null;
+
+  function val(id){return parseFloat($(id).value);}
+  function staticDeliver(ureq, dead, umax){
+    var u = (Math.abs(ureq)<=dead) ? 0 : ureq - Math.sign(ureq)*dead;
+    return Math.max(-umax, Math.min(umax, u));
+  }
+  function status(ureq, dead, umax){
+    if(Math.abs(ureq)<=dead) return ["in deadband — delivers nothing","var(--muted)"];
+    if(Math.abs(ureq)-dead > umax) return ["saturated — clipped at the ceiling","var(--bad)"];
+    return ["within range — delivered (minus deadband)","var(--ok)"];
+  }
+
+  function draw(){
+    var ureq=val("act-req"), dead=val("act-dead"), umax=val("act-ceil");
+    var W=cv.width,H=cv.height, padL=42,padB=30,padT=14,padR=14;
+    var x0=padL, x1=W-padR, y0=H-padB, y1=padT;
+    var URX=20, URY=20; // axis ranges
+    function X(u){return x0 + (u+URX)/(2*URX)*(x1-x0);}
+    function Y(v){return y0 - (v+URY)/(2*URY)*(y0-y1);}
+    cx.clearRect(0,0,W,H);
+    // grid + axes
+    cx.strokeStyle="#1e293b"; cx.lineWidth=1;
+    cx.beginPath(); cx.moveTo(X(0),y1); cx.lineTo(X(0),y0); cx.moveTo(x0,Y(0)); cx.lineTo(x1,Y(0)); cx.stroke();
+    // deadband shading
+    cx.fillStyle="rgba(148,163,184,0.12)";
+    cx.fillRect(X(-dead),y1,X(dead)-X(-dead),y0-y1);
+    // ceiling lines
+    cx.strokeStyle="#f59e0b"; cx.setLineDash([5,4]); cx.beginPath();
+    cx.moveTo(x0,Y(umax)); cx.lineTo(x1,Y(umax)); cx.moveTo(x0,Y(-umax)); cx.lineTo(x1,Y(-umax)); cx.stroke();
+    cx.setLineDash([]);
+    // ideal diagonal
+    cx.strokeStyle="#0d9488"; cx.lineWidth=1.2; cx.setLineDash([4,4]); cx.beginPath();
+    cx.moveTo(X(-URX),Y(-URX)); cx.lineTo(X(URX),Y(URX)); cx.stroke(); cx.setLineDash([]);
+    // delivered curve
+    cx.strokeStyle="#e2e8f0"; cx.lineWidth=2.4; cx.beginPath();
+    for(var u=-URX;u<=URX;u+=0.25){ var v=staticDeliver(u,dead,umax); var px=X(u),py=Y(v); if(u===-URX)cx.moveTo(px,py); else cx.lineTo(px,py);} cx.stroke();
+    // operating point
+    var del=staticDeliver(ureq,dead,umax);
+    cx.fillStyle="#0d9488"; cx.beginPath(); cx.arc(X(ureq),Y(ureq),3.5,0,7); cx.fill(); // ideal
+    cx.strokeStyle="#64748b"; cx.lineWidth=1; cx.setLineDash([3,3]); cx.beginPath(); cx.moveTo(X(ureq),Y(0)); cx.lineTo(X(ureq),Y(del)); cx.stroke(); cx.setLineDash([]);
+    cx.fillStyle="#e2e8f0"; cx.beginPath(); cx.arc(X(ureq),Y(del),4.5,0,7); cx.fill();
+    // axis labels
+    cx.fillStyle="#94a3b8"; cx.font="11px system-ui,sans-serif"; cx.textAlign="center";
+    cx.fillText("requested command", (x0+x1)/2, H-8);
+    cx.save(); cx.translate(12,(y0+y1)/2); cx.rotate(-Math.PI/2); cx.fillText("delivered effort",0,0); cx.restore();
+    // metrics
+    $("act-req-val").textContent=ureq.toFixed(1);
+    $("act-dead-val").textContent=dead.toFixed(1);
+    $("act-ceil-val").textContent=umax.toFixed(0);
+    $("act-rate-val").textContent=val("act-rate").toFixed(0);
+    $("act-m-req").textContent=ureq.toFixed(2);
+    $("act-m-del").textContent=del.toFixed(2);
+    var st=status(ureq,dead,umax);
+    var el=$("act-m-status"); el.textContent=st[0]; el.style.color=st[1];
+    drawStep(false);
+  }
+
+  function drawStep(animating, traj){
+    var W=sv.width,H=sv.height,padL=42,padR=10,padT=8,padB=8;
+    var x0=padL,x1=W-padR,y0=H-padB,y1=padT;
+    var umax=val("act-ceil");
+    function X(t){return x0 + t*(x1-x0);}
+    function Y(v){return y0 - (v/ (Math.max(1,umax)) *0.5+0.5)*(y0-y1);}
+    sx.clearRect(0,0,W,H);
+    sx.strokeStyle="#1e293b"; sx.beginPath(); sx.moveTo(x0,Y(0)); sx.lineTo(x1,Y(0)); sx.stroke();
+    // target delivered (static) dashed
+    var target=staticDeliver(val("act-req"),val("act-dead"),umax);
+    sx.strokeStyle="#0d9488"; sx.setLineDash([5,4]); sx.beginPath(); sx.moveTo(x0,Y(target)); sx.lineTo(x1,Y(target)); sx.stroke(); sx.setLineDash([]);
+    if(traj && traj.length){
+      sx.strokeStyle="#a78bfa"; sx.lineWidth=2.2; sx.beginPath();
+      for(var i=0;i<traj.length;i++){var px=X(i/(traj.length-1)),py=Y(traj[i]); if(i===0)sx.moveTo(px,py); else sx.lineTo(px,py);} sx.stroke();
+    }
+    sx.fillStyle="#94a3b8"; sx.font="10px system-ui,sans-serif"; sx.textAlign="left";
+    sx.fillText("delivered effort", x0, 12);
+  }
+
+  function sendStep(){
+    if(anim) cancelAnimationFrame(anim);
+    var dead=val("act-dead"), umax=val("act-ceil"), rate=val("act-rate"), target=staticDeliver(val("act-req"),dead,umax);
+    var u=0, traj=[], N=120, i=0;
+    function frame(){
+      var du=rate*dt;
+      if(u<target) u=Math.min(target,u+du); else u=Math.max(target,u-du);
+      traj.push(u); i++;
+      drawStep(true,traj);
+      if(i<N) anim=requestAnimationFrame(frame);
+    }
+    frame();
+  }
+
+  ["act-req","act-dead","act-ceil","act-rate"].forEach(function(id){$(id).addEventListener("input",draw);});
+  $("act-send").addEventListener("click",sendStep);
+  draw();
+})();
+</script>
+</div>

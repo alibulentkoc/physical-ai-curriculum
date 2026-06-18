@@ -3,7 +3,7 @@ title: Project State — Physical AI Curriculum
 status: AUTHORITATIVE current-state snapshot
 purpose: A single, current picture of where production stands — current module, what is complete, what is in progress, what is deferred, known issues, and the next milestone. Update this whenever a unit/installment/module completes or a decision changes state.
 authority: Subordinate to ARCHITECT_DECISIONS.md. Counts mirror master_progress.md.
-last_updated: 2026-06 — Module 7 COMPLETE: 8 units, 32/32 lessons, 4 demos (A–D; A/B/C APPROVED, D=D-065 capstone delivered); paused at module completion. Next: Module 8 — Feedback Control. Midpoint assessment APPROVED (no revisions). Modules 1–7 COMPLETE; 7 of 10 modules signed off.
+last_updated: 2026-06 — Module 8 IN PRODUCTION: Installments A–C delivered (Units 1–6, L01–L24 + midpoint; A = D-067, B = D-068, C = D-069); paused at the Installment C milestone. Site at 253 lesson pages, mkdocs --strict green. Modules 1–7 COMPLETE; 7 of 10 modules signed off.
 ---
 
 # Project State
@@ -12,9 +12,21 @@ last_updated: 2026-06 — Module 7 COMPLETE: 8 units, 32/32 lessons, 4 demos (A�
 
 ## Current module
 
-**Module 7 — Trajectory Generation and Motion Planning: COMPLETE** (8 units, 32/32 lessons, 4 demos; Installments A–D = D-062…D-065 approved/delivered; paused at module completion).**
+**Module 8 — Feedback Control and Real-Time Execution (ROS 2): IN PRODUCTION** — Installments A–C delivered (Units 1–6, L01–L24 + midpoint; launch package = D-066, A = D-067, B = D-068, C = D-069); paused at the Installment C milestone.
 
-Module 7 answers "How do I move from here to there smoothly, safely, and efficiently?" — it turns a goal into a path, a path into a smooth, feasible, validated trajectory, and (open-loop, via the M6 velocity layer) demonstrates that motion, producing the reference trajectory Module 8 will later track with feedback. The launch package was approved with all §9 rulings (planning depth = C-space + collision + RRT + smoothing; SLERP/screw applied; strict M7-defines / M8-tracks boundary; open-loop execution via M6; dynamics excluded; demos at L07/L17/L21/L29; static obstacle only).
+Module 8 answers "How do we make the robot actually follow that motion — on a real, imperfect machine?" It consumes Module 7's reference layer `reference(t) → (q_d, q̇_d, q̈_d)` and closes the loop: tracking error → correction → stability → implementation, on a simulated plant (integrator + disturbance + saturation). The launch package was approved with all §9 rulings: dynamics as **disturbance/load/friction/saturation/model-mismatch intuition only** (no formal manipulator dynamics); **no control-theory formalism** (no Laplace/transfer functions/root-locus/Bode/Nyquist) — teach error → correction → stability → implementation; **ROS 2 conceptual + lightweight code only**; plant = integrator + disturbance + saturation; intuition-first across all domains; title "Feedback Control and Real-Time Execution (ROS 2)"; **explicitly consume M7's q_d, q̇_d, q̈_d** with feedforward + feedback as a major continuity theme; and **begin by repeatedly contrasting open-loop vs closed-loop** before introducing PID. Installment A (Units 1–2) establishes the tracking problem / feedback loop and builds the full single-joint PID controller. Demos land at L07/L17/L21/L29; midpoint after Unit 4. Capstone (U8) = the `tracking_controller` control layer as a ROS 2 node — the Module 9 handoff. Running example: planar 2-link arm L1=0.4, L2=0.3, now driven against the simulated plant.
+
+**Installment C deliverables (Units 5–6, L17–L24, in repo):**
+- 8 lessons — `modules/module08/lessons/lesson17..24_*.md` (12-section template + AI Learning Companion + Global Learning Support in 4 languages).
+- 8 SVGs — `assets/diagrams/m08-l17..l24-*.svg` (XML-valid; embedded in §4 Visual Explanation).
+- 8 notebooks — `modules/module08/notebooks/lesson17..24_*.ipynb` (all end "All checks passed." under Restart & Run All; embed the extended Module 8 engine verbatim).
+- 2 flagship demos — `modules/module08/demos/lesson17_actuator_bench.html` (dial requested command; toggle deadband/saturation/rate limit; live transfer curve + step ramp) and `lesson21_message_bus.html` (watch a message traverse each hop; loop latency accumulates as Σ hops). Accessible; no browser storage.
+- 8 quizzes — `modules/module08/quizzes/lesson17..24_quiz.html` (5 MC + 3 short, MathJax).
+- 8 answer keys — `coaches/answer-keys/module08/lesson17..24_answer_key.md` (model answers + grading notes + common misconceptions).
+- Engine extension — `engine/m8_engine.py` extended additively for Installment C (Unit 5: `Actuator` with deadband/saturation/rate limit, `apply_stiction`, `step_plant`, `track_reference_actuated`, `feasibility_envelope`; Unit 6: `Bus` pub/sub, `loop_latency`, `latency_to_steps`, `zoh_reference`, `run_pubsub_loop`). A+B API unchanged; B-state backup at `engine/m8_engine_B_backup.py`.
+- Nav for Units 5–6 added; generator unit titles ("08","05")="Actuator Control", ("08","06")="Communication"; `mkdocs build --strict` passes at **253 lesson pages** (245 + 8).
+
+Installment C scope held to the architect rulings: Unit 5 actuators are plant-level only (NO motor electrodynamics / current loops / actuator dynamics); Unit 6 communication is conceptual — pub/sub is a PATTERN not a framework (ROS 2 named only as the Unit 8 implementation); L23 control-rate framing stays qualitative (NO discrete-time/sampling formalism); the L21 nervous-system analogy is retained with explicit limits. The Unit-5 feasibility envelope ties back to Module 7 feasibility; the Unit-6 timing split (latency-critical inner loop vs latency-tolerant outer layers) motivates real-time (Unit 7) and frames the ROS 2 stack (Unit 8).
 
 **Installment A deliverables (in repo):**
 - 8 lessons — `modules/module07/lessons/lesson01..08_*.md` (12-section template + AI Learning Companion + Global Learning Support in 4 languages).
@@ -23,7 +35,7 @@ Module 7 answers "How do I move from here to there smoothly, safely, and efficie
 - 1 flagship demo — `modules/module07/demos/lesson07_polynomial_profile_shaper.html` (cubic↔quintic toggle, drag duration, live pos/vel/accel/jerk, accessible, no browser storage).
 - 8 quizzes — `modules/module07/quizzes/lesson01..08_quiz.html` (5 MC + 3 short, MathJax).
 - 8 answer keys — `coaches/answer-keys/module07/lesson01..08_answer_key.md` (model answers + grading notes + common misconceptions).
-- Nav for Units 1–8; generator wired (`"07"` + module/8 unit titles); `mkdocs build --strict` passes at **229 lesson pages** (197 M1–M6 + 32 M7).
+- Nav for Units 1–8 (M7) + Units 1–4 (M8); generator wired (`"08"` + module/unit titles 01–04); `mkdocs build --strict` passes at **245 lesson pages** (229 M1–M7 + 16 M8).
 
 Unit 1 (Motion, Paths, and Trajectories) builds motion literacy — smooth/safe/efficient motion, path q(s) vs trajectory q(t)=q(s(t)), the four quality criteria with the C⁰/C¹/C² ladder, and the plan→parameterize→execute-open-loop(M6)→track(M8) pipeline with both fences drawn. Unit 2 (Time Parameterization and Smoothness) builds the timing toolkit — q(t)=q(s(t)) and its derivatives via the chain rule (incl. jerk), continuity classes and why C² means no force jumps, **cubic vs quintic** (cubic leaves endpoint accel ±6Δ/T² → C¹; quintic zeros it → C², at higher mid-move peaks), and trapezoidal (time-optimal, C¹) vs S-curve (jerk-limited, C²) velocity profiles.
 
@@ -81,11 +93,11 @@ All six are production-complete with lessons, notebooks, SVGs, interactive quizz
 
 ## Modules in progress
 
-*(none — Module 7 complete; paused at module completion before Module 8 launch.)*
+**Module 8 — Feedback Control and Real-Time Execution (ROS 2): Installments A–C (Units 1–6) delivered; paused at the Installment C milestone for architect review.** Units 1–2 cover the tracking problem/feedback loop and PID control; Units 3–4 cover stability/response/tuning and tracking the whole arm with feedforward + feedback; Units 5–6 (Installment C) cover actuator control (the request→delivery converter and its deadband/saturation/rate-limit nonlinearities, integral windup and the anti-windup cure, deadband/stiction and why integral wins the final approach, and the command pipeline + feasibility envelope tying back to Module 7) and communication (the loop as messages over a pub/sub bus, nodes/topics/messages and decoupling, latency + finite control rate destabilising a fixed-gain loop, and the data-flow architecture layered by timing — inner loop vs outer layers). 24 lessons · 24 notebooks (all pass) · 24 SVGs · 3 demos (L07, L17, L21) · 24 quizzes · 24 keys · 1 midpoint + key. Remaining: D (U7–U8 + capstone).
 
 ## Next milestone
 
-**Module 8 — Feedback Control (not yet started; awaiting architect launch package).** This is where the **reference trajectory layer** Module 7 produced (the validated open-loop reference `reference(t) → q_d, q̇_d, q̈_d`) becomes the substrate for *closed-loop tracking* — building the controller that follows the reference on the real arm, adding feedback control, dynamics, and actuator control (all explicitly out of Module 7's scope). Awaiting the architect's Module 8 launch package before production begins.
+**Module 8 — Installment D (Units 7–8 + capstone): awaiting architect go-ahead.** Unit 7 (Embedded and Real-Time Execution) and Unit 8 (ROS 2 Implementation) complete the module — real-time scheduling/timing guarantees for the latency-critical inner loop (motivated by Installment C's Unit 6) and the ROS 2 implementation of the layered node/topic stack, culminating in the capstone `tracking_controller` control layer as a ROS 2 node (the Module 9 handoff). Demos planned at L29. The Installment-A–C work (Units 1–6 + midpoint) is paused at the Installment C milestone pending architect review before D begins.
 
 Then resume the standing production directive (produce module-by-module, pause at module completion).
 
@@ -105,8 +117,8 @@ None of the above blocks production.
 - **Mermaid/MkDocs platform note:** the build runs on `mkdocs build --strict` with Material theme; the Material team prints a forward-looking MkDocs-2.0 advisory banner during builds. It is **advisory only** — not a build warning — and does not affect `--strict` (build exits 0).
 - **Single-source integrity:** prose must stay only in `modules/.../lessons/`. `site_src/` pages are generated; never hand-edit them or the two layers will drift (the recurring "stale build" symptom). Always re-run the generator before building.
 
-## Verification at last update (Module 7 complete)
+## Verification at last update (Module 8 Installment B)
 
-- Generator: `python tools/generate_site_pages.py` → **229 pages generated** (M1–M7), validator clean, no `[Visual:]` placeholder leaks; every M7 lesson injects [1 SVG, notebook, quiz] (+ demo on L07/L17/L21/L29).
-- Build: `mkdocs build --strict` → **PASS** (exit 0, 229 lesson pages + site index).
-- Counts reconcile with `master_progress.md`: 7/10 modules · 229 lessons · 229 notebooks · 230 SVGs · 38 demos · 229 quizzes · 7 midpoint assessments (+ M3/M4/M5/M6/M7 capstones).
+- Generator: `python tools/generate_site_pages.py` → **253 pages generated** (M1–M8), validator clean, no `[Visual:]` placeholder leaks; every M8 lesson injects [1 SVG, notebook, quiz] (+ demo on L07/L17/L21).
+- Build: `mkdocs build --strict` → **PASS** (exit 0, 253 lesson pages + site index).
+- Counts reconcile with `master_progress.md`: 7/10 modules complete (M8 in production) · 253 lessons · 253 notebooks · 254 SVGs · 41 demos · 253 quizzes · 8 midpoint assessments (+ M3/M4/M5/M6/M7 capstones).
