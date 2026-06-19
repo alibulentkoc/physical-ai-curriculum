@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Camera Sees Its Own World — Lesson 7.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:9px 0 4px} input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout div{margin:3px 0} .cam{color:#7c3aed}.wor{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>camera position x</label><input type="range" id="cx" min="0.4" max="3" step="0.05" value="1.0"/>
+    <label>camera heading</label><input type="range" id="cth" min="-60" max="60" step="1" value="0"/>
+    <div class="readout" id="out"></div>
+    <div class="hint">The camera reports the tomato 0.30 m straight ahead — <span class="cam">in its own frame that value never changes</span>. Move or turn the camera and only the <span class="wor">world</span> expression updates, through the camera's pose.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=40,oy=160,s=58,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var det=[0.3,0]; // in camera frame, 0.3m ahead
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [ox+p[0]*s,oy-p[1]*s];}
+  function applyPose(P,l){var c=Math.cos(P.th),sn=Math.sin(P.th);return [P.x+c*l[0]-sn*l[1], P.y+sn*l[0]+c*l[1]];}
+  function render(){
+    var cam={x:+document.getElementById("cx").value,y:0.8,th:+document.getElementById("cth").value*Math.PI/180};
+    var world=applyPose(cam,det);
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7c3aed"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("text",{x:ox+3,y:oy-3,"font-size":9,fill:"#94a3b8"})).textContent="world";
+    var co=sv([cam.x,cam.y]),c=Math.cos(cam.th),sn=Math.sin(cam.th);
+    svg.appendChild(el("line",{x1:co[0],y1:co[1],x2:co[0]+32*c,y2:co[1]-32*sn,stroke:"#7c3aed","stroke-width":2.5,"marker-end":"url(#ah)"}));
+    svg.appendChild(el("rect",{x:co[0]-7,y:co[1]-7,width:14,height:14,rx:3,fill:"#7c3aed"}));
+    svg.appendChild(el("text",{x:co[0]-2,y:co[1]+22,"font-size":9,fill:"#7c3aed"})).textContent="camera";
+    var wo=sv(world);
+    svg.appendChild(el("line",{x1:co[0],y1:co[1],x2:wo[0],y2:wo[1],stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"3 3"}));
+    svg.appendChild(el("circle",{cx:wo[0],cy:wo[1],r:9,fill:"#ef4444"}));
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="cam">in camera frame: (0.30, 0.00) — fixed</div>'+
+      '<div>camera pose: ('+f(cam.x)+', '+f(cam.y)+', '+Math.round(cam.th*180/Math.PI)+'°)</div>'+
+      '<div class="wor">in world: ('+f(world[0])+', '+f(world[1])+')</div>';
+  }
+  ["cx","cth"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

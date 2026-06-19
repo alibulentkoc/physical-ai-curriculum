@@ -38,6 +38,10 @@ The only difference was the last coordinate; the translation respected it automa
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson06_points_vs_directions.html" title="Points vs Directions interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson06_points_vs_directions.html)
+
 **Guided prediction.** Predict what happens to a point (2, 3, 1) and a direction (2, 3, 0) when both are translated by (5, 0). Which one moves, and which keeps its values? Confirm with the figure above, then explain why a surface normal must be tagged w = 0 so it is never shifted.
 ## 8. Coding Exercise
 

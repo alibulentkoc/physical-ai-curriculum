@@ -56,6 +56,10 @@ The camera→robot→world pipeline is a path through the frame graph, composed 
 - **Labels:** "compose along the path," "order matters," "invert to reverse."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 5 in one tool: chain two rigid motions, swap the order, and watch the combined transform land the shape differently.
+
 ## Coding Exercise
 
 A short capstone: build two SE(3) edges, compose them along a path (camera→world), show that swapping the order changes the result, and invert the path to recover world→camera.

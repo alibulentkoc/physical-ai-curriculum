@@ -33,6 +33,10 @@ A tomato sits at robot-frame position $(0.35, 0.15)$ with its stem pointing up-a
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson02_pose_position_orientation.html" title="Why Position and Orientation Must Travel Together interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson02_pose_position_orientation.html)
+
 **Guided prediction.** Look at the two panels above. Predict which grasp succeeds when the position is identical but the gripper orientation differs, and explain why. Then state the full pose — position *and* orientation — the robot must send for a clean grasp of a tomato whose stem points up-and-left.
 ## 8. Coding Exercise
 

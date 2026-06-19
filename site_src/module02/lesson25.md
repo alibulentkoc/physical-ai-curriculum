@@ -38,6 +38,10 @@ This single matrix says both *where* (the translation column) and *which way* (t
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson25_what_is_a_pose.html" title="What Is a Pose? interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson25_what_is_a_pose.html)
+
 **Guided prediction.** Look at the two framed objects in the figure (gripper and tomato). For each, predict what its pose matrix's translation column and rotation block encode. Then predict what information a bare position vector would lose, and why a grasp must be specified as a full pose rather than a point.
 
 ## 8. Coding Exercise

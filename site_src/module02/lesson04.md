@@ -33,6 +33,14 @@ Unit 2 introduces **homogeneous coordinates**: add one extra coordinate so that 
   ![Why Transformations Matter (Unit 1 Recap)](../assets/m02-l4-unit1-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module02/lesson04_transformations_recap.html" title="Why Transformations Matter (Unit 1 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson04_transformations_recap.html)
+
+Set a full pose — drag the body for position, slide for orientation — and read off (x, y, θ), the pair every transformation will carry.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

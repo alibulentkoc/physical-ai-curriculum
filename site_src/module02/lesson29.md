@@ -37,6 +37,10 @@ The detection didn't move — we only re-expressed it from the camera's standpoi
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson29_camera_sees_own_world.html" title="The Camera Sees Its Own World interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson29_camera_sees_own_world.html)
+
 **Guided prediction.** A camera reports a tomato 0.3 m straight ahead in its own frame. Given that the camera sits at world position $(1.0, 0, 0.5)$ facing along world +x with no rotation, predict the tomato's world coordinates *before* computing. Then predict what changes if the camera were rotated — and confirm that the detection's camera-frame value never changed, only its world expression.
 
 ## 8. Coding Exercise

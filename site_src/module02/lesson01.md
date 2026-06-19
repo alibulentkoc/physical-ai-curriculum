@@ -33,6 +33,10 @@ The camera reports a tomato "0.3 m ahead of the lens." The arm is 0.05 m behind 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson01_constant_problem.html" title="The Robot's Constant Problem interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson01_constant_problem.html)
+
 *(Unit 2's translation-as-a-matrix demo and later SE(2)/SE(3) demos make this concrete; here the static figure and example establish the need.)*
 
 ## 8. Coding Exercise

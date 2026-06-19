@@ -43,6 +43,14 @@ Two doors open from here:
   ![Wrap-Up and the Road to Kinematics](../assets/m02-l36-module-arc.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module02/lesson36_wrap_up.html" title="Wrap-Up and the Road to Kinematics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson36_wrap_up.html)
+
+The whole Module 2 journey in one view: a camera detection becomes a world target pose — the reach itself is what Module 3 onward builds.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

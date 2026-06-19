@@ -53,6 +53,10 @@ Unit 2 introduces **homogeneous coordinates**: add one extra coordinate so that 
 - **Labels:** "perceive," "act," "remember," "fix → homogeneous coordinates."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Set a full pose — drag the body for position, slide for orientation — and read off (x, y, θ), the pair every transformation will carry.
+
 ## Coding Exercise
 
 A short consolidation: confirm a 2×2 handles rotation but cannot translate the origin — the gap Unit 2 closes.

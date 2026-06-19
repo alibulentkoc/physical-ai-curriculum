@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order Matters, Revisited — Lesson 5.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:9px 0 4px} input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:13px;font-variant-numeric:tabular-nums}
+  .readout div{margin:4px 0} .rt{color:#0d9488;font-weight:700}.tr{color:#7c3aed;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>rotation θ</label><input type="range" id="th" min="0" max="180" step="1" value="90">
+    <label>translation t_x</label><input type="range" id="tx" min="0" max="3" step="0.05" value="3">
+    <div class="readout" id="out"></div>
+    <div class="hint">Both paths start at the origin. <span class="rt">Rotate then translate</span> and <span class="tr">translate then rotate</span> land in different places — composition is order-dependent. A camera-frame detection must be rotated into the world <b>before</b> the world offset is added.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=60,oy=170,s=42,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [ox+p[0]*s,oy-p[1]*s];}
+  function render(){
+    var th=+document.getElementById("th").value*Math.PI/180,tx=+document.getElementById("tx").value;
+    var c=Math.cos(th),sn=Math.sin(th);
+    var start=[1,0];
+    // rotate then translate
+    var r=[c*start[0]-sn*start[1], sn*start[0]+c*start[1]]; var RT=[r[0]+tx, r[1]];
+    // translate then rotate
+    var tp=[start[0]+tx, start[1]]; var TR=[c*tp[0]-sn*tp[1], sn*tp[0]+c*tp[1]];
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#cbd5e1","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#cbd5e1","stroke-width":1.2}));
+    var o=sv([0,0]),st=sv(start);
+    svg.appendChild(el("circle",{cx:st[0],cy:st[1],r:5,fill:"#94a3b8"}));
+    svg.appendChild(el("text",{x:st[0]+7,y:st[1]-6,"font-size":10,fill:"#94a3b8"})).textContent="start (1,0)";
+    var a=sv(RT),b=sv(TR);
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:9,fill:"#0d9488"}));
+    svg.appendChild(el("text",{x:a[0]+10,y:a[1],"font-size":10,fill:"#0d9488"})).textContent="R then T";
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:9,fill:"#7c3aed"}));
+    svg.appendChild(el("text",{x:b[0]+10,y:b[1]+12,"font-size":10,fill:"#7c3aed"})).textContent="T then R";
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="rt">rotate then translate: ('+f(RT[0])+', '+f(RT[1])+')</div>'+
+      '<div class="tr">translate then rotate: ('+f(TR[0])+', '+f(TR[1])+')</div>'+
+      '<div style="color:#64748b">different points — order changes the result.</div>';
+  }
+  document.getElementById("th").addEventListener("input",render);document.getElementById("tx").addEventListener("input",render);
+  render();
+})();</script></body></html>

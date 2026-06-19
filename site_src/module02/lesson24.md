@@ -35,6 +35,14 @@ The camera→robot→world pipeline is a path through the frame graph, composed 
   ![Composing Rigid Motions (Unit 5 Recap)](../assets/m02-l24-compose-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module02/lesson24_composing_rigid_motions_recap.html" title="Composing Rigid Motions (Unit 5 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson24_composing_rigid_motions_recap.html)
+
+Unit 5 in one tool: chain two rigid motions, swap the order, and watch the combined transform land the shape differently.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

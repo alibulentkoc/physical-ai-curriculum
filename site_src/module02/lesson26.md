@@ -37,6 +37,10 @@ A point at the gripper's origin $(0,0,0,1)$ in the gripper frame maps to $(1, 0,
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson26_pose_is_a_transformation.html" title="A Pose Is a Transformation interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson26_pose_is_a_transformation.html)
+
 **Guided prediction.** Given the gripper's pose in the base and the base's pose in the world, predict the product that gives the gripper's pose in the world (which order?). Then predict how you'd express a world-frame target in the gripper's own frame (which inverse?). Confirm the inner frame names cancel.
 
 ## 8. Coding Exercise

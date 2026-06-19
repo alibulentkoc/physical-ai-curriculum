@@ -57,6 +57,10 @@ A robot driving and turning on the floor, a sensor mounted at an offset and angl
 - **Labels:** "build," "apply (rigid)," "invert (go back)," "SE(2)."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 3 in one tool: slide θ, t_x, t_y and watch a single SE(2) transform rigidly move the shape — heading and position together, lengths preserved.
+
 ## Coding Exercise
 
 A short capstone: build an SE(2) matrix from $(\theta, t_x, t_y)$, apply it to a shape and confirm distances are preserved, then apply its inverse and confirm you recover the original points.

@@ -35,6 +35,10 @@ SE(3) with $R = I$ (no rotation) and $\mathbf{t} = (0.4, 0.3, 0.9)$. Apply to th
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson18_translation_vectors_3d.html" title="Translation Vectors in 3D interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson18_translation_vectors_3d.html)
+
 **Guided prediction.** A gripper sits at translation $(0.4, 0.3, 0.9)$. Predict the result of applying this SE(3) (with no rotation) to the point $(0,0,0,1)$ and to the direction $(0,0,1,0)$. Which one ends up at $(0.4, 0.3, 0.9)$ and which is unchanged? Predict how the answers change if a rotation is added to the block.
 
 ## 8. Coding Exercise

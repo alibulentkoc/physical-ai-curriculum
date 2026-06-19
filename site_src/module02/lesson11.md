@@ -37,6 +37,10 @@ Read it back: rotation block = $90°$ turn, translation column = moved to $(2, 1
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson11_the_se2_transformation.html" title="The SE(2) Transformation interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson11_the_se2_transformation.html)
+
 **Guided prediction.** Given $(\theta, t_x, t_y) = (90°, 2, 1)$, predict each of the six non-trivial entries of the 3×3 matrix before writing them. Then, reading only a matrix with rotation block $\begin{bmatrix}1&0\\0&1\end{bmatrix}$ and translation column $(3, 0)$, predict the robot's heading and position. Confirm against the structure in the figure.
 
 ## 8. Coding Exercise

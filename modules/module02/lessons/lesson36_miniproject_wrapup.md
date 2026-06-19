@@ -64,6 +64,10 @@ Two doors open from here:
 - **Labels:** the eight unit names, "perception-to-pose," "next: kinematics," "deferred: intrinsics."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+The whole Module 2 journey in one view: a camera detection becomes a world target pose — the reach itself is what Module 3 onward builds.
+
 ## Coding Exercise
 
 A capstone wrap: package your pipeline as one function `detection_to_world_target(...)` with the verification checks built in, run it on a fresh set of inputs, and print the world target pose plus a "checks passed" confirmation.

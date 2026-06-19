@@ -37,6 +37,10 @@ A tomato at $\mathbf{p}_{\text{cam}} = (0, 0, 0.3)$ (0.3 m in front of the camer
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson30_camera_extrinsics.html" title="Camera Extrinsics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson30_camera_extrinsics.html)
+
 **Guided prediction.** A wrist camera is mounted 0.1 m out along the wrist axis, aligned with the wrist ($R_{\text{ext}}=I$). For a tomato detected 0.3 m in front of the camera, predict its coordinates in the arm frame. Then predict how the answer changes if the camera were tilted (a non-identity $R_{\text{ext}}$). Confirm the offset and orientation both come from the extrinsics pose.
 
 ## 8. Coding Exercise

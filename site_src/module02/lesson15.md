@@ -35,6 +35,10 @@ On the floor, the robot's pose was $(\theta, x, y)$ — three numbers. In the ca
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson15_2d_to_3d.html" title="From 2D to 3D Rigid Motion interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson15_2d_to_3d.html)
+
 **Guided prediction.** Using the isometric scene above, predict what extra information a 3D pose needs compared to a floor pose: how many position numbers, and how many independent ways can the object be oriented? Then predict which real harvesting situations (reaching up, a tilted fruit, a slanted camera) are impossible to describe on a flat plane — and why the third axis fixes each.
 
 ## 8. Coding Exercise

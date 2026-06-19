@@ -37,6 +37,10 @@ Rotate the point $(1, 0, 0)$ by $90°$ about the **z**-axis: $R_z(90°)(1,0,0)^\
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson16_3d_rotation.html" title="3D Rotation interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson16_3d_rotation.html)
+
 **Guided prediction.** Picture the point $(1, 0, 0)$. Predict where it lands after a $90°$ rotation about the z-axis, then about the y-axis. For each, predict which coordinate stays fixed (the one on the rotation axis). Confirm that the distance from the origin is unchanged in every case — rotations preserve length.
 
 ## 8. Coding Exercise

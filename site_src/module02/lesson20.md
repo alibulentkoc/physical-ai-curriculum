@@ -35,6 +35,14 @@ A six-degree-of-freedom pose — three for position, three for orientation — i
   ![Rigid Motion in 3D (Unit 4 Recap)](../assets/m02-l20-se3-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module02/lesson20_rigid_motion_3d_recap.html" title="Rigid Motion in 3D (Unit 4 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson20_rigid_motion_3d_recap.html)
+
+Unit 4 in one tool: rotate about z and lift in height, and watch a real 3D SE(3) rigid motion — orientation and position together, shape preserved.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

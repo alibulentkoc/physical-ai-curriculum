@@ -40,6 +40,14 @@ Units 3 and 4 give this template its proper names: **SE(2)** (rigid motion in th
   ![Homogeneous Coordinates in Physical AI (Unit 2 Recap)](../assets/m02-l9-unit2-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module02/lesson09_homogeneous_recap.html" title="Homogeneous Coordinates in Physical AI (Unit 2 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson09_homogeneous_recap.html)
+
+One 3×3 homogeneous transform, hands-on: rotate and translate a shape, and flip the w-tag to see a point translate while a direction doesn't.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

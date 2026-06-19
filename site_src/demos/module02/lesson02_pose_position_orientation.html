@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Position and Orientation Together — Lesson 1.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .steps{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:10px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.6}
+  .steps b{color:#0e7490}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:290px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:4px 0 5px}
+  input[type=range]{width:100%}
+  .badge{display:inline-block;padding:6px 14px;border-radius:999px;font-weight:700;font-size:14px;margin-top:14px}
+  .ok{background:#dcfce7;color:#15803d}.no{background:#fee2e2;color:#b91c1c}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;margin-top:12px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+</style></head><body>
+<div class="wrap">
+  <div class="steps"><b>Click the gripper to grab it, move, click again to drop</b> — then the slider is free.<br><b>Goal:</b> match the faint grey <b>target gripper</b>.&nbsp; <b>1.</b> Drag the teal handle onto the tomato.&nbsp; <b>2.</b> Use the slider to turn the fingers until they line up with the stem.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 320 290"></svg>
+  <div class="panel">
+    <label>↻ rotate the gripper</label><input type="range" id="ang" min="0" max="180" step="1" value="20">
+    <div id="badge"></div>
+    <div class="readout" id="out"></div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=320,H=290,s=46,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var tom=[3.4,2.7], stem=125, grip=[1.2,1.1], ga=20, hinted=false,grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [28+p[0]*s, 250-p[1]*s];}
+  function gripper(cx,cy,ang,col,opacity,dashed,closed){
+    var a=ang*Math.PI/180,c=Math.cos(a),sn=Math.sin(a),px=-sn,py=-c,open=closed?9:13;
+    var dash=dashed?{"stroke-dasharray":"4 3"}:{};
+    var bar=el("line",Object.assign({x1:cx+px*open,y1:cy+py*open,x2:cx-px*open,y2:cy-py*open,stroke:col,"stroke-width":4,"stroke-linecap":"round",opacity:opacity},dash));svg.appendChild(bar);
+    [open,-open].forEach(function(o){var bx=cx+px*o,by=cy+py*o;
+      svg.appendChild(el("line",Object.assign({x1:bx,y1:by,x2:bx+c*26,y2:by-sn*26,stroke:col,"stroke-width":4,"stroke-linecap":"round",opacity:opacity},dash)));});
+  }
+  function draw(ok,posOK){
+    svg.innerHTML="";
+    for(var g=1;g<=5;g++){svg.appendChild(el("line",{x1:28+g*s,y1:12,x2:28+g*s,y2:H-12,stroke:"#eef2f7","stroke-width":1}));
+      svg.appendChild(el("line",{x1:12,y1:250-g*s,x2:W-12,y2:250-g*s,stroke:"#eef2f7","stroke-width":1}));}
+    svg.appendChild(el("line",{x1:12,y1:250,x2:W-12,y2:250,stroke:"#cbd5e1","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:28,y1:H-12,x2:28,y2:12,stroke:"#cbd5e1","stroke-width":1.3}));
+    var t=sv(tom), sa=stem*Math.PI/180;
+    // TARGET ghost gripper (the goal): at tomato, aligned to stem
+    var tg=sv(tom); gripper(tg[0],tg[1],stem,"#94a3b8",0.55,true,false);
+    svg.appendChild(el("text",{x:tg[0]-40,y:tg[1]-30,"font-size":10,fill:"#94a3b8"})).textContent="target";
+    // stem + tomato
+    svg.appendChild(el("line",{x1:t[0],y1:t[1],x2:t[0]+30*Math.cos(sa),y2:t[1]-30*Math.sin(sa),stroke:"#15803d","stroke-width":4,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:t[0]+30*Math.cos(sa),cy:t[1]-30*Math.sin(sa),r:3,fill:"#15803d"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:15,fill:"#ef4444"}));
+    svg.appendChild(el("ellipse",{cx:t[0]-5,cy:t[1]-5,rx:4,ry:6,fill:"#fff",opacity:.35}));
+    var slab=el("text",{x:t[0]+16,y:t[1]+20,"font-size":10,fill:"#15803d"});slab.textContent="stem";svg.appendChild(slab);
+    // LIVE gripper
+    var g0=sv(grip), col=ok?"#15803d":(posOK?"#0d9488":"#0d9488");
+    gripper(g0[0],g0[1],ga,col,1,false,ok);
+    // big easy-grab handle
+    var hit=el("circle",{cx:g0[0],cy:g0[1],r:26,fill:"transparent"});hit.style.cursor="pointer";svg.appendChild(hit);
+    svg.appendChild(el("circle",{cx:g0[0],cy:g0[1],r:15,fill:"none",stroke:col,"stroke-width":1.5,"stroke-dasharray":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:g0[0],cy:g0[1],r:10,fill:col}));
+    svg.appendChild(el("circle",{cx:g0[0],cy:g0[1],r:3.5,fill:"#fff"}));
+    if(!hinted){ // floating drag hint until first drag
+      svg.appendChild(el("text",{x:g0[0]+20,y:g0[1]-16,"font-size":11,fill:"#0d9488","font-weight":"700"})).textContent="↖ click to grab";
+    }
+    
+  }
+  function render(){
+    var dpos=Math.hypot(tom[0]-grip[0],tom[1]-grip[1]);
+    var dang=Math.abs(((ga-stem)%180+270)%180-90);
+    var posOK=dpos<0.55, angOK=dang<16, ok=posOK&&angOK;
+    draw(ok,posOK);
+    document.getElementById("badge").innerHTML='<span class="badge '+(ok?"ok":"no")+'">'+(ok?"✓ clean grasp!":"keep adjusting…")+'</span>';
+    function row(lab,good,detail){return '<div class="ln"><span><span class="dot" style="background:'+(good?"#15803d":"#cbd5e1")+'"></span>'+lab+'</span><span style="color:'+(good?"#15803d":"#64748b")+'">'+detail+'</span></div>';}
+    out.innerHTML=row("position",posOK,(posOK?"on the tomato":"drag closer ("+dpos.toFixed(1)+" away)"))+
+      row("orientation",angOK,(angOK?"aligned to stem":dang.toFixed(0)+"° to turn"))+
+      '<div style="margin-top:6px;color:#94a3b8;font-size:11.5px">a pose needs <b>both</b> right at once</div>';
+  }
+  document.getElementById("ang").addEventListener("input",function(e){ga=+e.target.value;render();});
+  
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),h=sv(grip);if(Math.hypot(m[0]-h[0],m[1]-h[1])<30){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);grip[0]=Math.max(0.3,Math.min(5.3,(m[0]-28)/s));grip[1]=Math.max(0.3,Math.min(4.7,(250-m[1])/s));render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  render();
+})();</script></body></html>

@@ -37,6 +37,10 @@ Two points on a wrench are 0.20 m apart. Rotate the wrench 50° and move it 1.3 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson10_what_rigid_means.html" title="What "Rigid" Means interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson10_what_rigid_means.html)
+
 **Guided prediction.** Picture a shape moved two ways: (a) rotated 90° and slid across the bench; (b) stretched to twice its width. Predict which one keeps every edge length and every corner angle, and which changes them. Then predict what a robot arm physically can and cannot do to a tomato it is carrying — and confirm that real arm motion matches the rigid case.
 
 ## 8. Coding Exercise

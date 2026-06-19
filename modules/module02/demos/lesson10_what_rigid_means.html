@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What "Rigid" Means — Lesson 3.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:12px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  label{font-size:12px;color:var(--muted);display:block;margin:9px 0 4px} input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:13px;font-variant-numeric:tabular-nums}
+  .ok{color:#15803d;font-weight:700}.no{color:#b91c1c;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <div class="seg"><button id="rg" class="on">rigid: rotate + slide</button><button id="st">stretch ×width</button></div>
+    <label id="lab">rotation θ</label><input type="range" id="amt" min="0" max="180" step="1" value="50">
+    <div class="readout" id="out"></div>
+    <div class="hint">A <b>rigid</b> motion keeps every edge length and angle — exactly what an arm can do to a tomato it carries. A stretch is <b>not</b> rigid: it changes the shape. Compare the side lengths under each.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,ox=70,oy=170,s=46,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var base=[[0,0],[1.4,0],[1.4,1.0],[0,1.0]],mode="rg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [ox+p[0]*s,oy-p[1]*s];}
+  function edges(pts){var L=[];for(var i=0;i<pts.length;i++){var a=pts[i],b=pts[(i+1)%pts.length];L.push(Math.hypot(b[0]-a[0],b[1]-a[1]));}return L;}
+  function render(){
+    var amt=+document.getElementById("amt").value;
+    var pts;
+    if(mode==="rg"){var th=amt*Math.PI/180,c=Math.cos(th),sn=Math.sin(th),tx=0.9,ty=0.4;
+      pts=base.map(function(p){return [c*p[0]-sn*p[1]+tx, sn*p[0]+c*p[1]+ty];});}
+    else {var k=0.5+amt/180*2; pts=base.map(function(p){return [k*p[0]+0.9, p[1]+0.4];});}
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#cbd5e1","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#cbd5e1","stroke-width":1.2}));
+    var op=base.map(function(p){var c=sv(p);return c[0]+","+c[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:op,fill:"none",stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"4 3"}));
+    var rigid=mode==="rg";
+    var tp=pts.map(function(p){var c=sv(p);return c[0]+","+c[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:tp,fill:rigid?"#0d948822":"#fee2e233",stroke:rigid?"#0d9488":"#b91c1c","stroke-width":2}));
+    var L0=edges(base),L1=edges(pts),same=L1.every(function(v,i){return Math.abs(v-L0[i])<0.01;});
+    out.innerHTML='original sides: '+L0.map(function(v){return v.toFixed(2);}).join(', ')+'<br>'+
+      'after move: '+L1.map(function(v){return v.toFixed(2);}).join(', ')+'<br>'+
+      '<span class="'+(same?"ok":"no")+'">'+(same?"✓ lengths preserved — rigid":"✗ lengths changed — not rigid")+'</span>';
+  }
+  document.getElementById("rg").addEventListener("click",function(){mode="rg";this.classList.add("on");document.getElementById("st").classList.remove("on");document.getElementById("lab").textContent="rotation θ";render();});
+  document.getElementById("st").addEventListener("click",function(){mode="st";this.classList.add("on");document.getElementById("rg").classList.remove("on");document.getElementById("lab").textContent="stretch amount";render();});
+  document.getElementById("amt").addEventListener("input",render);
+  render();
+})();</script></body></html>

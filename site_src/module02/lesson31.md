@@ -42,6 +42,10 @@ The 0.3 m depth plus the 0.1 m mount offset gives $z = 0.4$; the arm's world off
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson31_building_transformation_chain.html" title="Building the Transformation Chain interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson31_building_transformation_chain.html)
+
 **Guided prediction.** With extrinsics = translate $(0,0,0.1)$ and arm pose = translate $(1.0, 0.5, 0)$, predict the camera→world product and then the world coordinates of a detection at $(0,0,0.3)$. Predict which factor changes when the arm moves but the camera stays bolted on. Confirm the inner "arm" frame cancels in the product.
 
 ## 8. Coding Exercise

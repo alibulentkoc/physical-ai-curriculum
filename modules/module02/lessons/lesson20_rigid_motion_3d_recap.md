@@ -56,6 +56,10 @@ A six-degree-of-freedom pose — three for position, three for orientation — i
 - **Labels:** "build (R, t)," "apply (rigid, 6 DOF)," "invert (go back)," "SE(3)."
 - **Form:** SVG (faux-3D isometric).
 
+## Interactive Demonstration
+
+Unit 4 in one tool: rotate about z and lift in height, and watch a real 3D SE(3) rigid motion — orientation and position together, shape preserved.
+
 ## Coding Exercise
 
 A short capstone: build an SE(3) from a rotation and translation, apply it to a small 3D shape and confirm distances are preserved, then apply its inverse and confirm you recover the original points.

@@ -54,6 +54,10 @@ A grasp target is a pose. The robot's base, arm, gripper, and camera each have a
 - **Labels:** "pose = position + orientation," "pose = frame transform," "update = compose motion."
 - **Form:** SVG (faux-3D isometric).
 
+## Interactive Demonstration
+
+Unit 6 in one tool: drag for position, slide for orientation, and read the full pose matrix — translation column plus rotation block.
+
 ## Coding Exercise
 
 A short capstone: build a robot pose, compose a child pose (gripper→base with base→world) to locate the gripper in the world, then update the base pose with a motion and recompute.

@@ -33,6 +33,14 @@ A grasp target is a pose. The robot's base, arm, gripper, and camera each have a
   ![Pose in Physical AI (Unit 6 Recap)](../assets/m02-l28-pose-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module02/lesson28_pose_recap.html" title="Pose in Physical AI (Unit 6 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson28_pose_recap.html)
+
+Unit 6 in one tool: drag for position, slide for orientation, and read the full pose matrix — translation column plus rotation block.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

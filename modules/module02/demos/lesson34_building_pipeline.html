@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building the Pipeline — Lesson 8.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:11px;color:var(--muted);display:block;margin:7px 0 3px} input[type=range]{width:100%}
+  .chain{display:flex;gap:4px;align-items:center;font-size:10.5px;margin:8px 0;flex-wrap:wrap}
+  .tag{background:#fff;border:1px solid var(--line);border-radius:6px;padding:3px 6px;font-weight:600}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout div{margin:3px 0} .wor{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>arm heading</label><input type="range" id="ath" min="-45" max="45" step="1" value="0"/>
+    <label>detection rotation</label><input type="range" id="dth" min="-90" max="90" step="1" value="0"/>
+    <div class="chain"><span class="tag">arm</span>·<span class="tag">extrinsics</span>·<span class="tag">detection</span></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Compose all three poses into one world target. Add rotation to the <b>detection</b> and the world <i>orientation</i> turns too — the pipeline carries heading, not just a point.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=40,oy=170,s=56,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var arm0={x:1.0,y:0.5},ext={x:0.1,y:0,th:0},det={x:0.3,y:0};
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [ox+p[0]*s,oy-p[1]*s];}
+  function compose(A,B){var c=Math.cos(A.th),sn=Math.sin(A.th);return {x:A.x+c*B.x-sn*B.y,y:A.y+sn*B.x+c*B.y,th:A.th+B.th};}
+  function frame(P,col,name,big){var o=sv([P.x,P.y]),c=Math.cos(P.th),sn=Math.sin(P.th),L=big?32:22;
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:o[0]+L*c,y2:o[1]-L*sn,stroke:col,"stroke-width":big?3:2.2,"marker-end":big?"url(#ah)":""}));
+    svg.appendChild(el("circle",{cx:o[0],cy:o[1],r:big?7:4,fill:col}));
+    svg.appendChild(el("text",{x:o[0]+5,y:o[1]+15,"font-size":9,fill:col})).textContent=name;}
+  function render(){
+    var arm={x:arm0.x,y:arm0.y,th:+document.getElementById("ath").value*Math.PI/180};
+    var detp={x:det.x,y:det.y,th:+document.getElementById("dth").value*Math.PI/180};
+    var world=compose(compose(arm,ext),detp);
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ef4444"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("text",{x:ox+3,y:oy-3,"font-size":9,fill:"#94a3b8"})).textContent="world";
+    frame(arm,"#475569","arm",false);
+    frame(world,"#ef4444","target",true);
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="wor">world target pose:</div><div>position ('+f(world.x)+', '+f(world.y)+')</div><div>orientation '+Math.round(world.th*180/Math.PI)+'°</div>';
+  }
+  ["ath","dth"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

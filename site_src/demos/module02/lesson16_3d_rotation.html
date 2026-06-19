@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Rotation — Lesson 4.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:13px;font-weight:700;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  label{font-size:12px;color:var(--muted);display:block;margin:9px 0 4px} input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout div{margin:3px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <div class="seg"><button data-ax="x">about x</button><button data-ax="y">about y</button><button data-ax="z" class="on">about z</button></div>
+    <label>angle</label><input type="range" id="ang" min="0" max="360" step="1" value="90">
+    <div class="readout" id="out"></div>
+    <div class="hint">Rotate the point about an axis. The coordinate <b>on that axis stays fixed</b>, and the distance from the origin never changes — rotations preserve length.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=150,oy=150,s=70,C=Math.cos(Math.PI/6),S=Math.sin(Math.PI/6);
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var P=[1,0,0],axis="z";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function iso(p){return [ox+(p[0]-p[1])*C*s, oy-(p[0]+p[1])*S*s-p[2]*s];}
+  function rot(p,ax,th){var c=Math.cos(th),sn=Math.sin(th),x=p[0],y=p[1],z=p[2];
+    if(ax==="z")return [c*x-sn*y, sn*x+c*y, z];
+    if(ax==="y")return [c*x+sn*z, y, -sn*x+c*z];
+    return [x, c*y-sn*z, sn*y+c*z];}
+  function render(){
+    var th=+document.getElementById("ang").value*Math.PI/180;
+    var q=rot(P,axis,th);
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    var o=iso([0,0,0]),ax=iso([1.3,0,0]),ay=iso([0,1.3,0]),az=iso([0,0,1.1]);
+    [["x",ax,"#94a3b8"],["y",ay,"#94a3b8"],["z",az,"#7c3aed"]].forEach(function(A){
+      var col=(A[0]===axis)?"#0d9488":A[2], wdt=(A[0]===axis)?2.5:1.3;
+      svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:A[1][0],y2:A[1][1],stroke:col,"stroke-width":wdt}));
+      svg.appendChild(el("text",{x:A[1][0]+3,y:A[1][1]+3,"font-size":11,fill:col})).textContent=A[0];
+    });
+    var g=iso(P);svg.appendChild(el("circle",{cx:g[0],cy:g[1],r:6,fill:"#cbd5e1"}));
+    // ground shadow (project onto z=0) + vertical drop line for depth
+    var sh=iso([q[0],q[1],0]);
+    svg.appendChild(el("ellipse",{cx:sh[0],cy:sh[1],rx:8,ry:4,fill:"#0f172a",opacity:.10}));
+    if(Math.abs(q[2])>0.02){var t0=iso(q);svg.appendChild(el("line",{x1:sh[0],y1:sh[1],x2:t0[0],y2:t0[1],stroke:"#94a3b8","stroke-width":1,"stroke-dasharray":"3 3"}));}
+    var t=iso(q);svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:t[0],y2:t[1],stroke:"#0d9488","stroke-width":2.5,"marker-end":"url(#ah)"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:9,fill:"#ef4444"}));
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div>point: ('+f(q[0])+', '+f(q[1])+', '+f(q[2])+')</div>'+
+      '<div>fixed coordinate: <b>'+axis+' = '+f(q[axis==="x"?0:axis==="y"?1:2])+'</b></div>'+
+      '<div>distance from origin: <b>'+f(Math.hypot(q[0],q[1],q[2]))+'</b> (always 1)</div>';
+  }
+  document.querySelectorAll(".seg button").forEach(function(b){b.addEventListener("click",function(){axis=b.dataset.ax;document.querySelectorAll(".seg button").forEach(function(x){x.classList.remove("on");});b.classList.add("on");render();});});
+  document.getElementById("ang").addEventListener("input",render);
+  render();
+})();</script></body></html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SE(2) Playground — Lesson 3.5</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:12px;color:var(--muted);display:block;margin:9px 0 4px} input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:13px;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>θ</label><input type="range" id="th" min="0" max="360" step="1" value="40">
+    <label>t_x</label><input type="range" id="tx" min="-1" max="3" step="0.05" value="1.2">
+    <label>t_y</label><input type="range" id="ty" min="-1" max="2" step="0.05" value="0.6">
+    <div class="readout" id="out"></div>
+    <div class="hint">Unit 3 in one tool: a single SE(2) transform rigidly moves the shape — heading and position together, every length preserved. Drag the sliders and watch the rigid motion.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=90,oy=160,s=40,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var shape=[[0,0],[1.3,0],[1.3,0.45],[0.45,0.45],[0.45,1.3],[0,1.3]];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [ox+p[0]*s,oy-p[1]*s];}
+  function render(){
+    var th=+document.getElementById("th").value*Math.PI/180,tx=+document.getElementById("tx").value,ty=+document.getElementById("ty").value;
+    var c=Math.cos(th),sn=Math.sin(th);
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#cbd5e1","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#cbd5e1","stroke-width":1.2}));
+    var op=shape.map(function(p){var c2=sv(p);return c2[0]+","+c2[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:op,fill:"none",stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"4 3"}));
+    var tp=shape.map(function(p){var q=[c*p[0]-sn*p[1]+tx, sn*p[0]+c*p[1]+ty];var c2=sv(q);return c2[0]+","+c2[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:tp,fill:"#0d948822",stroke:"#0d9488","stroke-width":2}));
+    out.innerHTML='SE(2): heading '+Math.round(th*180/Math.PI)+'°, position ('+tx.toFixed(2)+', '+ty.toFixed(2)+')<br><span style="color:#64748b">rigid — all side lengths unchanged</span>';
+  }
+  ["th","tx","ty"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

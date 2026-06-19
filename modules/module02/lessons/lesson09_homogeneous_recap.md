@@ -61,6 +61,10 @@ Units 3 and 4 give this template its proper names: **SE(2)** (rigid motion in th
 - **Labels:** "(x, y, 1)," "w = 1 vs 0," "T(tx, ty)," "[[R, t],[0, 1]]."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+One 3×3 homogeneous transform, hands-on: rotate and translate a shape, and flip the w-tag to see a point translate while a direction doesn't.
+
 ## Coding Exercise
 
 A short capstone: chain two combined homogeneous transforms by multiplication and apply to a point; confirm a direction keeps w = 0.

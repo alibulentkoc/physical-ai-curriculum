@@ -54,6 +54,10 @@ This is the answer to the question that has driven the module: *how does a detec
 - **Labels:** "detection," "extrinsics," "arm pose," "world target = compose the chain."
 - **Form:** SVG (faux-3D isometric).
 
+## Interactive Demonstration
+
+Unit 7 in one tool: tune arm pose, extrinsics, and the detection, and watch a camera reading flow through the chain to a world target.
+
 ## Coding Exercise
 
 A short capstone-prep: given a detection, camera extrinsics, and an arm pose (all SE(3)), compose the chain to get the detection's world pose, and invert to confirm the round trip.

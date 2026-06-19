@@ -43,6 +43,10 @@ so the world position is $(1.0, 0.5, 0.4)$ and the orientation is identity (alig
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson34_building_pipeline.html" title="Building the Pipeline interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson34_building_pipeline.html)
+
 **Guided prediction.** Using the flagship demo (or by hand), set detection = translate $(0,0,0.3)$, extrinsics = translate $(0,0,0.1)$, arm pose = translate $(1.0,0.5,0)$. Predict the world position before composing. Then predict what happens to the world *orientation* if you add a rotation to the detection pose. Confirm by reading the result matrix.
 
 ## 8. Coding Exercise

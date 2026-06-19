@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composition Playground — Lesson 5.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:11px;color:var(--muted);display:block;margin:7px 0 3px} input[type=range]{width:100%}
+  .seg{display:flex;gap:6px;margin:10px 0}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>T1 angle</label><input type="range" id="th1" min="0" max="180" step="1" value="45">
+    <label>T2 angle</label><input type="range" id="th2" min="0" max="180" step="1" value="60">
+    <label>T2 translate</label><input type="range" id="tx2" min="0" max="2.5" step="0.05" value="1.2">
+    <div class="seg"><button id="o1" class="on">T2 ∘ T1</button><button id="o2">T1 ∘ T2</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Unit 5 in one tool: chain two rigid motions. Swap the order and the shape lands differently — composition is one combined transform, applied right-to-left, and order-dependent.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=80,oy=160,s=38,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var shape=[[0,0],[1.2,0],[1.2,0.4],[0.4,0.4],[0.4,1.1],[0,1.1]],order=1;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function se2(th,tx){var c=Math.cos(th),sn=Math.sin(th);return [c,-sn,tx,sn,c,0,0,0,1];}
+  function mul(A,B){var C=[];for(var r=0;r<3;r++)for(var c=0;c<3;c++){var s2=0;for(var k=0;k<3;k++)s2+=A[r*3+k]*B[k*3+c];C[r*3+c]=s2;}return C;}
+  function ap(M,p){return [M[0]*p[0]+M[1]*p[1]+M[2],M[3]*p[0]+M[4]*p[1]+M[5]];}
+  function sv(p){return [ox+p[0]*s,oy-p[1]*s];}
+  function render(){
+    var t1=+document.getElementById("th1").value*Math.PI/180,t2=+document.getElementById("th2").value*Math.PI/180,tx2=+document.getElementById("tx2").value;
+    var T1=se2(t1,0),T2=se2(t2,tx2);
+    var M=order===1?mul(T2,T1):mul(T1,T2);
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#cbd5e1","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#cbd5e1","stroke-width":1.2}));
+    var op=shape.map(function(p){var c=sv(p);return c[0]+","+c[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:op,fill:"none",stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"4 3"}));
+    var tp=shape.map(function(p){var c=sv(ap(M,p));return c[0]+","+c[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:tp,fill:"#0d948822",stroke:"#0d9488","stroke-width":2}));
+    out.innerHTML='combined = <b>'+(order===1?"T2 ∘ T1":"T1 ∘ T2")+'</b><br><span style="color:#64748b">applied right-to-left as one transform</span>';
+  }
+  document.getElementById("o1").addEventListener("click",function(){order=1;this.classList.add("on");document.getElementById("o2").classList.remove("on");render();});
+  document.getElementById("o2").addEventListener("click",function(){order=2;this.classList.add("on");document.getElementById("o1").classList.remove("on");render();});
+  ["th1","th2","tx2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

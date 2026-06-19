@@ -37,6 +37,10 @@ The point $(2, 3)$ becomes $\begin{bmatrix}2\\3\\1\end{bmatrix}$. Applying the $
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson05_one_extra_coordinate.html" title="The Idea: One Extra Coordinate interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson05_one_extra_coordinate.html)
+
 **Guided prediction.** Using the lifted-plane figure, predict the homogeneous form of the point (2, 3). Then predict what applying the 3×3 identity returns. Confirm the point is unchanged — you re-dressed its representation without moving it, which is exactly why the geometry is untouched.
 ## 8. Coding Exercise
 

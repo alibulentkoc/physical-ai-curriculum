@@ -35,6 +35,10 @@ $T$ moves a point by rotating $90°$ and translating $(2, 1)$; it sent $(0,0) \t
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson13_inverse_transformations.html" title="Inverse Transformations interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson13_inverse_transformations.html)
+
 **Guided prediction.** A shape is moved by an SE(2) transform $T$ (rotate, then slide). Predict the *sequence* that brings it back: which do you undo first, the slide or the turn, and what are their reversed values? Predict where the shape lands after applying $T$ and then $T^{-1}$ in turn. Confirm it returns exactly to the start — the inverse is the return trip.
 
 ## 8. Coding Exercise

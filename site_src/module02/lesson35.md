@@ -39,6 +39,10 @@ From 8.2: $T_{\text{world}\leftarrow\text{tomato}} = \text{translate}(1.0, 0.5, 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson35_verifying_visualizing.html" title="Verifying and Visualizing interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson35_verifying_visualizing.html)
+
 The flagship **perception-to-pose** demo includes a verification view: after composing the target, it shows the inverse round-trip recovering the detection and the preserved distance, and plots the frames. Toggle the inputs and watch both the target and the checks update live.
 
 ## 8. Coding Exercise

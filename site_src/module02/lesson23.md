@@ -37,6 +37,10 @@ Need the reverse (a world goal in the camera frame)? Travel the path backward wi
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson23_frames_as_a_graph.html" title="Frames as a Graph interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson23_frames_as_a_graph.html)
+
 **Guided prediction.** Given edges camera→arm and arm→world, predict the product that takes a camera-frame point to the world, and predict the product that goes world→camera (which edges, in what order, inverted how). Confirm the inner frame names cancel in $T_{C\leftarrow B}T_{B\leftarrow A}$.
 
 ## 8. Coding Exercise

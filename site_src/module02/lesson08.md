@@ -38,6 +38,10 @@ The point was rotated $90°$ (to $(0,1)$) and then shifted by $(1,0)$ (to $(1,1)
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson08_rotation_translation_one_matrix.html" title="Rotation and Translation in One Matrix interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson08_rotation_translation_one_matrix.html)
+
 **Guided prediction.** Using the block-form matrix above, predict where (1, 0) lands after rotating 90° and translating by (1, 0) in one multiply. Then predict whether translating first and rotating second gives the same point, and identify which part of the matrix would differ.
 ## 8. Coding Exercise
 

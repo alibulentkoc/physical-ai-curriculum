@@ -38,6 +38,10 @@ Same two operations, results $(3,0)$ vs $(0,3)$ — a different place. The matri
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson22_order_matters_revisited.html" title="Order Matters, Revisited interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson22_order_matters_revisited.html)
+
 **Guided prediction.** Take a rotation of $90°$ and a translation of $(3, 0)$ applied to the origin. Predict the ending point for "rotate then translate" and for "translate then rotate" *before* computing. Then predict which order a robot should use to place a detection that was measured in a rotated camera frame. Confirm the two orders give different points.
 
 ## 8. Coding Exercise

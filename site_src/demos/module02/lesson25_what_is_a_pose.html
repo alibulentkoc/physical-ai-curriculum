@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Is a Pose? — Lesson 6.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:12px;color:var(--muted);display:block;margin:9px 0 4px} input[type=range]{width:100%}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:8px}
+  .cell{height:30px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .R{background:#e0f2fe;border-color:#bae6fd}.T{background:#dcfce7;border-color:#bbf7d0}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:10px;cursor:pointer}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap">
+  <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px"><b>Click the handle to grab it, move, then click again to drop</b> (or just move off the canvas). Then you can use the slider.<br><span style="color:#0e7490"><b>Try it:</b> drag the object to set its position, use the slider to rotate it, then tick the box to drop the rotation and see what a bare point loses.</span></div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <label>orientation θ</label><input type="range" id="th" min="0" max="360" step="1" value="40">
+    <div class="grid" id="grid"></div>
+    <label class="tog"><input type="checkbox" id="bare"> keep only the position (drop rotation)</label>
+    <div class="hint">A pose packs <span style="color:#15803d">position (translation column)</span> and <span style="color:#0369a1">orientation (rotation block)</span> into one matrix. Drop the rotation and you have a bare point — the gripper would know <i>where</i> to go but not <i>how</i> to face, so the grasp is undefined.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,s=42,svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  var pos=[2.0,1.6],th=40,hinted=false,grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [25+p[0]*s,210-p[1]*s];}
+  function render(){
+    var bare=document.getElementById("bare").checked;
+    var a=th*Math.PI/180,c=Math.cos(a),sn=Math.sin(a);
+    var g=document.getElementById("grid");g.innerHTML="";
+    var M=[c,-sn,pos[0], sn,c,pos[1], 0,0,1], cls=bare?["","","T","","","T","","",""]:["R","R","T","R","R","T","","",""];
+    M.forEach(function(v,i){var d=document.createElement("div");var isR=(i===0||i===1||i===3||i===4);
+      d.className="cell "+(bare&&isR?"":cls[i]); d.textContent=(bare&&isR)?"·":(Math.round(v*100)/100).toFixed(2);g.appendChild(d);});
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:10,y1:210,x2:W-8,y2:210,stroke:"#cbd5e1","stroke-width":1}));
+    svg.appendChild(el("line",{x1:25,y1:H-8,x2:25,y2:8,stroke:"#cbd5e1","stroke-width":1}));
+    var o=sv(pos);
+    if(!bare) svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:o[0]+34*c,y2:o[1]-34*sn,stroke:"#0d9488","stroke-width":3.5,"marker-end":"url(#ah)"}));
+    var hit=el("circle",{cx:o[0],cy:o[1],r:24,fill:"transparent"});hit.style.cursor="pointer";svg.appendChild(hit);
+    svg.appendChild(el("circle",{cx:o[0],cy:o[1],r:16,fill:"none",stroke:bare?"#94a3b8":"#0d9488","stroke-width":1.5,"stroke-dasharray":"3 3",opacity:.7}));
+    var bd=el("circle",{cx:o[0],cy:o[1],r:12,fill:bare?"#94a3b8":"#0d9488",opacity:.9});svg.appendChild(bd);
+    svg.appendChild(el("circle",{cx:o[0],cy:o[1],r:3,fill:"#fff"}));
+    if(bare){var bl=el("text",{x:o[0],y:o[1]+30,"font-size":10,fill:"#b91c1c","text-anchor":"middle"});bl.textContent="orientation lost";svg.appendChild(bl);}
+    if(!hinted){var hh=el("text",{x:o[0]+22,y:o[1]-16,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="↖ click to grab";svg.appendChild(hh);}
+    
+  }
+  document.getElementById("th").addEventListener("input",function(e){th=+e.target.value;render();});
+  document.getElementById("bare").addEventListener("change",render);
+  
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),h=sv(pos);if(Math.hypot(m[0]-h[0],m[1]-h[1])<30){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);pos[0]=Math.max(0.3,Math.min(4.7,(m[0]-25)/s));pos[1]=Math.max(0.3,Math.min(4,(210-m[1])/s));render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  render();
+})();</script></body></html>

@@ -35,6 +35,10 @@ Take the rotation $R(90°)=\begin{bmatrix}0&-1\\1&0\end{bmatrix}$. Apply to the 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson03_the_2x2_limit.html" title="The Limit We Hit in Module 1 interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson03_the_2x2_limit.html)
+
 *(Unit 2's translation-as-a-matrix demo shows the fix directly: switch from a 2×2 that can't move the origin to a homogeneous 3×3 that can.)*
 
 ## 8. Coding Exercise

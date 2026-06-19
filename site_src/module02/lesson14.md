@@ -36,6 +36,14 @@ A robot driving and turning on the floor, a sensor mounted at an offset and angl
   ![Rigid Motion in the Plane (Unit 3 Recap)](../assets/m02-l14-se2-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module02/lesson14_rigid_motion_recap.html" title="Rigid Motion in the Plane (Unit 3 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson14_rigid_motion_recap.html)
+
+Unit 3 in one tool: slide θ, t_x, t_y and watch a single SE(2) transform rigidly move the shape — heading and position together, lengths preserved.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

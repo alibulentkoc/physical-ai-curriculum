@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SE(3) Playground — Lesson 4.6</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 4px} input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>rotate about z</label><input type="range" id="th" min="0" max="360" step="1" value="35">
+    <label>t_x</label><input type="range" id="tx" min="0" max="1" step="0.02" value="0.5">
+    <label>t_z (height)</label><input type="range" id="tz" min="0" max="0.8" step="0.02" value="0.3">
+    <div class="readout" id="out"></div>
+    <div class="hint">Unit 4 in one tool: an SE(3) transform rigidly rotates and lifts the frame in 3D. Slide the controls and watch a real 3D rigid motion — orientation and position together, shape preserved.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=120,oy=205,s=80,C=Math.cos(Math.PI/6),Sn=Math.sin(Math.PI/6);
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var cube=[[0,0,0],[1,0,0],[1,1,0],[0,1,0]];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function iso(p){return [ox+(p[0]-p[1])*C*s, oy-(p[0]+p[1])*Sn*s-p[2]*s];}
+  function render(){
+    var th=+document.getElementById("th").value*Math.PI/180,tx=+document.getElementById("tx").value,tz=+document.getElementById("tz").value;
+    var c=Math.cos(th),sn=Math.sin(th);
+    function T(p){return [c*p[0]-sn*p[1]+tx, sn*p[0]+c*p[1], p[2]+tz];}
+    svg.innerHTML="";
+    var o=iso([0,0,0]),ax=iso([1.5,0,0]),ay=iso([0,1.5,0]),az=iso([0,0,1.2]);
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:ax[0],y2:ax[1],stroke:"#e2e8f0","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:ay[0],y2:ay[1],stroke:"#e2e8f0","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:az[0],y2:az[1],stroke:"#7c3aed","stroke-width":1.3}));
+    var op=cube.map(function(p){var k=iso(p);return k[0]+","+k[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:op,fill:"none",stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"4 3"}));
+    var tp=cube.map(function(p){var k=iso(T(p));return k[0]+","+k[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:tp,fill:"#0d948822",stroke:"#0d9488","stroke-width":2}));
+    out.innerHTML='SE(3): rotate '+Math.round(th*180/Math.PI)+'° about z<br>translate ('+tx.toFixed(2)+', 0, '+tz.toFixed(2)+')<br><span style="color:#64748b">rigid — lengths preserved</span>';
+  }
+  ["th","tx","tz"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

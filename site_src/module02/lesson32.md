@@ -33,6 +33,14 @@ This is the answer to the question that has driven the module: *how does a detec
   ![Camera-to-Robot Reasoning (Unit 7 Recap)](../assets/m02-l32-camera-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module02/lesson32_camera_to_robot_recap.html" title="Camera-to-Robot Reasoning (Unit 7 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson32_camera_to_robot_recap.html)
+
+Unit 7 in one tool: tune arm pose, extrinsics, and the detection, and watch a camera reading flow through the chain to a world target.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

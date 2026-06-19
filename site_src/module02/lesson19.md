@@ -35,6 +35,10 @@ $T$ has $R = R_z(90°)$ and $\mathbf{t} = (1, 0, 0)$. Apply to the point $(1, 0,
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module02/lesson19_applying_se3_inverses.html" title="Applying SE(3); Inverses in 3D interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module02/lesson19_applying_se3_inverses.html)
+
 **Guided prediction.** A frame is moved by an SE(3) transform $T$ (a 3D rotation, then a translation). Predict the order to undo it — which first, the rotation or the translation, and with what reversed values? Predict where a point lands after $T$ then $T^{-1}$. Confirm it returns exactly to start, and that every edge length is unchanged because SE(3) is rigid.
 
 ## 8. Coding Exercise
