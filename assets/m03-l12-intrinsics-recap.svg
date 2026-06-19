@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 230" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A flow: camera-frame point times K, then divide by Z, producing a pixel; K's four parameters labeled and a point on the optical axis landing at the principal point.">
+  <defs>
+    <marker id="ia" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:17px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12.5px;font-weight:700;fill:#334155}.k{font-size:12px;font-weight:800;fill:#0f766e}</style>
+  </defs>
+  <text x="350" y="26" text-anchor="middle" class="t">Intrinsics: project in pixels with K</text>
+  <rect x="30" y="70" width="140" height="60" rx="10" fill="#eef2f7" stroke="#cbd5e1"/><text x="100" y="105" text-anchor="middle" class="b">(X, Y, Z) camera</text>
+  <rect x="250" y="70" width="90" height="60" rx="10" fill="#eff6ff" stroke="#bfdbfe"/><text x="295" y="105" text-anchor="middle" class="b">× K</text>
+  <rect x="400" y="70" width="90" height="60" rx="10" fill="#fef9c3" stroke="#fde047"/><text x="445" y="105" text-anchor="middle" class="b">÷ Z</text>
+  <rect x="560" y="70" width="110" height="60" rx="10" fill="#0f172a"/><text x="615" y="105" text-anchor="middle" class="b" fill="#fff">pixel (u,v)</text>
+  <line x1="170" y1="100" x2="248" y2="100" stroke="#0f172a" stroke-width="1.8" marker-end="url(#ia)"/>
+  <line x1="340" y1="100" x2="398" y2="100" stroke="#0f172a" stroke-width="1.8" marker-end="url(#ia)"/>
+  <line x1="490" y1="100" x2="558" y2="100" stroke="#0f172a" stroke-width="1.8" marker-end="url(#ia)"/>
+  <text x="350" y="170" text-anchor="middle" class="k">K = [f_x,0,c_x ; 0,f_y,c_y ; 0,0,1]</text>
+  <text x="350" y="194" text-anchor="middle" class="c">u = f_x·X/Z + c_x.  Optical-axis point → principal point. K depends only on the camera.</text>
+</svg>

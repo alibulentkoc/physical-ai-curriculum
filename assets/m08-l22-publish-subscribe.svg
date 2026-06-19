@@ -1,0 +1,35 @@
+<svg viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A topic graph for the control loop: a sensor node publishing to a topic box joint slash state, a controller node subscribing to joint slash state and publishing to a topic box joint slash command, an actuator node subscribing to joint slash command, and a dashed logger node also subscribing to joint slash state to show decoupling; nodes are circles, topics are labelled rounded boxes, and publish and subscribe arrows are distinguished">
+<title>A topic graph for the control loop: a sensor node publishing to a topic box joint slash state, a controller node subscribing to joint slash state and publishing to a topic box joint slash command, an actuator node subscribing to joint slash command, and a dashed logger node also subscribing to joint slash state to show decoupling; nodes are circles, topics are labelled rounded boxes, and publish and subscribe arrows are distinguished</title>
+<rect width="680" height="400" fill="white"/>
+<defs><marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#64748b"/></marker><marker id="ahs" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#0ea5e9"/></marker><marker id="ahe" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#10b981"/></marker></defs>
+<text x="230" y="24" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="15" font-weight="650" fill="#0f172a">Publish / subscribe: nodes, topics, messages</text>
+<rect x="130" y="130" width="140" height="40" rx="10" fill="#f8fafc" stroke="#0d9488" stroke-width="1.8"/>
+<text x="200" y="155" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" font-weight="700" fill="#0d9488">joint/state</text>
+<rect x="410" y="130" width="140" height="40" rx="10" fill="#f8fafc" stroke="#0d9488" stroke-width="1.8"/>
+<text x="480" y="155" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" font-weight="700" fill="#0d9488">joint/command</text>
+<circle cx="60" cy="150" r="30" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8"/>
+<text x="60" y="154" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10.5" font-weight="600" fill="#0f172a">Sensor</text>
+<circle cx="340" cy="150" r="30" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8"/>
+<text x="340" y="154" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10.5" font-weight="600" fill="#0f172a">Control</text>
+<circle cx="620" cy="150" r="30" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8"/>
+<text x="620" y="154" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10.5" font-weight="600" fill="#0f172a">Actuator</text>
+<circle cx="200" cy="300" r="30" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8"/>
+<text x="200" y="304" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10.5" font-weight="600" fill="#0f172a">Logger</text>
+<line x1="90" y1="150" x2="128" y2="150" stroke="#0ea5e9" stroke-width="2.0" marker-end="url(#ahs)"/>
+<text x="110" y="140" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="8" font-weight="600" fill="#0ea5e9">pub</text>
+<line x1="270" y1="150" x2="308" y2="150" stroke="#10b981" stroke-width="2.0" marker-end="url(#ahe)"/>
+<text x="290" y="140" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="8" font-weight="600" fill="#10b981">sub</text>
+<line x1="372" y1="150" x2="408" y2="150" stroke="#0ea5e9" stroke-width="2.0" marker-end="url(#ahs)"/>
+<text x="390" y="140" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="8" font-weight="600" fill="#0ea5e9">pub</text>
+<line x1="550" y1="150" x2="588" y2="150" stroke="#10b981" stroke-width="2.0" marker-end="url(#ahe)"/>
+<text x="570" y="140" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="8" font-weight="600" fill="#10b981">sub</text>
+<line x1="200" y1="272" x2="200" y2="172" stroke="#64748b" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+<text x="214" y="230" text-anchor="start" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="600" fill="#64748b">sub (added freely)</text>
+<text x="340" y="210" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10.5" font-weight="600" fill="#0f172a">nodes never reference each other — the topic mediates (decoupling)</text>
+<rect x="170" y="330" width="340" height="40" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.4"/>
+<text x="340" y="355" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10.5" font-weight="600" fill="#64748b">a pattern, not a framework — ROS 2 (Unit 8) is one implementation</text>
+<line x1="40" y1="360" x2="70" y2="360" stroke="#0ea5e9" stroke-width="2.0" marker-end="url(#ahs)"/>
+<text x="78" y="364" text-anchor="start" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="600" fill="#0ea5e9">publish</text>
+<line x1="40" y1="378" x2="70" y2="378" stroke="#10b981" stroke-width="2.0" marker-end="url(#ahe)"/>
+<text x="78" y="382" text-anchor="start" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="600" fill="#10b981">subscribe</text>
+</svg>

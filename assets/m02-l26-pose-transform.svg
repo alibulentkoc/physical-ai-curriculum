@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Gripper pose in base composed with base pose in world gives gripper pose in world; a point in the gripper frame is carried out to the world.">
+  <defs>
+    <marker id="pc" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0f766e"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.l{font-size:12px;font-weight:700;fill:#334155}.k{font-size:12px;font-weight:800;fill:#0f766e}</style>
+  </defs>
+  <text x="340" y="26" text-anchor="middle" class="t">A pose is a transform — so poses compose</text>
+  <g class="l" text-anchor="middle">
+    <circle cx="120" cy="160" r="34" fill="#0d948822" stroke="#0d9488"/><text x="120" y="164">world</text>
+    <circle cx="340" cy="160" r="34" fill="#1d4ed822" stroke="#1d4ed8"/><text x="340" y="164">base</text>
+    <circle cx="560" cy="160" r="34" fill="#e11d4822" stroke="#e11d48"/><text x="560" y="164">gripper</text>
+  </g>
+  <line x1="526" y1="160" x2="376" y2="160" stroke="#0f766e" stroke-width="2.4" marker-end="url(#pc)"/>
+  <text x="451" y="148" text-anchor="middle" class="c">gripper pose in base</text>
+  <line x1="306" y1="160" x2="156" y2="160" stroke="#0f766e" stroke-width="2.4" marker-end="url(#pc)"/>
+  <text x="231" y="148" text-anchor="middle" class="c">base pose in world</text>
+  <rect x="150" y="240" width="380" height="34" rx="9" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="340" y="262" text-anchor="middle" class="k">T(world←gripper) = T(world←base) · T(base←gripper)</text>
+  <text x="340" y="300" text-anchor="middle" class="c">A point in the gripper frame becomes a world point by applying the gripper's world pose.</text>
+</svg>

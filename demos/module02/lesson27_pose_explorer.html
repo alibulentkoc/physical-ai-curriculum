@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pose Explorer — Lesson 6.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--x:#e11d48;--head:#1d4ed8;--teal:#0d9488;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 340px;min-width:300px}
+  .panel{flex:1 1 250px;min-width:240px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  label{font-size:12.5px;color:var(--muted);display:block;margin-top:9px}
+  input[type=range]{width:100%}
+  .mtx{display:inline-grid;grid-template-columns:auto auto auto;gap:2px 10px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);padding:5px 9px;font-variant-numeric:tabular-nums;font-weight:700;margin-top:8px;font-size:12px}
+  .mtx .r{color:#0284c7}.mtx .tt{color:var(--teal)}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13px;margin-top:10px}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px}
+  .seg{display:flex;gap:6px;margin-top:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px;font-size:12px;font-weight:700;cursor:pointer}
+  .seg button.on{background:#0f172a;color:#fff;border-color:#0f172a}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 360 320" role="img" aria-label="A 2D robot pose shown as a frame (position dot and heading arrow) on the floor. Sliders set position and heading; a move button composes a motion onto the pose; the live SE(2) matrix is shown.">
+        <line x1="20" y1="240" x2="345" y2="240" stroke="#e2e8f0"/>
+        <line x1="80" y1="20" x2="80" y2="300" stroke="#e2e8f0"/>
+        <circle cx="80" cy="240" r="3.5" fill="#0f172a"/><text x="58" y="256" font-size="10" fill="#64748b">origin</text>
+        <g id="ghost"></g>
+        <g id="robot"></g>
+      </svg>
+      <div class="hint">The frame's dot is its position; the arrow is its heading. "Move (robot frame)" composes a forward+turn onto the current pose.</div>
+    </div>
+    <div class="panel">
+      <label>x: <span id="xV">2.0</span></label><input id="x" type="range" min="0" max="3.4" step="0.1" value="2">
+      <label>y: <span id="yV">1.0</span></label><input id="y" type="range" min="0" max="2.2" step="0.1" value="1">
+      <label>heading θ: <span id="thV">0</span>°</label><input id="th" type="range" min="0" max="360" value="0">
+      <div>pose T = <span class="mtx" id="mtx"></span></div>
+      <div class="readout" aria-live="polite" id="msg"></div>
+      <button id="move" class="btn">Move (robot frame): forward 0.8, turn 30°</button>
+      <button id="reset" class="btn">Reset</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var OX=80,OY=240,S=70;
+  var x=2,y=1,th=0;
+  function se2(d,tx,ty){var a=d*Math.PI/180,c=Math.cos(a),s=Math.sin(a);return [[c,-s,tx],[s,c,ty],[0,0,1]];}
+  function mul(A,B){var R=[[0,0,0],[0,0,0],[0,0,1]];for(var i=0;i<3;i++)for(var j=0;j<3;j++){R[i][j]=0;for(var k=0;k<3;k++)R[i][j]+=A[i][k]*B[k][j];}return R;}
+  function frameSVG(px,py,ang,colArrow,colDot,dash){
+    var a=ang*Math.PI/180, L=0.5;
+    var hx=px+Math.cos(a)*L, hy=py+Math.sin(a)*L;
+    var sx=OX+px*S, sy=OY-py*S, ex=OX+hx*S, ey=OY-hy*S;
+    return '<line x1="'+sx+'" y1="'+sy+'" x2="'+ex+'" y2="'+ey+'" stroke="'+colArrow+'" stroke-width="3"'+(dash?' stroke-dasharray="4 3"':'')+' marker-end="url(#hd)"/>'+
+           '<circle cx="'+sx+'" cy="'+sy+'" r="4.5" fill="'+colDot+'"/>';
+  }
+  function draw(){
+    document.getElementById('xV').textContent=(+x).toFixed(1);
+    document.getElementById('yV').textContent=(+y).toFixed(1);
+    document.getElementById('thV').textContent=Math.round(th);
+    document.getElementById('robot').innerHTML='<defs><marker id="hd" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1d4ed8"/></marker></defs>'+frameSVG(x,y,th,'#1d4ed8','#0f172a',false);
+    var c=Math.cos(th*Math.PI/180), s=Math.sin(th*Math.PI/180);
+    function f(v){return (v>=0?' ':'')+v.toFixed(2);}
+    document.getElementById('mtx').innerHTML =
+      '<span class="r">'+f(c)+'</span><span class="r">'+f(-s)+'</span><span class="tt">'+f(x)+'</span>'+
+      '<span class="r">'+f(s)+'</span><span class="r">'+f(c)+'</span><span class="tt">'+f(y)+'</span>'+
+      '<span>0</span><span>0</span><span>1</span>';
+    document.getElementById('msg').innerHTML='Reading the pose: position = ('+(+x).toFixed(1)+', '+(+y).toFixed(1)+') (teal column), heading = '+Math.round(th)+'° (rotation block).';
+  }
+  document.getElementById('x').addEventListener('input',function(){x=+this.value;draw();});
+  document.getElementById('y').addEventListener('input',function(){y=+this.value;draw();});
+  document.getElementById('th').addEventListener('input',function(){th=+this.value;draw();});
+  document.getElementById('move').addEventListener('click',function(){
+    // right-multiply a robot-frame motion: forward 0.8 along local x, then turn 30
+    var T=se2(th,x,y);
+    var d=mul(se2(0,0.8,0), [[1,0,0],[0,1,0],[0,0,1]]); // translate forward in local x
+    d=mul([[1,0,0],[0,1,0],[0,0,1]],d);
+    var step=mul(se2(0,0.8,0),se2(0,0,0)); // forward 0.8
+    var turn=se2(30,0,0);
+    var Tnew=mul(mul(T,step),turn);
+    x=Tnew[0][2]; y=Tnew[1][2]; th=(Math.atan2(Tnew[1][0],Tnew[0][0])*180/Math.PI+360)%360;
+    document.getElementById('x').value=Math.max(0,Math.min(3.4,x));
+    document.getElementById('y').value=Math.max(0,Math.min(2.2,y));
+    document.getElementById('th').value=th;
+    draw();
+  });
+  document.getElementById('reset').addEventListener('click',function(){x=2;y=1;th=0;document.getElementById('x').value=2;document.getElementById('y').value=1;document.getElementById('th').value=0;draw();});
+  draw();
+})();
+</script>
+</body>
+</html>

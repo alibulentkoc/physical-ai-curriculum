@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Left: rotation, scaling, reflection all keep the origin fixed. Right: translation moves the origin, which no 2x2 matrix can do.">
+  <defs>
+    <marker id="t1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:17px;font-weight:700;fill:#0f172a}.l{font-size:12.5px;font-weight:700}.c{font-size:11.5px;fill:#64748b}.tag{font-size:12px;font-weight:700;fill:#b91c1c}</style>
+  </defs>
+  <text x="340" y="26" text-anchor="middle" class="t">2×2 matrices fix the origin — translation moves it</text>
+  <!-- left: origin fixed -->
+  <rect x="40" y="50" width="280" height="240" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="180" y="74" text-anchor="middle" class="l" fill="#334155">rotate / scale / reflect</text>
+  <line x1="60" y1="240" x2="300" y2="240" stroke="#cbd5e1"/><line x1="180" y1="100" x2="180" y2="280" stroke="#cbd5e1"/>
+  <rect x="180" y="170" width="70" height="50" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <g transform="rotate(-35 180 240)"><rect x="180" y="180" width="70" height="50" fill="#0ea5e922" stroke="#0ea5e9" stroke-width="2"/></g>
+  <circle cx="180" cy="240" r="5" fill="#0f172a"/><text x="150" y="262" class="c">origin fixed</text>
+  <!-- right: translation moves origin -->
+  <rect x="360" y="50" width="280" height="240" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="500" y="74" text-anchor="middle" class="l" fill="#334155">translate</text>
+  <line x1="380" y1="240" x2="620" y2="240" stroke="#cbd5e1"/><line x1="430" y1="100" x2="430" y2="280" stroke="#cbd5e1"/>
+  <rect x="430" y="180" width="70" height="50" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="530" y="150" width="70" height="50" fill="#0ea5e922" stroke="#0ea5e9" stroke-width="2"/>
+  <circle cx="430" cy="240" r="5" fill="#0f172a"/>
+  <line x1="430" y1="240" x2="540" y2="200" stroke="#0f172a" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#t1)"/>
+  <circle cx="540" cy="200" r="5" fill="#e11d48"/><text x="548" y="196" class="c">origin moved</text>
+  <text x="500" y="270" text-anchor="middle" class="tag">no 2×2 matrix can do this</text>
+  <text x="340" y="314" text-anchor="middle" class="c">M(0,0) = (0,0) for every 2×2 M — but a translation must send (0,0) somewhere new.</text>
+</svg>

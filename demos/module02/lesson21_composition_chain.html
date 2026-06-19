@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composition Chain — Lesson 5.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--accent:#0ea5e9;--teal:#0d9488;--warn:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 340px;min-width:300px}
+  .panel{flex:1 1 250px;min-width:240px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  label{font-size:12.5px;color:var(--muted);display:block;margin-top:9px}
+  input[type=range]{width:100%}
+  .seg{display:flex;gap:6px;margin-top:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .seg button.on{background:#0f172a;color:#fff;border-color:#0f172a}
+  .mtx{display:inline-grid;grid-template-columns:auto auto auto;gap:2px 10px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);padding:5px 9px;font-variant-numeric:tabular-nums;font-weight:700;margin-top:8px;font-size:12px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13px;margin-top:10px}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 360 320" role="img" aria-label="A shape transformed by a chain of two SE(2) transforms T1 then T2. The net motion equals applying them in sequence; an order toggle swaps T2 T1 versus T1 T2 to show different results.">
+        <line x1="30" y1="230" x2="345" y2="230" stroke="#e2e8f0"/>
+        <line x1="110" y1="30" x2="110" y2="300" stroke="#e2e8f0"/>
+        <circle cx="110" cy="230" r="3.5" fill="#0f172a"/>
+        <polygon id="ghost" points="" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <polygon id="mid" points="" fill="none" stroke="#0ea5e9" stroke-width="1.4" stroke-dasharray="2 3" opacity="0.7"/>
+        <polygon id="shape" points="" fill="#0d948833" stroke="#0d9488" stroke-width="2"/>
+      </svg>
+      <div class="hint">Dashed grey = start · faint blue = after the first transform · solid teal = after the chain.</div>
+    </div>
+    <div class="panel">
+      <div><b>T1</b></div>
+      <label>θ₁: <span id="th1V">90</span>°</label><input id="th1" type="range" min="0" max="360" value="90">
+      <label>t1 x: <span id="t1xV">0.0</span></label><input id="t1x" type="range" min="-2" max="2" step="0.1" value="0">
+      <div style="margin-top:8px"><b>T2</b></div>
+      <label>θ₂: <span id="th2V">0</span>°</label><input id="th2" type="range" min="0" max="360" value="0">
+      <label>t2 x: <span id="t2xV">2.0</span></label><input id="t2x" type="range" min="-2" max="2" step="0.1" value="2">
+      <div class="seg">
+        <button id="o1" class="on">T2·T1 (T1 first)</button>
+        <button id="o2">T1·T2 (T2 first)</button>
+      </div>
+      <div>combined = <span class="mtx" id="mtx"></span></div>
+      <div class="readout" aria-live="polite" id="msg"></div>
+      <button id="reset" class="btn">Reset</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var OX=110,OY=230,S=42;
+  var base=[[0.3,0.3],[1.6,0.3],[1.6,1.1],[0.3,1.1]];
+  var th1=90,t1x=0,th2=0,t2x=2,order='21';
+  function se2(d,tx,ty){var a=d*Math.PI/180,c=Math.cos(a),s=Math.sin(a);return [[c,-s,tx],[s,c,ty],[0,0,1]];}
+  function mul(A,B){var R=[[0,0,0],[0,0,0],[0,0,1]];for(var i=0;i<3;i++)for(var j=0;j<3;j++){R[i][j]=0;for(var k=0;k<3;k++)R[i][j]+=A[i][k]*B[k][j];}return R;}
+  function ap(M,p){return [M[0][0]*p[0]+M[0][1]*p[1]+M[0][2], M[1][0]*p[0]+M[1][1]*p[1]+M[1][2]];}
+  function P(p){return (OX+p[0]*S)+','+(OY-p[1]*S);}
+  function draw(){
+    document.getElementById('th1V').textContent=th1;document.getElementById('t1xV').textContent=(+t1x).toFixed(1);
+    document.getElementById('th2V').textContent=th2;document.getElementById('t2xV').textContent=(+t2x).toFixed(1);
+    var T1=se2(th1,t1x,0), T2=se2(th2,t2x,0);
+    var C = order==='21'? mul(T2,T1) : mul(T1,T2);
+    var first = order==='21'? T1 : T2;
+    document.getElementById('ghost').setAttribute('points', base.map(P).join(' '));
+    document.getElementById('mid').setAttribute('points', base.map(function(p){return P(ap(first,p));}).join(' '));
+    document.getElementById('shape').setAttribute('points', base.map(function(p){return P(ap(C,p));}).join(' '));
+    function f(x){return (x>=0?' ':'')+x.toFixed(2);}
+    document.getElementById('mtx').innerHTML =
+      '<span>'+f(C[0][0])+'</span><span>'+f(C[0][1])+'</span><span>'+f(C[0][2])+'</span>'+
+      '<span>'+f(C[1][0])+'</span><span>'+f(C[1][1])+'</span><span>'+f(C[1][2])+'</span>'+
+      '<span>0</span><span>0</span><span>1</span>';
+    document.getElementById('msg').innerHTML = (order==='21'
+      ? 'Applying <b>T1 first</b>, then T2: combined = T2·T1.'
+      : 'Applying <b>T2 first</b>, then T1: combined = T1·T2.')+' Swap the order and the solid shape generally lands elsewhere — composition is non-commutative.';
+  }
+  function setOrder(o){order=o;document.getElementById('o1').classList.toggle('on',o==='21');document.getElementById('o2').classList.toggle('on',o==='12');draw();}
+  ['th1','t1x','th2','t2x'].forEach(function(id){document.getElementById(id).addEventListener('input',function(){th1=+document.getElementById('th1').value;t1x=+document.getElementById('t1x').value;th2=+document.getElementById('th2').value;t2x=+document.getElementById('t2x').value;draw();});});
+  document.getElementById('o1').addEventListener('click',function(){setOrder('21');});
+  document.getElementById('o2').addEventListener('click',function(){setOrder('12');});
+  document.getElementById('reset').addEventListener('click',function(){th1=90;t1x=0;th2=0;t2x=2;document.getElementById('th1').value=90;document.getElementById('t1x').value=0;document.getElementById('th2').value=0;document.getElementById('t2x').value=2;setOrder('21');});
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<svg viewBox="0 0 520 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Uniform time scaling: the path is unchanged while peak speed shrinks by 1 over k and peak acceleration by 1 over k squared, dropping under the limit">
+<title>Uniform time scaling: the path is unchanged while peak speed shrinks by 1 over k and peak acceleration by 1 over k squared, dropping under the limit</title>
+<rect width="520" height="270" fill="white"/>
+<text x="260" y="24" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="14" font-weight="650" fill="#0f172a">Slowing down: path unchanged, peaks shrink</text>
+<!-- left: path vs s (one curve) -->
+<text x="140" y="48" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" font-weight="600" fill="#0d9488">path q(s) — unchanged</text>
+<rect x="40" y="58" width="200" height="150" fill="#f8fafc" stroke="#e2e8f0"/>
+<path d="M 40.0 208.0 L 42.5 208.0 L 45.1 208.0 L 47.6 207.9 L 50.1 207.8 L 52.7 207.7 L 55.2 207.4 L 57.7 207.1 L 60.3 206.7 L 62.8 206.1 L 65.3 205.5 L 67.8 204.7 L 70.4 203.9 L 72.9 202.9 L 75.4 201.7 L 78.0 200.4 L 80.5 199.0 L 83.0 197.5 L 85.6 195.8 L 88.1 193.9 L 90.6 192.0 L 93.2 189.9 L 95.7 187.6 L 98.2 185.3 L 100.8 182.8 L 103.3 180.2 L 105.8 177.5 L 108.4 174.6 L 110.9 171.7 L 113.4 168.7 L 115.9 165.5 L 118.5 162.3 L 121.0 159.1 L 123.5 155.7 L 126.1 152.3 L 128.6 148.9 L 131.1 145.4 L 133.7 141.9 L 136.2 138.3 L 138.7 134.8 L 141.3 131.2 L 143.8 127.7 L 146.3 124.1 L 148.9 120.6 L 151.4 117.1 L 153.9 113.7 L 156.5 110.3 L 159.0 106.9 L 161.5 103.7 L 164.1 100.5 L 166.6 97.3 L 169.1 94.3 L 171.6 91.4 L 174.2 88.5 L 176.7 85.8 L 179.2 83.2 L 181.8 80.7 L 184.3 78.4 L 186.8 76.1 L 189.4 74.0 L 191.9 72.1 L 194.4 70.2 L 197.0 68.5 L 199.5 67.0 L 202.0 65.6 L 204.6 64.3 L 207.1 63.1 L 209.6 62.1 L 212.2 61.3 L 214.7 60.5 L 217.2 59.9 L 219.7 59.3 L 222.3 58.9 L 224.8 58.6 L 227.3 58.3 L 229.9 58.2 L 232.4 58.1 L 234.9 58.0 L 237.5 58.0 L 240.0 58.0" fill="none" stroke="#0d9488" stroke-width="3"/>
+<text x="140" y="224" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" font-weight="400" fill="#64748b">same geometry for any T</text>
+<!-- right: peak bars fast vs stretched -->
+<text x="380" y="48" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" font-weight="600" fill="#64748b">peaks: fast vs ×k slower</text>
+<rect x="280" y="58" width="200" height="150" fill="#f8fafc" stroke="#e2e8f0"/>
+<line x1="290" y1="120" x2="470" y2="120" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5 3"/>
+<text x="474" y="116" text-anchor="end" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="400" fill="#64748b">limit</text>
+<rect x="310" y="74" width="34" height="120" fill="#b91c1c"/><text x="327" y="206" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="400" fill="#64748b">v fast</text>
+<rect x="354" y="146" width="34" height="48" fill="#10b981"/><text x="371" y="206" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="400" fill="#64748b">v ÷k</text>
+<rect x="408" y="100" width="34" height="94" fill="#10b981"/><text x="425" y="206" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="400" fill="#64748b">a ÷k²</text>
+<text x="380" y="70" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="400" fill="#10b981">v÷k, a÷k² ↓ under limit</text>
+</svg>

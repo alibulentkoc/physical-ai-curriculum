@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DH Parameters Explorer — Lesson 5.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--z:#0d9488;--x:#dc2626;--var:#7c3aed;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:780px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .panel{flex:1 1 230px;min-width:230px}
+  .out{flex:1 1 320px;min-width:300px}
+  label{font-size:12px;color:var(--muted);display:block;margin-top:10px}
+  input[type=range]{width:100%}
+  .mat{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre;overflow-x:auto;font-variant-numeric:tabular-nums}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;margin-top:12px;line-height:1.6}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  .th{color:var(--var);font-weight:800}.aa{color:var(--x);font-weight:800}.zz{color:var(--z);font-weight:800}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="panel">
+      <label><span class="th">θ</span> — rotate about z (joint angle): <span id="tV">30</span>°</label><input id="t" type="range" min="-180" max="180" step="1" value="30">
+      <label><span class="zz">d</span> — slide along z (offset): <span id="dV">0.00</span> m</label><input id="d" type="range" min="0" max="0.5" step="0.01" value="0">
+      <label><span class="aa">a</span> — length along x (link length): <span id="aV">0.40</span> m</label><input id="a" type="range" min="0" max="0.6" step="0.01" value="0.40">
+      <label><span class="aa">α</span> — twist about x: <span id="alV">0</span>°</label><input id="al" type="range" min="-180" max="180" step="1" value="0">
+      <button id="reset" class="btn">Reset to planar (d=0, α=0)</button>
+      <div class="hint">θ is the joint variable for a revolute joint; d for a prismatic joint. Two parameters act about the joint's z-axis (θ, d), two about the link's x-axis (a, α). Watch the transform T = Rot_z(θ)·Trans_z(d)·Trans_x(a)·Rot_x(α) update.</div>
+    </div>
+    <div class="out">
+      <div class="mat" id="mat" aria-live="polite"></div>
+      <div class="readout" id="msg"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  function val(id){return +document.getElementById(id).value;}
+  function fmt(x){var v=Math.abs(x)<1e-9?0:x; return (v>=0?' ':'')+v.toFixed(3);}
+  function matmul(A,B){var C=[];for(var i=0;i<4;i++){C[i]=[];for(var j=0;j<4;j++){var s=0;for(var k=0;k<4;k++)s+=A[i][k]*B[k][j];C[i][j]=s;}}return C;}
+  function I(){return [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]];}
+  function rotz(t){var c=Math.cos(t),s=Math.sin(t);return [[c,-s,0,0],[s,c,0,0],[0,0,1,0],[0,0,0,1]];}
+  function transz(d){var T=I();T[2][3]=d;return T;}
+  function transx(a){var T=I();T[0][3]=a;return T;}
+  function rotx(al){var c=Math.cos(al),s=Math.sin(al);return [[1,0,0,0],[0,c,-s,0],[0,s,c,0],[0,0,0,1]];}
+  function draw(){
+    var td=val('t'), d=val('d'), a=val('a'), ald=val('al');
+    var t=td*Math.PI/180, al=ald*Math.PI/180;
+    document.getElementById('tV').textContent=td;
+    document.getElementById('dV').textContent=d.toFixed(2);
+    document.getElementById('aV').textContent=a.toFixed(2);
+    document.getElementById('alV').textContent=ald;
+    var T=matmul(matmul(matmul(rotz(t),transz(d)),transx(a)),rotx(al));
+    var rows=[];
+    for(var i=0;i<4;i++){rows.push(T[i].map(fmt).join('  '));}
+    document.getElementById('mat').textContent='T = Rot_z(θ)·Trans_z(d)·Trans_x(a)·Rot_x(α) =\n\n'+rows.join('\n');
+    var planar=(Math.abs(d)<1e-9 && Math.abs(ald)<1e-9);
+    document.getElementById('msg').innerHTML =
+      'translation (last column) = ('+fmt(T[0][3])+','+fmt(T[1][3])+','+fmt(T[2][3])+') m<br>'+
+      (planar ? 'd=0, α=0 → this reduces to the <b>planar transform</b> R_z(θ)·Trans_x(a).'
+              : 'nonzero d or α → a genuine 3-D link transform.');
+  }
+  ['t','d','a','al'].forEach(function(id){document.getElementById(id).addEventListener('input',draw);});
+  document.getElementById('reset').addEventListener('click',function(){
+    document.getElementById('d').value=0; document.getElementById('al').value=0; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

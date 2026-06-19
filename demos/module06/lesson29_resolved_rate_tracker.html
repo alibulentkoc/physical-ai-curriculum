@@ -1,0 +1,168 @@
+<div id="rt-root">
+<style>
+  #rt-root{--bg:#0f172a;--panel:#13203a;--ink:#e2e8f0;--muted:#94a3b8;
+    --s1:#34d399;--s2:#f43f5e;--vel:#38bdf8;--cmd:#fbbf24;--path:#7c3aed;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+    background:var(--bg);border-radius:12px;padding:16px;max-width:760px;box-sizing:border-box}
+  #rt-root *{box-sizing:border-box}
+  #rt-root h3{margin:0 0 2px;font-size:16px;font-weight:650}
+  #rt-root .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px}
+  #rt-wrap{display:flex;gap:16px;flex-wrap:wrap}
+  #rt-canvas{background:var(--panel);border-radius:10px;flex:1 1 430px;min-width:300px;touch-action:none}
+  #rt-side{flex:1 1 225px;min-width:215px;display:flex;flex-direction:column;gap:9px}
+  #rt-root .ctl{display:flex;align-items:center;gap:8px;font-size:12.5px}
+  #rt-root .ctl label{width:54px;color:var(--muted)}
+  #rt-root input[type=range]{flex:1}
+  #rt-root .val{width:42px;text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #rt-root .btns{display:flex;gap:6px;flex-wrap:wrap}
+  #rt-root button{background:#1e293b;color:var(--ink);border:1px solid #334155;border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+  #rt-root button[aria-pressed=true]{background:#334155;border-color:#64748b}
+  #rt-root button.go{background:#1d4ed8;border-color:#2563eb}
+  #rt-root .panel{background:var(--panel);border-radius:8px;padding:10px 12px;font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #rt-root .barrow{display:flex;align-items:center;gap:7px;margin:3px 0}
+  #rt-root .barrow .lab{width:30px;color:var(--muted)}
+  #rt-root .track{flex:1;height:12px;background:#1e293b;border-radius:3px;overflow:hidden}
+  #rt-root .track>span{display:block;height:100%}
+  #rt-root .num{width:54px;text-align:right}
+  #rt-warn{min-height:16px;font-size:12px;font-weight:600;margin-top:4px}
+  #rt-root .legend{font-size:11px;color:var(--muted);line-height:1.6}
+</style>
+
+  <h3>Capstone: Analyzer + Resolved-Rate Tracker</h3>
+  <div class="sub">Set a commanded tool velocity, press <b>Play</b>, and the velocity layer resolves it
+  into joint rates and integrates them <b>open-loop</b>. The analyzer reports σ, w, κ and flags
+  singularities live; <b>scheduled damping</b> keeps the joint rates bounded when the arm runs into
+  one. (Velocity command only — no target tracking, no feedback: that's Modules 7–8.)</div>
+
+  <div id="rt-wrap">
+    <canvas id="rt-canvas" width="430" height="400" aria-label="2R arm tracking a commanded tool velocity"></canvas>
+    <div id="rt-side">
+      <div class="ctl"><label>speed</label><input id="rsp" type="range" min="0" max="100" value="45"><span class="val" id="rspv"></span></div>
+      <div class="ctl"><label>direction</label><input id="rdir" type="range" min="-180" max="180" value="20"><span class="val" id="rdirv"></span></div>
+      <div class="btns">
+        <button id="rplay" class="go">Play</button>
+        <button id="rreset">Reset</button>
+        <button id="rdamp" aria-pressed="true">damping</button>
+      </div>
+      <div class="panel">
+        <div class="barrow"><span class="lab" style="color:var(--s1)">σ₁</span><span class="track"><span id="rb1" style="background:var(--s1)"></span></span><span class="num" id="rn1"></span></div>
+        <div class="barrow"><span class="lab" style="color:var(--s2)">σ₂</span><span class="track"><span id="rb2" style="background:var(--s2)"></span></span><span class="num" id="rn2"></span></div>
+        <div id="rmet"></div>
+        <div id="rt-warn"></div>
+      </div>
+      <div class="legend">
+        <span style="color:var(--cmd)">▮</span> commanded velocity &nbsp; <span style="color:var(--vel)">▮</span> ellipse<br>
+        <span style="color:var(--path)">▮</span> tool path (open-loop)
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var cv=document.getElementById('rt-canvas'), ctx=cv.getContext('2d');
+  var L=[1,1], q0=[Math.PI*0.18, Math.PI*0.5];
+  var q=q0.slice(), playing=false, damp=true, path=[], raf=null;
+  function val(id){return +document.getElementById(id).value;}
+  function tip(qq){
+    var j1={x:L[0]*Math.cos(qq[0]),y:L[0]*Math.sin(qq[0])};
+    var t={x:j1.x+L[1]*Math.cos(qq[0]+qq[1]),y:j1.y+L[1]*Math.sin(qq[0]+qq[1])};
+    return {j1:j1,t:t};
+  }
+  function jac(qq){var g=tip(qq);return [[-(g.t.y-0),-(g.t.y-g.j1.y)],[(g.t.x-0),(g.t.x-g.j1.x)]];}
+  function svd2(J){
+    var a=J[0][0],b=J[0][1],c=J[1][0],d=J[1][1];
+    var m00=a*a+c*c,m01=a*b+c*d,m11=b*b+d*d,tr=m00+m11,det=m00*m11-m01*m01;
+    var disc=Math.sqrt(Math.max(tr*tr-4*det,0));
+    var s1=Math.sqrt(Math.max((tr+disc)/2,0)),s2=Math.sqrt(Math.max((tr-disc)/2,0));
+    var v1=Math.abs(m01)>1e-9?[(tr+disc)/2-m11,m01]:(m00>=m11?[1,0]:[0,1]);
+    var n=Math.hypot(v1[0],v1[1])||1;v1=[v1[0]/n,v1[1]/n];
+    var u1=[a*v1[0]+b*v1[1],c*v1[0]+d*v1[1]];var nu=Math.hypot(u1[0],u1[1])||1;u1=[u1[0]/nu,u1[1]/nu];
+    return {s1:s1,s2:s2,u1:u1,u2:[-u1[1],u1[0]]};
+  }
+  // damped resolve: q̇ = J^T (JJ^T + lam^2 I)^-1 xi  (2x2)
+  function resolve(J,xi,lam2){
+    var a=J[0][0],b=J[0][1],c=J[1][0],d=J[1][1];
+    // M = J J^T + lam2 I
+    var M00=a*a+b*b+lam2, M01=a*c+b*d, M11=c*c+d*d+lam2;
+    var det=M00*M11-M01*M01; if(Math.abs(det)<1e-12)det=1e-12;
+    var iM00=M11/det,iM01=-M01/det,iM11=M00/det;
+    // w = M^-1 xi
+    var w0=iM00*xi[0]+iM01*xi[1], w1=iM01*xi[0]+iM11*xi[1];
+    // q̇ = J^T w
+    return [a*w0+c*w1, b*w0+d*w1];
+  }
+  function sched(s2){var eps=0.12,lmax=0.12; if(s2>=eps)return 0; return (1-(s2/eps)*(s2/eps))*lmax*lmax;}
+
+  var ox=cv.width*0.40, oy=cv.height*0.60, S=80;
+  function P(p){return {x:ox+p.x*S,y:oy-p.y*S};}
+  function draw(){
+    var W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#1e293b';ctx.lineWidth=1;
+    for(var g=0;g<=W;g+=40){ctx.beginPath();ctx.moveTo(g,0);ctx.lineTo(g,H);ctx.stroke();}
+    for(var g=0;g<=H;g+=40){ctx.beginPath();ctx.moveTo(0,g);ctx.lineTo(W,g);ctx.stroke();}
+    var gm=tip(q),o=P({x:0,y:0}),j1=P(gm.j1),t=P(gm.t);
+    // path
+    if(path.length>1){ctx.strokeStyle='#7c3aed';ctx.lineWidth=2;ctx.beginPath();
+      for(var i=0;i<path.length;i++){var pp=P(path[i]);if(i===0)ctx.moveTo(pp.x,pp.y);else ctx.lineTo(pp.x,pp.y);}ctx.stroke();}
+    // arm
+    ctx.lineWidth=6;ctx.lineCap='round';ctx.strokeStyle='#94a3b8';
+    ctx.beginPath();ctx.moveTo(o.x,o.y);ctx.lineTo(j1.x,j1.y);ctx.lineTo(t.x,t.y);ctx.stroke();
+    ctx.fillStyle='#334155';ctx.beginPath();ctx.arc(o.x,o.y,5,0,7);ctx.fill();
+    ctx.fillStyle='#cbd5e1';ctx.beginPath();ctx.arc(j1.x,j1.y,5,0,7);ctx.fill();
+    ctx.fillStyle='#f1f5f9';ctx.beginPath();ctx.arc(t.x,t.y,6,0,7);ctx.fill();
+    var sv=svd2(gm.J),vs=58;
+    // ellipse
+    ctx.beginPath();
+    for(var th=0;th<=6.29;th+=0.06){
+      var x=t.x+sv.u1[0]*sv.s1*vs*Math.cos(th)+sv.u2[0]*sv.s2*vs*Math.sin(th);
+      var y=t.y-(sv.u1[1]*sv.s1*vs*Math.cos(th)+sv.u2[1]*sv.s2*vs*Math.sin(th));
+      if(th===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.closePath();ctx.fillStyle='rgba(56,189,248,0.08)';ctx.fill();ctx.strokeStyle='#38bdf8';ctx.lineWidth=1.8;ctx.stroke();
+    // command arrow
+    var vd=cmd();
+    arrow(t.x,t.y,t.x+vd[0]*120,t.y-vd[1]*120,'#fbbf24',3.5);
+    analyzer(sv);
+  }
+  function arrow(x1,y1,x2,y2,c,w){ctx.strokeStyle=c;ctx.fillStyle=c;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+    var a=Math.atan2(y2-y1,x2-x1),h=8;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-h*Math.cos(a-0.4),y2-h*Math.sin(a-0.4));ctx.lineTo(x2-h*Math.cos(a+0.4),y2-h*Math.sin(a+0.4));ctx.closePath();ctx.fill();}
+  function cmd(){var sp=val('rsp')/100*0.9, ph=val('rdir')*Math.PI/180; return [sp*Math.cos(ph), sp*Math.sin(ph)];}
+  var lastQd=0;
+  function analyzer(sv){
+    var mx=2.6;
+    document.getElementById('rb1').style.width=Math.min(100,sv.s1/mx*100)+'%';
+    document.getElementById('rb2').style.width=Math.min(100,sv.s2/mx*100)+'%';
+    document.getElementById('rn1').textContent=sv.s1.toFixed(3);
+    document.getElementById('rn2').textContent=sv.s2.toFixed(3);
+    var kap=sv.s1/Math.max(sv.s2,1e-4), w=sv.s1*sv.s2;
+    var col=kap>15?'#f43f5e':(kap>5?'#fbbf24':'#34d399');
+    document.getElementById('rmet').innerHTML='w = '+w.toFixed(3)+'  κ = <span style="color:'+col+'">'+kap.toFixed(1)+'</span><br>||q̇|| = '+lastQd.toFixed(2)+(damp?'  (damped)':'  (raw)');
+    var wn=document.getElementById('rt-warn');wn.style.color=col;
+    wn.textContent = sv.s2<0.12 ? (damp?'SINGULAR region — damping bounding the rates':'SINGULAR region — raw rates blowing up!') : '';
+  }
+  function step(){
+    var J=jac(q), sv=svd2(J), xi=cmd();
+    var lam2 = damp ? sched(sv.s2) : 0;
+    var qd=resolve(J,xi,lam2); lastQd=Math.hypot(qd[0],qd[1]);
+    // integrate (clamp the visual step so a raw blow-up doesn't NaN the canvas; true ||q̇|| still shown)
+    var dt=0.02, stepv=[qd[0]*dt,qd[1]*dt], m=Math.hypot(stepv[0],stepv[1]), cap=0.06;
+    if(m>cap){stepv=[stepv[0]/m*cap,stepv[1]/m*cap];}
+    q[0]+=stepv[0]; q[1]+=stepv[1];
+    var t=tip(q).t; path.push({x:t.x,y:t.y}); if(path.length>400)path.shift();
+  }
+  function loop(){ if(!playing)return; step(); draw(); raf=requestAnimationFrame(loop); }
+  function sync(){document.getElementById('rspv').textContent=(val('rsp')/100*0.9).toFixed(2);document.getElementById('rdirv').textContent=val('rdir')+'°';draw();}
+  ['rsp','rdir'].forEach(function(id){document.getElementById(id).addEventListener('input',sync);});
+  document.getElementById('rplay').addEventListener('click',function(){
+    playing=!playing; this.textContent=playing?'Pause':'Play'; this.classList.toggle('go',!playing);
+    if(playing){loop();}else if(raf){cancelAnimationFrame(raf);}
+  });
+  document.getElementById('rreset').addEventListener('click',function(){
+    q=q0.slice(); path=[]; playing=false; lastQd=0;
+    var pb=document.getElementById('rplay'); pb.textContent='Play'; pb.classList.add('go'); if(raf)cancelAnimationFrame(raf); sync();
+  });
+  document.getElementById('rdamp').addEventListener('click',function(){damp=!damp;this.setAttribute('aria-pressed',damp);draw();});
+  sync();
+})();
+</script>
+</div>

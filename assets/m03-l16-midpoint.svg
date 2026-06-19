@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 230" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Module 3 midpoint: a solid forward arrow from world to pixel marked complete and OpenCV-verified, and a dashed return arrow from pixel to world marked as coming next via distortion and back-projection.">
+  <defs>
+    <marker id="fwd2" markerWidth="11" markerHeight="11" refX="9" refY="3.2" orient="auto"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#1d4ed8"/></marker>
+    <marker id="bk2" markerWidth="11" markerHeight="11" refX="9" refY="3.2" orient="auto"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#0f766e"/></marker>
+    <style>.t{font-size:17px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}.fw{font-size:12px;font-weight:800;fill:#1d4ed8}.bk{font-size:12px;font-weight:800;fill:#0f766e}</style>
+  </defs>
+  <text x="350" y="26" text-anchor="middle" class="t">Module 3 midpoint: forward done, inverse next</text>
+  <rect x="50" y="90" width="120" height="56" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/><text x="110" y="124" text-anchor="middle" class="b">world</text>
+  <rect x="530" y="90" width="120" height="56" rx="10" fill="#0f172a"/><text x="590" y="124" text-anchor="middle" class="b" fill="#fff">pixel</text>
+  <line x1="175" y1="108" x2="525" y2="108" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#fwd2)"/>
+  <text x="350" y="100" text-anchor="middle" class="fw">Units 1–4: world → pixel (done · OpenCV-verified)</text>
+  <path d="M 525 132 Q 350 185 178 134" fill="none" stroke="#0f766e" stroke-width="2.2" stroke-dasharray="7 5" marker-end="url(#bk2)"/>
+  <text x="350" y="180" text-anchor="middle" class="bk">Units 5–8: pixel → world (distortion · back-projection · bridge)</text>
+  <text x="350" y="214" text-anchor="middle" class="c">Projection mastered. Next: inverting the map toward a world position.</text>
+</svg>

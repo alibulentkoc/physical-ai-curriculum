@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tri-Frame Pick — Lesson 3.7</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;
+        --world:#0d9488;--robot:#1d4ed8;--camera:#8b5cf6;--fruit:#e11d48;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:8px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .reads{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .card{flex:1 1 150px;min-width:140px;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+  .card .lab{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+  .card .val{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px}
+  .card .sub{font-size:11px;color:var(--muted);margin-top:2px}
+  .card.world{border-top:3px solid var(--world)} .card.world .lab{color:var(--world)}
+  .card.robot{border-top:3px solid var(--robot)} .card.robot .lab{color:var(--robot)}
+  .card.camera{border-top:3px solid var(--camera)} .card.camera .lab{color:var(--camera)}
+  .card.active{box-shadow:0 0 0 2px currentColor inset}
+  .ctrl{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 15px;font-size:14px;font-weight:700;cursor:pointer}
+  .btn.primary{background:#0f172a;color:#fff;border-color:#0f172a}
+  .step{font-size:13px;color:var(--muted)}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <svg id="scene" viewBox="0 0 720 300" role="application" aria-label="A greenhouse pick shown with world, robot, and camera frames at once. Step through perceive, convert to robot, convert to world; drag the tomato or robot and all three readouts update while the world frame stays fixed.">
+    <rect x="8" y="8" width="704" height="284" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <!-- world frame (fixed bottom-left corner) -->
+    <line x1="40" y1="260" x2="150" y2="260" stroke="#0d9488" stroke-width="2"/>
+    <line x1="40" y1="260" x2="40" y2="160" stroke="#0d9488" stroke-width="2"/>
+    <text x="44" y="278" font-size="11" fill="#0f766e">world (fixed)</text>
+    <!-- robot + camera (robot draggable) -->
+    <g id="gRobot">
+      <line id="rax" x1="0" y1="0" x2="0" y2="0" stroke="#1d4ed8" stroke-width="2"/>
+      <line id="ray" x1="0" y1="0" x2="0" y2="0" stroke="#1d4ed8" stroke-width="2"/>
+      <rect id="robotBody" x="0" y="0" width="22" height="22" rx="4" fill="#1d4ed8" style="cursor:grab" tabindex="0" aria-label="robot, draggable"/>
+      <text id="robotLbl" x="0" y="0" font-size="11" fill="#1d4ed8">robot</text>
+      <line id="cax" x1="0" y1="0" x2="0" y2="0" stroke="#8b5cf6" stroke-width="2"/>
+      <line id="cay" x1="0" y1="0" x2="0" y2="0" stroke="#8b5cf6" stroke-width="2"/>
+      <rect id="camBody" x="0" y="0" width="14" height="14" rx="2" fill="#8b5cf6"/>
+      <text id="camLbl" x="0" y="0" font-size="11" fill="#7c3aed">camera</text>
+      <!-- arm reaching line, shown during 'act' -->
+      <line id="arm" x1="0" y1="0" x2="0" y2="0" stroke="#1d4ed8" stroke-width="2.5" stroke-dasharray="5 4" opacity="0"/>
+    </g>
+    <!-- the tomato (fixed in world unless dragged) -->
+    <circle id="tomato" cx="520" cy="120" r="13" fill="#e11d48" style="cursor:grab" tabindex="0" aria-label="tomato, draggable"/>
+    <text x="520" y="102" text-anchor="middle" font-size="11" fill="#64748b">tomato</text>
+    <!-- highlight ring for current step's frame -->
+    <circle id="ring" cx="0" cy="0" r="0" fill="none" stroke="#0f172a" stroke-width="1.5" stroke-dasharray="3 3"/>
+  </svg>
+
+  <div class="reads">
+    <div class="card camera" id="cCam"><div class="lab">Camera · perceive</div><div class="val" id="vCam">(0.00, 0.00)</div><div class="sub">what the lens sees</div></div>
+    <div class="card robot" id="cRob"><div class="lab">Robot · act</div><div class="val" id="vRob">(0.00, 0.00)</div><div class="sub">where the arm moves</div></div>
+    <div class="card world" id="cWor"><div class="lab">World · remember</div><div class="val" id="vWor">(0.00, 0.00)</div><div class="sub">logged on the map</div></div>
+  </div>
+
+  <div class="ctrl">
+    <button id="step" class="btn primary">Step ▶</button>
+    <button id="reset2" class="btn">Reset</button>
+    <span id="stepText" class="step">Step 1: the camera perceives the tomato (camera frame).</span>
+  </div>
+  <div class="hint">Drag the tomato or the robot — all three readouts update together, but the world reading stays tied to the room. Same tomato; only the frame changes.</div>
+</div>
+<script>
+(function(){
+  var WOX=40, WOY=260, S=100;        // world origin pixel + scale (100px=1m)
+  var robotPx=[300,235];
+  var camOffset=[30,-46];            // camera origin offset from robot, in pixels
+  var tomatoPx=[520,120];
+  var step=0;                         // 0 none,1 camera,2 robot,3 world
+  var S_=document.getElementById('scene');
+  var rb=document.getElementById('robotBody'),rlbl=document.getElementById('robotLbl');
+  var rax=document.getElementById('rax'),ray=document.getElementById('ray');
+  var cb=document.getElementById('camBody'),clbl=document.getElementById('camLbl');
+  var cax=document.getElementById('cax'),cay=document.getElementById('cay');
+  var arm=document.getElementById('arm'),ring=document.getElementById('ring');
+  var vCam=document.getElementById('vCam'),vRob=document.getElementById('vRob'),vWor=document.getElementById('vWor');
+  var cCam=document.getElementById('cCam'),cRob=document.getElementById('cRob'),cWor=document.getElementById('cWor');
+  var stepText=document.getElementById('stepText');
+  var texts=['Press Step to begin.',
+             'Step 1: the camera perceives the tomato (camera frame).',
+             'Step 2: convert to the robot frame — where the arm must move.',
+             'Step 3: convert to the world frame — logged on the greenhouse map.'];
+
+  function camPx(){ return [robotPx[0]+camOffset[0], robotPx[1]+camOffset[1]]; }
+  function coordsFrom(originPx){ return [ (tomatoPx[0]-originPx[0])/S, (originPx[1]-tomatoPx[1])/S ]; }
+  function fmt(c){ return '('+c[0].toFixed(2)+', '+c[1].toFixed(2)+')'; }
+
+  function render(){
+    var rx=robotPx[0],ry=robotPx[1];
+    rb.setAttribute('x',rx-11);rb.setAttribute('y',ry-11);
+    rlbl.setAttribute('x',rx-13);rlbl.setAttribute('y',ry+28);
+    rax.setAttribute('x1',rx);rax.setAttribute('y1',ry);rax.setAttribute('x2',rx+70);rax.setAttribute('y2',ry);
+    ray.setAttribute('x1',rx);ray.setAttribute('y1',ry);ray.setAttribute('x2',rx);ray.setAttribute('y2',ry-70);
+    var c=camPx(),cx=c[0],cy=c[1];
+    cb.setAttribute('x',cx-7);cb.setAttribute('y',cy-7);
+    clbl.setAttribute('x',cx-9);clbl.setAttribute('y',cy-12);
+    cax.setAttribute('x1',cx);cax.setAttribute('y1',cy);cax.setAttribute('x2',cx+55);cax.setAttribute('y2',cy-8);
+    cay.setAttribute('x1',cx);cay.setAttribute('y1',cy);cay.setAttribute('x2',cx+10);cay.setAttribute('y2',cy-50);
+    // readouts (always live so dragging updates all three)
+    vCam.textContent=fmt(coordsFrom(camPx()));
+    vRob.textContent=fmt(coordsFrom(robotPx));
+    vWor.textContent=fmt(coordsFrom([WOX,WOY]));
+    // step emphasis
+    [cCam,cRob,cWor].forEach(function(el){el.classList.remove('active');});
+    var originPx=null;
+    if(step===1){cCam.classList.add('active');originPx=camPx();}
+    else if(step===2){cRob.classList.add('active');originPx=robotPx;}
+    else if(step===3){cWor.classList.add('active');originPx=[WOX,WOY];}
+    if(originPx){ring.setAttribute('cx',originPx[0]);ring.setAttribute('cy',originPx[1]);ring.setAttribute('r',17);}
+    else ring.setAttribute('r',0);
+    // arm reaches during/after step 2
+    if(step>=2){arm.setAttribute('x1',rx);arm.setAttribute('y1',ry);arm.setAttribute('x2',tomatoPx[0]);arm.setAttribute('y2',tomatoPx[1]);arm.setAttribute('opacity','1');}
+    else arm.setAttribute('opacity','0');
+    stepText.textContent=texts[step];
+  }
+  document.getElementById('step').addEventListener('click',function(){ step=step>=3?1:step+1; render(); });
+  document.getElementById('reset2').addEventListener('click',function(){ step=0; robotPx=[300,235]; tomatoPx=[520,120]; render(); });
+
+  // dragging
+  var drag=null;
+  function pt(e){var r=S_.getBoundingClientRect();return [ (e.clientX-r.left)/r.width*720, (e.clientY-r.top)/r.height*300 ];}
+  rb.addEventListener('pointerdown',function(e){drag='robot';rb.style.cursor='grabbing';if(e.cancelable)e.preventDefault();});
+  document.getElementById('tomato').addEventListener('pointerdown',function(e){drag='tomato';if(e.cancelable)e.preventDefault();});
+  window.addEventListener('pointermove',function(e){ if(!drag)return; var p=pt(e);
+    if(drag==='robot'){ robotPx=[Math.max(70,Math.min(360,p[0])),Math.max(150,Math.min(250,p[1]))]; }
+    else { tomatoPx=[Math.max(120,Math.min(690,p[0])),Math.max(40,Math.min(220,p[1]))]; }
+    render(); });
+  window.addEventListener('pointerup',function(){drag=null;rb.style.cursor='grab';});
+  rb.addEventListener('keydown',function(e){var s=8,m=true;
+    if(e.key==='ArrowLeft')robotPx[0]-=s;else if(e.key==='ArrowRight')robotPx[0]+=s;
+    else if(e.key==='ArrowUp')robotPx[1]-=s;else if(e.key==='ArrowDown')robotPx[1]+=s;else m=false;
+    if(m){e.preventDefault();robotPx=[Math.max(70,Math.min(360,robotPx[0])),Math.max(150,Math.min(250,robotPx[1]))];render();}});
+  render();
+})();
+</script>
+</body>
+</html>

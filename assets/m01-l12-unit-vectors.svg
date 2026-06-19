@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Dividing a vector by its length gives a unit vector: same direction, length one, carrying direction only.">
+  <defs>
+    <marker id="uv" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker>
+    <marker id="uu" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/></marker>
+    <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.l{font-size:14px;font-weight:600;fill:#334155}.c{font-size:12px;fill:#64748b}.n{font-size:15px;font-weight:700;fill:#0f172a}</style>
+  </defs>
+  <text x="320" y="30" text-anchor="middle" class="t">Unit vector: same direction, length 1</text>
+  <line x1="90" y1="300" x2="470" y2="300" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="90" y1="300" x2="90" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="90" y1="300" x2="380" y2="120" stroke="#94a3b8" stroke-width="3" marker-end="url(#uv)"/>
+  <text x="250" y="190" class="l" transform="rotate(-32 250 190)">v (length 2.0)</text>
+  <line x1="90" y1="300" x2="235" y2="210" stroke="#0d9488" stroke-width="4" marker-end="url(#uu)"/>
+  <text x="120" y="250" class="l" fill="#0d9488">v̂ (length 1)</text>
+  <rect x="430" y="120" width="180" height="110" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="520" y="152" text-anchor="middle" class="l">normalize</text>
+  <text x="520" y="180" text-anchor="middle" class="n">v̂ = v / |v|</text>
+  <text x="520" y="206" text-anchor="middle" class="c">|v̂| = 1 (pure direction)</text>
+  <text x="320" y="344" text-anchor="middle" class="c">Use a unit vector when you want a heading without a distance.</text>
+</svg>

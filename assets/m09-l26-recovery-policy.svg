@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .ev{fill:#fef2f2;stroke:#ef4444;stroke-width:1.6}
+      .own{fill:#eef2ff;stroke:#6366f1;stroke-width:1.4}
+      .resp{fill:#f0fdfa;stroke:#0d9488;stroke-width:1.4}
+      .t{font-size:11px;font-weight:700;fill:#0f172a}
+      .ts{font-size:9.5px;fill:#64748b}
+      .h{font-size:10px;font-weight:700;fill:#94a3b8}
+      .arr{fill:none;stroke:#64748b;stroke-width:1.6;marker-end:url(#arrow)}
+      .loop{font-size:9.5px;font-weight:700;fill:#b45309}
+      .stop{font-size:9.5px;font-weight:700;fill:#b91c1c}
+    </style>
+  </defs>
+  <text x="390" y="26" text-anchor="middle" class="title">The Recovery Policy: Fault &#8594; Owner &#8594; Response</text>
+  <text x="390" y="45" text-anchor="middle" class="caption">owner picks the action &#183; the fault's nature picks retry-or-skip</text>
+
+  <text x="105" y="72" text-anchor="middle" class="h">FAULT</text>
+  <text x="350" y="72" text-anchor="middle" class="h">OWNER</text>
+  <text x="560" y="72" text-anchor="middle" class="h">RESPONSE</text>
+  <text x="710" y="72" text-anchor="middle" class="h">RETRY?</text>
+
+  <!-- row template y -->
+  <!-- NO_TARGET -->
+  <rect class="ev" x="30" y="84" width="150" height="44" rx="8"/><text x="105" y="110" text-anchor="middle" class="t">NO_TARGET</text>
+  <rect class="own" x="250" y="84" width="200" height="44" rx="8"/><text x="350" y="105" text-anchor="middle" class="ts">Perceive /</text><text x="350" y="120" text-anchor="middle" class="ts">Understand</text>
+  <rect class="resp" x="490" y="84" width="150" height="44" rx="8"/><text x="565" y="110" text-anchor="middle" class="t">re-perceive</text>
+  <text x="710" y="110" text-anchor="middle" class="loop">&#8635; loop</text>
+  <path class="arr" d="M180,106 L248,106"/><path class="arr" d="M450,106 L488,106"/>
+
+  <!-- TRACKING_FAILURE -->
+  <rect class="ev" x="30" y="138" width="150" height="44" rx="8"/><text x="105" y="158" text-anchor="middle" class="t">TRACKING_</text><text x="105" y="172" text-anchor="middle" class="t">FAILURE</text>
+  <rect class="own" x="250" y="138" width="200" height="44" rx="8"/><text x="350" y="164" text-anchor="middle" class="ts">Execute</text>
+  <rect class="resp" x="490" y="138" width="150" height="44" rx="8"/><text x="565" y="164" text-anchor="middle" class="t">retry-execute</text>
+  <text x="710" y="164" text-anchor="middle" class="loop">&#8635; loop</text>
+  <path class="arr" d="M180,160 L248,160"/><path class="arr" d="M450,160 L488,160"/>
+
+  <!-- UNREACHABLE -->
+  <rect class="ev" x="30" y="192" width="150" height="44" rx="8"/><text x="105" y="218" text-anchor="middle" class="t">UNREACHABLE</text>
+  <rect class="own" x="250" y="192" width="200" height="44" rx="8"/><text x="350" y="218" text-anchor="middle" class="ts">Understand</text>
+  <rect class="resp" x="490" y="192" width="150" height="44" rx="8"/><text x="565" y="218" text-anchor="middle" class="t">re-select target</text>
+  <text x="710" y="218" text-anchor="middle" class="stop">&#9632; stop</text>
+  <path class="arr" d="M180,214 L248,214"/><path class="arr" d="M450,214 L488,214"/>
+
+  <!-- PLAN_INVALID -->
+  <rect class="ev" x="30" y="246" width="150" height="44" rx="8"/><text x="105" y="272" text-anchor="middle" class="t">PLAN_INVALID</text>
+  <rect class="own" x="250" y="246" width="200" height="44" rx="8"/><text x="350" y="272" text-anchor="middle" class="ts">Plan</text>
+  <rect class="resp" x="490" y="246" width="150" height="44" rx="8"/><text x="565" y="272" text-anchor="middle" class="t">skip target</text>
+  <text x="710" y="272" text-anchor="middle" class="stop">&#9632; stop</text>
+  <path class="arr" d="M180,268 L248,268"/><path class="arr" d="M450,268 L488,268"/>
+
+  <text x="390" y="322" text-anchor="middle" class="caption">every response is an EXISTING layer call re-invoked &#183; loop = transient (retryable) &#183; stop = deterministic</text>
+</svg>

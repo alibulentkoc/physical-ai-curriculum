@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 280" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The closed-form two-link inverse-kinematics pipeline: target x y feeds a box computing theta2 by the law of cosines with a plus or minus sign, then a box computing theta1 with atan2, producing two arm configurations elbow-up and elbow-down.">
+<defs><marker id="a9" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0d9488"/></marker>
+<style>.t{font-size:15px;font-weight:700;fill:#0f172a}.c{font-size:10.5px;fill:#64748b}.b{font-size:11.5px;font-weight:700;fill:#334155}.m{font-size:11px;fill:#334155}</style></defs>
+<text x="330" y="24" text-anchor="middle" class="t">Closed form: two steps, two solutions</text>
+<rect x="20" y="60" width="120" height="48" rx="9" fill="#f8fafc" stroke="#e2e8f0"/><text x="80" y="82" text-anchor="middle" class="b">target</text><text x="80" y="98" text-anchor="middle" class="c">(x, y)</text>
+<line x1="142" y1="84" x2="178" y2="84" stroke="#0d9488" stroke-width="2" marker-end="url(#a9)"/>
+<rect x="180" y="52" width="220" height="64" rx="9" fill="#eef2ff" stroke="#c7d2fe"/><text x="290" y="76" text-anchor="middle" class="b">θ₂ = ±arccos( · )</text><text x="290" y="98" text-anchor="middle" class="c">(x²+y²−L₁²−L₂²)/(2L₁L₂)</text>
+<line x1="402" y1="84" x2="438" y2="84" stroke="#0d9488" stroke-width="2" marker-end="url(#a9)"/>
+<rect x="440" y="52" width="200" height="64" rx="9" fill="#f0fdfa" stroke="#99f6e4"/><text x="540" y="76" text-anchor="middle" class="b">θ₁ = atan2(y,x) −</text><text x="540" y="96" text-anchor="middle" class="c">atan2(L₂sinθ₂, L₁+L₂cosθ₂)</text>
+<text x="120" y="150" class="c">reach → elbow (±)</text>
+<text x="470" y="150" class="c">direction → shoulder</text>
+<polyline points="150.0,235.0 178.8,256.6 195.0,235.0" fill="none" stroke="#1d4ed8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="150.0,235.0 178.8,213.4 195.0,235.0" fill="none" stroke="#0d9488" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="150" cy="235" r="4" fill="#334155"/><circle cx="195.0" cy="235.0" r="5" fill="#e11d48"/><text x="270" y="210" class="b">two solutions (elbow-up / elbow-down)</text><text x="270" y="252" class="c">unreachable if cosθ₂ ∉ [−1, 1]</text></svg>

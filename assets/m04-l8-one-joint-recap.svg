@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A single joint transform as one factor, with faded factors to the right forming a product T 0 n, indicating chaining is next.">
+  <defs><style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}</style></defs>
+  <text x="350" y="24" text-anchor="middle" class="t">One joint = one factor → forward kinematics = product</text>
+  <rect x="60" y="70" width="120" height="54" rx="9" fill="#ecfdf5" stroke="#a7f3d0"/><text x="120" y="102" text-anchor="middle" class="b">T₀¹(θ1)</text>
+  <text x="200" y="102" text-anchor="middle" class="b">×</text>
+  <rect x="220" y="70" width="120" height="54" rx="9" fill="#ecfdf5" stroke="#a7f3d0" opacity="0.55"/><text x="280" y="102" text-anchor="middle" class="b" opacity="0.7">T₁²(θ2)</text>
+  <text x="360" y="102" text-anchor="middle" class="b" opacity="0.6">×</text>
+  <rect x="380" y="70" width="130" height="54" rx="9" fill="#ecfdf5" stroke="#a7f3d0" opacity="0.4"/><text x="445" y="102" text-anchor="middle" class="b" opacity="0.6">…  Tₙ₋₁ⁿ</text>
+  <text x="540" y="102" class="b">= T₀ⁿ</text>
+  <text x="350" y="162" text-anchor="middle" class="c">Read the gripper pose off the product. Unit 3 chains two and three links.</text>
+</svg>

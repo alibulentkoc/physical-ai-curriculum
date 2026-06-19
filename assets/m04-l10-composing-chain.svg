@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Frames chained base to elbow to gripper with transforms T 0 1 and T 1 2, and the equation T 0 2 equals T 0 1 times T 1 2, noting angles add to theta one plus theta two.">
+  <defs>
+    <marker id="c10" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.b{font-size:12px;font-weight:700;fill:#334155}.f{font-family:monospace;font-size:14px;fill:#0f172a}</style>
+  </defs>
+  <text x="350" y="24" text-anchor="middle" class="t">Forward kinematics = matrix product, base → tip</text>
+  <circle cx="90" cy="120" r="6" fill="#10b981"/><text x="90" y="142" text-anchor="middle" class="c">base</text>
+  <line x1="90" y1="120" x2="250" y2="120" stroke="#1d4ed8" stroke-width="6" stroke-linecap="round" marker-end="url(#c10)"/>
+  <text x="170" y="108" text-anchor="middle" class="b">T₀¹(θ1)</text>
+  <circle cx="260" cy="120" r="6" fill="#10b981"/><text x="260" y="142" text-anchor="middle" class="c">elbow</text>
+  <line x1="270" y1="120" x2="430" y2="120" stroke="#1d4ed8" stroke-width="6" stroke-linecap="round" marker-end="url(#c10)"/>
+  <text x="350" y="108" text-anchor="middle" class="b">T₁²(θ2)</text>
+  <circle cx="440" cy="120" r="7" fill="#e11d48"/><text x="440" y="142" text-anchor="middle" class="c">gripper</text>
+  <text x="350" y="190" text-anchor="middle" class="f">T₀² = T₀¹ · T₁²   →   rotation θ1+θ2, translation = 2-link formula</text>
+  <text x="350" y="218" text-anchor="middle" class="c">composition adds angles · order matters · extends to T₀³ = T₀¹ T₁² T₂³</text>
+</svg>

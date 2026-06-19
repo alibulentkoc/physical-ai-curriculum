@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0d9488"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style></defs>
+  <text x="360" y="28" text-anchor="middle" class="t">From Divergence to Diagnosis</text>
+  <text x="360" y="46" text-anchor="middle" class="c">localised + directional + health = diagnosis</text>
+  <rect x="40" y="80" width="180" height="44" rx="9" fill="#fff" stroke="#cbd5e1"/><text x="130" y="100" text-anchor="middle" class="c">which fruit?</text><text x="130" y="116" text-anchor="middle" class="p" fill="#b91c1c">F3 (outcome gap)</text>
+  <rect x="40" y="134" width="180" height="44" rx="9" fill="#fff" stroke="#cbd5e1"/><text x="130" y="154" text-anchor="middle" class="c">which direction?</text><text x="130" y="170" text-anchor="middle" class="p" fill="#b45309">too optimistic</text>
+  <rect x="40" y="188" width="180" height="44" rx="9" fill="#fff" stroke="#cbd5e1"/><text x="130" y="208" text-anchor="middle" class="c">which signal moved?</text><text x="130" y="224" text-anchor="middle" class="p" fill="#7c3aed">effort &#8593; manip &#8595;</text>
+  <path d="M222,102 L286,140" fill="none" stroke="#0d9488" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M222,156 L286,156" fill="none" stroke="#0d9488" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M222,210 L286,172" fill="none" stroke="#0d9488" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="290" y="118" width="170" height="80" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/>
+  <text x="375" y="150" text-anchor="middle" class="p" fill="#15803d">diagnosis</text><text x="375" y="172" text-anchor="middle" class="c">compose signals</text>
+  <path d="M460,158 L518,158" fill="none" stroke="#0d9488" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="522" y="124" width="160" height="68" rx="10" fill="#0f172a"/>
+  <text x="602" y="152" text-anchor="middle" class="p" fill="#fff">likely obstruction</text><text x="602" y="172" text-anchor="middle" class="c" fill="#cbd5e1">at F3</text>
+  <text x="360" y="280" text-anchor="middle" class="c">the twin is useful because it disagrees with reality in informative, localised ways</text>
+</svg>

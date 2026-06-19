@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .stem{stroke:#15803d;stroke-width:3}
+      .ok{fill:#22c55e;stroke:#15803d;stroke-width:1.5}
+      .rec{fill:#fbbf24;stroke:#b45309;stroke-width:1.5}
+      .skip{fill:#f87171;stroke:#b91c1c;stroke-width:1.5}
+      .lab{font-size:10px;font-weight:700;fill:#0f172a}
+      .ldg{fill:#0f172a}
+      .lt{font-size:11px;fill:#cbd5e1}
+      .lg{font-size:12px;font-weight:700;fill:#34d399}
+      .lr{font-size:12px;font-weight:700;fill:#f87171}
+      .banner{font-size:12px;font-weight:700;fill:#0d9488}
+      .robot{fill:#64748b}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">Capstone: Harvest a Row, Absorb a Failure</text>
+  <text x="380" y="47" text-anchor="middle" class="banner">graceful degradation &#183; finish the row, never stall</text>
+
+  <!-- stem -->
+  <line class="stem" x1="40" y1="150" x2="520" y2="150"/>
+
+  <!-- fruit along row -->
+  <g>
+    <circle class="ok"   cx="80"  cy="130" r="18"/><text x="80"  y="172" text-anchor="middle" class="lab">F0 &#10003;</text>
+    <circle class="ok"   cx="170" cy="130" r="18"/><text x="170" y="172" text-anchor="middle" class="lab">F1 &#10003;</text>
+    <circle class="rec"  cx="260" cy="130" r="18"/><text x="260" y="172" text-anchor="middle" class="lab">F2 recover</text><text x="260" y="186" text-anchor="middle" class="caption">retry &#8594; &#10003;</text>
+    <circle class="ok"   cx="350" cy="130" r="18"/><text x="350" y="172" text-anchor="middle" class="lab">F3 &#10003;</text>
+    <circle class="skip" cx="440" cy="130" r="18"/><text x="440" y="172" text-anchor="middle" class="lab">F4 skip</text><text x="440" y="186" text-anchor="middle" class="caption">PLAN_INVALID</text>
+    <circle class="ok"   cx="510" cy="130" r="18"/><text x="510" y="172" text-anchor="middle" class="lab">F5 &#10003;</text>
+  </g>
+
+  <!-- robot moving along -->
+  <rect class="robot" x="500" y="210" width="40" height="26" rx="5"/>
+  <line x1="520" y1="210" x2="520" y2="170" stroke="#64748b" stroke-width="3"/>
+  <text x="520" y="252" text-anchor="middle" class="caption">picker moves down the row &#8594;</text>
+
+  <!-- ledger -->
+  <rect class="ldg" x="560" y="80" width="170" height="200" rx="14"/>
+  <text x="645" y="106" text-anchor="middle" class="lt" font-weight="700" fill="#fff">harvest ledger</text>
+  <text x="578" y="134" class="lg">harvested (H)</text>
+  <text x="578" y="154" class="lt">F0 F1 F3 F5</text>
+  <text x="578" y="174" class="lt">F2 (recovered, 2 tries)</text>
+  <text x="578" y="208" class="lr">skipped (S)</text>
+  <text x="578" y="228" class="lt">F4 &#8212; PLAN_INVALID</text>
+  <text x="578" y="262" class="lt" font-style="italic">complete = True</text>
+
+  <text x="300" y="320" text-anchor="middle" class="caption">every fruit attempted once (ledger H &#8746; S) &#183; transient recovers, deterministic skips, row finishes</text>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Estimation breaks a hard quantity into rough factors, multiplies to a ballpark, and checks it against a plausible range.">
+  <defs>
+    <marker id="a16" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#334155"/></marker>
+    <style>
+      .t{font-size:18px;font-weight:700;fill:#0f172a}
+      .l{font-size:13px;fill:#334155}
+      .h{font-size:14px;font-weight:700;fill:#0f172a}
+      .c{font-size:12px;fill:#64748b}
+      .card{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:10}
+      .ball{fill:#f8fafc;stroke:#0d9488;stroke-width:1.5;rx:10}
+      .flow{fill:none;stroke:#334155;stroke-width:2.5;marker-end:url(#a16)}
+    </style>
+  </defs>
+  <text x="380" y="30" text-anchor="middle" class="t">Estimate: split into rough factors, multiply, then sanity-check</text>
+
+  <text x="40" y="74" class="h">Question: tomatoes picked per hour (one arm)?</text>
+
+  <rect class="card" x="40" y="92" width="180" height="56" rx="10"/>
+  <text x="130" y="116" text-anchor="middle" class="l">seconds per hour</text>
+  <text x="130" y="136" text-anchor="middle" class="c">&#8776; 3600 s</text>
+
+  <rect class="card" x="40" y="164" width="180" height="56" rx="10"/>
+  <text x="130" y="188" text-anchor="middle" class="l">seconds per pick</text>
+  <text x="130" y="208" text-anchor="middle" class="c">&#8776; 10 s (rough)</text>
+
+  <path class="flow" d="M222 156 L300 156"/>
+  <rect class="ball" x="305" y="120" width="190" height="72" rx="10"/>
+  <text x="400" y="150" text-anchor="middle" class="h">3600 / 10 &#8776; 360</text>
+  <text x="400" y="174" text-anchor="middle" class="c">order 10&#178; picks/hour</text>
+
+  <path class="flow" d="M497 156 L560 156"/>
+  <!-- plausible range bar -->
+  <text x="640" y="96" text-anchor="middle" class="h">plausible range</text>
+  <rect x="575" y="110" width="130" height="20" rx="10" fill="#dcfce7" stroke="#86efac"/>
+  <text x="640" y="125" text-anchor="middle" class="c">~100&#8211;500/hr</text>
+  <circle cx="610" cy="150" r="6" fill="#15803d"/><text x="622" y="154" class="c">360 &#10003; inside</text>
+  <rect x="575" y="166" width="130" height="20" rx="10" fill="#fee2e2" stroke="#fecaca"/>
+  <text x="640" y="181" text-anchor="middle" class="c">claim: 5000/hr</text>
+  <text x="575" y="206" class="c" fill="#b91c1c">order 10&#179; &#8212; ~10&#215; too high &#10007;</text>
+
+  <text x="380" y="298" text-anchor="middle" class="c">A ten-second estimate catches factor-of-1000 errors before any detailed computation.</text>
+</svg>

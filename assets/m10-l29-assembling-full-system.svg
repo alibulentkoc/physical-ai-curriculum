@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7c3aed"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}.s{font-size:12.5px;font-weight:700;fill:#334155}</style></defs>
+  <text x="360.0" y="28" text-anchor="middle" class="t">Assembling the Full Twin-in-the-Loop System</text>
+  <text x="360.0" y="46" text-anchor="middle" class="c">reality (the asset) and the twin (the advisor) — two channels cross</text>
+  <line x1="360" y1="70" x2="360" y2="270" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 5"/>
+  <rect x="40" y="90" width="260" height="150" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.2"/>
+  <text x="170" y="116" text-anchor="middle" class="s" fill="#1d4ed8">reality (asset)</text>
+  <text x="170" y="150" text-anchor="middle" class="c">GroundTruth</text>
+  <text x="170" y="172" text-anchor="middle" class="c">owns the physical outcome</text>
+  <text x="170" y="200" text-anchor="middle" class="p" fill="#1d4ed8">row of fruit</text>
+  <rect x="420" y="90" width="260" height="150" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.2"/>
+  <text x="550" y="116" text-anchor="middle" class="s" fill="#7c3aed">twin (advisor)</text>
+  <text x="550" y="144" text-anchor="middle" class="c">monitor</text>
+  <text x="550" y="164" text-anchor="middle" class="c">predict</text>
+  <text x="550" y="184" text-anchor="middle" class="c">adapt</text>
+  <text x="550" y="210" text-anchor="middle" class="c">DigitalTwin — own copy</text>
+  <path d="M300,130 L418,130" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <text x="360" y="122" text-anchor="middle" class="c">report in</text>
+  <path d="M418,205 L302,205" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <text x="360" y="222" text-anchor="middle" class="c">action out</text>
+  <text x="360.0" y="294" text-anchor="middle" class="c">composition of verified parts &#183; no new theory &#183; one runnable system per fruit, down the row</text>
+</svg>

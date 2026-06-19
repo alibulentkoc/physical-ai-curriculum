@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <marker id="rarrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .box{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+      .rec{fill:#f0fdfa;stroke:#0d9488;stroke-width:2.4}
+      .nm{font-size:11px;font-weight:700;fill:#0f172a}
+      .flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#arrow)}
+      .reinvoke{fill:none;stroke:#0d9488;stroke-width:2;stroke-dasharray:5 4;marker-end:url(#rarrow)}
+      .rl{font-size:10px;font-weight:700;fill:#0d9488}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">Recover: the Sixth Stage (coordination, not a new layer)</text>
+  <text x="380" y="48" text-anchor="middle" class="caption">consumes detection's localised fault + owner &#183; re-invokes existing stages</text>
+
+  <rect class="box" x="40"  y="120" width="96" height="50" rx="11"/><text x="88"  y="150" text-anchor="middle" class="nm">Perceive</text>
+  <rect class="box" x="166" y="120" width="96" height="50" rx="11"/><text x="214" y="150" text-anchor="middle" class="nm">Understand</text>
+  <rect class="box" x="292" y="120" width="96" height="50" rx="11"/><text x="340" y="150" text-anchor="middle" class="nm">Plan</text>
+  <rect class="box" x="418" y="120" width="96" height="50" rx="11"/><text x="466" y="150" text-anchor="middle" class="nm">Execute</text>
+  <rect class="box" x="544" y="120" width="96" height="50" rx="11"/><text x="592" y="150" text-anchor="middle" class="nm">Track</text>
+  <rect class="rec" x="640" y="220" width="96" height="56" rx="13"/><text x="688" y="244" text-anchor="middle" class="nm">Recover</text><text x="688" y="262" text-anchor="middle" class="rl">coordinate</text>
+
+  <path class="flow" d="M136,145 L164,145"/>
+  <path class="flow" d="M262,145 L290,145"/>
+  <path class="flow" d="M388,145 L416,145"/>
+  <path class="flow" d="M514,145 L542,145"/>
+  <path class="flow" d="M592,170 L688,218"/>
+  <text x="660" y="200" text-anchor="middle" class="rl">localised fault + owner</text>
+
+  <!-- re-invoke arrows back -->
+  <path class="reinvoke" d="M660,238 C400,330 200,250 88,172"/>
+  <path class="reinvoke" d="M662,250 C560,320 470,250 466,172"/>
+  <text x="300" y="320" text-anchor="middle" class="rl">re-invoke an existing layer (re-perceive / retry-execute)</text>
+
+  <text x="380" y="358" text-anchor="middle" class="caption">Recover owns no theory &#8212; only the decision of which stage to call again, and when</text>
+</svg>

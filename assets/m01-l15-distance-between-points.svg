@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The distance between two points is the magnitude of the vector connecting them, found with the Pythagorean theorem on the coordinate differences.">
+  <defs><marker id="ds" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.l{font-size:14px;font-weight:600;fill:#334155}.c{font-size:12px;fill:#64748b}.n{font-size:15px;font-weight:700;fill:#0f172a}</style></defs>
+  <text x="320" y="30" text-anchor="middle" class="t">Distance = magnitude of the connecting vector</text>
+  <line x1="90" y1="300" x2="470" y2="300" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="90" y1="300" x2="90" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+  <circle cx="160" cy="250" r="7" fill="#0ea5e9"/><text x="120" y="245" class="l" fill="#0284c7">P (gripper)</text>
+  <circle cx="380" cy="130" r="7" fill="#e11d48"/><text x="392" y="128" class="l" fill="#be123c">Q (tomato)</text>
+  <line x1="160" y1="250" x2="380" y2="130" stroke="#0d9488" stroke-width="3.5" marker-end="url(#ds)"/>
+  <line x1="160" y1="250" x2="380" y2="250" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <line x1="380" y1="250" x2="380" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="270" y="268" class="c">Δx</text><text x="388" y="195" class="c">Δy</text>
+  <rect x="440" y="140" width="180" height="96" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="530" y="172" text-anchor="middle" class="l">distance</text>
+  <text x="530" y="200" text-anchor="middle" class="n">√(Δx² + Δy²)</text>
+  <text x="320" y="344" text-anchor="middle" class="c">Used for reachability and choosing the nearest fruit.</text>
+</svg>

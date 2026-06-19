@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .card{fill:#fff;stroke-width:2}
+      .c1{stroke:#8b5cf6}.c2{stroke:#f59e0b}.c3{stroke:#0ea5e9}
+      .ch{font-size:13px;font-weight:700;fill:#0f172a}
+      .body{font-size:12px;fill:#334155}
+      .must{font-size:11px;font-weight:700;fill:#b45309}
+      .mono{font-size:12px;font-weight:600;fill:#3730a3}
+    </style>
+  </defs>
+  <text x="390" y="28" text-anchor="middle" class="title">Motion-Stack Handoff Contracts</text>
+  <text x="390" y="48" text-anchor="middle" class="caption">match units &#183; match frame &#183; match rate</text>
+
+  <!-- card a -->
+  <rect class="card c1" x="30" y="70" width="230" height="210" rx="12"/>
+  <text x="145" y="96" text-anchor="middle" class="ch">(a) reference &#8594; controller</text>
+  <text x="145" y="128" text-anchor="middle" class="mono">(q_d, q&#775;_d, q&#776;_d)</text>
+  <text x="145" y="152" text-anchor="middle" class="body">joint space, radians</text>
+  <text x="145" y="172" text-anchor="middle" class="body">q_d &#8594; feedback</text>
+  <text x="145" y="190" text-anchor="middle" class="body">q&#775;_d, q&#776;_d &#8594; feedforward</text>
+  <text x="145" y="256" text-anchor="middle" class="must">must match: units</text>
+
+  <!-- card b -->
+  <rect class="card c2" x="275" y="70" width="230" height="210" rx="12"/>
+  <text x="390" y="96" text-anchor="middle" class="ch">(b) twist &#8596; joint rate</text>
+  <text x="390" y="128" text-anchor="middle" class="mono">&#958; = J(q) q&#775;</text>
+  <text x="390" y="152" text-anchor="middle" class="mono">q&#775; = J&#8314; &#958;_d</text>
+  <text x="390" y="176" text-anchor="middle" class="body">&#958; = [v; &#969;] (linear on top)</text>
+  <text x="390" y="196" text-anchor="middle" class="body">damped near singularities</text>
+  <text x="390" y="256" text-anchor="middle" class="must">must match: frame</text>
+
+  <!-- card c -->
+  <rect class="card c3" x="520" y="70" width="230" height="210" rx="12"/>
+  <text x="635" y="96" text-anchor="middle" class="ch">(c) real-time loop</text>
+  <text x="635" y="130" text-anchor="middle" class="mono">fixed &#916;t</text>
+  <text x="635" y="156" text-anchor="middle" class="body">one sample, one command</text>
+  <text x="635" y="176" text-anchor="middle" class="body">per tick, steady beat</text>
+  <text x="635" y="196" text-anchor="middle" class="body">period matters (qualitative)</text>
+  <text x="635" y="256" text-anchor="middle" class="must">must match: rate</text>
+</svg>

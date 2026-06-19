@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 260" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Two consecutive joint axes with z along each joint axis, x along the common normal between them, origins at the intersections, showing how the four parameters are read off.">
+  <defs>
+    <marker id="f19" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#475569"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.z{font-size:12px;font-weight:800;fill:#0d9488}.x{font-size:12px;font-weight:800;fill:#dc2626}.b{font-size:11px;font-weight:700;fill:#334155}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Assigning frames: z = joint axis, x = common normal</text>
+  <line x1="210" y1="235" x2="210" y2="75" stroke="#0d9488" stroke-width="2.5"/><text x="196" y="70" class="z">z_{i-1}</text>
+  <line x1="470" y1="220" x2="470" y2="60" stroke="#0d9488" stroke-width="2.5"/><text x="456" y="56" class="z">z_i</text>
+  <line x1="210" y1="140" x2="470" y2="140" stroke="#dc2626" stroke-width="2.5" marker-end="url(#f19)"/><text x="340" y="132" text-anchor="middle" class="x">x_i (common normal)</text>
+  <circle cx="210" cy="140" r="5" fill="#0f172a"/><text x="196" y="160" class="c">O_{i-1}</text>
+  <circle cx="470" cy="140" r="5" fill="#0f172a"/><text x="478" y="160" class="c">O_i</text>
+  <text x="340" y="158" text-anchor="middle" class="c">a = common-normal length</text>
+  <path d="M 234 200 A 24 24 0 0 0 210 176" fill="none" stroke="#475569" stroke-width="1.5"/><text x="244" y="196" class="c">θ about z_{i-1}</text>
+  <text x="350" y="232" text-anchor="middle" class="b">y completes a right-handed frame · read θ, d, a, α between consecutive frames</text>
+</svg>

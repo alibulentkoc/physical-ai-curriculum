@@ -1,0 +1,42 @@
+<svg viewBox="0 0 680 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A layered data-flow diagram with an inner control loop at the bottom of sensor controller actuator and joint tagged fast low latency and latency critical for Unit 7 real-time, and outer layers stacked above of planning and trajectory from Module 7, coordination, and supervision tagged slow and latency tolerant; a thin arrow hands a setpoint down from the outer layers into the inner loop; callouts mark delay here goes unstable on the inner loop and delay here is tolerable on the outer handoff; a caption notes one ROS 2 stack hosts all layers">
+<title>A layered data-flow diagram with an inner control loop at the bottom of sensor controller actuator and joint tagged fast low latency and latency critical for Unit 7 real-time, and outer layers stacked above of planning and trajectory from Module 7, coordination, and supervision tagged slow and latency tolerant; a thin arrow hands a setpoint down from the outer layers into the inner loop; callouts mark delay here goes unstable on the inner loop and delay here is tolerable on the outer handoff; a caption notes one ROS 2 stack hosts all layers</title>
+<rect width="680" height="460" fill="white"/>
+<defs><marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#64748b"/></marker><marker id="ahs" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#0ea5e9"/></marker><marker id="ahe" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#10b981"/></marker></defs>
+<text x="230" y="24" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="15" font-weight="650" fill="#0f172a">A data-flow architecture layered by timing</text>
+<rect x="120" y="55" width="440" height="42" rx="8" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.4"/>
+<text x="340" y="81" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11.5" font-weight="600" fill="#0f172a">Supervision</text>
+<text x="548" y="81" text-anchor="end" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9.5" font-weight="500" fill="#64748b">~1–10 Hz</text>
+<rect x="120" y="107" width="440" height="42" rx="8" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.4"/>
+<text x="340" y="133" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11.5" font-weight="600" fill="#0f172a">Coordination</text>
+<text x="548" y="133" text-anchor="end" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9.5" font-weight="500" fill="#64748b">~10 Hz</text>
+<rect x="120" y="159" width="440" height="42" rx="8" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.4"/>
+<text x="340" y="185" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11.5" font-weight="600" fill="#0f172a">Planning / Trajectory (Module 7)</text>
+<text x="548" y="185" text-anchor="end" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9.5" font-weight="500" fill="#64748b">~10–50 Hz</text>
+<text x="340" y="46" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10.5" font-weight="700" fill="#64748b">outer layers — slow, latency-TOLERANT</text>
+<line x1="340" y1="211" x2="340" y2="239" stroke="#0d9488" stroke-width="2.0" marker-end="url(#ah)"/>
+<text x="352" y="229" text-anchor="start" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" font-weight="600" fill="#0d9488">setpoint / reference (updated slowly)</text>
+<rect x="560" y="205" width="110" height="40" rx="8" fill="#dcfce7" stroke="#86efac" stroke-width="1.4"/>
+<text x="615" y="223" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9.5" font-weight="700" fill="#10b981">delay here</text>
+<text x="615" y="237" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9.5" font-weight="700" fill="#10b981">→ tolerable</text>
+<rect x="120" y="245" width="440" height="120" rx="10" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.2"/>
+<text x="340" y="263" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" font-weight="700" fill="#0d9488">inner loop — fast · low-latency · latency-CRITICAL</text>
+<circle cx="190" cy="317" r="26" fill="white" stroke="#0d9488" stroke-width="1.8"/>
+<text x="190" y="321" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="600" fill="#0f172a">Sensor</text>
+<circle cx="310" cy="317" r="26" fill="white" stroke="#0d9488" stroke-width="1.8"/>
+<text x="310" y="321" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="600" fill="#0f172a">Controller</text>
+<circle cx="430" cy="317" r="26" fill="white" stroke="#0d9488" stroke-width="1.8"/>
+<text x="430" y="321" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="600" fill="#0f172a">Actuator</text>
+<circle cx="520" cy="317" r="26" fill="white" stroke="#0d9488" stroke-width="1.8"/>
+<text x="520" y="321" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9" font-weight="600" fill="#0f172a">Joint</text>
+<line x1="216" y1="317" x2="284" y2="317" stroke="#64748b" stroke-width="1.6" marker-end="url(#ah)"/>
+<line x1="336" y1="317" x2="404" y2="317" stroke="#64748b" stroke-width="1.6" marker-end="url(#ah)"/>
+<line x1="456" y1="317" x2="494" y2="317" stroke="#64748b" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M520,343 C520,361 190,361 190,343" fill="none" stroke="#0d9488" stroke-width="1.6" marker-end="url(#ah)"/>
+<rect x="560" y="275" width="110" height="40" rx="8" fill="#fee2e2" stroke="#fecaca" stroke-width="1.4"/>
+<text x="615" y="293" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9.5" font-weight="700" fill="#e11d48">delay here</text>
+<text x="615" y="307" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="9.5" font-weight="700" fill="#e11d48">→ unstable</text>
+<line x1="120" y1="383" x2="120" y2="383" stroke="#0ea5e9" stroke-width="1"/>
+<text x="120" y="387" text-anchor="start" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" font-weight="700" fill="#0ea5e9">→ inner loop needs real-time (Unit 7)</text>
+<rect x="120" y="399" width="440" height="34" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1.4"/>
+<text x="340" y="420" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10.5" font-weight="600" fill="#64748b">one ROS 2 control stack (Unit 8) hosts every layer</text>
+</svg>

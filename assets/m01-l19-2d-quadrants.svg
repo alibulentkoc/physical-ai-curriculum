@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A 2D coordinate plane divided into four quadrants by the axes, each labeled with its sign pattern, with two example points located.">
+  <defs><style>.t{font-size:18px;font-weight:700;fill:#0f172a}.q{font-size:13px;font-weight:700;fill:#475569}.s{font-size:12px;fill:#64748b}.n{font-size:12.5px;font-weight:700;fill:#0f172a}.c{font-size:12px;fill:#64748b}</style></defs>
+  <text x="320" y="30" text-anchor="middle" class="t">2D plane: four quadrants from two signs</text>
+  <!-- quadrant shading -->
+  <rect x="320" y="60" width="240" height="150" fill="#ecfdf5"/>
+  <rect x="80" y="60" width="240" height="150" fill="#eff6ff"/>
+  <rect x="80" y="210" width="240" height="150" fill="#fef2f2"/>
+  <rect x="320" y="210" width="240" height="150" fill="#fefce8"/>
+  <line x1="80" y1="210" x2="560" y2="210" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="320" y1="60" x2="320" y2="360" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="440" y="86" text-anchor="middle" class="q">I (+, +)</text>
+  <text x="200" y="86" text-anchor="middle" class="q">II (−, +)</text>
+  <text x="200" y="336" text-anchor="middle" class="q">III (−, −)</text>
+  <text x="440" y="336" text-anchor="middle" class="q">IV (+, −)</text>
+  <circle cx="430" cy="150" r="6" fill="#e11d48"/><text x="438" y="146" class="n">(3, 2)</text>
+  <circle cx="230" cy="270" r="6" fill="#1d4ed8"/><text x="170" y="266" class="n">(−2, −1)</text>
+  <circle cx="320" cy="210" r="3.5" fill="#0f172a"/>
+  <text x="320" y="374" text-anchor="middle" class="c">An ordered (x, y) pair locates any point; the signs decide the quadrant.</text>
+</svg>

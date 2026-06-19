@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .stage{fill:#fff;stroke-width:2}
+      .s1{stroke:#0ea5e9}.s2{stroke:#6366f1}.s3{stroke:#8b5cf6}.s4{stroke:#10b981}.s5{stroke:#0d9488}.s6{stroke:#f59e0b}
+      .nm{font-size:12px;font-weight:700;fill:#0f172a}
+      .lyr{font-size:9px;fill:#94a3b8}
+      .ring{fill:none;stroke:#cbd5e1;stroke-width:2.4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <text x="360" y="28" text-anchor="middle" class="title">The Full Pick Cycle: Six Stages, One Closed Loop</text>
+  <text x="360" y="47" text-anchor="middle" class="caption">one fruit, end to end &#183; each stage wraps an existing layer &#183; Recover closes the ring</text>
+
+  <!-- ring of 6 stages arranged in a hexagon -->
+  <g>
+    <rect class="stage s1" x="290" y="70"  width="140" height="50" rx="12"/><text x="360" y="91" text-anchor="middle" class="nm">Perceive</text><text x="360" y="108" text-anchor="middle" class="lyr">[M3 perception]</text>
+    <rect class="stage s2" x="520" y="135" width="150" height="50" rx="12"/><text x="595" y="156" text-anchor="middle" class="nm">Understand</text><text x="595" y="173" text-anchor="middle" class="lyr">[dedupe + select]</text>
+    <rect class="stage s3" x="520" y="250" width="150" height="50" rx="12"/><text x="595" y="271" text-anchor="middle" class="nm">Plan</text><text x="595" y="288" text-anchor="middle" class="lyr">[M5 IK + M7 ref]</text>
+    <rect class="stage s4" x="290" y="315" width="140" height="50" rx="12"/><text x="360" y="336" text-anchor="middle" class="nm">Execute</text><text x="360" y="353" text-anchor="middle" class="lyr">[M6/M8 control]</text>
+    <rect class="stage s5" x="50"  y="250" width="150" height="50" rx="12"/><text x="125" y="271" text-anchor="middle" class="nm">Track</text><text x="125" y="288" text-anchor="middle" class="lyr">[verdict]</text>
+    <rect class="stage s6" x="50"  y="135" width="150" height="50" rx="12"/><text x="125" y="156" text-anchor="middle" class="nm">Recover</text><text x="125" y="173" text-anchor="middle" class="lyr">[orchestrator]</text>
+  </g>
+  <!-- ring arrows -->
+  <path class="ring" d="M430,95 C480,100 510,120 540,133"/>
+  <path class="ring" d="M595,185 L595,248"/>
+  <path class="ring" d="M540,300 C500,318 470,330 432,338"/>
+  <path class="ring" d="M290,340 C240,335 210,318 196,300"/>
+  <path class="ring" d="M125,250 L125,187"/>
+  <path class="ring" d="M180,133 C210,118 250,102 288,96"/>
+
+  <circle cx="360" cy="217" r="26" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="360" y="214" text-anchor="middle" class="nm" fill="#15803d">one</text>
+  <text x="360" y="228" text-anchor="middle" class="lyr" fill="#15803d">pick</text>
+</svg>

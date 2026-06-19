@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .col{fill:#fff;stroke-width:2}
+      .gcol{stroke:#10b981}.bcol{stroke:#f59e0b}
+      .hd{font-size:13px;font-weight:700}
+      .gh{fill:#15803d}.bh{fill:#b45309}
+      .it{font-size:11px;fill:#334155}
+      .rep{fill:#0f172a}
+      .rt{font-size:11px;fill:#cbd5e1}
+      .rg{font-size:11px;font-weight:700;fill:#34d399}
+    </style>
+  </defs>
+  <text x="380" y="26" text-anchor="middle" class="title">Reading the System: Guarantees vs. Boundaries</text>
+  <text x="380" y="44" text-anchor="middle" class="caption">honest boundaries are an engineering deliverable, not a disclaimer</text>
+
+  <!-- guarantees -->
+  <rect class="col gcol" x="30" y="62" width="250" height="280" rx="13"/>
+  <text x="155" y="88" text-anchor="middle" class="hd gh">GUARANTEES &#10003;</text>
+  <text x="48" y="118" class="it">&#10003; accounting: every fruit</text>
+  <text x="62" y="134" class="it">harvested or skipped</text>
+  <text x="48" y="162" class="it">&#10003; completion: row always</text>
+  <text x="62" y="178" class="it">finishes (complete=True)</text>
+  <text x="48" y="206" class="it">&#10003; graceful degradation:</text>
+  <text x="62" y="222" class="it">recover or skip, never stall</text>
+  <text x="48" y="250" class="it">&#10003; localised faults: every</text>
+  <text x="62" y="266" class="it">skip carries code + owner</text>
+  <text x="48" y="300" class="it">&#10003; bounded effort per fruit</text>
+
+  <!-- report (center) -->
+  <rect class="rep" x="300" y="120" width="160" height="165" rx="12"/>
+  <text x="380" y="144" text-anchor="middle" class="rt" font-weight="700" fill="#fff">harvest report</text>
+  <text x="316" y="170" class="rg">H: F0 F2 F3 F5</text>
+  <text x="316" y="190" class="rt">F0: recovered (2)</text>
+  <text x="316" y="216" class="rt" fill="#f87171">S: F1 (PLAN_INVALID)</text>
+  <text x="316" y="242" class="rt">attempts logged</text>
+  <text x="316" y="268" class="rt" font-style="italic">complete = True</text>
+
+  <!-- boundaries -->
+  <rect class="col bcol" x="480" y="62" width="250" height="280" rx="13"/>
+  <text x="605" y="88" text-anchor="middle" class="hd bh">NOT CLAIMED (scope)</text>
+  <text x="498" y="118" class="it">&#9633; not every fruit picked</text>
+  <text x="512" y="134" class="it">(best-effort, not complete)</text>
+  <text x="498" y="162" class="it">&#9633; no root-cause diagnosis</text>
+  <text x="512" y="178" class="it">(localise, not explain why)</text>
+  <text x="498" y="206" class="it">&#9633; no optimal sequencing</text>
+  <text x="512" y="222" class="it">(selection order, not optimal)</text>
+  <text x="498" y="250" class="it">&#9633; no new dynamics /</text>
+  <text x="512" y="266" class="it">control (qualitative plant)</text>
+  <text x="498" y="300" class="it">&#9633; no estimation theory</text>
+
+  <text x="380" y="365" text-anchor="middle" class="caption">a skip-with-reason is correct behaviour, not breakage</text>
+</svg>

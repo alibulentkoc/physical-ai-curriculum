@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A pinhole camera: a tomato sends rays through a single small hole (center of projection) onto an image plane behind it, forming an inverted image; the optical axis and focal distance f are marked.">
+  <defs>
+    <marker id="pk" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.l{font-size:12px;font-weight:700;fill:#334155}</style>
+  </defs>
+  <text x="340" y="24" text-anchor="middle" class="t">The pinhole: one ray per point through the center of projection</text>
+  <!-- scene tomato -->
+  <circle cx="80" cy="110" r="16" fill="#e11d48"/><text x="80" y="88" text-anchor="middle" class="c">scene point</text>
+  <!-- pinhole wall -->
+  <rect x="330" y="70" width="10" height="180" fill="#334155"/>
+  <circle cx="335" cy="170" r="4" fill="#fff" stroke="#0f172a"/>
+  <text x="335" y="60" text-anchor="middle" class="c">center of projection (hole)</text>
+  <!-- image plane -->
+  <line x1="470" y1="90" x2="470" y2="250" stroke="#94a3b8" stroke-width="2"/><text x="470" y="268" text-anchor="middle" class="c">image plane</text>
+  <!-- rays through hole -->
+  <line x1="96" y1="110" x2="335" y2="170" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="335" y1="170" x2="470" y2="204" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#pk)"/>
+  <!-- inverted image -->
+  <circle cx="470" cy="204" r="9" fill="#e11d48"/><text x="500" y="208" class="c">inverted image</text>
+  <!-- optical axis -->
+  <line x1="335" y1="170" x2="470" y2="170" stroke="#0f172a" stroke-width="1" stroke-dasharray="4 3"/><text x="400" y="164" text-anchor="middle" class="c">optical axis</text>
+  <!-- f -->
+  <line x1="340" y1="240" x2="470" y2="240" stroke="#0d9488" stroke-width="1.4"/><text x="405" y="234" text-anchor="middle" class="l" fill="#0f766e">f</text>
+  <text x="340" y="306" text-anchor="middle" class="c">x = f·X/Z, y = f·Y/Z — perspective projection by similar triangles.</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A scaling matrix stretches a shape along the x and y axes by factors sx and sy. A ghost of the original unit square and the scaled rectangle are shown; area scales by sx times sy.">
+  <defs>
+    <marker id="sx" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0ea5e9"/></marker>
+    <marker id="sy" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8b5cf6"/></marker>
+    <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:12px;fill:#64748b}.l{font-size:13px;font-weight:700;fill:#334155}</style>
+  </defs>
+  <text x="320" y="30" text-anchor="middle" class="t">Scaling: stretch space along the axes</text>
+  <line x1="90" y1="300" x2="560" y2="300" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="90" y1="300" x2="90" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- ghost original unit square -->
+  <rect x="90" y="240" width="60" height="60" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="100" y="232" class="c" fill="#94a3b8">original</text>
+  <!-- scaled rectangle: sx=2.5, sy=1.5 -->
+  <rect x="90" y="210" width="150" height="90" fill="#0ea5e922" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="250" y="245" class="l" fill="#0284c7">scaled (sx, sy)</text>
+  <!-- axis factor arrows -->
+  <line x1="90" y1="320" x2="240" y2="320" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#sx)"/><text x="150" y="338" class="c" fill="#0284c7">× sx</text>
+  <line x1="70" y1="300" x2="70" y2="210" stroke="#8b5cf6" stroke-width="2.5" marker-end="url(#sy)"/><text x="40" y="255" class="c" fill="#7c3aed">× sy</text>
+  <text x="320" y="356" text-anchor="middle" class="c">S = [[sx,0],[0,sy]] · area scales by sx·sy · sx=sy uniform (shape kept); sx≠sy distorts; 1,1 = identity.</text>
+</svg>

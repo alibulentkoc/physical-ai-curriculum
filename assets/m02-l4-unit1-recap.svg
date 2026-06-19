@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Unit 1 recap: carry pose between offset, rotated frames, repeatedly; Module 1 gave rotation as a matrix but not translation; homogeneous coordinates close the gap.">
+  <defs>
+    <marker id="r1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:17px;font-weight:700;fill:#0f172a}.l{font-size:12.5px;font-weight:700;fill:#334155}.c{font-size:11.5px;fill:#64748b}.k{font-size:12.5px;font-weight:700;fill:#0f766e}</style>
+  </defs>
+  <text x="340" y="28" text-anchor="middle" class="t">Unit 1: carry pose between offset, rotated frames</text>
+  <rect x="40" y="60" width="180" height="70" rx="9" fill="#8b5cf622" stroke="#8b5cf6"/>
+  <text x="130" y="90" text-anchor="middle" class="l" fill="#7c3aed">perceive (camera)</text><text x="130" y="110" text-anchor="middle" class="c">a pose, in one frame</text>
+  <rect x="250" y="60" width="180" height="70" rx="9" fill="#1d4ed822" stroke="#1d4ed8"/>
+  <text x="340" y="90" text-anchor="middle" class="l" fill="#1d4ed8">act (arm)</text><text x="340" y="110" text-anchor="middle" class="c">same pose, new frame</text>
+  <rect x="460" y="60" width="180" height="70" rx="9" fill="#0d948822" stroke="#0d9488"/>
+  <text x="550" y="90" text-anchor="middle" class="l" fill="#0f766e">remember (world)</text><text x="550" y="110" text-anchor="middle" class="c">and again</text>
+  <line x1="220" y1="95" x2="248" y2="95" stroke="#0f172a" stroke-width="1.8" marker-end="url(#r1)"/>
+  <line x1="430" y1="95" x2="458" y2="95" stroke="#0f172a" stroke-width="1.8" marker-end="url(#r1)"/>
+  <text x="340" y="180" text-anchor="middle" class="l">Module 1: rotation = a matrix &#160;&#160;|&#160;&#160; translation = NOT a matrix</text>
+  <rect x="170" y="205" width="340" height="44" rx="10" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="340" y="232" text-anchor="middle" class="k">fix → homogeneous coordinates (Unit 2)</text>
+  <text x="340" y="282" text-anchor="middle" class="c">Add one coordinate; translation becomes a matrix; rotation + translation unite.</text>
+</svg>

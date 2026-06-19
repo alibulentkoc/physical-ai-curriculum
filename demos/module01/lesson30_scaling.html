@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scaling Transformations — Lesson 4.6</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--accent:#0ea5e9;--p:#8b5cf6;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 320px;min-width:300px}
+  .panel{flex:1 1 240px;min-width:230px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  label{font-size:13px;color:var(--muted);display:block;margin-top:12px}
+  input[type=range]{width:100%}
+  .mtx{display:inline-grid;grid-template-columns:auto auto;gap:4px 14px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);padding:6px 10px;font-variant-numeric:tabular-nums;font-weight:700;margin-top:8px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px;margin-top:10px}
+  .tag{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:700;font-size:12.5px;margin-top:6px}
+  .uni{background:#dcfce7;color:#15803d}.non{background:#fef9c3;color:#854d0e}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 320 300" role="img" aria-label="A shape stretched along the x and y axes by adjustable factors, with a ghost of the original; the area factor is shown.">
+        <line x1="40" y1="250" x2="310" y2="250" stroke="#e2e8f0"/>
+        <line x1="50" y1="30" x2="50" y2="270" stroke="#e2e8f0"/>
+        <polygon id="ghost" points="" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <polygon id="shape" points="" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="2"/>
+      </svg>
+      <div class="hint">Adjust the two factors. Equal factors keep the shape; unequal factors distort it.</div>
+    </div>
+    <div class="panel">
+      <label for="sx">Scale x (sx): <span id="sxV">1.5</span></label>
+      <input id="sx" type="range" min="0.25" max="3" step="0.05" value="1.5">
+      <label for="sy">Scale y (sy): <span id="syV">1.5</span></label>
+      <input id="sy" type="range" min="0.25" max="3" step="0.05" value="1.5">
+      <div>S = <span class="mtx" id="mtx"><span>1.50</span><span>0</span><span>0</span><span>1.50</span></span></div>
+      <div class="readout" aria-live="polite">
+        area factor = sx·sy = <b id="area">2.25</b>×
+        <div style="margin-top:4px"><span id="tag" class="tag uni">uniform (shape kept)</span></div>
+      </div>
+      <button id="reset" class="btn">Reset to 1,1 (identity)</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var OX=50, OY=250, S=55;
+  var base=[[0.3,0.3],[1.3,0.3],[1.5,1.1],[0.8,1.6],[0.1,1.1]];
+  var sx=1.5, sy=1.5;
+  var shape=document.getElementById('shape'), ghost=document.getElementById('ghost');
+  var mtx=document.getElementById('mtx'), area=document.getElementById('area'), tag=document.getElementById('tag');
+  var sxV=document.getElementById('sxV'), syV=document.getElementById('syV');
+  var Sx=document.getElementById('sx'), Sy=document.getElementById('sy');
+  function px(p){ return (OX+p[0]*S)+','+(OY-p[1]*S); }
+  function draw(){
+    ghost.setAttribute('points', base.map(px).join(' '));
+    shape.setAttribute('points', base.map(function(p){return px([p[0]*sx,p[1]*sy]);}).join(' '));
+    sxV.textContent=sx.toFixed(2); syV.textContent=sy.toFixed(2);
+    mtx.innerHTML='<span>'+sx.toFixed(2)+'</span><span>0</span><span>0</span><span>'+sy.toFixed(2)+'</span>';
+    area.textContent=(sx*sy).toFixed(2);
+    if(Math.abs(sx-sy)<0.001){tag.className='tag uni';tag.textContent='uniform (shape kept)';}
+    else{tag.className='tag non';tag.textContent='non-uniform (shape distorts)';}
+  }
+  Sx.addEventListener('input',function(){sx=parseFloat(this.value);draw();});
+  Sy.addEventListener('input',function(){sy=parseFloat(this.value);draw();});
+  document.getElementById('reset').addEventListener('click',function(){sx=1;sy=1;Sx.value=1;Sy.value=1;draw();});
+  draw();
+})();
+</script>
+</body>
+</html>

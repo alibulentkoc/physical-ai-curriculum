@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Left: a shape rotated and translated keeps its edge length and right angle (rigid). Right: the same shape scaled and sheared has changed length and a skewed angle (not rigid).">
+  <defs><style>.t{font-size:17px;font-weight:700;fill:#0f172a}.l{font-size:12.5px;font-weight:700}.c{font-size:11.5px;fill:#64748b}.ok{fill:#15803d}.bad{fill:#b91c1c}</style></defs>
+  <text x="340" y="26" text-anchor="middle" class="t">Rigid vs not rigid</text>
+  <!-- left: rigid -->
+  <rect x="30" y="50" width="300" height="240" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="180" y="74" text-anchor="middle" class="l ok">rigid: rotate + translate</text>
+  <polygon points="70,250 150,250 150,200 70,200" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="110" y="268" text-anchor="middle" class="c">original (w=80)</text>
+  <g transform="rotate(-25 250 150)"><polygon points="210,170 290,170 290,120 210,120" fill="#0ea5e922" stroke="#0ea5e9" stroke-width="2"/>
+    <line x1="210" y1="178" x2="290" y2="178" stroke="#15803d" stroke-width="2"/></g>
+  <text x="250" y="110" text-anchor="middle" class="c ok">moved (w=80, angles kept)</text>
+  <!-- right: not rigid -->
+  <rect x="350" y="50" width="300" height="240" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="500" y="74" text-anchor="middle" class="l bad">not rigid: scale + shear</text>
+  <polygon points="390,250 470,250 470,200 390,200" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="430" y="268" text-anchor="middle" class="c">original (w=80)</text>
+  <polygon points="430,170 590,170 620,120 460,120" fill="#e11d4822" stroke="#e11d48" stroke-width="2"/>
+  <line x1="430" y1="178" x2="590" y2="178" stroke="#b91c1c" stroke-width="2"/>
+  <text x="525" y="110" text-anchor="middle" class="c bad">stretched (w=160, angle skewed)</text>
+  <text x="340" y="310" text-anchor="middle" class="c">Rigid motion preserves every distance and angle; scaling and shearing do not.</text>
+</svg>

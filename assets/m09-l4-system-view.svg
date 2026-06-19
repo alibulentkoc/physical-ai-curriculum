@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .h{font-size:13px;font-weight:700;fill:#0f172a}
+      .small{font-size:11px;fill:#334155}
+      .ring{fill:none;stroke:#6366f1;stroke-width:2.4}
+      .node{fill:#eef2ff;stroke:#6366f1;stroke-width:1.6}
+      .nlbl{font-size:10px;font-weight:700;fill:#3730a3}
+      .seam{fill:none;stroke:#dc2626;stroke-width:2;stroke-dasharray:5 4}
+      .red{font-size:11px;font-weight:700;fill:#b91c1c}
+      .stamp{fill:#f0fdfa;stroke:#0d9488;stroke-width:1.3}
+      .own{font-size:10px;font-weight:700;fill:#0d9488}
+    </style>
+  </defs>
+  <text x="380" y="30" text-anchor="middle" class="title">Unit 1 &#183; The System View</text>
+  <text x="380" y="50" text-anchor="middle" class="caption">one lens, three ideas: seams &#183; spine &#183; trace</text>
+
+  <!-- LEFT: seams / relay -->
+  <text x="125" y="92" text-anchor="middle" class="h">Seams</text>
+  <rect x="70" y="104" width="110" height="30" rx="7" fill="#fff" stroke="#334155"/><text x="125" y="124" text-anchor="middle" class="small">layer A</text>
+  <rect x="70" y="168" width="110" height="30" rx="7" fill="#fff" stroke="#334155"/><text x="125" y="188" text-anchor="middle" class="small">layer B</text>
+  <path class="seam" d="M125,134 L125,168"/>
+  <text x="125" y="156" text-anchor="middle" class="red">drop!</text>
+  <text x="125" y="222" text-anchor="middle" class="caption">bugs live between parts</text>
+
+  <!-- CENTER: spine ring -->
+  <text x="380" y="92" text-anchor="middle" class="h">Spine</text>
+  <circle class="ring" cx="380" cy="200" r="80"/>
+  <g>
+    <circle class="node" cx="380" cy="120" r="20"/><text x="380" y="123" text-anchor="middle" class="nlbl">Perc</text>
+    <circle class="node" cx="449" cy="160" r="20"/><text x="449" y="163" text-anchor="middle" class="nlbl">Und</text>
+    <circle class="node" cx="449" cy="240" r="20"/><text x="449" y="243" text-anchor="middle" class="nlbl">Plan</text>
+    <circle class="node" cx="380" cy="280" r="20"/><text x="380" y="283" text-anchor="middle" class="nlbl">Exec</text>
+    <circle class="node" cx="311" cy="240" r="20"/><text x="311" y="243" text-anchor="middle" class="nlbl">Trk</text>
+    <circle class="node" cx="311" cy="160" r="20"/><text x="311" y="163" text-anchor="middle" class="nlbl">Rec</text>
+  </g>
+  <text x="380" y="320" text-anchor="middle" class="caption">six stages, six owners</text>
+
+  <!-- RIGHT: trace -->
+  <text x="635" y="92" text-anchor="middle" class="h">Trace</text>
+  <g>
+    <rect class="stamp" x="585" y="104" width="100" height="22" rx="6"/><text x="592" y="119" class="small">1 Perceive</text><text x="678" y="119" text-anchor="end" class="own">M3</text>
+    <rect class="stamp" x="585" y="132" width="100" height="22" rx="6"/><text x="592" y="147" class="small">2 Understand</text><text x="678" y="147" text-anchor="end" class="own">M9</text>
+    <rect class="stamp" x="585" y="160" width="100" height="22" rx="6"/><text x="592" y="175" class="small">3 Plan</text><text x="678" y="175" text-anchor="end" class="own">M7</text>
+    <rect class="stamp" x="585" y="188" width="100" height="22" rx="6"/><text x="592" y="203" class="small">4 Execute</text><text x="678" y="203" text-anchor="end" class="own">M6+8</text>
+    <rect class="stamp" x="585" y="216" width="100" height="22" rx="6"/><text x="592" y="231" class="small">5 Track</text><text x="678" y="231" text-anchor="end" class="own">M8</text>
+    <rect class="stamp" x="585" y="244" width="100" height="22" rx="6"/><text x="592" y="259" class="small">6 Recover</text><text x="678" y="259" text-anchor="end" class="own">M9</text>
+  </g>
+  <text x="635" y="288" text-anchor="middle" class="caption">one tomato, six stamps</text>
+</svg>

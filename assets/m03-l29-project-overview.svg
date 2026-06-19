@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The mini project: inputs pixel, K, distortion, depth, extrinsics feed a pipeline producing a world position, with three acceptance check badges: re-projection, distance preserved, in workspace.">
+  <defs>
+    <marker id="pa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:10px;fill:#64748b}.b{font-size:11px;font-weight:700;fill:#334155}.ok{font-size:10.5px;font-weight:800;fill:#15803d}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">See the Fruit, Place It in the World</text>
+  <rect x="20" y="70" width="150" height="92" rx="10" fill="#eef2f7" stroke="#cbd5e1"/>
+  <text x="95" y="88" text-anchor="middle" class="b">given</text>
+  <text x="95" y="106" text-anchor="middle" class="c">pixel, K, distCoeffs</text>
+  <text x="95" y="122" text-anchor="middle" class="c">depth Z</text>
+  <text x="95" y="138" text-anchor="middle" class="c">T(arm←cam), T(world←arm)</text>
+  <rect x="210" y="70" width="200" height="92" rx="10" fill="#f5f3ff" stroke="#ddd6fe"/>
+  <text x="310" y="90" text-anchor="middle" class="b">pipeline</text>
+  <text x="310" y="110" text-anchor="middle" class="c">undistort → K⁻¹ ray + depth</text>
+  <text x="310" y="126" text-anchor="middle" class="c">→ P_c → T(world←cam)</text>
+  <text x="310" y="146" text-anchor="middle" class="c">→ P_w</text>
+  <rect x="450" y="86" width="230" height="60" rx="10" fill="#fee2e2" stroke="#fecaca"/>
+  <text x="565" y="108" text-anchor="middle" class="b">P_w (world position)</text>
+  <text x="565" y="128" text-anchor="middle" class="c">the arm's target</text>
+  <line x1="170" y1="116" x2="208" y2="116" stroke="#0f172a" stroke-width="1.6" marker-end="url(#pa)"/>
+  <line x1="410" y1="116" x2="448" y2="116" stroke="#0f172a" stroke-width="1.6" marker-end="url(#pa)"/>
+  <text x="350" y="196" text-anchor="middle" class="ok">verify ✓ re-projection ≤1px   ✓ distance preserved   ✓ in workspace</text>
+  <text x="350" y="220" text-anchor="middle" class="c">Reference: canonical inputs → P_w = (1.06, 0.47, 0.4)</text>
+</svg>

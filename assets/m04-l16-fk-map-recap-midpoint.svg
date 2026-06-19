@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A progress strip from config versus pose to one joint factor to chain product to general T 0 n, a midpoint flag, and an arrow forward to the DH convention.">
+  <defs>
+    <marker id="m16" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#10b981"/></marker>
+    <style>.t{font-size:15px;font-weight:700;fill:#0f172a}.c{font-size:10.5px;fill:#64748b}.b{font-size:10.5px;font-weight:700;fill:#334155}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Module 4 midpoint: we can compute any arm's gripper pose</text>
+  <g>
+   <rect x="20" y="55" width="120" height="40" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/><text x="80" y="80" text-anchor="middle" class="b">config vs pose</text>
+   <rect x="155" y="55" width="120" height="40" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/><text x="215" y="80" text-anchor="middle" class="b">one joint factor</text>
+   <rect x="290" y="55" width="120" height="40" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/><text x="350" y="80" text-anchor="middle" class="b">chain product</text>
+   <rect x="425" y="55" width="130" height="40" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/><text x="490" y="80" text-anchor="middle" class="b">general T₀ⁿ(θ)</text>
+   <text x="585" y="80" class="b" fill="#047857">✓ midpoint</text>
+  </g>
+  <line x1="180" y1="130" x2="430" y2="130" stroke="#10b981" stroke-width="2" marker-end="url(#m16)"/>
+  <text x="305" y="122" text-anchor="middle" class="c">next</text>
+  <rect x="435" y="112" width="230" height="36" rx="9" fill="#f5f3ff" stroke="#ddd6fe"/><text x="550" y="135" text-anchor="middle" class="b" fill="#7c3aed">DH: 4 parameters per joint → a table</text>
+  <text x="350" y="182" text-anchor="middle" class="c">Units 5–6 standardize the factors; Unit 7 reconnects to perception; Unit 8 capstone.</text>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A strip: 3D scene to camera to image (forward, depth lost), then image plus depth back to a 3D point (inverse, depth added); direction always kept.">
+  <defs>
+    <marker id="pr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <marker id="pb" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f766e"/></marker>
+    <style>.t{font-size:17px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.l{font-size:12px;font-weight:700;fill:#334155}.k{font-size:12.5px;font-weight:800;fill:#0f766e}</style>
+  </defs>
+  <text x="350" y="26" text-anchor="middle" class="t">Perception is a round trip</text>
+  <rect x="30" y="60" width="120" height="70" rx="9" fill="#f0fdf4" stroke="#bbf7d0"/><text x="90" y="100" text-anchor="middle" class="l">3D scene</text>
+  <rect x="230" y="60" width="120" height="70" rx="9" fill="#eff6ff" stroke="#bfdbfe"/><text x="290" y="100" text-anchor="middle" class="l">camera</text>
+  <rect x="430" y="60" width="120" height="70" rx="9" fill="#0f172a"/><text x="490" y="100" text-anchor="middle" class="l" fill="#fff">image (pixels)</text>
+  <line x1="150" y1="95" x2="228" y2="95" stroke="#0f172a" stroke-width="1.8" marker-end="url(#pr)"/>
+  <line x1="350" y1="95" x2="428" y2="95" stroke="#0f172a" stroke-width="1.8" marker-end="url(#pr)"/>
+  <text x="375" y="50" text-anchor="middle" class="c">forward: depth lost</text>
+  <!-- inverse arrow back -->
+  <path d="M 490 132 Q 290 200 90 134" fill="none" stroke="#0f766e" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#pb)"/>
+  <text x="350" y="190" text-anchor="middle" class="k">inverse: pixel + depth → 3D point</text>
+  <text x="350" y="232" text-anchor="middle" class="c">Direction is always kept; depth must be added back. Next: the pinhole model.</text>
+</svg>

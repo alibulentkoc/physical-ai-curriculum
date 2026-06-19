@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7c3aed"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style></defs>
+  <text x="360" y="28" text-anchor="middle" class="t">Prediction as Run-Ahead Simulation</text>
+  <text x="360" y="46" text-anchor="middle" class="c">predict: what is likely to happen next?</text>
+  <rect x="40" y="92" width="170" height="80" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.2"/>
+  <text x="125" y="124" text-anchor="middle" class="p" fill="#1d4ed8">now</text><text x="125" y="146" text-anchor="middle" class="c">sync to reality</text><text x="125" y="162" text-anchor="middle" class="c">(current state)</text>
+  <rect x="275" y="92" width="170" height="80" rx="12" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="360" y="128" text-anchor="middle" class="p" fill="#0d9488">run the system</text><text x="360" y="148" text-anchor="middle" class="p" fill="#0d9488">ahead</text><text x="360" y="165" text-anchor="middle" class="c">harvest_row forward</text>
+  <rect x="510" y="92" width="170" height="80" rx="12" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/>
+  <text x="595" y="124" text-anchor="middle" class="p" fill="#15803d">next</text><text x="595" y="146" text-anchor="middle" class="c">forecast outcome</text><text x="595" y="162" text-anchor="middle" class="c">harvested / skipped</text>
+  <path d="M210,132 L273,132" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <path d="M445,132 L508,132" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <text x="360" y="216" text-anchor="middle" class="c">on a copy &#183; reality untouched &#183; reproducible &#183; the existing system, not a learned model</text>
+  <text x="360" y="244" text-anchor="middle" class="c" fill="#b45309">only as faithful as the twin (&#8594; Lesson 6.3)</text>
+</svg>

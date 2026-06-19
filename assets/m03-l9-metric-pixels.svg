@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The image plane shown as a metric grid laid over a finer pixel grid; a projected point at 3.2 mm is reinterpreted as 640 pixels by dividing by the pixel size; focal length in pixels equals metric focal length over pixel size.">
+  <defs><style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.l{font-size:12px;font-weight:700;fill:#334155}.k{font-size:12.5px;font-weight:800;fill:#0f766e}</style></defs>
+  <text x="340" y="24" text-anchor="middle" class="t">From metric image coordinates to pixels</text>
+  <!-- pixel grid -->
+  <rect x="40" y="60" width="360" height="180" fill="#0f172a"/>
+  <g stroke="#1e293b" stroke-width="1">
+    <line x1="40" y1="105" x2="400" y2="105"/><line x1="40" y1="150" x2="400" y2="150"/><line x1="40" y1="195" x2="400" y2="195"/>
+    <line x1="100" y1="60" x2="100" y2="240"/><line x1="160" y1="60" x2="160" y2="240"/><line x1="220" y1="60" x2="220" y2="240"/><line x1="280" y1="60" x2="280" y2="240"/><line x1="340" y1="60" x2="340" y2="240"/>
+  </g>
+  <text x="220" y="54" text-anchor="middle" class="l">image plane = pixel grid</text>
+  <!-- center -->
+  <line x1="40" y1="150" x2="400" y2="150" stroke="#475569" stroke-dasharray="3 3"/>
+  <circle cx="40" cy="150" r="3" fill="#94a3b8"/><text x="40" y="256" text-anchor="middle" class="c">center</text>
+  <!-- projected point -->
+  <circle cx="300" cy="150" r="6" fill="#e11d48"/>
+  <line x1="40" y1="262" x2="300" y2="262" stroke="#f59e0b" stroke-width="1.4"/><text x="170" y="280" text-anchor="middle" class="c" fill="#b45309">x = 3.2 mm  →  640 px</text>
+  <!-- formula -->
+  <rect x="430" y="110" width="220" height="80" rx="10" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="540" y="140" text-anchor="middle" class="k">f_x = f_m / s_x</text>
+  <text x="540" y="166" text-anchor="middle" class="c">pixel size s_x = 0.005 mm</text>
+  <text x="540" y="182" text-anchor="middle" class="c">u' = f_x · X/Z</text>
+</svg>

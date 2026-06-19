@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700;fill:#0f172a}</style>
+  <text x="360" y="28" text-anchor="middle" class="t">Determinism: Replay and Controlled Comparison</text>
+  <text x="360" y="46" text-anchor="middle" class="c">same world + same seed &#8594; same result</text>
+  <!-- replay -->
+  <rect x="40" y="70" width="300" height="110" rx="12" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/>
+  <text x="190" y="92" text-anchor="middle" class="p" fill="#15803d">replay (same world, same seed)</text>
+  <rect x="60" y="104" width="120" height="58" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="120" y="128" text-anchor="middle" class="c">run 1</text><text x="120" y="148" text-anchor="middle" class="c">H={F0,F2,F3}</text>
+  <rect x="200" y="104" width="120" height="58" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="260" y="128" text-anchor="middle" class="c">run 2</text><text x="260" y="148" text-anchor="middle" class="c">H={F0,F2,F3}</text>
+  <text x="190" y="176" text-anchor="middle" class="c" fill="#15803d">identical &#10003;</text>
+  <!-- controlled comparison -->
+  <rect x="380" y="70" width="300" height="110" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="530" y="92" text-anchor="middle" class="p" fill="#1d4ed8">change ONE thing (same seed)</text>
+  <rect x="400" y="104" width="120" height="58" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="460" y="128" text-anchor="middle" class="c">baseline</text><text x="460" y="148" text-anchor="middle" class="c">H={F0,F2,F3}</text>
+  <rect x="540" y="104" width="120" height="58" rx="8" fill="#fff" stroke="#cbd5e1"/><text x="600" y="128" text-anchor="middle" class="c">+ obstacle F3</text><text x="600" y="148" text-anchor="middle" class="c" fill="#b91c1c">H={F0,F2}</text>
+  <text x="530" y="176" text-anchor="middle" class="c" fill="#b45309">one attributable difference</text>
+  <text x="360" y="240" text-anchor="middle" class="p">a difference under identical inputs &#8658; an input actually changed</text>
+  <text x="360" y="266" text-anchor="middle" class="c">reproducibility turns a simulation into a controlled experiment</text>
+</svg>

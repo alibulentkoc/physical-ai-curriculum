@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="One pick described in three frames with the camera-to-robot-to-world chain shown: the camera perceives, the robot acts, the world remembers — the same tomato re-described at each step.">
+  <defs>
+    <marker id="fc" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.h{font-size:13px;font-weight:700;fill:#0f172a}.c{font-size:11.5px;fill:#64748b}.rd{font-size:13px;font-weight:700}.tag{font-size:11px;fill:#475569}</style>
+  </defs>
+  <text x="360" y="28" text-anchor="middle" class="t">One pick, three frames: camera → robot → world</text>
+  <!-- three panels -->
+  <!-- camera -->
+  <rect x="30" y="60" width="200" height="250" rx="12" fill="#ede9fe" stroke="#ddd6fe"/>
+  <text x="130" y="86" text-anchor="middle" class="h" fill="#7c3aed">camera frame</text>
+  <text x="130" y="104" text-anchor="middle" class="tag">perceive</text>
+  <line x1="70" y1="270" x2="170" y2="270" stroke="#8b5cf6" stroke-width="2"/><line x1="70" y1="270" x2="70" y2="170" stroke="#8b5cf6" stroke-width="2"/>
+  <circle cx="140" cy="200" r="11" fill="#e11d48"/>
+  <rect x="55" y="290" width="150" height="0" /><text x="130" y="300" text-anchor="middle" class="rd" fill="#7c3aed">(0.30, -0.10)</text>
+  <!-- robot -->
+  <rect x="260" y="60" width="200" height="250" rx="12" fill="#dbeafe" stroke="#bfdbfe"/>
+  <text x="360" y="86" text-anchor="middle" class="h" fill="#1d4ed8">robot frame</text>
+  <text x="360" y="104" text-anchor="middle" class="tag">act (move arm)</text>
+  <line x1="300" y1="270" x2="400" y2="270" stroke="#1d4ed8" stroke-width="2"/><line x1="300" y1="270" x2="300" y2="170" stroke="#1d4ed8" stroke-width="2"/>
+  <circle cx="362" cy="190" r="11" fill="#e11d48"/>
+  <text x="360" y="300" text-anchor="middle" class="rd" fill="#1d4ed8">(0.35, 0.15)</text>
+  <!-- world -->
+  <rect x="490" y="60" width="200" height="250" rx="12" fill="#ccfbf1" stroke="#99f6e4"/>
+  <text x="590" y="86" text-anchor="middle" class="h" fill="#0f766e">world frame</text>
+  <text x="590" y="104" text-anchor="middle" class="tag">remember (map)</text>
+  <line x1="520" y1="270" x2="640" y2="270" stroke="#0d9488" stroke-width="2"/><line x1="520" y1="270" x2="520" y2="170" stroke="#0d9488" stroke-width="2"/>
+  <circle cx="600" cy="185" r="11" fill="#e11d48"/>
+  <text x="590" y="300" text-anchor="middle" class="rd" fill="#0f766e">(2.00, 1.50)</text>
+  <!-- chain arrows -->
+  <line x1="232" y1="180" x2="258" y2="180" stroke="#0f172a" stroke-width="2.5" marker-end="url(#fc)"/>
+  <line x1="462" y1="180" x2="488" y2="180" stroke="#0f172a" stroke-width="2.5" marker-end="url(#fc)"/>
+  <text x="360" y="382" text-anchor="middle" class="c">Same tomato at every step — only the describing frame changes. This is Lesson 1.1's loop, as frame changes.</text>
+</svg>

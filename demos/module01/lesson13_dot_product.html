@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dot Product — Lesson 2.7</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--a:#0ea5e9;--b:#8b5cf6;--ok:#15803d;--no:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:8px}
+  .demo{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  .stage{flex:1 1 320px;min-width:300px}
+  .panel{flex:1 1 250px;min-width:240px}
+  svg{width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  label{font-size:13px;color:var(--muted);display:block;margin-top:12px}
+  input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px;margin-top:8px}
+  .readout b{font-variant-numeric:tabular-nums}
+  .tag{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:700;font-size:12.5px;margin-top:6px}
+  .pos{background:#dcfce7;color:#15803d}.zero{background:#eff6ff;color:#1d4ed8}.neg{background:#fee2e2;color:#b91c1c}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo">
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 360 360" role="application" aria-label="Two vectors from a common origin; drag vector b to change the angle and watch the dot product.">
+        <defs>
+          <marker id="da" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0ea5e9"/></marker>
+          <marker id="db" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8b5cf6"/></marker>
+        </defs>
+        <circle cx="180" cy="180" r="120" fill="none" stroke="#e2e8f0"/>
+        <line x1="60" y1="180" x2="300" y2="180" stroke="#cbd5e1" stroke-width="1"/>
+        <line x1="180" y1="60" x2="180" y2="300" stroke="#cbd5e1" stroke-width="1"/>
+        <line id="va" x1="180" y1="180" x2="300" y2="180" stroke="#0ea5e9" stroke-width="4" marker-end="url(#da)"/>
+        <text x="305" y="184" font-size="13" font-weight="700" fill="#0284c7">a (gripper)</text>
+        <line id="vb" x1="180" y1="180" x2="240" y2="76" stroke="#8b5cf6" stroke-width="4" marker-end="url(#db)"/>
+        <circle id="tip" cx="240" cy="76" r="9" fill="#8b5cf6" stroke="#fff" stroke-width="2" tabindex="0" style="cursor:grab" aria-label="vector b tip, draggable"/>
+        <path id="arc" d="" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+      </svg>
+      <div class="hint">Drag the violet tip (vector b). Vector a points along +x (the gripper's facing).</div>
+    </div>
+    <div class="panel">
+      <label for="ang">Angle θ between a and b: <span id="angV">60</span>°</label>
+      <input id="ang" type="range" min="0" max="180" step="1" value="60">
+      <div class="readout" aria-live="polite">
+        a · b = <b id="dot">0.50</b><br>
+        |a| = 1.00, |b| = 1.00, cos θ = <b id="cos">0.50</b><br>
+        <span id="tag" class="tag pos">aligned (positive)</span>
+        <div id="msg" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var CX=180, CY=180, R=120;
+  var theta=60; // degrees
+  var scene=document.getElementById('scene'), vb=document.getElementById('vb'), tip=document.getElementById('tip'), arc=document.getElementById('arc');
+  var angS=document.getElementById('ang'), angV=document.getElementById('angV');
+  var dotE=document.getElementById('dot'), cosE=document.getElementById('cos'), tag=document.getElementById('tag'), msg=document.getElementById('msg');
+  function render(){
+    var r=theta*Math.PI/180;
+    var bx=CX+R*Math.cos(r), by=CY-R*Math.sin(r);
+    vb.setAttribute('x2',bx); vb.setAttribute('y2',by);
+    tip.setAttribute('cx',bx); tip.setAttribute('cy',by);
+    // a=(1,0), b=(cos,sin); dot = cos θ
+    var c=Math.cos(r), dot=c;
+    angV.textContent=Math.round(theta); dotE.textContent=dot.toFixed(2); cosE.textContent=c.toFixed(2);
+    var t,cls,m;
+    if(theta<80){t='aligned (positive)';cls='pos';m='Gripper roughly faces the target — a·b is large and positive.';}
+    else if(theta<=100){t='perpendicular (≈ zero)';cls='zero';m='Facing across the target — a·b ≈ 0.';}
+    else {t='opposed (negative)';cls='neg';m='Facing away — a·b is negative.';}
+    tag.textContent=t; tag.className='tag '+cls; msg.textContent=m;
+    // arc
+    var a0=0, a1=-r;
+    var x0=CX+28, y0=CY, x1=CX+28*Math.cos(r), y1=CY-28*Math.sin(r);
+    arc.setAttribute('d','M '+x0+' '+y0+' A 28 28 0 0 0 '+x1+' '+y1);
+    angS.value=theta;
+  }
+  angS.addEventListener('input',function(){theta=parseFloat(this.value);render();});
+  var drag=false;
+  tip.addEventListener('pointerdown',function(e){drag=true;tip.style.cursor='grabbing';if(e.cancelable)e.preventDefault();});
+  window.addEventListener('pointermove',function(e){
+    if(!drag)return; var r=scene.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width*360-CX, y=CY-(e.clientY-r.top)/r.height*360;
+    var ang=Math.atan2(y,x)*180/Math.PI; if(ang<0)ang=-ang; if(ang>180)ang=180;
+    theta=Math.max(0,Math.min(180,ang)); render();
+  });
+  window.addEventListener('pointerup',function(){drag=false;tip.style.cursor='grab';});
+  tip.addEventListener('keydown',function(e){var s=2,m=true;if(e.key==='ArrowLeft'||e.key==='ArrowDown')theta-=s;else if(e.key==='ArrowRight'||e.key==='ArrowUp')theta+=s;else m=false;if(m){e.preventDefault();theta=Math.max(0,Math.min(180,theta));render();}});
+  render();
+})();
+</script>
+</body>
+</html>

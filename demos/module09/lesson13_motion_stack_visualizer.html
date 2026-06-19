@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion Stack Visualizer — Module 9</title>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--accent:#0d9488;
+--ref:#8b5cf6;--act:#10b981;--err:#f59e0b;--btn:#0f172a;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:900px;margin:0 auto;padding:10px}
+.lead{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);
+border-radius:10px;padding:9px 12px;margin-bottom:12px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 14px;
+font-size:13.5px;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--soft)}
+.btn.primary{background:var(--btn);color:#fff;border-color:var(--btn)}
+.toggle{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink);
+border:1px solid var(--line);border-radius:9px;padding:6px 10px;background:#fff;cursor:pointer}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.panel{flex:1 1 380px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px}
+.panel h4{margin:2px 0 8px;font-size:13px}
+canvas{width:100%;height:200px;display:block}
+.legend{font-size:11.5px;color:var(--muted);margin-top:6px}
+.sw{display:inline-block;width:11px;height:3px;vertical-align:middle;margin-right:4px;border-radius:2px}
+.stat{font-size:12.5px;color:var(--ink)}
+.stat b{color:var(--accent)}
+.slider{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+input[type=range]{width:120px}
+</style></head>
+<body><div class="wrap">
+<div class="lead">The <b>motion stack</b> in action: the planner's <span style="color:var(--ref)">reference</span>
+is tracked closed-loop by the controller, producing the <span style="color:var(--act)">actual</span> joint
+motion. Feed-forward + PID feedback drive the gap to near zero. Inject a disturbance and watch feedback
+recover. (A single-joint model, illustrating the L4.1 stack.)</div>
+
+<div class="controls">
+  <button class="btn primary" id="play">▶ Play</button>
+  <button class="btn" id="reset">↺ Reset</button>
+  <span class="toggle" id="distT">☐ Disturbance kick</span>
+  <span class="toggle" id="ffT">☑ Feed-forward</span>
+  <span class="slider">gain K<sub>p</sub> <input type="range" id="kp" min="5" max="60" value="30"><span id="kpv">30</span></span>
+</div>
+
+<div class="row">
+  <div class="panel">
+    <h4>Joint angle — reference vs. actual</h4>
+    <canvas id="trackCv"></canvas>
+    <div class="legend"><span class="sw" style="background:var(--ref)"></span>reference q_d
+      &nbsp;&nbsp;<span class="sw" style="background:var(--act)"></span>actual q</div>
+  </div>
+  <div class="panel">
+    <h4>Tracking error (q_d − q)</h4>
+    <canvas id="errCv"></canvas>
+    <div class="legend"><span class="sw" style="background:var(--err)"></span>error
+      &nbsp;&nbsp;<span class="stat">RMS: <b id="rms">—</b> rad &nbsp; final |e|: <b id="fe">—</b></span></div>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  var T=2.0, dt=0.004, n=Math.round(T/dt)+1;
+  var qTarget=1.2;
+  var state={dist:false, ff:true, kp:30, ki:14, kd:6};
+  // quintic rest-to-rest reference 0 -> qTarget over T
+  function ref(t){
+    var s=Math.min(t/T,1.0);
+    var q=qTarget*(10*s*s*s -15*s*s*s*s +6*s*s*s*s*s);
+    var qd=qTarget*(30*s*s -60*s*s*s +30*s*s*s*s)/T;
+    var qdd=qTarget*(60*s -180*s*s +120*s*s*s)/(T*T);
+    return [q,qd,qdd];
+  }
+  // simulate closed loop, return arrays
+  function simulate(){
+    var m=0.5,b=0.8,load=2.0;       // plant: m q.. = u - b q. - load - dist
+    var q=0,qd=0,ei=0,ePrev=0;
+    var Q=[],QD=[],E=[],t=[];
+    for(var i=0;i<n;i++){
+      var ti=i*dt; var r=ref(ti); var q_d=r[0],qd_d=r[1],qdd_d=r[2];
+      var e=q_d-q;
+      ei+=e*dt; ei=Math.max(-5,Math.min(5,ei));
+      var ed=(e-ePrev)/dt; ePrev=e;
+      var u_fb=state.kp*e + state.ki*ei + state.kd*ed;
+      var u_ff=state.ff ? (m*qdd_d + b*qd_d + load) : 0;
+      var u=u_fb+u_ff;
+      var dist=(state.dist && ti>0.45 && ti<0.55)? 45:0;
+      Q.push(q); QD.push(q_d); E.push(e); t.push(ti);
+      var acc=(u - b*qd - load - dist)/m;
+      qd+=acc*dt; q+=qd*dt;
+    }
+    return {Q:Q,QD:QD,E:E,t:t};
+  }
+  var sim=simulate(), frame=0, playing=false, raf=null;
+
+  var tc=document.getElementById('trackCv'), ec=document.getElementById('errCv');
+  function fit(cv){ var r=cv.getBoundingClientRect(); cv.width=r.width*2; cv.height=r.height*2; }
+  function draw(){
+    fit(tc); fit(ec);
+    var g=tc.getContext('2d'), W=tc.width, H=tc.height;
+    g.clearRect(0,0,W,H); g.lineWidth=4;
+    var k=Math.max(1,frame);
+    function plot(ctx,arr,col,ymin,ymax){
+      ctx.strokeStyle=col; ctx.beginPath();
+      for(var i=0;i<k;i++){
+        var x=i/(n-1)*W; var y=H-(arr[i]-ymin)/(ymax-ymin)*H*0.9-H*0.05;
+        i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+      }
+      ctx.stroke();
+    }
+    plot(g,sim.QD,'#8b5cf6',-0.1,qTarget*1.15);
+    plot(g,sim.Q,'#10b981',-0.1,qTarget*1.15);
+    var ge=ec.getContext('2d'); ge.clearRect(0,0,ec.width,ec.height); ge.lineWidth=4;
+    var emax=0.6;
+    ge.strokeStyle='#cbd5e1'; ge.lineWidth=2; ge.beginPath();
+    ge.moveTo(0,ec.height/2); ge.lineTo(ec.width,ec.height/2); ge.stroke();
+    ge.lineWidth=4; ge.strokeStyle='#f59e0b'; ge.beginPath();
+    for(var i=0;i<k;i++){ var x=i/(n-1)*ec.width; var y=ec.height/2 - sim.E[i]/emax*ec.height*0.42;
+      i?ge.lineTo(x,y):ge.moveTo(x,y); }
+    ge.stroke();
+    // stats up to current frame
+    var ssum=0; for(var j=0;j<k;j++) ssum+=sim.E[j]*sim.E[j];
+    document.getElementById('rms').textContent=(Math.sqrt(ssum/k)).toFixed(4);
+    document.getElementById('fe').textContent=Math.abs(sim.E[k-1]).toFixed(4);
+  }
+  function step(){ if(!playing) return; frame+=4; if(frame>=n){frame=n; playing=false; document.getElementById('play').textContent='▶ Play';} draw(); if(playing) raf=requestAnimationFrame(step); }
+  function recompute(){ sim=simulate(); if(frame>n)frame=n; draw(); }
+
+  document.getElementById('play').addEventListener('click',function(){
+    if(frame>=n){frame=0;}
+    playing=!playing; this.textContent=playing?'❚❚ Pause':'▶ Play';
+    if(playing){ raf=requestAnimationFrame(step);} else if(raf){cancelAnimationFrame(raf);}
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    playing=false; frame=0; document.getElementById('play').textContent='▶ Play'; recompute(); draw();
+  });
+  document.getElementById('distT').addEventListener('click',function(){
+    state.dist=!state.dist; this.textContent=(state.dist?'☑':'☐')+' Disturbance kick'; recompute();
+  });
+  document.getElementById('ffT').addEventListener('click',function(){
+    state.ff=!state.ff; this.textContent=(state.ff?'☑':'☐')+' Feed-forward'; recompute();
+  });
+  document.getElementById('kp').addEventListener('input',function(){
+    state.kp=+this.value; document.getElementById('kpv').textContent=this.value; recompute();
+  });
+  window.addEventListener('resize',draw);
+  frame=n; recompute(); draw();   // show the full converged run initially
+})();
+</script>
+</body></html>

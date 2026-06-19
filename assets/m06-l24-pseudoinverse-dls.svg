@@ -1,0 +1,20 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs><marker id="ad" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#475569"/></marker></defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">Inversion divides by &#963; &#8212; damping replaces 1/&#963; with &#963;/(&#963;&#178;+&#955;&#178;)</text>
+  <g stroke="#475569" stroke-width="1.6" fill="none">
+    <line x1="90" y1="240" x2="700" y2="240" marker-end="url(#ad)"/>
+    <line x1="110" y1="250" x2="110" y2="60" marker-end="url(#ad)"/>
+  </g>
+  <text x="705" y="244" font-size="11" fill="#6b7280">&#963;</text><text x="92" y="60" font-size="11" fill="#6b7280">gain</text>
+  <!-- 1/sigma blow-up -->
+  <path d="M 120 70 C 150 200 220 228 360 233 C 500 237 650 238 690 238" stroke="#dc2626" stroke-width="2.8" fill="none"/>
+  <text x="150" y="92" font-size="12" fill="#dc2626" font-weight="600">1/&#963; (pseudoinverse) &#8594; &#8734;</text>
+  <!-- damped: rises then falls, peak 1/(2lam) -->
+  <path d="M 110 240 C 150 120 185 110 210 118 C 320 150 520 215 690 233" stroke="#2563eb" stroke-width="2.8" fill="none"/>
+  <line x1="110" y1="112" x2="700" y2="112" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="600" y="108" font-size="11" fill="#6b7280">ceiling 1/(2&#955;)</text>
+  <text x="250" y="132" font-size="12" fill="#2563eb" font-weight="600">&#963;/(&#963;&#178;+&#955;&#178;) (damped) &#8212; bounded</text>
+  <rect x="110" y="60" width="46" height="180" fill="rgba(244,63,94,0.08)"/>
+  <text x="133" y="262" text-anchor="middle" font-size="10.5" fill="#dc2626">small &#963;</text>
+  <text x="380" y="280" text-anchor="middle" font-size="12" fill="#6b7280">damping: bounded joint rates near singularity, at the cost of small tracking error (= M5's DLS)</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .box{fill:#fff;stroke-width:2}
+      .lbl{font-size:12px;font-weight:600;fill:#0f172a}
+      .sub{font-size:10.5px;fill:#64748b}
+      .flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#arrow)}
+      .pos{fill:none;stroke:#6366f1;stroke-width:2}
+      .vel{fill:none;stroke:#10b981;stroke-width:2}
+      .acc{fill:none;stroke:#f59e0b;stroke-width:2}
+      .axis{stroke:#cbd5e1;stroke-width:1}
+      .stamp{font-size:11px;font-weight:700;fill:#15803d}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">Invoking the Planner: Goal Configuration &#8594; Reference</text>
+  <text x="380" y="48" text-anchor="middle" class="caption">Module 7 wrapped verbatim &#183; Module 9 calls, checks, hands off</text>
+
+  <!-- q_goal box -->
+  <rect class="box" x="30" y="150" width="130" height="60" rx="12" stroke="#8b5cf6"/>
+  <text x="95" y="178" text-anchor="middle" class="lbl">q_start, q_goal</text>
+  <text x="95" y="196" text-anchor="middle" class="sub">from IK seam</text>
+
+  <!-- planner box -->
+  <rect class="box" x="210" y="140" width="160" height="80" rx="12" stroke="#0ea5e9"/>
+  <text x="290" y="170" text-anchor="middle" class="lbl">Module 7</text>
+  <text x="290" y="188" text-anchor="middle" class="sub">reference layer</text>
+  <text x="290" y="206" text-anchor="middle" class="stamp">validated &#10003;</text>
+  <path class="flow" d="M160,180 L208,180"/>
+
+  <!-- reference curves -->
+  <rect x="430" y="110" width="290" height="160" rx="12" fill="#fff" stroke="#e2e8f0"/>
+  <text x="575" y="130" text-anchor="middle" class="lbl">reference(t)</text>
+  <line class="axis" x1="450" y1="250" x2="700" y2="250"/>
+  <line class="axis" x1="450" y1="145" x2="450" y2="250"/>
+  <path class="pos" d="M450,240 C520,240 560,160 700,155"/>
+  <path class="vel" d="M450,235 C540,180 560,180 700,235"/>
+  <path class="acc" d="M450,210 C500,160 520,260 560,235 C600,215 660,235 700,232"/>
+  <text x="710" y="158" class="sub" fill="#6366f1">q_d</text>
+  <text x="710" y="200" class="sub" fill="#10b981">q&#775;_d</text>
+  <text x="710" y="232" class="sub" fill="#f59e0b">q&#776;_d</text>
+  <text x="575" y="266" text-anchor="middle" class="sub">t = 0 &#8230; duration</text>
+  <path class="flow" d="M370,180 L428,180"/>
+
+  <text x="575" y="300" text-anchor="middle" class="caption">a sampleable schedule &#8594; Execute</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="A rotation and translation applied in both orders to the origin: rotate-then-translate lands at (3,0); translate-then-rotate lands at (0,3). Different endings.">
+  <defs>
+    <marker id="o1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:17px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#64748b}.l{font-size:12.5px;font-weight:700;fill:#334155}.e{font-size:11.5px;font-weight:700;fill:#b91c1c}</style>
+  </defs>
+  <text x="340" y="26" text-anchor="middle" class="t">Order matters: T·R ≠ R·T</text>
+  <!-- left: rotate then translate -->
+  <rect x="30" y="50" width="300" height="240" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="180" y="74" text-anchor="middle" class="l">rotate, then translate</text>
+  <line x1="80" y1="250" x2="300" y2="250" stroke="#cbd5e1"/><line x1="90" y1="100" x2="90" y2="270" stroke="#cbd5e1"/>
+  <circle cx="90" cy="250" r="5" fill="#0f172a"/><text x="70" y="268" class="c">origin</text>
+  <line x1="90" y1="250" x2="240" y2="250" stroke="#1d4ed8" stroke-width="2" marker-end="url(#o1)"/>
+  <circle cx="240" cy="250" r="6" fill="#e11d48"/><text x="232" y="240" class="e">(3, 0)</text>
+  <!-- right: translate then rotate -->
+  <rect x="350" y="50" width="300" height="240" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="500" y="74" text-anchor="middle" class="l">translate, then rotate</text>
+  <line x1="400" y1="250" x2="620" y2="250" stroke="#cbd5e1"/><line x1="410" y1="100" x2="410" y2="270" stroke="#cbd5e1"/>
+  <circle cx="410" cy="250" r="5" fill="#0f172a"/><text x="390" y="268" class="c">origin</text>
+  <line x1="410" y1="250" x2="410" y2="120" stroke="#1d4ed8" stroke-width="2" marker-end="url(#o1)"/>
+  <circle cx="410" cy="120" r="6" fill="#e11d48"/><text x="420" y="120" class="e">(0, 3)</text>
+  <text x="340" y="310" text-anchor="middle" class="c">Same 90° turn, same 3-step move — different endings. The translation column of the product differs.</text>
+</svg>

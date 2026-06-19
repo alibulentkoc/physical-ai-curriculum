@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 280" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Three SE(3) matrices for arm pose, extrinsics, and detection multiply into one world-pose matrix; the result's translation column is world position and rotation block is world orientation.">
+  <defs><style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:10.5px;fill:#64748b}.l{font-size:11px;font-weight:700;fill:#334155}.op{font-size:18px;font-weight:700;fill:#0f172a}</style></defs>
+  <text x="340" y="26" text-anchor="middle" class="t">Compose three poses → read the world target</text>
+  <g>
+    <rect x="40" y="70" width="80" height="80" fill="#1d4ed814" stroke="#1d4ed8"/><text x="80" y="165" text-anchor="middle" class="l">arm pose</text>
+    <text x="150" y="115" text-anchor="middle" class="op">·</text>
+    <rect x="180" y="70" width="80" height="80" fill="#8b5cf614" stroke="#8b5cf6"/><text x="220" y="165" text-anchor="middle" class="l">extrinsics</text>
+    <text x="290" y="115" text-anchor="middle" class="op">·</text>
+    <rect x="320" y="70" width="80" height="80" fill="#e11d4814" stroke="#e11d48"/><text x="360" y="165" text-anchor="middle" class="l">detection</text>
+    <text x="430" y="115" text-anchor="middle" class="op">=</text>
+    <rect x="470" y="70" width="90" height="80" fill="#0d948814" stroke="#0d9488"/>
+    <rect x="470" y="70" width="62" height="58" fill="none" stroke="#0284c7" stroke-width="1.6"/>
+    <rect x="532" y="70" width="28" height="58" fill="none" stroke="#0f766e" stroke-width="1.6"/>
+    <text x="515" y="175" text-anchor="middle" class="l">tomato world pose</text>
+  </g>
+  <text x="500" y="205" text-anchor="middle" class="c" fill="#0284c7">rotation block = world orientation</text>
+  <text x="546" y="222" text-anchor="middle" class="c" fill="#0f766e">column = world position</text>
+  <text x="340" y="258" text-anchor="middle" class="c">Multiply in order (world←arm, arm←cam, cam←tomato); read position + orientation from the result.</text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#cbd5e1"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style></defs>
+  <text x="380" y="30" text-anchor="middle" class="t">Installment A: the Mirror Works</text>
+  <text x="380" y="49" text-anchor="middle" class="c">Module 10 spine &#8212; next: simulate</text>
+  <!-- spine strip -->
+  <g>
+    <rect x="30" y="90" width="105" height="56" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/><text x="82" y="114" text-anchor="middle" class="p" fill="#15803d">Model</text><text x="82" y="132" text-anchor="middle" class="c">&#10003; done</text>
+    <rect x="150" y="90" width="105" height="56" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/><text x="202" y="114" text-anchor="middle" class="p" fill="#15803d">Mirror</text><text x="202" y="132" text-anchor="middle" class="c">&#10003; done</text>
+    <rect x="270" y="90" width="105" height="56" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="322" y="114" text-anchor="middle" class="p" fill="#94a3b8">Simulate</text><text x="322" y="132" text-anchor="middle" class="c">next</text>
+    <rect x="390" y="90" width="105" height="56" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="442" y="118" text-anchor="middle" class="p" fill="#94a3b8">Monitor</text>
+    <rect x="510" y="90" width="105" height="56" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="562" y="118" text-anchor="middle" class="p" fill="#94a3b8">Predict</text>
+    <rect x="630" y="90" width="105" height="56" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="682" y="118" text-anchor="middle" class="p" fill="#94a3b8">Adapt</text>
+  </g>
+  <path d="M135,118 L148,118" fill="none" stroke="#15803d" stroke-width="2"/>
+  <path d="M255,118 L268,118" fill="none" stroke="#cbd5e1" stroke-width="2" marker-end="url(#a)"/>
+  <text x="380" y="200" text-anchor="middle" class="c">the twin mirrors the real robot's reported state, live &#8212; it does not yet run on its own</text>
+  <text x="380" y="234" text-anchor="middle" class="p" fill="#0d9488">paired &#183; live &#183; mirroring</text>
+</svg>

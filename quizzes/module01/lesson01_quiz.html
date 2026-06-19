@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knowledge Check — Lesson 1.1</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --soft:#f8fafc;
+    --green:#15803d; --greenbg:#dcfce7; --red:#b91c1c; --redbg:#fee2e2; --accent:#0d9488;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:6px}
+  .note{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+  .q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+  .qhead{font-weight:600;font-size:14.5px;margin-bottom:10px}
+  .qnum{display:inline-block;min-width:22px;color:var(--accent);font-weight:700}
+  .opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;margin:6px 0;font-size:14px;cursor:pointer}
+  .opt:hover{background:var(--soft)}
+  .opt.correct{background:var(--greenbg);border-color:#86efac;color:var(--green);font-weight:600}
+  .opt.wrong{background:var(--redbg);border-color:#fecaca;color:var(--red)}
+  .fb{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;display:none}
+  .fb.show{display:block}
+  .fb.ok{background:var(--greenbg);color:var(--green)}
+  .fb.no{background:var(--redbg);color:var(--red)}
+  .fb.info{background:#eff6ff;color:#1d4ed8}
+  select{font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;margin-left:6px}
+  .match-row{margin:6px 0;font-size:14px}
+  textarea{width:100%;min-height:64px;border:1px solid var(--line);border-radius:9px;padding:8px;font-family:inherit;font-size:14px;resize:vertical}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:8px}
+  .btn:hover{background:var(--soft)}
+  .model{display:none;font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;background:#eff6ff;color:#1d4ed8}
+  .model.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="note">Formative — unlimited attempts, immediate feedback. This does <b>not</b> affect your grade; use it to check your understanding.</div>
+  <div id="quiz"></div>
+</div>
+
+<script>
+(function(){
+  var questions = [
+    {
+      type:'mc',
+      prompt:'What distinguishes Physical AI from software-only AI? (best answer)',
+      options:[
+        {t:'It uses larger neural networks.', ok:false},
+        {t:'It senses, decides, and acts in the real physical world, with physical consequences.', ok:true},
+        {t:'It only runs on robots, never on servers.', ok:false},
+        {t:'It does not use any mathematics.', ok:false}
+      ],
+      ok:'Right — Physical AI closes a loop with the real world; mistakes have physical cost.',
+      no:'Not quite. The defining trait is acting in the physical world (sensing → deciding → acting), where errors cause real damage.'
+    },
+    {
+      type:'mc',
+      prompt:'Which ordering correctly describes the robot\u2019s core loop?',
+      options:[
+        {t:'Action \u2192 Perception \u2192 Reasoning', ok:false},
+        {t:'Perception \u2192 Reasoning \u2192 Action', ok:true},
+        {t:'Reasoning \u2192 Action \u2192 Perception', ok:false},
+        {t:'Perception \u2192 Action \u2192 Reasoning', ok:false}
+      ],
+      ok:'Correct — sense first, then decide, then act; the loop repeats.',
+      no:'Re-check: the robot must sense before it can decide, and decide before it acts.'
+    },
+    {
+      type:'match',
+      prompt:'Match each loop stage to the data \u201clanguage\u201d it works in.',
+      left:['Perceive','Reason','Act'],
+      right:['pixels','meters / frames','joint angles'],
+      answer:{'Perceive':'pixels','Reason':'meters / frames','Act':'joint angles'},
+      ok:'All matched — pixels in, meters/frames to reason, joint angles out.',
+      no:'Not all correct yet. Perceive works in pixels, Reason in meters/frames, Act in joint angles.'
+    },
+    {
+      type:'short',
+      prompt:'Why can\u2019t the robot use the tomato\u2019s camera-frame position directly to command its arm?',
+      model:'Because the camera and the arm are in different reference frames: the same point has different coordinates in each. The camera-frame position must be transformed into the robot\u2019s base frame first (Unit 3 / Module 2).'
+    },
+    {
+      type:'mc',
+      prompt:'The chain \u201cpixels \u2192 camera frame \u2192 robot frame \u2192 joint angles \u2192 motion\u201d mostly describes what kind of work?',
+      options:[
+        {t:'Translating between different spatial representations', ok:true},
+        {t:'Storing data in a database', ok:false},
+        {t:'Training a language model', ok:false},
+        {t:'Compressing images', ok:false}
+      ],
+      ok:'Yes — each arrow is a change of representation, handled by Module 1\u2019s mathematics.',
+      no:'Look again: each arrow converts one spatial representation into another.'
+    },
+    {
+      type:'tf',
+      prompt:'True or False: a small error in estimating position has no real-world cost.',
+      answer:false,
+      ok:'Correct — False. A few centimeters can mean grabbing a leaf or crushing a stem.',
+      no:'It\u2019s False — in Physical AI, small position errors cause real physical consequences.'
+    }
+  ];
+
+  var root = document.getElementById('quiz');
+
+  questions.forEach(function(q, i){
+    var card = document.createElement('div'); card.className='q';
+    var head = document.createElement('div'); head.className='qhead';
+    head.innerHTML = '<span class="qnum">'+(i+1)+'.</span> '+q.prompt;
+    card.appendChild(head);
+    var fb = document.createElement('div'); fb.className='fb';
+
+    if(q.type==='mc' || q.type==='tf'){
+      var opts = q.type==='tf'
+        ? [{t:'True', ok:(q.answer===true)},{t:'False', ok:(q.answer===false)}]
+        : q.options;
+      opts.forEach(function(o){
+        var b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=o.t;
+        b.addEventListener('click', function(){
+          Array.prototype.forEach.call(card.querySelectorAll('.opt'), function(el){ el.classList.remove('correct','wrong'); });
+          if(o.ok){ b.classList.add('correct'); fb.className='fb show ok'; fb.textContent=q.ok; }
+          else { b.classList.add('wrong'); fb.className='fb show no'; fb.textContent=q.no; }
+        });
+        card.appendChild(b);
+      });
+      card.appendChild(fb);
+    }
+
+    else if(q.type==='match'){
+      q.left.forEach(function(L){
+        var row=document.createElement('div'); row.className='match-row';
+        row.appendChild(document.createTextNode(L+'  \u2192'));
+        var sel=document.createElement('select'); sel.dataset.left=L;
+        var blank=document.createElement('option'); blank.value=''; blank.textContent='choose\u2026'; sel.appendChild(blank);
+        q.right.forEach(function(R){ var op=document.createElement('option'); op.value=R; op.textContent=R; sel.appendChild(op); });
+        row.appendChild(sel); card.appendChild(row);
+      });
+      var check=document.createElement('button'); check.className='btn'; check.type='button'; check.textContent='Check matches';
+      check.addEventListener('click', function(){
+        var sels=card.querySelectorAll('select'), allRight=true, answered=true;
+        Array.prototype.forEach.call(sels, function(s){
+          if(!s.value){ answered=false; }
+          else if(q.answer[s.dataset.left]!==s.value){ allRight=false; }
+        });
+        if(!answered){ fb.className='fb show info'; fb.textContent='Pick a match for each stage first.'; }
+        else if(allRight){ fb.className='fb show ok'; fb.textContent=q.ok; }
+        else { fb.className='fb show no'; fb.textContent=q.no; }
+      });
+      card.appendChild(check); card.appendChild(fb);
+    }
+
+    else if(q.type==='short'){
+      var ta=document.createElement('textarea'); ta.placeholder='Type your answer, then reveal the model answer to self-check\u2026';
+      card.appendChild(ta);
+      var show=document.createElement('button'); show.className='btn'; show.type='button'; show.textContent='Show model answer';
+      var model=document.createElement('div'); model.className='model'; model.textContent=q.model;
+      show.addEventListener('click', function(){ model.classList.toggle('show'); show.textContent = model.classList.contains('show')?'Hide model answer':'Show model answer'; });
+      card.appendChild(show); card.appendChild(model);
+    }
+
+    root.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

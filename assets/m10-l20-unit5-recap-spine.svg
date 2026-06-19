@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style>
+  <text x="380" y="30" text-anchor="middle" class="t">Unit 5 Recap: the Twin as a Live Monitor</text>
+  <text x="380" y="49" text-anchor="middle" class="c">now &#8594; next on the same model</text>
+  <rect x="20" y="78" width="100" height="50" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/><text x="70" y="108" text-anchor="middle" class="p" fill="#15803d">Model &#10003;</text>
+  <rect x="130" y="78" width="100" height="50" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/><text x="180" y="108" text-anchor="middle" class="p" fill="#15803d">Mirror &#10003;</text>
+  <rect x="240" y="78" width="100" height="50" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/><text x="290" y="108" text-anchor="middle" class="p" fill="#15803d">Simulate &#10003;</text>
+  <rect x="350" y="78" width="100" height="50" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2.4"/><text x="400" y="108" text-anchor="middle" class="p" fill="#15803d">Monitor &#10003;</text>
+  <rect x="460" y="78" width="100" height="50" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="510" y="108" text-anchor="middle" class="p" fill="#94a3b8">Predict</text>
+  <rect x="570" y="78" width="100" height="50" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="620" y="108" text-anchor="middle" class="p" fill="#94a3b8">Adapt</text>
+  <rect x="120" y="158" width="520" height="64" rx="10" fill="#0b1626" stroke="#22324f"/>
+  <text x="380" y="184" text-anchor="middle" class="p" fill="#e6eefb">Reality &#8596; Twin compare &#8594; divergence &#8594; diagnosis</text>
+  <text x="380" y="206" text-anchor="middle" class="c" fill="#94a3b8">state signal (drift) &#183; outcome signal (surprise) &#183; health signals</text>
+  <text x="380" y="252" text-anchor="middle" class="c">what is happening now? &#8594; what is likely to happen next? (Unit 6)</text>
+</svg>

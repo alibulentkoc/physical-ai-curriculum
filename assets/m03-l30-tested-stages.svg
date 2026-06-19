@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 210" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="The implemented pipeline as four function blocks: undistort, deproject, compose extrinsics, transform, each with a unit-test check, producing the world point.">
+  <defs>
+    <marker id="sa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0f172a"/></marker>
+    <style>.t{font-size:16px;font-weight:700;fill:#0f172a}.c{font-size:10px;fill:#64748b}.b{font-size:11px;font-weight:700;fill:#334155}.ok{font-size:10px;font-weight:800;fill:#15803d}</style>
+  </defs>
+  <text x="350" y="22" text-anchor="middle" class="t">Build it as tested stages</text>
+  <g>
+   <rect x="18" y="70" width="150" height="56" rx="9" fill="#f5f3ff" stroke="#ddd6fe"/><text x="93" y="94" text-anchor="middle" class="b">undistort</text><text x="93" y="112" text-anchor="middle" class="c">→ (x_n,y_n)</text><text x="93" y="142" text-anchor="middle" class="ok">✓ identity passthrough</text>
+   <rect x="190" y="70" width="150" height="56" rx="9" fill="#fff7ed" stroke="#fed7aa"/><text x="265" y="94" text-anchor="middle" class="b">deproject</text><text x="265" y="112" text-anchor="middle" class="c">→ P_c = Z(x_n,y_n,1)</text><text x="265" y="142" text-anchor="middle" class="ok">✓ round-trip</text>
+   <rect x="362" y="70" width="150" height="56" rx="9" fill="#e0e7ff" stroke="#a5b4fc"/><text x="437" y="90" text-anchor="middle" class="b">compose</text><text x="437" y="108" text-anchor="middle" class="c">T(world←arm)·T(arm←cam)</text><text x="437" y="142" text-anchor="middle" class="ok">✓ order check</text>
+   <rect x="534" y="70" width="150" height="56" rx="9" fill="#ecfdf5" stroke="#a7f3d0"/><text x="609" y="94" text-anchor="middle" class="b">transform</text><text x="609" y="112" text-anchor="middle" class="c">→ P_w</text><text x="609" y="142" text-anchor="middle" class="ok">✓ identity ⇒ P_w=P_c</text>
+  </g>
+  <g stroke="#0f172a" stroke-width="1.5">
+   <line x1="168" y1="98" x2="188" y2="98" marker-end="url(#sa)"/>
+   <line x1="340" y1="98" x2="360" y2="98" marker-end="url(#sa)"/>
+   <line x1="512" y1="98" x2="532" y2="98" marker-end="url(#sa)"/>
+  </g>
+  <text x="350" y="180" text-anchor="middle" class="c">One job per stage; test each output; compose into see_fruit_place_in_world → (1.06, 0.47, 0.4).</text>
+</svg>

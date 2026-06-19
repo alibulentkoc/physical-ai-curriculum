@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .stage { fill:#ffffff; stroke:#334155; stroke-width:2; rx:14; }
+      .perceive { stroke:#0ea5e9; }
+      .reason   { stroke:#8b5cf6; }
+      .act      { stroke:#10b981; }
+      .title    { font-size:18px; font-weight:700; fill:#0f172a; }
+      .label    { font-size:15px; font-weight:600; fill:#0f172a; }
+      .lang     { font-size:12.5px; fill:#64748b; }
+      .flow     { fill:none; stroke:#334155; stroke-width:2.5; marker-end:url(#arrow); }
+      .loop     { fill:none; stroke:#94a3b8; stroke-width:2; stroke-dasharray:6 5; marker-end:url(#arrow); }
+      .caption  { font-size:12px; fill:#94a3b8; }
+    </style>
+  </defs>
+
+  <text x="380" y="34" text-anchor="middle" class="title">The Perception &#8594; Reasoning &#8594; Action Loop</text>
+  <text x="380" y="54" text-anchor="middle" class="caption">Greenhouse Harvesting Robot &#183; each stage speaks a different &#8220;language&#8221;</text>
+
+  <!-- PERCEIVE -->
+  <rect class="stage perceive" x="40"  y="110" width="190" height="120" rx="14"/>
+  <text x="135" y="150" text-anchor="middle" class="label">PERCEIVE</text>
+  <text x="135" y="174" text-anchor="middle" class="lang">camera sees the fruit</text>
+  <text x="135" y="206" text-anchor="middle" class="lang" font-style="italic">data: pixels</text>
+
+  <!-- REASON -->
+  <rect class="stage reason" x="285" y="110" width="190" height="120" rx="14"/>
+  <text x="380" y="150" text-anchor="middle" class="label">REASON</text>
+  <text x="380" y="174" text-anchor="middle" class="lang">where? ripe? reach?</text>
+  <text x="380" y="206" text-anchor="middle" class="lang" font-style="italic">data: meters / frames</text>
+
+  <!-- ACT -->
+  <rect class="stage act" x="530" y="110" width="190" height="120" rx="14"/>
+  <text x="625" y="150" text-anchor="middle" class="label">ACT</text>
+  <text x="625" y="174" text-anchor="middle" class="lang">move arm, grip fruit</text>
+  <text x="625" y="206" text-anchor="middle" class="lang" font-style="italic">data: joint angles</text>
+
+  <!-- forward flows -->
+  <path class="flow" d="M232 170 L283 170"/>
+  <path class="flow" d="M477 170 L528 170"/>
+
+  <!-- return loop -->
+  <path class="loop" d="M625 232 C625 320, 135 320, 135 232"/>
+  <text x="380" y="312" text-anchor="middle" class="caption">check the result &#38; repeat</text>
+
+  <!-- the gaps note -->
+  <text x="258" y="100" text-anchor="middle" class="caption">pixels &#8594; meters</text>
+  <text x="503" y="100" text-anchor="middle" class="caption">meters &#8594; angles</text>
+  <text x="380" y="346" text-anchor="middle" class="caption">The mathematics of Module 1 lives in the gaps between these languages.</text>
+</svg>

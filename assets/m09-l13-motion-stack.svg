@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .box{fill:#fff;stroke-width:2}
+      .ref{stroke:#8b5cf6}.ctrl{stroke:#10b981}.plant{stroke:#0ea5e9}.vel{stroke:#f59e0b}
+      .name{font-size:12.5px;font-weight:700;fill:#0f172a}
+      .sub{font-size:10px;fill:#64748b}
+      .flow{fill:none;stroke:#334155;stroke-width:2.2;marker-end:url(#arrow)}
+      .fb{fill:none;stroke:#94a3b8;stroke-width:2;stroke-dasharray:6 5;marker-end:url(#arrow)}
+      .data{font-size:10.5px;font-weight:600;fill:#334155}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">The Motion Stack (Closed Loop)</text>
+  <text x="380" y="48" text-anchor="middle" class="caption">sample &#183; measure &#183; control &#183; drive &#8212; each tick</text>
+
+  <rect class="box ref"   x="40"  y="120" width="150" height="60" rx="12"/><text x="115" y="146" text-anchor="middle" class="name">reference(t)</text><text x="115" y="164" text-anchor="middle" class="sub">M7 &#8594; (q_d, q&#775;_d, q&#776;_d)</text>
+  <rect class="box ctrl"  x="280" y="120" width="160" height="60" rx="12"/><text x="360" y="146" text-anchor="middle" class="name">tracking_controller</text><text x="360" y="164" text-anchor="middle" class="sub">M8: feedforward + PID</text>
+  <rect class="box plant" x="530" y="120" width="150" height="60" rx="12"/><text x="605" y="146" text-anchor="middle" class="name">plant (joint)</text><text x="605" y="164" text-anchor="middle" class="sub">produces motion</text>
+
+  <path class="flow" d="M190,150 L278,150"/><text x="234" y="138" text-anchor="middle" class="data">sample</text>
+  <path class="flow" d="M440,150 L528,150"/><text x="484" y="138" text-anchor="middle" class="data">command u</text>
+  <!-- feedback -->
+  <path class="fb" d="M605,180 C605,250 360,250 360,182"/>
+  <text x="483" y="268" text-anchor="middle" class="data">measured (q, q&#775;)</text>
+
+  <!-- velocity layer side note -->
+  <rect class="box vel" x="280" y="285" width="200" height="46" rx="10"/>
+  <text x="380" y="305" text-anchor="middle" class="sub" fill="#b45309">velocity layer (M6): &#958; = J(q) q&#775;</text>
+  <text x="380" y="322" text-anchor="middle" class="sub">differential primitive underneath</text>
+</svg>

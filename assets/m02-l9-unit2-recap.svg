@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Unit 2 recap: write points as (x,y,1), distinguish points from directions by w, translation becomes a matrix, and rotation plus translation combine into one homogeneous transform, the seed of SE(2) and SE(3).">
+  <defs><style>.t{font-size:17px;font-weight:700;fill:#0f172a}.l{font-size:12.5px;font-weight:700;fill:#334155}.c{font-size:11.5px;fill:#64748b}.k{font-size:13px;font-weight:800;fill:#0f766e}</style></defs>
+  <text x="340" y="28" text-anchor="middle" class="t">Unit 2: one extra coordinate unites rotation + translation</text>
+  <rect x="40" y="55" width="150" height="64" rx="9" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="115" y="82" text-anchor="middle" class="l">(x, y, 1)</text><text x="115" y="102" text-anchor="middle" class="c">lift the point</text>
+  <rect x="205" y="55" width="150" height="64" rx="9" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="280" y="82" text-anchor="middle" class="l">w = 1 vs 0</text><text x="280" y="102" text-anchor="middle" class="c">point vs direction</text>
+  <rect x="370" y="55" width="150" height="64" rx="9" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="445" y="82" text-anchor="middle" class="l">T(tx, ty)</text><text x="445" y="102" text-anchor="middle" class="c">translation = matrix</text>
+  <rect x="535" y="55" width="110" height="64" rx="9" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="590" y="82" text-anchor="middle" class="l">[[R, t],</text><text x="590" y="100" text-anchor="middle" class="l">[0, 1]]</text>
+  <text x="115" y="150" text-anchor="middle" class="c">representation</text>
+  <text x="280" y="150" text-anchor="middle" class="c">tag</text>
+  <text x="445" y="150" text-anchor="middle" class="c">the move 2×2 couldn't</text>
+  <text x="590" y="150" text-anchor="middle" class="c">turn + move</text>
+  <rect x="160" y="195" width="360" height="46" rx="10" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="340" y="223" text-anchor="middle" class="k">one homogeneous transform → SE(2), SE(3)</text>
+  <text x="340" y="280" text-anchor="middle" class="c">Each frame conversion is now one matrix multiply; chains compose by multiplying. Next: SE(2).</text>
+</svg>

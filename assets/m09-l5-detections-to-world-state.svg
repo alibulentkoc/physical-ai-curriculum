@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .h{font-size:13px;font-weight:700;fill:#0f172a}
+      .raw{fill:#fef2f2;stroke:#f87171;stroke-width:1.5}
+      .clean{fill:#ecfdf5;stroke:#34d399;stroke-width:1.5}
+      .funnel{fill:#eef2ff;stroke:#6366f1;stroke-width:1.8}
+      .lbl{font-size:11px;fill:#334155}
+      .flbl{font-size:11.5px;font-weight:700;fill:#3730a3}
+      .flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#arrow)}
+      .dup{font-size:10px;font-weight:700;fill:#b91c1c}
+    </style>
+  </defs>
+  <text x="380" y="30" text-anchor="middle" class="title">Perceive &#8594; Understand: Detections to World State</text>
+  <text x="380" y="50" text-anchor="middle" class="caption">organize, do not re-perceive</text>
+
+  <!-- raw detections -->
+  <text x="120" y="84" text-anchor="middle" class="h">detections (raw)</text>
+  <rect class="raw" x="60" y="100" width="120" height="24" rx="6"/><text x="70" y="116" class="lbl">F1 (0.93)</text>
+  <rect class="raw" x="60" y="130" width="120" height="24" rx="6"/><text x="70" y="146" class="lbl">F2 (0.91)</text>
+  <rect class="raw" x="60" y="160" width="120" height="24" rx="6"/><text x="70" y="176" class="lbl">F2 (0.84)</text><text x="170" y="176" text-anchor="end" class="dup">dup</text>
+  <rect class="raw" x="60" y="190" width="120" height="24" rx="6"/><text x="70" y="206" class="lbl">F3 (0.90)</text>
+  <rect class="raw" x="60" y="220" width="120" height="24" rx="6"/><text x="70" y="236" class="lbl">blob (0.21)</text><text x="170" y="236" text-anchor="end" class="dup">noise</text>
+
+  <!-- funnel -->
+  <path class="funnel" d="M250,110 L470,110 L400,180 L400,200 L320,200 L320,180 Z"/>
+  <text x="360" y="140" text-anchor="middle" class="flbl">dedupe</text>
+  <text x="360" y="158" text-anchor="middle" class="flbl">annotate</text>
+  <text x="360" y="176" text-anchor="middle" class="flbl">normalize</text>
+  <path class="flow" d="M182,172 L248,150"/>
+
+  <!-- clean world state -->
+  <text x="630" y="84" text-anchor="middle" class="h">world state (trusted)</text>
+  <rect class="clean" x="560" y="120" width="150" height="26" rx="6"/><text x="570" y="137" class="lbl">F1 &#183; reach &#10003; &#183; d=0.50</text>
+  <rect class="clean" x="560" y="154" width="150" height="26" rx="6"/><text x="570" y="171" class="lbl">F2 &#183; reach &#10003; &#183; d=0.45</text>
+  <rect class="clean" x="560" y="188" width="150" height="26" rx="6"/><text x="570" y="205" class="lbl">F3 &#183; reach &#10003; &#183; d=0.60</text>
+  <path class="flow" d="M402,190 L558,180"/>
+  <text x="635" y="240" text-anchor="middle" class="caption">duplicate merged &#183; blob dropped &#183; annotated</text>
+</svg>

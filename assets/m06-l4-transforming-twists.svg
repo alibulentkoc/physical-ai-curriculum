@@ -1,0 +1,46 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs>
+    <marker id="ax" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f2937"/></marker>
+    <marker id="vv" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#0d9488"/></marker>
+    <marker id="ww" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#b45309"/></marker>
+    <marker id="tf" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#2563eb"/></marker>
+  </defs>
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#111827">Same spinning wheel, two observers &#8212; different twist numbers</text>
+  <line x1="380" y1="44" x2="380" y2="262" stroke="#e5e7eb" stroke-width="1.5"/>
+
+  <!-- Observer A -->
+  <text x="190" y="60" text-anchor="middle" font-size="13" fill="#6b7280">observer A (on the curb)</text>
+  <circle cx="170" cy="160" r="46" fill="#f1f5f9" stroke="#334155" stroke-width="2.2"/>
+  <circle cx="170" cy="160" r="4" fill="#334155"/>
+  <path d="M 198 130 A 38 38 0 0 1 200 165" stroke="#b45309" stroke-width="2.4" fill="none" marker-end="url(#ww)"/>
+  <text x="214" y="150" font-size="13" fill="#b45309" font-weight="700">&#969;_A</text>
+  <line x1="170" y1="160" x2="170" y2="118" stroke="#0d9488" stroke-width="2.8" marker-end="url(#vv)"/>
+  <text x="150" y="112" font-size="13" fill="#0d9488" font-weight="700">v_A</text>
+  <!-- frame A -->
+  <g stroke="#1f2937" stroke-width="1.8" fill="none">
+    <line x1="100" y1="232" x2="134" y2="232" marker-end="url(#ax)"/>
+    <line x1="100" y1="232" x2="100" y2="200" marker-end="url(#ax)"/>
+  </g>
+  <text x="92" y="248" font-size="11" fill="#6b7280">A</text>
+
+  <!-- Observer B -->
+  <text x="575" y="60" text-anchor="middle" font-size="13" fill="#6b7280">observer B (rolling past)</text>
+  <circle cx="575" cy="160" r="46" fill="#eff6ff" stroke="#334155" stroke-width="2.2"/>
+  <circle cx="575" cy="160" r="4" fill="#334155"/>
+  <path d="M 603 130 A 38 38 0 0 1 605 165" stroke="#b45309" stroke-width="2.4" fill="none" marker-end="url(#ww)"/>
+  <text x="619" y="150" font-size="13" fill="#b45309" font-weight="700">&#969;_B</text>
+  <!-- different v arrow (shifted + rotated) -->
+  <line x1="575" y1="160" x2="545" y2="132" stroke="#0d9488" stroke-width="2.8" marker-end="url(#vv)"/>
+  <text x="520" y="126" font-size="13" fill="#0d9488" font-weight="700">v_B</text>
+  <!-- frame B rotated -->
+  <g stroke="#1f2937" stroke-width="1.8" fill="none" transform="rotate(20 505 232)">
+    <line x1="505" y1="232" x2="539" y2="232" marker-end="url(#ax)"/>
+    <line x1="505" y1="232" x2="505" y2="200" marker-end="url(#ax)"/>
+  </g>
+  <text x="497" y="248" font-size="11" fill="#6b7280">B</text>
+
+  <!-- transform arrow across divider -->
+  <line x1="250" y1="276" x2="500" y2="276" stroke="#2563eb" stroke-width="2.4" marker-end="url(#tf)"/>
+  <rect x="300" y="262" width="150" height="22" rx="5" fill="#fff" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="375" y="277" text-anchor="middle" font-size="11.5" fill="#2563eb" font-weight="600">rotate by R, shift by &#969;&#215;d</text>
+</svg>

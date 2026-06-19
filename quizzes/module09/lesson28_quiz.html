@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Knowledge Check — Lesson 7.4</title>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--greenbg:#dcfce7;--red:#b91c1c;--redbg:#fee2e2;--accent:#0d9488;}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:760px;margin:0 auto;padding:6px}
+.note{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.qhead{font-weight:600;font-size:14.5px;margin-bottom:10px}.qnum{display:inline-block;min-width:22px;color:var(--accent);font-weight:700}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;margin:6px 0;font-size:14px;cursor:pointer}
+.opt:hover{background:var(--soft)}.opt.correct{background:var(--greenbg);border-color:#86efac;color:var(--green);font-weight:600}.opt.wrong{background:var(--redbg);border-color:#fecaca;color:var(--red)}
+.fb{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;display:none}.fb.show{display:block}.fb.ok{background:var(--greenbg);color:var(--green)}.fb.no{background:var(--redbg);color:var(--red)}.fb.info{background:#eff6ff;color:#1d4ed8}
+textarea{width:100%;min-height:60px;border:1px solid var(--line);border-radius:9px;padding:8px;font-family:inherit;font-size:14px;resize:vertical}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:8px}.btn:hover{background:var(--soft)}
+.model{display:none;font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;background:#eff6ff;color:#1d4ed8}.model.show{display:block}
+</style></head><body><div class="wrap">
+<div class="note">Formative — unlimited attempts, immediate feedback. This does <b>not</b> affect your grade.</div>
+<div id="quiz"></div></div>
+<script>var questions=[{"type": "mc", "prompt": "Unit 7 closed the workflow loop by adding:", "options": [{"t": "a new control law", "ok": false}, {"t": "Recover — pure coordination, the sixth stage", "ok": true}, {"t": "a second robot", "ok": false}, {"t": "a digital twin", "ok": false}], "ok": "Right.", "no": "Recover coordinates existing layers to respond to detected faults — no new theory."}, {"type": "mc", "prompt": "The three termination exits of the orchestrator are:", "options": [{"t": "success, failure, crash", "ok": false}, {"t": "recovered, deterministic escalation, budget-exhaustion escalation", "ok": true}, {"t": "retry, retry, retry", "ok": false}, {"t": "perceive, plan, execute", "ok": false}], "ok": "Right.", "no": "Either it succeeds (recovered), escalates immediately (deterministic), or escalates at the budget (persistent)."}, {"type": "mc", "prompt": "A teammate wants to add an estimator that predicts whether a disturbance will persist. In scope?", "options": [{"t": "yes, always add prediction", "ok": false}, {"t": "no — that's estimation theory; bounded retry is the integration answer", "ok": true}, {"t": "yes, it's required", "ok": false}, {"t": "only with a second robot", "ok": false}], "ok": "Right.", "no": "The integration lane excludes estimation; the orchestrator handles persistence by bounded retry, not prediction."}, {"type": "mc", "prompt": "What does Unit 8 assemble on top of Recover?", "options": [{"t": "a new planner", "ok": false}, {"t": "the full self-healing pick cycle across a harvest", "ok": true}, {"t": "a control theory module", "ok": false}, {"t": "a perception network", "ok": false}], "ok": "Right.", "no": "Unit 8 runs the orchestrated cycle across a sequence of picks — the full system."}, {"type": "tf", "prompt": "Recovery adds no new theory — only control flow and bookkeeping around existing layers.", "answer": true, "ok": "Correct.", "no": "True — every response is an existing layer call re-invoked; the additions are the loop, the policy, and the budget."}, {"type": "short", "prompt": "Predict the outcome of: transient disturbance; persistent disturbance; blocked goal. Why each?", "model": "Transient disturbance -> recovers (TRACKING_FAILURE at attempt 0, retry-execute succeeds at attempt 1) because the kick is gone on the retry. Persistent disturbance -> escalates at the budget (retry-budget-exhausted) because retry-execute fails identically every attempt until N is spent. Blocked goal -> escalates immediately (PLAN_INVALID is deterministic, skip-target at attempt 1) because re-planning the same goal against the same obstacle is futile. Three faults, three terminating outcomes, all from the same orchestrator coordinating the same layers — the budget/counter and the retryable/deterministic tag decide which."}];
+var root=document.getElementById("quiz");
+questions.forEach(function(q,i){var card=document.createElement("div");card.className="q";
+var head=document.createElement("div");head.className="qhead";head.innerHTML='<span class="qnum">'+(i+1)+'.</span> '+q.prompt;card.appendChild(head);
+var fb=document.createElement("div");fb.className="fb";
+if(q.type==="mc"||q.type==="tf"){var opts=q.type==="tf"?[{t:"True",ok:q.answer===true},{t:"False",ok:q.answer===false}]:q.options;
+opts.forEach(function(o){var b=document.createElement("button");b.className="opt";b.type="button";b.innerHTML=o.t;
+b.addEventListener("click",function(){Array.prototype.forEach.call(card.querySelectorAll(".opt"),function(el){el.classList.remove("correct","wrong");});
+if(o.ok){b.classList.add("correct");fb.className="fb show ok";fb.innerHTML=q.ok;}else{b.classList.add("wrong");fb.className="fb show no";fb.innerHTML=q.no;}});card.appendChild(b);});card.appendChild(fb);}
+else if(q.type==="short"){var ta=document.createElement("textarea");ta.placeholder="Type your answer, then reveal the model answer to self-check…";card.appendChild(ta);
+var sh=document.createElement("button");sh.className="btn";sh.type="button";sh.textContent="Show model answer";var md=document.createElement("div");md.className="model";md.innerHTML=q.model;
+sh.addEventListener("click",function(){md.classList.toggle("show");sh.textContent=md.classList.contains("show")?"Hide model answer":"Show model answer";});card.appendChild(sh);card.appendChild(md);}
+root.appendChild(card);});
+if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetPromise();}
+</script></body></html>

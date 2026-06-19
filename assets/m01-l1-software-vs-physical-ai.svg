@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Software AI errors produce text mistakes; Physical AI errors produce real-world consequences.">
+  <defs>
+    <style>
+      .panel { fill:#f8fafc; stroke:#e2e8f0; stroke-width:1.5; rx:14; }
+      .htitle { font-size:16px; font-weight:700; fill:#0f172a; }
+      .body { font-size:13px; fill:#334155; }
+      .muted { font-size:12px; fill:#64748b; }
+      .bad { font-size:13px; font-weight:700; fill:#e11d48; }
+      .chip { font-size:12px; font-weight:600; }
+    </style>
+  </defs>
+
+  <text x="380" y="30" text-anchor="middle" class="htitle">Why precision is non-negotiable in Physical AI</text>
+
+  <!-- LEFT: Software AI -->
+  <rect class="panel" x="30" y="56" width="330" height="230" rx="14"/>
+  <text x="55" y="86" class="htitle" font-size="15">Software AI</text>
+  <rect x="55" y="104" width="280" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="70" y="130" class="body">Input: "Summarize this report."</text>
+  <text x="70" y="152" class="body" fill="#94a3b8">Output: a slightly wrong sentence.</text>
+  <text x="55" y="210" class="muted">Operates on data that is already digital.</text>
+  <rect x="55" y="228" width="180" height="26" rx="13" fill="#fee2e2"/>
+  <text x="66" y="246" class="chip" fill="#b91c1c">Error &#8594; bad text</text>
+  <text x="55" y="278" class="muted">Cost: re-read, edit, move on.</text>
+
+  <!-- RIGHT: Physical AI -->
+  <rect class="panel" x="400" y="56" width="330" height="230" rx="14"/>
+  <text x="425" y="86" class="htitle" font-size="15">Physical AI</text>
+
+  <!-- mini robot + tomato schematic -->
+  <line x1="440" y1="170" x2="440" y2="120" stroke="#334155" stroke-width="4"/>
+  <line x1="440" y1="120" x2="485" y2="120" stroke="#334155" stroke-width="4"/>
+  <rect x="483" y="112" width="16" height="16" rx="3" fill="#10b981"/>
+  <circle cx="540" cy="120" r="12" fill="#e11d48"/>
+  <text x="560" y="124" class="body">ripe tomato</text>
+  <text x="425" y="196" class="muted">Senses, decides, and moves real motors.</text>
+
+  <rect x="425" y="214" width="230" height="26" rx="13" fill="#fee2e2"/>
+  <text x="436" y="232" class="chip" fill="#b91c1c">Error of a few cm &#8594; crushed stem / dropped fruit</text>
+  <text x="425" y="266" class="bad">Cost: physical damage — irreversible.</text>
+
+  <text x="380" y="308" text-anchor="middle" class="muted">Same "intelligence," different stakes: physical consequences demand precise mathematics.</text>
+</svg>
