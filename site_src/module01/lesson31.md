@@ -35,6 +35,10 @@ Reflect $\mathbf{p}=(2,3)$ across the $x$-axis: $F_x(2,3) = (2,-3)$ — same hor
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson31_reflection_transformations.html" title="Reflection Transformations interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson31_reflection_transformations.html)
+
 **Guided prediction.** Predict where (2, 3) lands after reflecting across the x-axis, then across the y-axis. Predict whether reflecting twice across the same axis returns the original point. Confirm the handedness flip using the mirrored shape in the figure above — same size, reversed orientation.
 ## 8. Coding Exercise
 

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estimate Then Reveal — Lesson 1.6</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .q{font-size:15.5px;font-weight:600;margin-bottom:12px}
+  .fld{margin:10px 0}
+  label{font-size:13px;color:var(--muted);display:block;margin:0 0 4px}
+  .sub{font-size:12px;color:var(--muted)}
+  input{width:100%;font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:9px}
+  input:focus{outline:2px solid var(--accent);outline-offset:0}
+  .btn{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:9px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px}
+  .btn:hover{filter:brightness(1.05)}
+  .panel{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px;margin-top:14px;display:none}
+  .panel.show{display:block}
+  .big{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+  .range{font-variant-numeric:tabular-nums}
+  .verdict{margin-top:8px;font-weight:700}
+  .ok{color:var(--green)} .no{color:var(--bad)}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="q">How many liters of water per day for a greenhouse of <b>200 plants</b>?</div>
+  <div class="sub" style="margin-bottom:10px">Don't look anything up &mdash; just reason with rough factors.</div>
+
+  <div class="fld">
+    <label for="lpw">Liters per plant, per watering <span class="sub">(a rough guess)</span></label>
+    <input id="lpw" type="number" step="any" value="0.5" inputmode="decimal">
+  </div>
+  <div class="fld">
+    <label for="wpd">Waterings per day <span class="sub">(how many times)</span></label>
+    <input id="wpd" type="number" step="any" value="2" inputmode="decimal">
+  </div>
+
+  <button class="btn" id="go">Combine &amp; reveal</button>
+
+  <div class="panel" id="panel"></div>
+  <div class="hint">The point of estimation: rough factors multiplied together land you in the right <b>order of magnitude</b>, even when no single number is exact.</div>
+</div>
+<script>
+(function(){
+  var PLANTS = 200;
+  // plausible per-plant-per-day envelope (liters): 0.5 .. 3
+  var LO = PLANTS * 0.5, HI = PLANTS * 3.0;
+  var panel = document.getElementById("panel");
+
+  document.getElementById("go").addEventListener("click", function(){
+    var a = parseFloat(document.getElementById("lpw").value);
+    var b = parseFloat(document.getElementById("wpd").value);
+    if(isNaN(a)||isNaN(b)||a<=0||b<=0){
+      panel.className="panel show";
+      panel.innerHTML='<span class="no">Enter positive numbers for both factors.</span>';
+      return;
+    }
+    var est = PLANTS * a * b;
+    var inside = est >= LO && est <= HI;
+    panel.className = "panel show";
+    panel.innerHTML =
+      'your factors: 200 plants &times; '+a+' L &times; '+b+' /day<br>'+
+      'your estimate: <span class="big">'+Math.round(est)+' L/day</span><br>'+
+      'plausible range: <span class="range">'+LO+' &ndash; '+HI+' L/day</span>'+
+      '<div class="verdict '+(inside?"ok":"no")+'">'+
+        (inside
+          ? '✓ inside the ballpark — your rough reasoning hit the right order of magnitude.'
+          : (est<LO
+              ? '✗ a bit low — still the right kind of reasoning; nudge a factor up and try again.'
+              : '✗ a bit high — the method is right; nudge a factor down and try again.'))+
+      '</div>';
+  });
+})();
+</script>
+</body>
+</html>

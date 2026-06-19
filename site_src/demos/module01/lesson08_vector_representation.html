@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vector Representation — Lesson 2.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .col{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px;text-align:center}
+  .vec{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.15}
+  .cx{color:#0369a1}.cy{color:#b45309}
+  .row{font-size:13px;margin-top:8px;text-align:left}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 300 240"></svg>
+    <div class="panel">
+      <div class="col">
+        <div class="vec">[ <span class="cx" id="vx">0</span>,<br><span class="cy" id="vy">0</span> ]</div>
+        <div class="row"><span class="cx">v<sub>x</sub></span> = horizontal reach<br><span class="cy">v<sub>y</sub></span> = vertical reach</div>
+      </div>
+      <div class="hint">Drag the arrowhead. Each <b>component</b> is one axis's share, shown by the dashed lines. Drag straight up and only <span class="cy">v<sub>y</sub></span> changes — the components are independent. (In 3D you'd simply add a third, v<sub>z</sub>.)</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=300,H=240,ox=60,oy=180,s=44;
+  var svg=document.getElementById("svg");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var vx=2.0, vy=1.4;
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function draw(){
+    svg.innerHTML="";
+    var defs=el("defs",{}); defs.innerHTML='<marker id="ah" markerWidth="10" markerHeight="10" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#0d9488"/></marker>'; svg.appendChild(defs);
+    // grid
+    for(var i=1;i<=5;i++){ svg.appendChild(el("line",{x1:ox+i*s,y1:14,x2:ox+i*s,y2:H-12,stroke:"#eef2f7","stroke-width":1})); }
+    for(var j=1;j<=3;j++){ svg.appendChild(el("line",{x1:20,y1:oy-j*s,x2:W-12,y2:oy-j*s,stroke:"#eef2f7","stroke-width":1})); }
+    svg.appendChild(el("line",{x1:20,y1:oy,x2:W-12,y2:oy,stroke:"#cbd5e1","stroke-width":1.5}));
+    svg.appendChild(el("line",{x1:ox,y1:H-12,x2:ox,y2:14,stroke:"#cbd5e1","stroke-width":1.5}));
+    var hx=ox+vx*s, hy=oy-vy*s;
+    // projections
+    svg.appendChild(el("line",{x1:hx,y1:hy,x2:hx,y2:oy,stroke:"#b45309","stroke-width":1.5,"stroke-dasharray":"4 3"}));
+    svg.appendChild(el("line",{x1:hx,y1:hy,x2:ox,y2:hy,stroke:"#0369a1","stroke-width":1.5,"stroke-dasharray":"4 3"}));
+    // component labels
+    var lx=el("text",{x:(ox+hx)/2,y:oy+15,"font-size":11,fill:"#0369a1","text-anchor":"middle"}); lx.textContent="v_x="+vx.toFixed(2); svg.appendChild(lx);
+    var ly=el("text",{x:ox-6,y:(oy+hy)/2,"font-size":11,fill:"#b45309","text-anchor":"end"}); ly.textContent="v_y="+vy.toFixed(2); svg.appendChild(ly);
+    // vector
+    svg.appendChild(el("line",{x1:ox,y1:oy,x2:hx,y2:hy,stroke:"#0d9488","stroke-width":3.5,"marker-end":"url(#ah)"}));
+    svg.appendChild(el("circle",{cx:ox,cy:oy,r:4,fill:"#475569"}));
+    var hd=el("circle",{cx:hx,cy:hy,r:11,fill:"#0d9488",opacity:0.2}); hd.style.cursor="grab"; svg.appendChild(hd);
+    svg.appendChild(el("circle",{cx:hx,cy:hy,r:4,fill:"#0d9488"}));
+    hd.addEventListener("pointerdown",function(e){ hd.setPointerCapture(e.pointerId);
+      function mv(ev){ var r=svg.getBoundingClientRect(); var sx=(ev.clientX-r.left)/r.width*W, sy=(ev.clientY-r.top)/r.height*H; vx=Math.max(0,Math.min(5,(sx-ox)/s)); vy=Math.max(0,Math.min(3,(oy-sy)/s)); render(); }
+      svg.addEventListener("pointermove",mv); hd.addEventListener("pointerup",function(){ svg.removeEventListener("pointermove",mv); },{once:true});
+    });
+  }
+  function render(){ draw(); document.getElementById("vx").textContent=vx.toFixed(2); document.getElementById("vy").textContent=vy.toFixed(2); }
+  render();
+})();
+</script>
+</body>
+</html>

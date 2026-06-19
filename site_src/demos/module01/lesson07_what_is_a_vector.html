@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Is a Vector? — Lesson 2.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 220px;min-width:210px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px}
+  .readout b{font-variant-numeric:tabular-nums}
+  .big{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 300 240"></svg>
+    <div class="panel">
+      <div class="readout" id="out"></div>
+      <div class="hint">Drag the tomato. The arrow is the <b>vector</b> from gripper to target: its <b>length</b> is the magnitude, its <b>heading</b> is the direction. Move to the same distance at a new angle — length stays, direction changes.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=300,H=240,ox=70,oy=170,s=42;     // origin (gripper), 42px per unit
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var tx=2.3, ty=1.6;                     // tomato in world units
+
+  function toSvg(wx,wy){ return [ox+wx*s, oy-wy*s]; }
+  function fromSvg(sx,sy){ return [(sx-ox)/s, (oy-sy)/s]; }
+
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function draw(){
+    svg.innerHTML="";
+    var defs=el("defs",{}); defs.innerHTML='<marker id="ah" markerWidth="10" markerHeight="10" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#0d9488"/></marker>'; svg.appendChild(defs);
+    // axes
+    svg.appendChild(el("line",{x1:20,y1:oy,x2:W-12,y2:oy,stroke:"#cbd5e1","stroke-width":1}));
+    svg.appendChild(el("line",{x1:ox,y1:H-12,x2:ox,y2:14,stroke:"#cbd5e1","stroke-width":1}));
+    var h=toSvg(tx,ty);
+    // arrow
+    svg.appendChild(el("line",{x1:ox,y1:oy,x2:h[0],y2:h[1],stroke:"#0d9488","stroke-width":3.5,"marker-end":"url(#ah)"}));
+    // gripper
+    svg.appendChild(el("circle",{cx:ox,cy:oy,r:5,fill:"#475569"}));
+    var gl=el("text",{x:ox+6,y:oy+16,"font-size":11,fill:"#64748b"}); gl.textContent="gripper"; svg.appendChild(gl);
+    // tomato handle
+    var t=el("circle",{cx:h[0],cy:h[1],r:11,fill:"#ef4444"}); t.style.cursor="grab"; svg.appendChild(t);
+    svg.appendChild(el("circle",{cx:h[0],cy:h[1],r:3,fill:"#fff"}));
+    t.addEventListener("pointerdown",function(e){ t.setPointerCapture(e.pointerId);
+      function mv(ev){ var r=svg.getBoundingClientRect(); var sx=(ev.clientX-r.left)/r.width*W, sy=(ev.clientY-r.top)/r.height*H; var w=fromSvg(sx,sy); tx=Math.max(-0.2,Math.min(5,w[0])); ty=Math.max(-0.2,Math.min(1.6,w[1])); ty=w[1]; render(); }
+      svg.addEventListener("pointermove",mv); t.addEventListener("pointerup",function(){ svg.removeEventListener("pointermove",mv); },{once:true});
+    });
+  }
+  function render(){
+    draw();
+    var mag=Math.sqrt(tx*tx+ty*ty), ang=Math.atan2(ty,tx)*180/Math.PI;
+    out.innerHTML='vector (gripper → tomato)<br><span class="big">['+tx.toFixed(2)+', '+ty.toFixed(2)+']</span>'+
+      '<br><br>magnitude (length): <b>'+mag.toFixed(2)+'</b>'+
+      '<br>direction (heading): <b>'+ang.toFixed(0)+'°</b>';
+  }
+  render();
+})();
+</script>
+</body>
+</html>

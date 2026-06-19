@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2D Coordinate Systems — Lesson 3.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px}
+  .big{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums}
+  .quad{display:inline-block;padding:3px 11px;border-radius:999px;font-weight:700;font-size:13px;margin-top:8px;background:#ede9fe;color:#6d28d9}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 280 280"></svg>
+    <div class="panel">
+      <div class="readout" id="out"></div>
+      <div class="hint">The two axes cut the plane into four <b>quadrants</b>. Drag the point and watch which quadrant lights up — the pair of signs (+/+, −/+, −/−, +/−) is exactly what names each one.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=280,H=280,ox=140,oy=140,s=34;
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var px=1.8, py=1.4;
+  // quadrant rects in svg space: [x,y,w,h] and label
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function quadOf(x,y){ if(Math.abs(x)<0.05||Math.abs(y)<0.05) return 0; if(x>0&&y>0)return 1; if(x<0&&y>0)return 2; if(x<0&&y<0)return 3; return 4; }
+  function draw(){
+    svg.innerHTML="";
+    var q=quadOf(px,py);
+    var rects=[[ox,14,W-14-ox,oy-14,1],[14,14,ox-14,oy-14,2],[14,oy,ox-14,H-14-oy,3],[ox,oy,W-14-ox,H-14-oy,4]];
+    rects.forEach(function(r){ svg.appendChild(el("rect",{x:r[0],y:r[1],width:r[2],height:r[3],fill:(r[4]===q?"#ede9fe":"transparent")})); });
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#94a3b8","stroke-width":1.5}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:10,stroke:"#94a3b8","stroke-width":1.5}));
+    var labels=[[ox+(W-ox)/2,28,"I (+,+)"],[ox/2,28,"II (−,+)"],[ox/2,H-16,"III (−,−)"],[ox+(W-ox)/2,H-16,"IV (+,−)"]];
+    labels.forEach(function(l,i){ var t=el("text",{x:l[0],y:l[1],"font-size":10,fill:(i+1===q?"#6d28d9":"#cbd5e1"),"text-anchor":"middle","font-weight":"700"}); t.textContent=l[2]; svg.appendChild(t); });
+    var hx=ox+px*s, hy=oy-py*s;
+    var dot=el("circle",{cx:hx,cy:hy,r:11,fill:"#0d9488"}); dot.style.cursor="grab"; svg.appendChild(dot);
+    svg.appendChild(el("circle",{cx:hx,cy:hy,r:3,fill:"#fff"}));
+    dot.addEventListener("pointerdown",function(e){ dot.setPointerCapture(e.pointerId);
+      function mv(ev){ var r=svg.getBoundingClientRect(); var sx=(ev.clientX-r.left)/r.width*W, sy=(ev.clientY-r.top)/r.height*H; px=Math.max(-3.5,Math.min(3.5,(sx-ox)/s)); py=Math.max(-3.5,Math.min(3.5,(oy-sy)/s)); render(); }
+      svg.addEventListener("pointermove",mv); dot.addEventListener("pointerup",function(){ svg.removeEventListener("pointermove",mv); },{once:true});
+    });
+  }
+  function render(){
+    draw();
+    var q=quadOf(px,py), names=["on an axis","Quadrant I","Quadrant II","Quadrant III","Quadrant IV"];
+    out.innerHTML='<span class="big">('+px.toFixed(2)+', '+py.toFixed(2)+')</span><br><span class="quad">'+names[q]+'</span>';
+  }
+  render();
+})();
+</script>
+</body>
+</html>

@@ -39,6 +39,10 @@ Origin at the greenhouse corner; $x$ points east, $y$ points north (meters). A t
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson18_cartesian_coordinates.html" title="Cartesian Coordinates interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson18_cartesian_coordinates.html)
+
 **Guided prediction.** Using the anatomy figure above, predict the coordinates of a point two steps right and one step down from the origin, then a point two steps left and one up. State each sign before you check, and confirm the signs match which side of each axis the point lands on.
 ## 8. Coding Exercise
 

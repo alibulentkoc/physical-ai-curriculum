@@ -50,6 +50,10 @@ A tomato is 0.3 m right, 0.4 m up, and 0.6 m forward of the gripper. Write its d
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson08_vector_representation.html" title="Vector Representation interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson08_vector_representation.html)
+
 A 2D grid where the learner drags an arrowhead; the panel live-updates the column vector $[v_x, v_y]$ and draws the dashed projection lines to each axis. A toggle adds a third axis to show how the same idea extends to 3D. Dragging straight up changes only $v_y$, reinforcing that each component is independent.
 
 ## 8. Coding Exercise

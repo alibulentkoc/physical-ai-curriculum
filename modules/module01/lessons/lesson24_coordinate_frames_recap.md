@@ -59,6 +59,10 @@ Put together: **perception** happens in the camera frame, **action** in the robo
 - **Labels:** "world," "robot," "camera," "transform = offset + rotation," "same tomato."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Bring Unit 3 together: drag the tomato, switch the frame you read it in, and watch the coordinates, quadrant, and distance update at once.
+
 ## Coding Exercise
 
 A short capstone: describe one fixed point in world, robot, and camera frames and convert between two of them with an offset (and optionally a simple rotation) — confirming the point is unchanged.

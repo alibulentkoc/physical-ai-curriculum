@@ -39,6 +39,10 @@ The point $(2,0)$ (pointing east) became $(0,2)$ (pointing north) — this matri
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson25_matrices_as_operators.html" title="Matrices as Operators interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson25_matrices_as_operators.html)
+
 **Guided prediction.** Treat the matrix as a machine. Predict where the unit arrows (1, 0) and (0, 1) land after the operator [[0, −1], [1, 0]], then describe in words what that machine does to *any* shape fed through it. Confirm with the worked example — the columns are exactly where the arrows go.
 ## 8. Coding Exercise
 

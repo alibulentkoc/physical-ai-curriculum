@@ -60,6 +60,10 @@ Quick dimensional sanity check on a reach estimate $d = r\,\theta$ (arc length) 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson02_unit_converter.html" title="Units and Dimensions interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson02_unit_converter.html)
+
 A unit-converter panel: type a value and pick "from" and "to" units (cm↔m, deg↔rad, mm↔m). The panel shows the conversion ratio it applied and flags an error if you try an impossible conversion (e.g. meters → seconds), reinforcing that only same-dimension conversions are valid.
 
 ## 8. Coding Exercise

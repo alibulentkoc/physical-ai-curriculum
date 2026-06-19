@@ -63,6 +63,10 @@ A joint encoder should read 45.00° but reports 45.30° on a known reference.
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson04_averaging_error.html" title="Measurement Error interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson04_averaging_error.html)
+
 **Guided prediction.** Imagine measuring one fixed tomato distance ten times and getting ten slightly different readings. Predict: does averaging them move you closer to the true value? Now predict what averaging does for a ruler that always reads 2 cm too long. Check both predictions against the difference between *random* and *systematic* error in §3 — averaging tames the first but never the second.
 ## 8. Coding Exercise
 

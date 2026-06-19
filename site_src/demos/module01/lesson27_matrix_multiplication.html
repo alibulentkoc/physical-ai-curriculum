@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matrix Multiplication — Lesson 4.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 220px;min-width:210px}
+  label{font-size:12px;color:var(--muted);display:block;margin:10px 0 4px}
+  input[type=range]{width:100%}
+  .seg{display:flex;gap:6px;margin:10px 0}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 260 260"></svg>
+    <div class="panel">
+      <label>rotation θ</label><input type="range" id="rot" min="0" max="180" step="1" value="90">
+      <label>scale x &nbsp;(scale y fixed at 1 — non-uniform)</label><input type="range" id="sx" min="0.3" max="2.5" step="0.05" value="2">
+      <div class="seg"><button id="o1" class="on">scale ∘ rotate</button><button id="o2">rotate ∘ scale</button></div>
+      <div class="readout" id="out"></div>
+      <div class="hint">Multiplying matrices <b>chains</b> their actions into one. With a non-uniform scale the order matters: swap "scale then rotate" vs "rotate then scale" and the same shape lands differently — that's why M is the single product, applied right-to-left.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=260,H=260,ox=130,oy=130,s=40;
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var shape=[[0,0],[1.3,0],[1.3,0.4],[0.4,0.4],[0.4,1.3],[0,1.3]];
+  var order=1;  // 1: scale∘rotate (rotate first), 2: rotate∘scale (scale first)
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function mul(A,B){ return [A[0]*B[0]+A[1]*B[2], A[0]*B[1]+A[1]*B[3], A[2]*B[0]+A[3]*B[2], A[2]*B[1]+A[3]*B[3]]; }
+  function ap(m,p){ return [m[0]*p[0]+m[1]*p[1], m[2]*p[0]+m[3]*p[1]]; }
+  function sv(p){ return [ox+p[0]*s, oy-p[1]*s]; }
+  function render(){
+    var th=+document.getElementById("rot").value*Math.PI/180, sx=+document.getElementById("sx").value;
+    var R=[Math.cos(th),-Math.sin(th),Math.sin(th),Math.cos(th)], S=[sx,0,0,1];
+    var M = order===1 ? mul(S,R) : mul(R,S);   // applied right-to-left
+    svg.innerHTML="";
+    for(var g=-2;g<=2;g++){ if(g===0)continue;
+      svg.appendChild(el("line",{x1:ox+g*s,y1:8,x2:ox+g*s,y2:H-8,stroke:"#eef2f7","stroke-width":1}));
+      svg.appendChild(el("line",{x1:8,y1:oy+g*s,x2:W-8,y2:oy+g*s,stroke:"#eef2f7","stroke-width":1})); }
+    svg.appendChild(el("line",{x1:8,y1:oy,x2:W-8,y2:oy,stroke:"#cbd5e1","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#cbd5e1","stroke-width":1.3}));
+    var op=shape.map(function(p){var c=sv(p);return c[0]+","+c[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:op,fill:"none",stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"4 3"}));
+    var tp=shape.map(function(p){var c=sv(ap(M,p));return c[0]+","+c[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:tp,fill:"#0d948822",stroke:"#0d9488","stroke-width":2}));
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='product M = [['+f(M[0])+', '+f(M[1])+'], ['+f(M[2])+', '+f(M[3])+']]<br>'+
+      '<span style="color:#64748b">'+(order===1?"rotate first, then scale":"scale first, then rotate")+'</span>';
+  }
+  document.getElementById("o1").addEventListener("click",function(){ order=1; this.classList.add("on"); document.getElementById("o2").classList.remove("on"); render(); });
+  document.getElementById("o2").addEventListener("click",function(){ order=2; this.classList.add("on"); document.getElementById("o1").classList.remove("on"); render(); });
+  document.getElementById("rot").addEventListener("input",render);
+  document.getElementById("sx").addEventListener("input",render);
+  render();
+})();
+</script>
+</body>
+</html>

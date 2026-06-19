@@ -50,6 +50,10 @@ The gripper is at $\mathbf{r}_g = \begin{bmatrix} 0.2 \\ 0.5 \\ 0.3 \end{bmatrix
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson10_vector_subtraction.html" title="Vector Subtraction interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson10_vector_subtraction.html)
+
 **Guided prediction.** Picture a gripper and a tomato as two points, each with a position vector from the origin. Predict the aiming vector tomato − gripper: which way does it point? Now predict what happens if you swap the order to gripper − tomato. Sketch both and confirm the arrow flips — the order of subtraction sets the direction.
 ## 8. Coding Exercise
 

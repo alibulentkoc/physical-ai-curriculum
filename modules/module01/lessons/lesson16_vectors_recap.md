@@ -55,6 +55,10 @@ Notice the pattern: **perception** gives positions (vectors), **reasoning** comb
 - **Labels:** position, displacement (b − a), |v|, θ, v̂, a·b (aligned?), normal (a × b), reach.
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+The whole unit in one arrow — drag the vector and read off its components, magnitude, direction, and unit vector at once.
+
 ## Coding Exercise
 
 A short capstone that uses the whole toolkit in one greenhouse scenario — position, displacement, distance, direction, alignment, and a surface normal — in a single script.

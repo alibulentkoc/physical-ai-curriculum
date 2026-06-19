@@ -37,6 +37,10 @@ Origin at the southwest corner; $x$ east, $y$ north. Dock at $(0.5, 0.5)$, a rip
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson19_2d_coordinate_systems.html" title="2D Coordinate Systems interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson19_2d_coordinate_systems.html)
+
 **Guided prediction.** Before reading on, predict the quadrant of each point: (3, 2), (−2, 1), (−2, −1), (2, −1). Then place a tomato at (3, 2) and the dock at (0.5, 0.5) and predict the displacement dock→tomato. Check both against the quadrant figure above.
 ## 8. Coding Exercise
 

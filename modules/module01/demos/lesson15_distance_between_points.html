@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distance Between Points — Lesson 2.9</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 330px;min-width:290px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 210px;min-width:200px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13.5px}
+  .readout div{margin:3px 0;font-variant-numeric:tabular-nums}
+  .near{color:var(--green);font-weight:700}
+  .far{color:#94a3b8}
+  label{font-size:12px;color:var(--muted);display:block;margin:12px 0 4px}
+  input[type=range]{width:100%}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:10px;cursor:pointer}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 320 250"></svg>
+    <div class="panel">
+      <div class="readout" id="out"></div>
+      <label>arm reach</label>
+      <input type="range" id="reach" min="1" max="5" step="0.05" value="3.2">
+      <label class="tog"><input type="checkbox" id="wrong"> use wrong frame for tomato C</label>
+      <div class="hint">Distance is the length of the connecting vector. Drag the tomatoes — the <span class="near">nearest in reach</span> is green, anything past the reach slider greys out. The wrong-frame toggle shifts C's origin, so its distance becomes <b>nonsense</b> — frames must match.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=320,H=250,ox=55,oy=195,s=44;
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var toms=[{n:"A",p:[2.0,2.1],c:"#ef4444"},{n:"B",p:[3.8,1.0],c:"#ef4444"},{n:"C",p:[1.3,0.7],c:"#ef4444"}];
+  var reach=3.2, wrong=false;
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function sv(p){ return [ox+p[0]*s, oy-p[1]*s]; }
+  function dist(t){ var p=t.p.slice(); if(wrong && t.n==="C"){ p[0]+=1.6; p[1]+=1.4; } return Math.sqrt(p[0]*p[0]+p[1]*p[1]); }
+  function draw(nearIdx){
+    svg.innerHTML="";
+    var defs=el("defs",{}); defs.innerHTML='<marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>'; svg.appendChild(defs);
+    svg.appendChild(el("circle",{cx:ox,cy:oy,r:reach*s,fill:"#0d948810",stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"5 4"}));
+    svg.appendChild(el("line",{x1:18,y1:oy,x2:W-12,y2:oy,stroke:"#cbd5e1","stroke-width":1}));
+    svg.appendChild(el("line",{x1:ox,y1:H-10,x2:ox,y2:12,stroke:"#cbd5e1","stroke-width":1}));
+    toms.forEach(function(t,i){
+      var c=sv(t.p), d=dist(t), inreach=d<=reach;
+      var col = (i===nearIdx) ? "#15803d" : (inreach? "#0d9488" : "#cbd5e1");
+      svg.appendChild(el("line",{x1:ox,y1:oy,x2:c[0],y2:c[1],stroke:col,"stroke-width":(i===nearIdx?3:2),"marker-end":"url(#ah)",opacity:(inreach?1:0.5)}));
+      var mid=el("text",{x:(ox+c[0])/2,y:(oy+c[1])/2-4,"font-size":10,fill:col,"text-anchor":"middle"}); mid.textContent=d.toFixed(2); svg.appendChild(mid);
+      var dot=el("circle",{cx:c[0],cy:c[1],r:11,fill:t.c,opacity:(inreach?1:0.4)}); dot.style.cursor="grab"; svg.appendChild(dot);
+      var lb=el("text",{x:c[0],y:c[1]+4,"font-size":10,fill:"#fff","text-anchor":"middle","font-weight":"700"}); lb.textContent=t.n; svg.appendChild(lb);
+      dot.addEventListener("pointerdown",function(e){ dot.setPointerCapture(e.pointerId);
+        function mv(ev){ var r=svg.getBoundingClientRect(); var sx=(ev.clientX-r.left)/r.width*W, sy=(ev.clientY-r.top)/r.height*H; t.p[0]=Math.max(0,Math.min(5.5,(sx-ox)/s)); t.p[1]=Math.max(0,Math.min(3.2,(oy-sy)/s)); render(); }
+        svg.addEventListener("pointermove",mv); dot.addEventListener("pointerup",function(){ svg.removeEventListener("pointermove",mv); },{once:true});
+      });
+    });
+    svg.appendChild(el("circle",{cx:ox,cy:oy,r:5,fill:"#475569"}));
+  }
+  function render(){
+    var best=-1, bd=1e9;
+    toms.forEach(function(t,i){ var d=dist(t); if(d<=reach && d<bd){ bd=d; best=i; } });
+    draw(best);
+    var html="";
+    toms.forEach(function(t,i){
+      var d=dist(t), inreach=d<=reach;
+      var cls=(i===best)?"near":(inreach?"":"far");
+      var tag=(i===best)?" — nearest":(inreach?"":" — out of reach");
+      var wf=(wrong&&t.n==="C")?' <span style="color:#b91c1c">(wrong frame!)</span>':'';
+      html+='<div class="'+cls+'">tomato '+t.n+': '+d.toFixed(2)+tag+wf+'</div>';
+    });
+    out.innerHTML=html;
+  }
+  document.getElementById("reach").addEventListener("input",function(e){ reach=+e.target.value; render(); });
+  document.getElementById("wrong").addEventListener("change",function(e){ wrong=e.target.checked; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

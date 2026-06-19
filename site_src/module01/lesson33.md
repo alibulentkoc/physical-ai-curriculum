@@ -39,6 +39,14 @@ A robot arm is a *chain* of transformations — one per joint — composed in or
   ![Transformations in Physical AI (Unit 4 Recap)](../assets/m01-l33-transformations-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module01/lesson33_transformations_recap.html" title="Transformations in Physical AI (Unit 4 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson33_transformations_recap.html)
+
+Bring Unit 4 together: rotate, scale, and reflect a shape and watch the single combined matrix that captures every move.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

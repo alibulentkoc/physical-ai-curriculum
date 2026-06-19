@@ -39,6 +39,10 @@ Gripper at $(0.10, 0.10, 0.05)$, tomato at $(0.40, 0.30, 0.25)$ (meters, robot b
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson20_3d_coordinate_systems.html" title="3D Coordinate Systems interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson20_3d_coordinate_systems.html)
+
 **Guided prediction.** Using the isometric axes above, picture a tomato at (0.4, 0.3, 0.25) and another at (0.4, 0.3, 0.10): same floor spot, different height. Predict which the arm reaches more easily and why the third coordinate (z) is the deciding factor a flat map can't capture.
 ## 8. Coding Exercise
 

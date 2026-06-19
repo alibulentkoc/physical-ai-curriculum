@@ -37,6 +37,10 @@ $\begin{bmatrix}1&2\\0&1\end{bmatrix} + \begin{bmatrix}0&1\\3&2\end{bmatrix} = \
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson26_matrix_addition.html" title="Matrix Addition interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson26_matrix_addition.html)
+
 **Guided prediction.** Predict the sum of [[1, 2], [0, 1]] and [[0, 1], [3, 2]] by adding cell to cell. Then predict whether applying A and then B to a point gives the same result as applying (A + B) to that point. Check against the caution in the figure: addition blends matrices; it does not chain actions.
 ## 8. Coding Exercise
 

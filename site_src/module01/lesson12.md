@@ -52,6 +52,10 @@ Normalize the aiming vector $\mathbf{d} = \begin{bmatrix} 0.3 \\ 0.4 \\ 0.0 \end
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson12_unit_vectors.html" title="Unit Vectors interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson12_unit_vectors.html)
+
 A draggable aiming arrow shown alongside its normalized version (always length 1) on the same line. A "step size" slider multiplies the unit vector to produce a step arrow; the learner sees that changing step size rescales the move while the direction (the unit vector) stays put unless the target moves.
 
 ## 8. Coding Exercise

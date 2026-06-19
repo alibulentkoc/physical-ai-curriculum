@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartesian Coordinates — Lesson 3.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px}
+  .big{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums}
+  .sgn{display:inline-block;padding:2px 9px;border-radius:7px;font-weight:700;font-size:12.5px;margin:6px 6px 0 0}
+  .pos{background:#dcfce7;color:#15803d}.neg{background:#fee2e2;color:#b91c1c}.zero{background:#e2e8f0;color:#64748b}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 280 280"></svg>
+    <div class="panel">
+      <div class="readout" id="out"></div>
+      <div class="hint">Drag the point anywhere. The first number is its <b>horizontal</b> position (right is +, left is −), the second is <b>vertical</b> (up is +, down is −). The sign of each coordinate tells you which side of each axis you're on.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=280,H=280,ox=140,oy=140,s=34;
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var px=2.0, py=1.3;
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function draw(){
+    svg.innerHTML="";
+    for(var i=-3;i<=3;i++){ if(i===0)continue;
+      svg.appendChild(el("line",{x1:ox+i*s,y1:14,x2:ox+i*s,y2:H-14,stroke:"#eef2f7","stroke-width":1}));
+      svg.appendChild(el("line",{x1:14,y1:oy+i*s,x2:W-14,y2:oy+i*s,stroke:"#eef2f7","stroke-width":1}));
+    }
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#94a3b8","stroke-width":1.5}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:10,stroke:"#94a3b8","stroke-width":1.5}));
+    svg.appendChild(el("text",{x:W-12,y:oy-6,"font-size":11,fill:"#94a3b8"})).textContent="+x";
+    svg.appendChild(el("text",{x:ox+5,y:16,"font-size":11,fill:"#94a3b8"})).textContent="+y";
+    var hx=ox+px*s, hy=oy-py*s;
+    svg.appendChild(el("line",{x1:hx,y1:hy,x2:hx,y2:oy,stroke:"#b45309","stroke-width":1.3,"stroke-dasharray":"4 3"}));
+    svg.appendChild(el("line",{x1:hx,y1:hy,x2:ox,y2:hy,stroke:"#0369a1","stroke-width":1.3,"stroke-dasharray":"4 3"}));
+    var dot=el("circle",{cx:hx,cy:hy,r:11,fill:"#0d9488"}); dot.style.cursor="grab"; svg.appendChild(dot);
+    svg.appendChild(el("circle",{cx:hx,cy:hy,r:3,fill:"#fff"}));
+    dot.addEventListener("pointerdown",function(e){ dot.setPointerCapture(e.pointerId);
+      function mv(ev){ var r=svg.getBoundingClientRect(); var sx=(ev.clientX-r.left)/r.width*W, sy=(ev.clientY-r.top)/r.height*H; px=Math.max(-3.5,Math.min(3.5,(sx-ox)/s)); py=Math.max(-3.5,Math.min(3.5,(oy-sy)/s)); render(); }
+      svg.addEventListener("pointermove",mv); dot.addEventListener("pointerup",function(){ svg.removeEventListener("pointermove",mv); },{once:true});
+    });
+  }
+  function sgn(v,pos,neg){ if(Math.abs(v)<0.05) return '<span class="sgn zero">on the axis</span>'; return v>0?'<span class="sgn pos">'+pos+'</span>':'<span class="sgn neg">'+neg+'</span>'; }
+  function render(){
+    draw();
+    out.innerHTML='<span class="big">('+px.toFixed(2)+', '+py.toFixed(2)+')</span><br>'+
+      'x '+sgn(px,"right of origin","left of origin")+'<br>'+
+      'y '+sgn(py,"above origin","below origin");
+  }
+  render();
+})();
+</script>
+</body>
+</html>

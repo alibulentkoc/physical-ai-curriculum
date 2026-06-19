@@ -55,6 +55,10 @@ The pattern: anything about *motion or location in space* tends to need directio
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson03_scalar_vs_vector.html" title="Scalars and Physical Quantities interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson03_scalar_vs_vector.html)
+
 **Guided prediction.** Sort these greenhouse quantities into *scalar* (a single number is enough) versus *needs a direction*: air temperature, the robot's speed of travel, the wind, battery charge, the push a gripper applies to a stem. For each one you place in *needs a direction*, say what physically changes if you flip its direction — the test from §3 made tangible.
 ## 8. Coding Exercise
 

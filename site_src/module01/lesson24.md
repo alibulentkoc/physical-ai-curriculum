@@ -39,6 +39,14 @@ Put together: **perception** happens in the camera frame, **action** in the robo
   ![Coordinate Frames in Physical AI (Unit 3 Recap)](../assets/m01-l24-frames-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module01/lesson24_frames_recap.html" title="Coordinate Frames in Physical AI (Unit 3 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson24_frames_recap.html)
+
+Bring Unit 3 together: drag the tomato, switch the frame you read it in, and watch the coordinates, quadrant, and distance update at once.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

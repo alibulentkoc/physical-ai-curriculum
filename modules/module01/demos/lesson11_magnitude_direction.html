@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magnitude and Direction — Lesson 2.5</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 220px;min-width:210px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px}
+  .big{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+  .badge{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:700;font-size:13px;margin-top:10px}
+  .ok{background:#dcfce7;color:#15803d}.no{background:#fee2e2;color:#b91c1c}
+  label{font-size:12px;color:var(--muted);display:block;margin:12px 0 4px}
+  input[type=range]{width:100%}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 260 260"></svg>
+    <div class="panel">
+      <div class="readout" id="out"></div>
+      <label>magnitude (length)</label>
+      <input type="range" id="mag" min="0.3" max="3.2" step="0.01" value="1.8">
+      <div class="hint">Drag the arrowhead to <b>rotate</b> it — the magnitude stays fixed while the direction changes. The slider changes magnitude only. Inside the reach circle it's <b>reachable</b>; outside, out of reach.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=260,H=260,ox=130,oy=130,s=38,REACH=2.4;
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var mag=1.8, ang=-35*Math.PI/180;
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function draw(){
+    svg.innerHTML="";
+    var defs=el("defs",{}); defs.innerHTML='<marker id="ah" markerWidth="10" markerHeight="10" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#0d9488"/></marker>'; svg.appendChild(defs);
+    svg.appendChild(el("circle",{cx:ox,cy:oy,r:REACH*s,fill:"none",stroke:"#cbd5e1","stroke-width":1.5,"stroke-dasharray":"5 4"}));
+    var rl=el("text",{x:ox,y:oy-REACH*s-6,"font-size":10,fill:"#94a3b8","text-anchor":"middle"}); rl.textContent="arm reach"; svg.appendChild(rl);
+    svg.appendChild(el("line",{x1:16,y1:oy,x2:W-12,y2:oy,stroke:"#e2e8f0","stroke-width":1}));
+    svg.appendChild(el("line",{x1:ox,y1:H-12,x2:ox,y2:12,stroke:"#e2e8f0","stroke-width":1}));
+    var hx=ox+mag*s*Math.cos(ang), hy=oy+mag*s*Math.sin(ang);
+    svg.appendChild(el("line",{x1:ox,y1:oy,x2:hx,y2:hy,stroke:"#0d9488","stroke-width":3.5,"marker-end":"url(#ah)"}));
+    svg.appendChild(el("circle",{cx:ox,cy:oy,r:4,fill:"#475569"}));
+    var hd=el("circle",{cx:hx,cy:hy,r:11,fill:"#0d9488",opacity:0.2}); hd.style.cursor="grab"; svg.appendChild(hd);
+    svg.appendChild(el("circle",{cx:hx,cy:hy,r:4,fill:"#0d9488"}));
+    hd.addEventListener("pointerdown",function(e){ hd.setPointerCapture(e.pointerId);
+      function mv(ev){ var r=svg.getBoundingClientRect(); var sx=(ev.clientX-r.left)/r.width*W, sy=(ev.clientY-r.top)/r.height*H; ang=Math.atan2(sy-oy,sx-ox); render(); }
+      svg.addEventListener("pointermove",mv); hd.addEventListener("pointerup",function(){ svg.removeEventListener("pointermove",mv); },{once:true});
+    });
+  }
+  function render(){
+    draw();
+    var deg=((-ang*180/Math.PI)%360+360)%360;
+    var reachable=mag<=REACH;
+    out.innerHTML='magnitude: <span class="big">'+mag.toFixed(2)+'</span><br>direction: <span class="big">'+deg.toFixed(0)+'°</span>'+
+      '<br><span class="badge '+(reachable?"ok":"no")+'">'+(reachable?"✓ reachable":"✗ out of reach")+'</span>';
+  }
+  document.getElementById("mag").addEventListener("input",function(e){ mag=+e.target.value; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

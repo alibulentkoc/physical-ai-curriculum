@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Coordinate Systems — Lesson 3.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 210px;min-width:200px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13.5px}
+  .readout div{margin:3px 0;font-variant-numeric:tabular-nums}
+  .big{font-size:18px;font-weight:700}
+  label{font-size:12px;color:var(--muted);display:block;margin:12px 0 4px}
+  input[type=range]{width:100%}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 320 260"></svg>
+    <div class="panel">
+      <div class="readout" id="out"></div>
+      <label>height z (raise the tomato)</label>
+      <input type="range" id="z" min="0" max="0.5" step="0.01" value="0.25">
+      <div class="hint">Two tomatoes share the same floor spot (x, y) but sit at different heights. Slide z: the flat map can't tell them apart, yet the arm's straight-line reach changes — the third coordinate is the deciding factor.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=320,H=260, ox=150, oy=185, s=150;     // s scales world meters
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var C=Math.cos(Math.PI/6), S=Math.sin(Math.PI/6);
+  var tx=0.4, ty=0.3, tz=0.25;
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function iso(x,y,z){ return [ ox + (x - y)*C*s, oy - (x + y)*S*s - z*s ]; }
+  function draw(){
+    svg.innerHTML="";
+    var defs=el("defs",{}); defs.innerHTML='<marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>'; svg.appendChild(defs);
+    // floor grid (x,y) at z=0
+    for(var g=0;g<=0.6;g+=0.2){
+      var a=iso(g,0,0), b=iso(g,0.6,0); svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#e2e8f0","stroke-width":1}));
+      var cc=iso(0,g,0), d=iso(0.6,g,0); svg.appendChild(el("line",{x1:cc[0],y1:cc[1],x2:d[0],y2:d[1],stroke:"#e2e8f0","stroke-width":1}));
+    }
+    // axes
+    var o=iso(0,0,0), ax=iso(0.65,0,0), ay=iso(0,0.65,0), az=iso(0,0,0.55);
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:ax[0],y2:ax[1],stroke:"#94a3b8","stroke-width":1.5}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:ay[0],y2:ay[1],stroke:"#94a3b8","stroke-width":1.5}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:az[0],y2:az[1],stroke:"#7c3aed","stroke-width":1.5}));
+    svg.appendChild(el("text",{x:ax[0]+3,y:ax[1]+4,"font-size":11,fill:"#94a3b8"})).textContent="x";
+    svg.appendChild(el("text",{x:ay[0]-10,y:ay[1]+10,"font-size":11,fill:"#94a3b8"})).textContent="y";
+    svg.appendChild(el("text",{x:az[0]-4,y:az[1]-5,"font-size":11,fill:"#7c3aed"})).textContent="z";
+    // base of arm at origin
+    svg.appendChild(el("circle",{cx:o[0],cy:o[1],r:5,fill:"#475569"}));
+    // floor spot + vertical stem to the raised tomato
+    var floor=iso(tx,ty,0), top=iso(tx,ty,tz);
+    svg.appendChild(el("circle",{cx:floor[0],cy:floor[1],r:4,fill:"#cbd5e1"}));
+    // ghost tomato on floor (z=0)
+    svg.appendChild(el("circle",{cx:floor[0],cy:floor[1],r:9,fill:"#ef4444",opacity:0.25}));
+    svg.appendChild(el("line",{x1:floor[0],y1:floor[1],x2:top[0],y2:top[1],stroke:"#7c3aed","stroke-width":1.3,"stroke-dasharray":"4 3"}));
+    // reach line from base to raised tomato
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:top[0],y2:top[1],stroke:"#0d9488","stroke-width":2.5,"marker-end":"url(#ah)"}));
+    svg.appendChild(el("circle",{cx:top[0],cy:top[1],r:11,fill:"#ef4444"}));
+    svg.appendChild(el("circle",{cx:top[0],cy:top[1],r:3,fill:"#fff"}));
+  }
+  function render(){
+    draw();
+    var reach=Math.sqrt(tx*tx+ty*ty+tz*tz), floorOnly=Math.sqrt(tx*tx+ty*ty);
+    out.innerHTML=
+      '<div class="big">tomato ('+tx.toFixed(2)+', '+ty.toFixed(2)+', '+tz.toFixed(2)+')</div>'+
+      '<div>flat-map distance (x,y only): <b>'+floorOnly.toFixed(3)+'</b> m</div>'+
+      '<div>true 3D reach (with z): <b>'+reach.toFixed(3)+'</b> m</div>'+
+      '<div style="color:#7c3aed;margin-top:6px">raising z by '+tz.toFixed(2)+' m adds '+(reach-floorOnly).toFixed(3)+' m of reach the flat map missed.</div>';
+  }
+  document.getElementById("z").addEventListener("input",function(e){ tz=+e.target.value; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

@@ -59,6 +59,10 @@ A robot arm is a *chain* of transformations — one per joint — composed in or
 - **Labels:** "identity," "rotation," "scaling," "reflection," "order matters."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Bring Unit 4 together: rotate, scale, and reflect a shape and watch the single combined matrix that captures every move.
+
 ## Coding Exercise
 
 A short capstone: apply identity, rotation, scaling, and reflection to one shape, then compose two of them in both orders and confirm the results differ.

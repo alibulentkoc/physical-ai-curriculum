@@ -45,6 +45,10 @@ Describe the arrow from the gripper to a tomato that sits 0.3 m to the right and
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module01/lesson07_what_is_a_vector.html" title="What Is a Vector? interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module01/lesson07_what_is_a_vector.html)
+
 A canvas showing the robot gripper at the origin and a draggable tomato. As the learner drags the tomato, an arrow from gripper to tomato updates live, and a readout shows the arrow's length (magnitude) and heading (direction). Dragging the tomato to the same distance but a different angle keeps the length but changes the direction — making "magnitude vs direction" tangible.
 
 ## 8. Coding Exercise
