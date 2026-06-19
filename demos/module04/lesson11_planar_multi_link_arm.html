@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Planar 2-/3-Link Arm — Lesson 3.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:7px 0 4px} input[type=range]{width:100%}
+  .row{display:flex;gap:8px;margin-top:8px}
+  .row button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}.full{color:#15803d;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drive the three joints, or hit Straighten.</b> With θ₂ = θ₃ = 0 the arm is fully extended — reach L₁+L₂+L₃ = 0.9 at orientation θ₁.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="150" step="1" value="50">
+    <label>θ₂</label><input type="range" id="t2" min="-120" max="120" step="1" value="40">
+    <label>θ₃</label><input type="range" id="t3" min="-120" max="120" step="1" value="30">
+    <div class="row"><button id="straight">Straighten</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Each link adds its length along the running direction. Reach is largest when every joint lines up; bending any joint folds the arm and shortens how far it stretches.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,BX=80,BY=190,L=[0.4,0.3,0.2],SC=170;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var t1=+document.getElementById("t1").value, t2=+document.getElementById("t2").value, t3=+document.getElementById("t3").value;
+    var ths=[t1,t2,t3].map(function(d){return d*Math.PI/180;});
+    var pts=[[0,0]], ang=0;
+    for(var i=0;i<3;i++){ang+=ths[i];pts.push([pts[i][0]+L[i]*Math.cos(ang), pts[i][1]+L[i]*Math.sin(ang)]);}
+    var tip=pts[3], reach=Math.hypot(tip[0],tip[1]), orient=(t1+t2+t3);
+    var full=Math.abs(t2)<1&&Math.abs(t3)<1;
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:0.9*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    svg.appendChild(el("line",{x1:20,y1:BY,x2:W-20,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var cols=["#475569","#0d9488","#7c3aed"];
+    for(var i=0;i<3;i++){var a=sv(pts[i]),b=sv(pts[i+1]);svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:cols[i],"stroke-width":6,"stroke-linecap":"round"}));}
+    for(var i=0;i<3;i++){var p=sv(pts[i]);svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:6,fill:"#fff",stroke:"#475569","stroke-width":2}));}
+    var tp=sv(tip);svg.appendChild(el("circle",{cx:tp[0],cy:tp[1],r:6,fill:"#ef4444"}));
+    out.innerHTML='<div class="ln"><span>reach (base→tip)</span><span'+(full?' class="full"':'')+'>'+reach.toFixed(3)+(full?' (max)':'')+'</span></div>'+
+      '<div class="ln"><span>orientation</span><span>'+Math.round(orient)+'°</span></div>';
+  }
+  document.getElementById("straight").addEventListener("click",function(){document.getElementById("t2").value=0;document.getElementById("t3").value=0;render();});
+  ["t1","t2","t3"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

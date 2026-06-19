@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward Kinematics in Code — Lesson 4.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 250px;min-width:240px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 230px;min-width:210px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .code{background:#0f172a;color:#e2e8f0;border-radius:8px;padding:10px;font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.55;margin-top:8px}
+  .code .k{color:#5eead4}.code .n{color:#fca5a5}.code .ok{color:#86efac}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drive the joints.</b> Two ways to compute the tip: multiplying transform matrices (numeric <code>fk</code>) and the trig closed form. They agree to floating-point precision.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 250 230"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="180" step="1" value="50">
+    <label>θ₂</label><input type="range" id="t2" min="-150" max="150" step="1" value="40">
+    <div class="code" id="code"></div>
+    <div class="hint">The matrix product <code>T01 @ T12</code> and the hand-derived formula are the same function — code just keeps the bookkeeping. For real arms with many joints, the matrix form scales without re-deriving trig.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=250,H=230,BX=120,BY=170,L1=0.4,L2=0.3,SC=150;
+  var svg=document.getElementById("svg"),code=document.getElementById("code"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function mul(A,B){var C=[];for(var i=0;i<3;i++){C[i]=[];for(var j=0;j<3;j++){var s=0;for(var k=0;k<3;k++)s+=A[i][k]*B[k][j];C[i][j]=s;}}return C;}
+  function T(th,L){var c=Math.cos(th),s=Math.sin(th);return [[c,-s,L*c],[s,c,L*s],[0,0,1]];}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180;
+    var Tn=mul(T(t1,L1),T(t2,L2));
+    var nx=Tn[0][2],ny=Tn[1][2];
+    var cx=L1*Math.cos(t1)+L2*Math.cos(t1+t2), cy=L1*Math.sin(t1)+L2*Math.sin(t1+t2);
+    var err=Math.hypot(nx-cx,ny-cy);
+    function sv(x,y){return [BX+x*SC, BY-y*SC];}
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:15,y1:BY,x2:W-15,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var p1=[L1*Math.cos(t1),L1*Math.sin(t1)],a=sv(0,0),b=sv(p1[0],p1[1]),c=sv(nx,ny);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:6,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#ef4444"}));
+    var f=function(v){return v.toFixed(5);};
+    code.innerHTML='<span class="k">fk</span>(θ) = T01 @ T12<br>&nbsp; pos = (<span class="n">'+f(nx)+', '+f(ny)+'</span>)<br><br>closed form:<br>&nbsp; x = L₁cosθ₁ + L₂cos(θ₁+θ₂)<br>&nbsp; pos = (<span class="n">'+f(cx)+', '+f(cy)+'</span>)<br><br><span class="ok">‖diff‖ = '+err.toExponential(1)+' ✓ agree</span>';
+  }
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>
