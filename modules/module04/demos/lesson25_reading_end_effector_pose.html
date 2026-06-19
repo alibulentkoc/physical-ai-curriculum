@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading the End-Effector Pose — Lesson 7.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .zg{color:#b91c1c;font-weight:700}
+  .tag{display:inline-block;padding:3px 10px;border-radius:999px;background:#fef3c7;color:#92400e;font-weight:700;font-size:12px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Tilt the gripper's approach.</b> The third column of R is ẑ_g — the direction the gripper reaches along. Point it down and it approaches the fruit from above; point it sideways and it comes in from the side.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 240"></svg>
+  <div class="panel">
+    <label>approach tilt (ẑ_g from vertical → horizontal)</label><input type="range" id="tilt" min="0" max="90" step="1" value="10">
+    <label>approach azimuth</label><input type="range" id="az" min="0" max="350" step="1" value="30">
+    <div class="readout" id="out"></div>
+    <div class="hint">Position tells you where the gripper is; the orientation's third column tells you how it arrives. For grasping, that approach direction decides whether the fingers clear the surrounding leaves.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=240,NS="http://www.w3.org/2000/svg",SC=150,OX=140,OY=150;
+  var svg=document.getElementById("svg"),out=document.getElementById("out");
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function iso(x,y,z){return [OX+(x-y)*0.86*SC, OY - z*SC - (x+y)*0.5*0.42*SC];}
+  function render(){
+    var tilt=+document.getElementById("tilt").value*Math.PI/180, az=+document.getElementById("az").value*Math.PI/180;
+    // z_g: tilt=0 -> straight down (0,0,-1); tilt=90 -> horizontal along azimuth
+    var zg=[Math.sin(tilt)*Math.cos(az), Math.sin(tilt)*Math.sin(az), -Math.cos(tilt)];
+    var fruit=[0,0,0];
+    var g=[fruit[0]-zg[0]*0.45, fruit[1]-zg[1]*0.45, fruit[2]-zg[2]*0.45]; // gripper sits back along approach
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b91c1c"/></marker>';svg.appendChild(defs);
+    // axes hint
+    svg.appendChild(el("ellipse",{cx:OX,cy:OY+40,rx:60,ry:22,fill:"none",stroke:"#eef2f7","stroke-width":1.2}));
+    var zt=iso(0,0,0.5),fl=iso(0,0,0);
+    svg.appendChild(el("line",{x1:fl[0],y1:fl[1]+90,x2:zt[0],y2:zt[1],stroke:"#eef2f7","stroke-width":1.2}));
+    // fruit
+    var fp=iso(fruit[0],fruit[1],fruit[2]);
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:11,fill:"#ef4444"}));
+    var fll=el("text",{x:fp[0]+14,y:fp[1]+4,"font-size":10,fill:"#ef4444"});fll.textContent="fruit";svg.appendChild(fll);
+    // gripper block
+    var gp=iso(g[0],g[1],g[2]);
+    svg.appendChild(el("rect",{x:gp[0]-9,y:gp[1]-9,width:18,height:18,rx:3,fill:"#475569"}));
+    // approach arrow z_g (gripper -> fruit)
+    svg.appendChild(el("line",{x1:gp[0],y1:gp[1],x2:fp[0],y2:fp[1],stroke:"#b91c1c","stroke-width":2.6,"marker-end":"url(#ar)"}));
+    var zl=el("text",{x:(gp[0]+fp[0])/2-6,y:(gp[1]+fp[1])/2-6,"font-size":10,fill:"#b91c1c"});zl.textContent="ẑ_g";svg.appendChild(zl);
+    var f2=function(v){return (Math.round(v*100)/100).toFixed(2);};
+    var kind = tilt<25?"approaches from above":(tilt>65?"approaches from the side":"approaches at an angle");
+    out.innerHTML='<div><span class="zg">ẑ_g (col 3)</span> = ('+f2(zg[0])+', '+f2(zg[1])+', '+f2(zg[2])+')</div>'+
+      '<div class="tag">'+kind+'</div>';
+  }
+  ["tilt","az"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

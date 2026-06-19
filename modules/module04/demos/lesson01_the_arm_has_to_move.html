@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Arm Has to Move — Lesson 1.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:5px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Click the gripper to grab it, move it around the circle, click to drop</b> (or use the slider). One joint angle θ sets both <b>where</b> the gripper is and <b>which way</b> it faces.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 260"></svg>
+  <div class="panel">
+    <label>joint angle θ</label><input type="range" id="th" min="0" max="360" step="1" value="40">
+    <div class="readout" id="out"></div>
+    <div class="hint">With one revolute joint, the gripper traces a circle of radius L — position and orientation move together, locked to θ. The arm can only reach points exactly that far away.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=260,BX=150,BY=175,L=0.5,SC=180;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var th=40, hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function tip(){var a=th*Math.PI/180;return [BX+L*SC*Math.cos(a), BY-L*SC*Math.sin(a)];}
+  function render(){
+    var a=th*Math.PI/180, t=tip();
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="g" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    // reachable circle
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:L*SC,fill:"none",stroke:"#e2e8f0","stroke-width":1.3,"stroke-dasharray":"4 4"}));
+    // ground
+    svg.appendChild(el("line",{x1:20,y1:BY,x2:W-20,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    // link
+    svg.appendChild(el("line",{x1:BX,y1:BY,x2:t[0],y2:t[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    // base
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:8,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:3,fill:"#fff"}));
+    var bl=el("text",{x:BX,y:BY+20,"font-size":10,fill:"#475569","text-anchor":"middle"});bl.textContent="base";svg.appendChild(bl);
+    // gripper orientation arrow
+    svg.appendChild(el("line",{x1:t[0],y1:t[1],x2:t[0]+22*Math.cos(a),y2:t[1]-22*Math.sin(a),stroke:"#0d9488","stroke-width":2.5,"marker-end":"url(#g)"}));
+    // grab handle
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:24,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:14,fill:"none",stroke:"#0d9488","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:9,fill:"#0d9488"}));
+    if(!hinted){var hh=el("text",{x:t[0]+16,y:t[1]-12,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab me";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    var x=(L*Math.cos(a)),y=(L*Math.sin(a));
+    var f2=function(v){return (Math.round(v*1000)/1000).toFixed(3);};
+    out.innerHTML='<div class="ln"><span>θ</span><span>'+Math.round(th)+'°</span></div>'+
+      '<div class="ln"><span>position (x, y)</span><span>('+f2(x)+', '+f2(y)+')</span></div>'+
+      '<div class="ln"><span>orientation</span><span>'+Math.round(th)+'°</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){
+    if(grabbing){grabbing=false;svg.style.cursor="";render();return;}
+    var m=_ev(e),t=tip();
+    if(Math.hypot(m[0]-t[0],m[1]-t[1])<28){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}
+  });
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);
+    var ang=Math.atan2(BY-m[1], m[0]-BX)*180/Math.PI; th=(ang+360)%360; document.getElementById("th").value=Math.round(th); render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  document.getElementById("th").addEventListener("input",function(e){th=+e.target.value;render();});
+  render();
+})();</script></body></html>

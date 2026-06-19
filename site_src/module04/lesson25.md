@@ -40,6 +40,10 @@ The greenhouse robot's perception (Module 3) reports a tomato's position; a gras
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson25_reading_end_effector_pose.html" title="Reading the End-Effector Pose interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson25_reading_end_effector_pose.html)
+
 **Guided prediction.** Given a $T_0^n$ with $\hat{\mathbf z}_g = (0,0,1)$, predict whether the gripper approaches from the side or from below. Predict what changing the configuration to point $\hat{\mathbf z}_g = (1,0,0)$ does to the approach. Confirm by reading the third column.
 
 ## 8. Coding Exercise

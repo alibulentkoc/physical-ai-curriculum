@@ -31,6 +31,14 @@ We now have the question and the language. **Unit 2** computes the simplest case
   ![Why Kinematics (Unit 1 Recap)](../assets/m04-l4-why-kinematics-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module04/lesson04_why_kinematics_recap.html" title="Why Kinematics (Unit 1 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson04_why_kinematics_recap.html)
+
+Unit 1 in one tool: drive the two joints and read off the resulting gripper pose — the configuration → pose map that is forward kinematics.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

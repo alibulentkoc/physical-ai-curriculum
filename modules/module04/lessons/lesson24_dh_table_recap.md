@@ -52,6 +52,10 @@ We can now take any serial arm, write its DH table, and compute the gripper pose
 - **Labels:** "any arm = a table," "verified + symbolic," "Unit 7: pose, workspace, back to perception."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 6 in one tool: drive the 3-DOF arm and watch the live DH table feed the forward kinematics that places the gripper.
+
 ## Coding Exercise
 
 A short consolidation: given the 3-DOF DH table, compute $T_0^3$ at one configuration with `dh_fk`, extract position and orientation, and confirm the in-plane reach matches `fk_planar`.

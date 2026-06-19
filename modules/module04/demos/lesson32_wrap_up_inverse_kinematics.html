@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wrap-Up: The Road to Inverse Kinematics — Lesson 8.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .map{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums;text-align:center}
+  .cfg{color:#7c3aed;font-weight:700}.pose{color:#0d9488;font-weight:700}
+  .next{background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px;font-size:12px;margin-top:8px;color:#3730a3}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Forward kinematics, mastered.</b> Drive the joints and the gripper pose follows — config → pose, always. The next module runs this arrow backward: given a target pose, find the joint angles.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="180" step="1" value="55">
+    <label>θ₂</label><input type="range" id="t2" min="-150" max="150" step="1" value="-45">
+    <div class="map" id="map"></div>
+    <div class="next"><b>Forward kinematics</b> (this module): config → pose.<br><b>Inverse kinematics</b> (next): pose → config — solve the joints to grasp any fruit in the workspace.</div>
+    <div class="hint">From a single joint to a full DH model, FK turns angles into a gripper pose. Inverse kinematics closes the harvester's loop: perceive a fruit, then compute the angles to reach it.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,BX=150,BY=185,L1=0.4,L2=0.3,SC=170;
+  var svg=document.getElementById("svg"),map=document.getElementById("map"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180,phi=t1+t2;
+    var p1=[L1*Math.cos(t1),L1*Math.sin(t1)],p2=[p1[0]+L2*Math.cos(phi),p1[1]+L2*Math.sin(phi)];
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="g" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:(L1+L2)*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    svg.appendChild(el("line",{x1:20,y1:BY,x2:W-20,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var a=sv([0,0]),b=sv(p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:6,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:c[0]+20*Math.cos(phi),y2:c[1]-20*Math.sin(phi),stroke:"#0d9488","stroke-width":2.5,"marker-end":"url(#g)"}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#ef4444"}));
+    var f2=function(v){return (Math.round(v*100)/100).toFixed(2);};
+    map.innerHTML='<span class="cfg">config ('+Math.round(t1*180/Math.PI)+'°, '+Math.round(t2*180/Math.PI)+'°)</span> &nbsp;—FK→&nbsp; <span class="pose">pose ('+f2(p2[0])+', '+f2(p2[1])+')</span>';
+  }
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

@@ -39,6 +39,10 @@ $L_1=0.4, L_2=0.3, L_3=0.2$; $\theta_1=30°, \theta_2=60°, \theta_3=-30°$. Acc
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson11_planar_multi_link_arm.html" title="A Planar 2-/3-Link Arm interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson11_planar_multi_link_arm.html)
+
 **Guided prediction.** For the 3-link arm above, predict whether straightening all joints ($\theta_2=\theta_3=0°$) puts the gripper at distance $L_1+L_2+L_3$ from the base. Predict the orientation. Confirm: yes, fully extended reach $0.9$ at orientation $\theta_1$.
 
 ## 8. Coding Exercise

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Joint Transform — Lesson 2.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:11.5px;color:var(--muted);display:block;margin:7px 0 3px} input[type=range]{width:100%}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:8px;cursor:pointer}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:8px}
+  .cell{height:30px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:12px;font-variant-numeric:tabular-nums}
+  .R{background:#e0f2fe;border-color:#bae6fd}.T{background:#dcfce7;border-color:#bbf7d0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drive the joint, and flip its type.</b> The joint transform T₀¹ is a 3×3: a <span style="color:#0369a1">rotation block</span> and a <span style="color:#15803d">translation column</span>. Revolute changes the rotation; prismatic changes the translation along the axis.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 230"></svg>
+  <div class="panel">
+    <label id="lab">joint angle θ</label><input type="range" id="q" min="0" max="170" step="1" value="50">
+    <label class="tog"><input type="checkbox" id="pris"> prismatic joint</label>
+    <div class="grid" id="mat"></div>
+    <div class="hint">Same chain machinery, two joint flavours: a revolute joint spins the rotation block while keeping the link length fixed; a prismatic joint leaves orientation alone and stretches the translation.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=230,BX=60,BY=160,SC=150,L=0.4;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var q=+document.getElementById("q").value, pris=document.getElementById("pris").checked;
+    document.getElementById("lab").textContent=pris?"joint extension d":"joint angle θ";
+    var th = pris?0 : q*Math.PI/180;
+    var d = pris? (q/170*0.4) : 0;
+    var len = L + d;
+    var tx=len*Math.cos(th), ty=len*Math.sin(th);
+    // matrix
+    var c=Math.cos(th),s=Math.sin(th);
+    var M=[c,-s,tx, s,c,ty, 0,0,1];
+    var cls=["R","R","T","R","R","T","","",""];
+    var g=document.getElementById("mat");g.innerHTML="";
+    M.forEach(function(v,i){var dd=document.createElement("div");dd.className="cell "+cls[i];dd.textContent=(Math.round(v*100)/100).toFixed(2);g.appendChild(dd);});
+    // arm
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:20,y1:BY,x2:W-20,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var tip=[BX+tx*SC, BY-ty*SC];
+    svg.appendChild(el("line",{x1:BX,y1:BY,x2:tip[0],y2:tip[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    if(pris) svg.appendChild(el("rect",{x:BX-7,y:BY-7,width:14,height:14,rx:2,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    else svg.appendChild(el("circle",{cx:BX,cy:BY,r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:tip[0],cy:tip[1],r:6,fill:"#ef4444"}));
+  }
+  document.getElementById("q").addEventListener("input",render);
+  document.getElementById("pris").addEventListener("change",render);
+  render();
+})();</script></body></html>

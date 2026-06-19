@@ -52,6 +52,10 @@ Everything needed for a complete perceive-to-act loop is now in hand: perception
 - **Labels:** "read it," "where can it reach," "join with perception," "capstone," "next: invert the map."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 7 in one tool: move a perceived fruit, see whether the workspace can reach it, and read the gripper pose forward kinematics produces.
+
 ## Coding Exercise
 
 A short consolidation: for the 3-DOF arm, read the gripper pose with `dh_fk`, confirm a sample target lies in the reachable workspace, and place a camera-frame point into the base frame — the three Unit-7 skills in one cell.

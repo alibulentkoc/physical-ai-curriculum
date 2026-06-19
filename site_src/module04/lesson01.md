@@ -35,6 +35,10 @@ Consider the simplest arm: one revolute joint at the base, a rigid link of lengt
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson01_the_arm_has_to_move.html" title="The Arm Has to Move interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson01_the_arm_has_to_move.html)
+
 **Guided prediction.** For the one-joint arm ($L=0.5$), predict the gripper position at $\theta = 0°$, $90°$, and $180°$. Predict whether changing $\theta$ changes the gripper's *orientation* as well as its position. Confirm: position moves along a circle of radius $L$; orientation rotates with $\theta$.
 
 ## 8. Coding Exercise

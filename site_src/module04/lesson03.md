@@ -38,6 +38,10 @@ One-joint planar arm, $L=0.5$. Configuration $\theta = 30°$ → pose: position 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson03_configuration_vs_pose.html" title="Configuration vs. Pose interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson03_configuration_vs_pose.html)
+
 **Guided prediction.** For the one-joint arm, predict the pose (position + orientation) at $\theta=30°$ and $\theta=150°$. Predict whether a two-joint arm can reach one point with two different configurations. Confirm: yes — FK is many-to-one.
 
 ## 8. Coding Exercise

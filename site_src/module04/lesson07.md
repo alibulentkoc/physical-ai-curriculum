@@ -39,6 +39,10 @@ $L=0.5$, $\theta=90°$. $T_0^1$ has rotation block $\begin{bmatrix}0&-1\\1&0\end
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson07_where_is_the_tip.html" title="Where Is the Tip? interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson07_where_is_the_tip.html)
+
 **Guided prediction.** For $L=0.5$, predict the position (translation column) and orientation (rotation block angle) at $\theta=90°$ and $\theta=210°$. Predict which block changes if you only re-orient the gripper without moving it (not possible for a one-joint arm — why?). Confirm by extracting from $T_0^1$.
 
 ## 8. Coding Exercise

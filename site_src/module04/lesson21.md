@@ -43,6 +43,10 @@ which is exactly the hand-built planar transform $R_z(\theta_1)\,\mathrm{Trans}_
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson21_the_dh_link_transform.html" title="The DH Link Transform interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson21_the_dh_link_transform.html)
+
 **Guided prediction.** Predict what the DH transform reduces to when $d=0$ and $\alpha=0$ (a planar rotation + link translation). Predict which entries become nonzero when $\alpha=90°$. Confirm by plugging into the four-factor product.
 
 ## 8. Coding Exercise

@@ -31,6 +31,14 @@ Everything needed for a complete perceive-to-act loop is now in hand: perception
   ![Pose, Workspace, and Perception (Unit 7 Recap)](../assets/m04-l28-pose-workspace-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module04/lesson28_pose_workspace_perception_recap.html" title="Pose, Workspace, and Perception (Unit 7 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson28_pose_workspace_perception_recap.html)
+
+Unit 7 in one tool: move a perceived fruit, see whether the workspace can reach it, and read the gripper pose forward kinematics produces.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

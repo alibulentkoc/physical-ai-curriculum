@@ -39,6 +39,10 @@ Run the checks on the capstone arm. (1) $\boldsymbol\theta=(0,0,0)$: gripper at 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson31_verifying_forward_kinematics.html" title="Verifying the Forward Kinematics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson31_verifying_forward_kinematics.html)
+
 **Guided prediction.** Predict the gripper height at $\boldsymbol\theta=(0,0,0)$ (the riser plus straightened reach geometry). Predict whether sweeping $\theta_1$ changes the gripper's height (no — pure revolution about $z$). Confirm by running the checks.
 
 ## 8. Coding Exercise

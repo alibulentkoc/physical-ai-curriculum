@@ -31,6 +31,14 @@ We can now compute the gripper pose of any planar chain two equivalent ways: the
   ![Chaining Transforms (Unit 3 Recap)](../assets/m04-l12-chaining-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module04/lesson12_chaining_transforms_recap.html" title="Chaining Transforms (Unit 3 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson12_chaining_transforms_recap.html)
+
+Unit 3 in one tool: stack per-joint transforms into one chain — the gripper pose and the summed orientation are forward kinematics.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

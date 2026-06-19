@@ -31,6 +31,14 @@ A real arm has several joints. Because each is one transform, the gripper's pose
   ![One Joint at a Time (Unit 2 Recap)](../assets/m04-l8-one-joint-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module04/lesson08_one_joint_at_a_time_recap.html" title="One Joint at a Time (Unit 2 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson08_one_joint_at_a_time_recap.html)
+
+Unit 2 in one tool: swing the one-joint arm and watch the single transform T₀¹ carry both its position and orientation.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

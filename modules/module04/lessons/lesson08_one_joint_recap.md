@@ -51,6 +51,10 @@ A real arm has several joints. Because each is one transform, the gripper's pose
 - **Labels:** "one joint = one factor," "forward kinematics = product," "Unit 3: chain them."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 2 in one tool: swing the one-joint arm and watch the single transform T₀¹ carry both its position and orientation.
+
 ## Coding Exercise
 
 A short consolidation: build `pose_one_joint(theta, L)`, extract position and orientation, and confirm against trig for two angles — the routine that will be applied to each factor of the chain.

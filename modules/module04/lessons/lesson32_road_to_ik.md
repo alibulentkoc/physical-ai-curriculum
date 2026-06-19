@@ -61,6 +61,10 @@ Module 4 answered: *given joint angles, where is the gripper?* — a function yo
 - **Labels:** "forward = function," "inverse = equation," "FK is IK's foundation."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Forward kinematics in one view: drive the joints and the gripper pose follows — the map the next module runs backward to solve for joint angles.
+
 ## Coding Exercise
 
 A short closing consolidation: run the full capstone (`dh_fk` + frame bridge + `verify`) once more on a fresh configuration and fruit, and print a one-paragraph report: gripper pose, fruit in the arm's frame, reachability, and the move vector.

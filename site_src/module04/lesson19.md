@@ -44,6 +44,10 @@ Planar 2-link arm. Both joint axes point out of the plane (parallel $z$'s). Plac
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson19_assigning_frames.html" title="Assigning Frames interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson19_assigning_frames.html)
+
 **Guided prediction.** For two parallel joint axes (a planar arm), predict $\alpha$ (twist between parallel axes). For two perpendicular intersecting axes, predict $a$ (common-normal length when axes intersect). Confirm: parallel → $\alpha = 0$; intersecting → $a = 0$.
 
 ## 8. Coding Exercise

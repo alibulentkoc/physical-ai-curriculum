@@ -38,6 +38,10 @@ When the greenhouse robot plans a grasp, it wants the gripper *at* the tomato (p
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson14_position_orientation_gripper.html" title="Position and Orientation of the Gripper interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson14_position_orientation_gripper.html)
+
 **Guided prediction.** Given a $T_0^n$ that is a rotation about $z$ by $90°$ plus a translation, predict the position vector and the three orientation axes (columns of $R$). Predict which base axis the gripper's $\hat{\mathbf{z}}_g$ points along. Confirm by reading the columns.
 
 ## 8. Coding Exercise

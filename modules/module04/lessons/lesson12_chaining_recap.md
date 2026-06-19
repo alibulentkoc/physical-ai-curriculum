@@ -51,6 +51,10 @@ We can now compute the gripper pose of any planar chain two equivalent ways: the
 - **Labels:** "matrix product (general, 3D-ready)," "sum of reaches (planar closed form)," "orientation = φn," "Unit 4: general T_0^n(θ)."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 3 in one tool: stack per-joint transforms into one chain — the gripper pose and the summed orientation are forward kinematics.
+
 ## Coding Exercise
 
 A short consolidation: confirm `fk_planar` (sum of reaches) and `fk_chain` (matrix product) agree on the 3-link worked example, for both position and orientation.

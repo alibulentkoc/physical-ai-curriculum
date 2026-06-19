@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading a Robot into a Table — Lesson 6.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  th,td{border:1px solid var(--line);padding:5px;text-align:center}th{background:#f1f5f9;color:#475569}
+  .hotrow td{background:#fef3c7}
+  .var{background:#ede9fe;color:#6d28d9;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Swivel and bend the 3-DOF arm.</b> The base joint turns the whole arm about the vertical axis — that's the row carrying the <b>90° twist</b> (α). The two in-plane links carry the link lengths in <b>a</b>.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 240"></svg>
+  <div class="panel">
+    <label>θ₁ base swivel</label><input type="range" id="t1" min="0" max="350" step="1" value="35">
+    <label>θ₂ shoulder</label><input type="range" id="t2" min="5" max="85" step="1" value="55">
+    <label>θ₃ elbow</label><input type="range" id="t3" min="-80" max="30" step="1" value="-35">
+    <table><thead><tr><th>row</th><th>θ</th><th>d</th><th>a</th><th>α</th></tr></thead><tbody id="tb"></tbody></table>
+    <div class="hint">The 90° twist on row 1 is what tips the horizontal base axis up into the arm's working plane. Rows 2–3 are planar links, so their α is 0 and their a holds the lengths 0.3 and 0.2.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=240,NS="http://www.w3.org/2000/svg",L2=0.3,L3=0.2,SC=150;
+  var svg=document.getElementById("svg");
+  var tb=document.getElementById("tb");
+  var OX=140,OY=185;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function iso(x,y,z){ // simple isometric: x right-ish, y depth, z up
+    var sx=OX + (x - y)*0.86*SC; var sy=OY - z*SC - (x + y)*0.5*0.42*SC; return [sx,sy];}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180,t3=+document.getElementById("t3").value*Math.PI/180;
+    var d1=document.getElementById("t1").value,d2=document.getElementById("t2").value,d3=document.getElementById("t3").value;
+    tb.innerHTML='<tr class="hotrow"><td>1</td><td class="var">'+d1+'°</td><td>0</td><td>0</td><td>90°</td></tr>'+
+      '<tr><td>2</td><td class="var">'+d2+'°</td><td>0</td><td>0.3</td><td>0</td></tr>'+
+      '<tr><td>3</td><td class="var">'+d3+'°</td><td>0</td><td>0.2</td><td>0</td></tr>';
+    var az=[Math.cos(t1),Math.sin(t1)];
+    var p0=[0,0,0];
+    var p1=[L2*Math.cos(t2)*az[0], L2*Math.cos(t2)*az[1], L2*Math.sin(t2)];
+    var p2=[p1[0]+L3*Math.cos(t2+t3)*az[0], p1[1]+L3*Math.cos(t2+t3)*az[1], p1[2]+L3*Math.sin(t2+t3)];
+    svg.innerHTML="";
+    // ground ellipse + vertical axis
+    svg.appendChild(el("ellipse",{cx:OX,cy:OY,rx:70,ry:26,fill:"none",stroke:"#e2e8f0","stroke-width":1.2}));
+    var ztop=iso(0,0,0.7);
+    svg.appendChild(el("line",{x1:OX,y1:OY,x2:ztop[0],y2:ztop[1],stroke:"#cbd5e1","stroke-width":1.4,"stroke-dasharray":"4 3"}));
+    var zl=el("text",{x:ztop[0]+4,y:ztop[1],"font-size":10,fill:"#94a3b8"});zl.textContent="z (base axis)";svg.appendChild(zl);
+    var a=iso(p0[0],p0[1],p0[2]),b=iso(p1[0],p1[1],p1[2]),c=iso(p2[0],p2[1],p2[2]);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#7c3aed","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:6,fill:"#ef4444"}));
+  }
+  ["t1","t2","t3"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

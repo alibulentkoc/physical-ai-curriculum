@@ -37,6 +37,10 @@ Build the planar 2-link arm as 3D factors (rotation about $z$, translations in $
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson15_forward_kinematics_in_code.html" title="Forward Kinematics in Code interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson15_forward_kinematics_in_code.html)
+
 **Guided prediction.** Predict whether the numeric `fk` and the planar closed form will agree exactly (to floating-point precision). Predict what the SymPy position expression looks like for the 2-link arm. Confirm by running both and comparing.
 
 ## 8. Coding Exercise

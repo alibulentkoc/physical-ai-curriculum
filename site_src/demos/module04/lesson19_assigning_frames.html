@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assigning Frames — Lesson 5.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .row{display:flex;gap:8px;margin-top:8px}
+  .row button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}.z{color:#15803d;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Set the geometry between two joint axes.</b> Two of the four DH numbers come straight from it: the twist <b>α</b> (angle between axes) and the offset <b>a</b> (common-normal length). Try the presets.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 240"></svg>
+  <div class="panel">
+    <label>twist α (angle between axes)</label><input type="range" id="al" min="0" max="90" step="1" value="40">
+    <label>offset a (common normal)</label><input type="range" id="a" min="0" max="100" step="1" value="50">
+    <div class="row"><button id="par">parallel axes</button><button id="int">intersecting</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Parallel axes have no twist between them, so α = 0. Intersecting axes meet at a point, so the common normal has zero length, a = 0. The other two numbers, θ and d, slide and spin along the shared axis.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=240,NS="http://www.w3.org/2000/svg";
+  var svg=document.getElementById("svg"),out=document.getElementById("out");
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var al=+document.getElementById("al").value, a=+document.getElementById("a").value;
+    var alr=al*Math.PI/180;
+    svg.innerHTML="";
+    // axis 1: vertical at x=110
+    var x1=110, cyc=120;
+    svg.appendChild(el("line",{x1:x1,y1:30,x2:x1,y2:210,stroke:"#7c3aed","stroke-width":3}));
+    var l1=el("text",{x:x1-30,y:28,"font-size":11,fill:"#7c3aed"});l1.textContent="axis i−1";svg.appendChild(l1);
+    // common normal: horizontal segment length a
+    var x2=x1+a;
+    svg.appendChild(el("line",{x1:x1,y1:cyc,x2:x2,y2:cyc,stroke:"#0d9488","stroke-width":2,"stroke-dasharray":"5 3"}));
+    if(a>4){var al2=el("text",{x:(x1+x2)/2-6,y:cyc-6,"font-size":10,fill:"#0d9488"});al2.textContent="a";svg.appendChild(al2);}
+    // axis 2: at x2, tilted by alpha (in the plane perpendicular to common normal — show as 2D tilt)
+    var len=85,dx=Math.sin(alr)*len,dy=Math.cos(alr)*len;
+    svg.appendChild(el("line",{x1:x2-dx,y1:cyc+dy,x2:x2+dx,y2:cyc-dy,stroke:"#475569","stroke-width":3}));
+    var l2=el("text",{x:x2+6,y:cyc-dy-4,"font-size":11,fill:"#475569"});l2.textContent="axis i";svg.appendChild(l2);
+    // alpha arc
+    svg.appendChild(el("path",{d:"M "+x2+" "+(cyc-30)+" A 30 30 0 0 1 "+(x2+30*Math.sin(alr))+" "+(cyc-30*Math.cos(alr)),fill:"none",stroke:"#94a3b8","stroke-width":1.3}));
+    var alab=el("text",{x:x2+10,y:cyc-22,"font-size":11,fill:"#64748b"});alab.textContent="α";svg.appendChild(alab);
+    out.innerHTML='<div class="ln"><span>twist α</span><span'+(al===0?' class="z"':'')+'>'+al+'°'+(al===0?' (parallel)':'')+'</span></div>'+
+      '<div class="ln"><span>offset a</span><span'+(a===0?' class="z"':'')+'>'+(a/100*0.4).toFixed(2)+(a===0?' (intersect)':'')+'</span></div>';
+  }
+  document.getElementById("par").addEventListener("click",function(){document.getElementById("al").value=0;render();});
+  document.getElementById("int").addEventListener("click",function(){document.getElementById("a").value=0;render();});
+  ["al","a"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

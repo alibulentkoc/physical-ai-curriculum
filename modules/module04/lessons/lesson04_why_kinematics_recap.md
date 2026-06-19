@@ -51,6 +51,10 @@ We now have the question and the language. **Unit 2** computes the simplest case
 - **Labels:** "joint space → task space," "build one joint at a time," "DH convention makes it systematic."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 1 in one tool: drive the two joints and read off the resulting gripper pose — the configuration → pose map that is forward kinematics.
+
 ## Coding Exercise
 
 A short consolidation: given a one-joint arm, return its DOF (1), its configuration template $(\theta_1)$, and the gripper position $(L\cos\theta, L\sin\theta)$ for a sample angle.

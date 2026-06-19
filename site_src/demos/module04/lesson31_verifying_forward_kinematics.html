@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verifying the Forward Kinematics — Lesson 8.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .row{display:flex;gap:8px;margin-top:8px}
+  .row button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .row button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}.fix{color:#15803d;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Check the FK against what you'd expect.</b> Hit "sweep θ₁" — the base swivels but the gripper <b>height stays fixed</b>, because turning about the vertical axis can't raise or lower the tip.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 240"></svg>
+  <div class="panel">
+    <label>θ₂ shoulder</label><input type="range" id="t2" min="0" max="85" step="1" value="45">
+    <label>θ₃ elbow</label><input type="range" id="t3" min="-80" max="20" step="1" value="-30">
+    <div class="row"><button id="sweep">sweep θ₁</button><button id="zero">θ = (0,0,0)</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">A good FK check leans on invariants you can predict: revolution about z preserves height; full extension gives the maximum reach. If a sweep changed the height, the model would be wrong.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=240,NS="http://www.w3.org/2000/svg",L2=0.3,L3=0.2,SC=150,OX=140,OY=190,h0=0.2;
+  var svg=document.getElementById("svg"),out=document.getElementById("out");
+  var t1=35, sweeping=false, raf=null;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function iso(x,y,z){return [OX+(x-y)*0.86*SC, OY - z*SC - (x+y)*0.5*0.42*SC];}
+  function render(){
+    var r1=t1*Math.PI/180,r2=+document.getElementById("t2").value*Math.PI/180,r3=+document.getElementById("t3").value*Math.PI/180;
+    var az=[Math.cos(r1),Math.sin(r1)];
+    var rIn=L2*Math.cos(r2)+L3*Math.cos(r2+r3), zUp=h0+L2*Math.sin(r2)+L3*Math.sin(r2+r3);
+    var p1=[L2*Math.cos(r2)*az[0],L2*Math.cos(r2)*az[1],h0+L2*Math.sin(r2)];
+    var p2=[rIn*az[0],rIn*az[1],zUp];
+    svg.innerHTML="";
+    svg.appendChild(el("ellipse",{cx:OX,cy:OY,rx:70,ry:26,fill:"none",stroke:"#eef2f7","stroke-width":1.2}));
+    // riser
+    var b0=iso(0,0,0),b1=iso(0,0,h0);
+    svg.appendChild(el("line",{x1:b0[0],y1:b0[1],x2:b1[0],y2:b1[1],stroke:"#475569","stroke-width":7,"stroke-linecap":"round"}));
+    // height guide line
+    var ght=iso(p2[0],p2[1],p2[2]); var gfloor=iso(p2[0],p2[1],0);
+    svg.appendChild(el("line",{x1:gfloor[0],y1:gfloor[1],x2:ght[0],y2:ght[1],stroke:"#bbf7d0","stroke-width":1.4,"stroke-dasharray":"4 3"}));
+    var a=b1,b=iso(p1[0],p1[1],p1[2]),c=ght;
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#7c3aed","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:6,fill:"#ef4444"}));
+    var f2=function(v){return (Math.round(v*1000)/1000).toFixed(3);};
+    out.innerHTML='<div class="ln"><span>θ₁</span><span>'+Math.round(t1)+'°</span></div>'+
+      '<div class="ln"><span class="fix">gripper height</span><span class="fix">'+f2(zUp)+' (fixed)</span></div>';
+  }
+  function loop(){t1=(t1+1.5)%360;document.getElementById("sweep").classList.add("on");render();raf=requestAnimationFrame(loop);}
+  document.getElementById("sweep").addEventListener("click",function(){
+    if(sweeping){sweeping=false;cancelAnimationFrame(raf);this.classList.remove("on");}
+    else{sweeping=true;loop();}});
+  document.getElementById("zero").addEventListener("click",function(){if(sweeping){sweeping=false;cancelAnimationFrame(raf);document.getElementById("sweep").classList.remove("on");}t1=0;document.getElementById("t2").value=0;document.getElementById("t3").value=0;render();});
+  ["t2","t3"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

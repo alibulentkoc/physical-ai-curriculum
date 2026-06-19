@@ -51,6 +51,10 @@ Row 1: the base swivels ($\theta_1$), rises $0.1$ along its axis ($d_1$), and th
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson22_reading_robot_into_table.html" title="Reading a Robot into a Table interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson22_reading_robot_into_table.html)
+
 **Guided prediction.** For the 3-DOF arm, predict which row carries the $90°$ twist and why. Predict the $a$ values for rows 2–3. Confirm against the table above.
 
 ## 8. Coding Exercise

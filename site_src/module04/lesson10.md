@@ -43,6 +43,10 @@ $L_1=0.4, L_2=0.3, \theta_1=30°, \theta_2=60°$. Form $T_0^1(30°)$ and $T_1^2(
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson10_composing_the_chain.html" title="Composing the Chain interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson10_composing_the_chain.html)
+
 **Guided prediction.** Predict that $T_0^1(\theta_1)T_1^2(\theta_2)$ has rotation $\theta_1+\theta_2$. Predict the translation column for $(\theta_1,\theta_2)=(90°,0°)$. Confirm by multiplying the matrices and comparing to the trig formula.
 
 ## 8. Coding Exercise

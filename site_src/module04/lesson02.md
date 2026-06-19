@@ -40,6 +40,10 @@ In each case the number of joints = DOF, and the configuration is the ordered li
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson02_links_and_joints.html" title="Links and Joints interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson02_links_and_joints.html)
+
 **Guided prediction.** For a 3-revolute-joint arm, predict the number of DOF and the form of the configuration vector. Predict what changes if the middle joint is swapped for a prismatic one (DOF? variable type?). Confirm: DOF unchanged at 3; middle variable becomes a distance.
 
 ## 8. Coding Exercise

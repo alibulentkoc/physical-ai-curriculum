@@ -36,6 +36,10 @@ Config $(\theta_1,\theta_2,\theta_3) = (0°, 30°, 60°)$. `dh_fk` gives the gri
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson30_building_arm_dh_model.html" title="Building the Arm's DH Model interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson30_building_arm_dh_model.html)
+
 **Guided prediction.** Predict the fruit's base-frame position from $\mathbf P_{\text{cam}}$ and the mount. Predict the sign of the vertical move if the fruit is above the gripper. Confirm by running the assembled pipeline.
 
 ## 8. Coding Exercise

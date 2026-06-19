@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building the Arm's DH Model — Lesson 8.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:7px 0 4px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .up{color:#15803d;font-weight:700}.dn{color:#b91c1c;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the fruit and move it; drive the arm.</b> The assembled pipeline puts the fruit in the base frame, then compares it to the gripper. Fruit above the gripper → the arm must move up (positive).</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 260"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="10" max="120" step="1" value="65">
+    <label>θ₂</label><input type="range" id="t2" min="-130" max="40" step="1" value="-55">
+    <div class="readout" id="out"></div>
+    <div class="hint">Pure-translation mount: P_base = P_cam + mount. Subtracting the gripper position gives the move the arm still needs — its vertical sign tells you whether to rise or drop.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=260,BX=130,BY=210,L1=0.4,L2=0.3,SC=150;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var mount=[0.04,0.6], fruit=[0.55,0.5], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180,phi=t1+t2;
+    var p1=[L1*Math.cos(t1),L1*Math.sin(t1)],G=[p1[0]+L2*Math.cos(phi),p1[1]+L2*Math.sin(phi)];
+    var Pbase=fruit; var vmove=fruit[1]-G[1];
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:15,y1:BY,x2:W-15,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var a=sv([0,0]),b=sv(p1),c=sv(G);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    var cp=sv(mount);svg.appendChild(el("rect",{x:cp[0]-6,y:cp[1]-6,width:12,height:12,rx:2,fill:"#7c3aed"}));
+    var fp=sv(fruit);
+    // vertical move indicator from gripper height to fruit height
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:c[0],y2:fp[1],stroke:(vmove>=0?"#15803d":"#b91c1c"),"stroke-width":1.6,"stroke-dasharray":"4 3"}));
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:11,fill:"none",stroke:"#ef4444","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:7,fill:"#ef4444"}));
+    if(!hinted){var hh=el("text",{x:fp[0]+12,y:fp[1]-10,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    var f2=function(v){return (Math.round(v*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span>P_base (fruit)</span><span>('+f2(Pbase[0])+', '+f2(Pbase[1])+')</span></div>'+
+      '<div class="ln"><span>gripper</span><span>('+f2(G[0])+', '+f2(G[1])+')</span></div>'+
+      '<div class="ln"><span>vertical move</span><span class="'+(vmove>=0?"up":"dn")+'">'+(vmove>=0?'+':'')+f2(vmove)+' ('+(vmove>=0?'up':'down')+')</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),fp=sv(fruit);if(Math.hypot(m[0]-fp[0],m[1]-fp[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);fruit[0]=(m[0]-BX)/SC;fruit[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Closing the Loop with Perception — Lesson 7.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:7px 0 4px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .cam{color:#7c3aed;font-weight:700}.base{color:#475569;font-weight:700}.grip{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the fruit and move it; drive the arm.</b> The same fruit, in three frames: camera → base (add the mount) → gripper (apply the inverse of T₀ⁿ). The gripper-frame vector is the grasp command.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 260"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="10" max="120" step="1" value="60">
+    <label>θ₂</label><input type="range" id="t2" min="-130" max="40" step="1" value="-50">
+    <div class="readout" id="out"></div>
+    <div class="hint">A pure-translation mount means P_base = P_cam + mount. Then (T₀ⁿ)⁻¹ re-expresses that base point in the gripper's own frame — telling the controller exactly which way, and how far, to close in.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=260,BX=120,BY=200,L1=0.4,L2=0.3,SC=150;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var mount=[0.05,0.55], fruit=[0.55,0.45], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180,phi=t1+t2;
+    var p1=[L1*Math.cos(t1),L1*Math.sin(t1)],G=[p1[0]+L2*Math.cos(phi),p1[1]+L2*Math.sin(phi)];
+    var camPos=mount;
+    var Pcam=[fruit[0]-camPos[0], fruit[1]-camPos[1]];
+    var Pbase=[Pcam[0]+camPos[0], Pcam[1]+camPos[1]]; // = fruit
+    // gripper frame: rotate (fruit - G) by -phi
+    var dx=fruit[0]-G[0],dy=fruit[1]-G[1];
+    var Pgrip=[Math.cos(phi)*dx+Math.sin(phi)*dy, -Math.sin(phi)*dx+Math.cos(phi)*dy];
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="g" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:15,y1:BY,x2:W-15,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    // arm
+    var a=sv([0,0]),b=sv(p1),c=sv(G);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    // camera
+    var cp=sv(camPos);
+    svg.appendChild(el("rect",{x:cp[0]-6,y:cp[1]-6,width:12,height:12,rx:2,fill:"#7c3aed"}));
+    var cl=el("text",{x:cp[0]-8,y:cp[1]-9,"font-size":9,fill:"#7c3aed"});cl.textContent="cam";svg.appendChild(cl);
+    // vectors to fruit
+    var fp=sv(fruit);
+    svg.appendChild(el("line",{x1:cp[0],y1:cp[1],x2:fp[0],y2:fp[1],stroke:"#c4b5fd","stroke-width":1.5,"stroke-dasharray":"4 3"}));
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:fp[0],y2:fp[1],stroke:"#0d9488","stroke-width":2,"marker-end":"url(#g)"}));
+    // fruit handle
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:11,fill:"none",stroke:"#ef4444","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:7,fill:"#ef4444"}));
+    if(!hinted){var hh=el("text",{x:fp[0]+12,y:fp[1]-10,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    var f2=function(v){return (Math.round(v*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span class="cam">P_cam</span><span class="cam">('+f2(Pcam[0])+', '+f2(Pcam[1])+')</span></div>'+
+      '<div class="ln"><span class="base">P_base</span><span class="base">('+f2(Pbase[0])+', '+f2(Pbase[1])+')</span></div>'+
+      '<div class="ln"><span class="grip">P_gripper</span><span class="grip">('+f2(Pgrip[0])+', '+f2(Pgrip[1])+')</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),fp=sv(fruit);if(Math.hypot(m[0]-fp[0],m[1]-fp[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);fruit[0]=(m[0]-BX)/SC;fruit[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

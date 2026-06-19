@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Links and Joints — Lesson 1.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:11.5px;color:var(--muted);display:block;margin:7px 0 3px} input[type=range]{width:100%}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:8px;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .big{font-size:18px;font-weight:700;color:#0d9488}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drive the three joints.</b> Each joint is one degree of freedom. Switch the middle joint between revolute (an angle) and prismatic (a sliding distance) — the DOF count stays 3, only the variable type changes.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 240"></svg>
+  <div class="panel">
+    <label>joint 1 angle θ₁</label><input type="range" id="j1" min="0" max="170" step="1" value="60">
+    <label id="lab2">joint 2 angle θ₂</label><input type="range" id="j2" min="0" max="170" step="1" value="40">
+    <label>joint 3 angle θ₃</label><input type="range" id="j3" min="0" max="170" step="1" value="30">
+    <label class="tog"><input type="checkbox" id="pris"> make middle joint prismatic</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">DOF = the number of independent joint variables. Swapping a joint's type doesn't change how many there are — it changes whether that variable is an angle or a length.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=240,BX=60,BY=180,SC=150;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var L=[0.4,0.35,0.25];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var j1=+document.getElementById("j1").value, j2=+document.getElementById("j2").value, j3=+document.getElementById("j3").value;
+    var pris=document.getElementById("pris").checked;
+    document.getElementById("lab2").textContent=pris?"joint 2 distance d₂":"joint 2 angle θ₂";
+    var d2 = pris? (j2/170*0.35) : 0;
+    var pts=[[0,0]], ang=0;
+    ang+=j1*Math.PI/180; pts.push([pts[0][0]+L[0]*Math.cos(ang), pts[0][1]+L[0]*Math.sin(ang)]);
+    if(pris){ var ext=L[1]+d2; pts.push([pts[1][0]+ext*Math.cos(ang), pts[1][1]+ext*Math.sin(ang)]); }
+    else { ang+=j2*Math.PI/180; pts.push([pts[1][0]+L[1]*Math.cos(ang), pts[1][1]+L[1]*Math.sin(ang)]); }
+    ang+=j3*Math.PI/180; pts.push([pts[2][0]+L[2]*Math.cos(ang), pts[2][1]+L[2]*Math.sin(ang)]);
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:20,y1:BY,x2:W-20,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var cols=["#475569","#0d9488","#7c3aed"];
+    for(var i=0;i<3;i++){var a=sv(pts[i]),b=sv(pts[i+1]);
+      svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:cols[i],"stroke-width":6,"stroke-linecap":"round"}));}
+    for(var i=0;i<3;i++){var p=sv(pts[i]);
+      if(pris&&i===1) svg.appendChild(el("rect",{x:p[0]-6,y:p[1]-6,width:12,height:12,rx:2,fill:"#fff",stroke:"#475569","stroke-width":2}));
+      else svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:6,fill:"#fff",stroke:"#475569","stroke-width":2}));}
+    var tip=sv(pts[3]);svg.appendChild(el("circle",{cx:tip[0],cy:tip[1],r:7,fill:"#ef4444"}));
+    var mid = pris? "d₂="+d2.toFixed(2)+"m" : "θ₂="+j2+"°";
+    out.innerHTML='<div>config q = (θ₁='+j1+'°, '+mid+', θ₃='+j3+'°)</div>'+
+      '<div style="text-align:center;margin-top:6px">DOF = <span class="big">3</span></div>';
+  }
+  ["j1","j2","j3"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  document.getElementById("pris").addEventListener("change",render);
+  render();
+})();</script></body></html>

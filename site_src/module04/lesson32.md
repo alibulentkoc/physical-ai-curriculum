@@ -40,6 +40,14 @@ Module 4 answered: *given joint angles, where is the gripper?* — a function yo
   ![Wrap-Up and the Road to Inverse Kinematics](../assets/m04-l32-road-to-ik.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module04/lesson32_wrap_up_inverse_kinematics.html" title="Wrap-Up and the Road to Inverse Kinematics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson32_wrap_up_inverse_kinematics.html)
+
+Forward kinematics in one view: drive the joints and the gripper pose follows — the map the next module runs backward to solve for joint angles.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

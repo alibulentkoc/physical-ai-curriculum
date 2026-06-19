@@ -39,6 +39,10 @@ Planar revolute joint, link length $L=0.4$, axis out of the plane. Variable part
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson06_the_joint_transform.html" title="The Joint Transform interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson06_the_joint_transform.html)
+
 **Guided prediction.** For the planar revolute joint ($L=0.4$), predict the translation part of $T_0^1$ at $\theta=0°$ and $60°$. Predict how the transform differs if the joint is prismatic (which block changes?). Confirm: revolute changes the rotation block; prismatic changes the translation along the axis.
 
 ## 8. Coding Exercise

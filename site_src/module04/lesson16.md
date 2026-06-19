@@ -36,6 +36,14 @@ The midpoint assessment (`assessments/module04_midpoint_assessment.md`) checks r
   ![The Forward Kinematics Map (Unit 4 Recap · Midpoint)](../assets/m04-l16-fk-map-recap-midpoint.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module04/lesson16_forward_kinematics_map_recap.html" title="The Forward Kinematics Map (Unit 4 Recap · Midpoint) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson16_forward_kinematics_map_recap.html)
+
+Unit 4 in one tool: drive the joints and watch the forward-kinematics map send each configuration to exactly one pose.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The DH Link Transform — Lesson 6.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .matwrap{flex:1 1 300px;min-width:280px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 4px} input[type=range]{width:100%}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px}
+  .cell{height:38px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:11.5px;font-variant-numeric:tabular-nums}
+  .R{background:#e0f2fe;border-color:#bae6fd}.T{background:#dcfce7;border-color:#bbf7d0}.hot{outline:2px solid #f59e0b}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;margin-top:8px;text-align:center}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Set the four DH numbers.</b> One transform is built from θ, d, a, α. With d = 0 and α = 0 it collapses to a planar rotation + link translation; push α to 90° and the out-of-plane entries (highlighted) wake up.</div>
+  <div class="stage">
+  <div class="matwrap">
+    <div class="grid" id="mat"></div>
+    <div class="note" id="note"></div>
+  </div>
+  <div class="panel">
+    <label>θ (joint angle)</label><input type="range" id="th" min="0" max="90" step="1" value="40">
+    <label>d (offset along z)</label><input type="range" id="d" min="0" max="50" step="1" value="0">
+    <label>a (link length)</label><input type="range" id="a" min="0" max="50" step="1" value="40">
+    <label>α (twist)</label><input type="range" id="al" min="0" max="90" step="1" value="0">
+    <div class="hint">θ and d act along the joint axis; a and α describe the link to the next axis. The single four-factor product encodes the whole hop from one joint frame to the next.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var g=document.getElementById("mat"),note=document.getElementById("note");
+  function render(){
+    var th=+document.getElementById("th").value*Math.PI/180,d=+document.getElementById("d").value/100,
+        a=+document.getElementById("a").value/100,al=+document.getElementById("al").value*Math.PI/180;
+    var ct=Math.cos(th),st=Math.sin(th),ca=Math.cos(al),sa=Math.sin(al);
+    var M=[ct,-st*ca, st*sa, a*ct,
+           st, ct*ca,-ct*sa, a*st,
+           0,  sa,    ca,    d,
+           0,  0,     0,     1];
+    var cls=["R","R","R","T","R","R","R","T","R","R","R","T","","","",""];
+    var hot=[0,0,1,0, 0,0,1,0, 0,1,1,1, 0,0,0,0]; // entries affected by alpha/d
+    g.innerHTML="";
+    M.forEach(function(v,i){var dd=document.createElement("div");dd.className="cell "+cls[i]+((hot[i]&&(Math.abs(al)>0.001||Math.abs(d)>0.001))?" hot":"");dd.textContent=(Math.round(v*100)/100).toFixed(2);g.appendChild(dd);});
+    var planar=Math.abs(al)<0.001&&Math.abs(d)<0.001;
+    note.innerHTML=planar?'<b style="color:#15803d">d=0, α=0 → planar:</b> rotation + (a·cosθ, a·sinθ) translation':'α and d active → full 3D link transform';
+  }
+  ["th","d","a","al"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

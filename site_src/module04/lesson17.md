@@ -31,6 +31,10 @@ Take the planar 2-link arm. Hand-built, we wrote $T_0^1 = R_z(\theta_1)\,\text{T
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson17_why_a_convention.html" title="Why a Convention interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson17_why_a_convention.html)
+
 **Guided prediction.** Predict whether two correct-but-different frame placements can describe the same physical arm (yes — but with different matrices). Predict how many numbers per joint the DH convention needs (four). Confirm by inspecting the planar arm's DH parameters above.
 
 ## 8. Coding Exercise

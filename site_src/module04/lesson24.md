@@ -31,6 +31,14 @@ We can now take any serial arm, write its DH table, and compute the gripper pose
   ![Building and Using a DH Table (Unit 6 Recap)](../assets/m04-l24-dh-table-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module04/lesson24_building_using_dh_table_recap.html" title="Building and Using a DH Table (Unit 6 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson24_building_using_dh_table_recap.html)
+
+Unit 6 in one tool: drive the 3-DOF arm and watch the live DH table feed the forward kinematics that places the gripper.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

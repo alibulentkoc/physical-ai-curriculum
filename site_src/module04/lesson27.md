@@ -39,6 +39,10 @@ Camera (mounted on the base) reports a tomato at $\mathbf P_{\text{cam}} = (0.05
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson27_closing_the_loop_perception.html" title="Closing the Loop with Perception interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson27_closing_the_loop_perception.html)
+
 **Guided prediction.** Given $\mathbf P_{\text{cam}}$ and a pure-translation camera mount, predict $\mathbf P_{\text{base}}$. Predict how to get the target relative to the gripper given $T_0^n$. Confirm: $\mathbf P_{\text{base}} = T_{\text{base}}^{\text{cam}}\mathbf P_{\text{cam}}$; $\mathbf P_{\text{gripper}} = (T_0^n)^{-1}\mathbf P_{\text{base}}$.
 
 ## 8. Coding Exercise

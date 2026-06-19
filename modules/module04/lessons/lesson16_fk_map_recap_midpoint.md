@@ -57,6 +57,10 @@ The midpoint assessment (`assessments/module04_midpoint_assessment.md`) checks r
 - **Labels:** "we can compute any arm's pose," "ad hoc factors → DH recipe," "then back to perception (Unit 7), capstone (Unit 8)."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 4 in one tool: drive the joints and watch the forward-kinematics map send each configuration to exactly one pose.
+
 ## Coding Exercise
 
 A short consolidation: given a small arm's factor list, compute $T_0^n$, extract position and orientation, and confirm against the planar closed form — the full first-half workflow in one cell.

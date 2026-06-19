@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The General Chain T₀ⁿ — Lesson 4.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:7px 0 4px} input[type=range]{width:100%}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:8px;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;text-align:center}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drive the three joints.</b> T₀³ = T₀¹·T₁²·T₂³ — one factor per joint. Turn on the reordered chain (dashed) to see that multiplying the same factors in a different order lands somewhere else.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="150" step="1" value="50">
+    <label>θ₂</label><input type="range" id="t2" min="-120" max="120" step="1" value="45">
+    <label>θ₃</label><input type="range" id="t3" min="-120" max="120" step="1" value="35">
+    <label class="tog"><input type="checkbox" id="rev"> show reordered chain (θ₃·θ₂·θ₁)</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">An n-joint arm has n factors. Changing the last joint still moves the tip; and because matrix multiplication doesn't commute, reordering the factors generally changes the result.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,BX=150,BY=195,L=[0.4,0.3,0.2],SC=160;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function chain(ths,lens){var pts=[[0,0]],ang=0;for(var i=0;i<ths.length;i++){ang+=ths[i];pts.push([pts[i][0]+lens[i]*Math.cos(ang), pts[i][1]+lens[i]*Math.sin(ang)]);}return pts;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180,t3=+document.getElementById("t3").value*Math.PI/180;
+    var rev=document.getElementById("rev").checked;
+    var pts=chain([t1,t2,t3],L);
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:20,y1:BY,x2:W-20,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var cols=["#475569","#0d9488","#7c3aed"];
+    for(var i=0;i<3;i++){var a=sv(pts[i]),b=sv(pts[i+1]);svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:cols[i],"stroke-width":6,"stroke-linecap":"round"}));}
+    for(var i=0;i<3;i++){var p=sv(pts[i]);svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:6,fill:"#fff",stroke:"#475569","stroke-width":2}));}
+    var tp=sv(pts[3]);svg.appendChild(el("circle",{cx:tp[0],cy:tp[1],r:6,fill:"#ef4444"}));
+    if(rev){
+      var rpts=chain([t3,t2,t1],[L[2],L[1],L[0]]);
+      for(var i=0;i<3;i++){var a=sv(rpts[i]),b=sv(rpts[i+1]);svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#cbd5e1","stroke-width":3,"stroke-linecap":"round","stroke-dasharray":"4 3"}));}
+      var rtp=sv(rpts[3]);svg.appendChild(el("circle",{cx:rtp[0],cy:rtp[1],r:6,fill:"none",stroke:"#b91c1c","stroke-width":2,"stroke-dasharray":"3 2"}));
+      var rl=el("text",{x:rtp[0]+8,y:rtp[1]+4,"font-size":9,fill:"#b91c1c"});rl.textContent="reordered tip";svg.appendChild(rl);
+    }
+    out.innerHTML='T₀³ = T₀¹·T₁²·T₂³ &nbsp;<b>(3 factors)</b>';
+  }
+  ["t1","t2","t3"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  document.getElementById("rev").addEventListener("change",render);
+  render();
+})();</script></body></html>

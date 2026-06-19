@@ -31,6 +31,14 @@ We can now write any serial arm as a DH table. But a table is only useful if it 
   ![Denavit–Hartenberg Parameters (Unit 5 Recap)](../assets/m04-l20-dh-parameters-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module04/lesson20_denavit_hartenberg_recap.html" title="Denavit–Hartenberg Parameters (Unit 5 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson20_denavit_hartenberg_recap.html)
+
+Unit 5 in one tool: drive the joints and read the DH table — four numbers per joint, with only θ varying on this planar arm.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

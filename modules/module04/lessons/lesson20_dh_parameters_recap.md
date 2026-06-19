@@ -52,6 +52,10 @@ We can now write any serial arm as a DH table. But a table is only useful if it 
 - **Labels:** "DH table = robot's identity," "Unit 6: table → forward kinematics," "one variable per row."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 5 in one tool: drive the joints and read the DH table — four numbers per joint, with only θ varying on this planar arm.
+
 ## Coding Exercise
 
 A short consolidation: encode a given arm as a DH table (list of `{theta,d,a,alpha,kind}` rows), mark the variable per row, and pretty-print it — the input format Unit 6 will consume.

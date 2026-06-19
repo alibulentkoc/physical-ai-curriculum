@@ -39,6 +39,10 @@ Planar 2-link arm, $L_1=0.4, L_2=0.3$, both joints free ($0$–$360°$). Outer r
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module04/lesson26_the_reachable_workspace.html" title="The Reachable Workspace interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module04/lesson26_the_reachable_workspace.html)
+
 **Guided prediction.** For $L_1=0.4,L_2=0.3$, predict the outer and inner radii of the reachable annulus. Predict whether a target at radius $0.65$ is reachable. Confirm: outer $0.7$, inner $0.1$; $0.65$ is reachable.
 
 ## 8. Coding Exercise
