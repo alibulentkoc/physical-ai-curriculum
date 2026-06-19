@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7c3aed"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}.s{font-size:12.5px;font-weight:700;fill:#334155}</style></defs>
+  <text x="380.0" y="28" text-anchor="middle" class="t">Course Close: From Mathematics to a Digital Twin</text>
+  <text x="380.0" y="46" text-anchor="middle" class="c">represent → perceive → reach → move → integrate → twin</text>
+  <rect x="40" y="250" width="104" height="40" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="92.0" y="268" text-anchor="middle" class="p" fill="#6366f1">represent</text>
+  <text x="92.0" y="284" text-anchor="middle" class="c">M1–M2</text>
+  <rect x="152" y="216" width="104" height="40" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="204.0" y="234" text-anchor="middle" class="p" fill="#6366f1">perceive</text>
+  <text x="204.0" y="250" text-anchor="middle" class="c">M3</text>
+  <rect x="264" y="182" width="104" height="40" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="316.0" y="200" text-anchor="middle" class="p" fill="#6366f1">reach</text>
+  <text x="316.0" y="216" text-anchor="middle" class="c">M4–M6</text>
+  <rect x="376" y="148" width="104" height="40" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="428.0" y="166" text-anchor="middle" class="p" fill="#6366f1">move</text>
+  <text x="428.0" y="182" text-anchor="middle" class="c">M7–M8</text>
+  <rect x="488" y="114" width="104" height="40" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="540.0" y="132" text-anchor="middle" class="p" fill="#6366f1">integrate</text>
+  <text x="540.0" y="148" text-anchor="middle" class="c">M9</text>
+  <rect x="600" y="80" width="104" height="40" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.2"/>
+  <text x="652.0" y="98" text-anchor="middle" class="p" fill="#7c3aed">twin</text>
+  <text x="652.0" y="114" text-anchor="middle" class="c">M10</text>
+  <text x="70" y="272" text-anchor="middle" class="c" fill="#64748b">mathematics</text>
+  <rect x="640" y="72" width="96" height="52" rx="12" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/>
+  <text x="688" y="96" text-anchor="middle" class="p" fill="#15803d">digital</text>
+  <text x="688" y="114" text-anchor="middle" class="c">twin (summit)</text>
+  <text x="380.0" y="300" text-anchor="middle" class="c">the scope boundaries (no formal dynamics / advanced control theory / learning) are the edges of a foundation</text>
+  <text x="380.0" y="322" text-anchor="middle" class="c" fill="#b45309">next: dynamics &#183; control theory &#183; estimation &#183; planning &#183; learning</text>
+</svg>

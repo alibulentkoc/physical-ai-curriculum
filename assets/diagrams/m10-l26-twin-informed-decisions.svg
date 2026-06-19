@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7c3aed"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}.s{font-size:12.5px;font-weight:700;fill:#334155}</style></defs>
+  <text x="360.0" y="28" text-anchor="middle" class="t">Choosing the Better Action</text>
+  <text x="360.0" y="46" text-anchor="middle" class="c">pre-validate each candidate, rank the forecasts, pick the top</text>
+  <rect x="30" y="80" width="120" height="52" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.2"/>
+  <text x="90" y="112" text-anchor="middle" class="p" fill="#3b82f6">action A</text>
+  <path d="M150,106 L205,106" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="210" y="80" width="150" height="52" rx="12" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="285" y="104" text-anchor="middle" class="c">twin forecast</text>
+  <text x="285" y="122" text-anchor="middle" class="c">harvested/skipped</text>
+  <path d="M360,106 L415,106" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="30" y="150" width="120" height="52" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.2"/>
+  <text x="90" y="182" text-anchor="middle" class="p" fill="#7c3aed">action B</text>
+  <path d="M150,176 L205,176" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="210" y="150" width="150" height="52" rx="12" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="285" y="174" text-anchor="middle" class="c">twin forecast</text>
+  <text x="285" y="192" text-anchor="middle" class="c">harvested/skipped</text>
+  <path d="M360,176 L415,176" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="30" y="220" width="120" height="52" rx="12" fill="#fff7ed" stroke="#ea580c" stroke-width="2.2"/>
+  <text x="90" y="252" text-anchor="middle" class="p" fill="#ea580c">action C</text>
+  <path d="M150,246 L205,246" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="210" y="220" width="150" height="52" rx="12" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="285" y="244" text-anchor="middle" class="c">twin forecast</text>
+  <text x="285" y="262" text-anchor="middle" class="c">harvested/skipped</text>
+  <path d="M360,246 L415,246" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="420" y="80" width="150" height="192" rx="12" fill="#f8fafc" stroke="#475569" stroke-width="2.2"/>
+  <text x="495" y="104" text-anchor="middle" class="s">score &amp; rank</text>
+  <text x="495" y="134" text-anchor="middle" class="c" fill="#15803d">1. clear path (4,0)</text>
+  <text x="495" y="160" text-anchor="middle" class="c">2. detour (4,-0)</text>
+  <text x="495" y="186" text-anchor="middle" class="c" fill="#b45309">3. ignore (3,-1)</text>
+  <text x="495" y="224" text-anchor="middle" class="c">a plain stated rule</text>
+  <text x="495" y="242" text-anchor="middle" class="c">not optimization/RL</text>
+  <path d="M570,176 L625,176" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="630" y="150" width="70" height="52" rx="12" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/>
+  <text x="665" y="176" text-anchor="middle" class="p" fill="#15803d">chosen</text>
+  <text x="665" y="194" text-anchor="middle" class="c">→ reality</text>
+  <text x="360.0" y="300" text-anchor="middle" class="c">the twin supplies the information &#183; the decision rule is transparent and fixed</text>
+</svg>

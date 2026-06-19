@@ -1,0 +1,73 @@
+# GitHub Pages deployment for the Physical AI Curriculum site.
+#
+# PREPARED, NOT ACTIVATED FOR DEPLOY BY DEFAULT.
+# This workflow builds the MkDocs site under `--strict` and deploys ./site to
+# GitHub Pages. It runs only inside GitHub Actions (it does nothing locally).
+#
+# Before first use:
+#   1. Repo Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+#   2. Confirm requirements-docs.txt pins the toolchain (mkdocs-material, pymdown-extensions;
+#      add mkdocs-static-i18n later for multilingual — see curriculum/translation_strategy.md).
+#   3. The strict build is the release gate: any non-zero exit fails the deploy.
+#
+# Triggers: pushes to main, version tags (curriculum-v*), and manual dispatch.
+
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+    tags: ["curriculum-v*"]
+  workflow_dispatch: {}
+
+# Least-privilege permissions required by the Pages deploy action.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; let an in-progress run finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install documentation toolchain
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-docs.txt
+
+      - name: Regenerate site pages (generator is deterministic)
+        run: python tools/generate_site_pages.py
+
+      - name: Build site (strict — this is the release gate)
+        run: mkdocs build --strict
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+  deploy:
+    # Deploy only from main or a version tag; PRs/branches build but do not deploy.
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/curriculum-v')
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6366f1"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700;fill:#0f172a}</style></defs>
+  <text x="360" y="28" text-anchor="middle" class="t">The Twin as a Sandbox: Risk-Free Experimentation</text>
+  <text x="360" y="46" text-anchor="middle" class="c">inject faults &#183; rehearse failures safely</text>
+  <rect x="40" y="70" width="420" height="220" rx="14" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2.2"/>
+  <text x="250" y="94" text-anchor="middle" class="p" fill="#6d28d9">sandbox (twin, on a copy)</text>
+  <rect x="62" y="112" width="120" height="34" rx="8" fill="#fff" stroke="#8b5cf6"/><text x="122" y="134" text-anchor="middle" class="c">inject: obstacle</text>
+  <rect x="62" y="154" width="120" height="34" rx="8" fill="#fff" stroke="#8b5cf6"/><text x="122" y="176" text-anchor="middle" class="c">inject: disturbance</text>
+  <rect x="62" y="196" width="120" height="34" rx="8" fill="#fff" stroke="#8b5cf6"/><text x="122" y="218" text-anchor="middle" class="c">inject: occlusion</text>
+  <rect x="230" y="130" width="200" height="120" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="330" y="154" text-anchor="middle" class="p">simulated outcome</text>
+  <text x="330" y="180" text-anchor="middle" class="c" fill="#b91c1c">F3 skipped (obstacle)</text>
+  <text x="330" y="202" text-anchor="middle" class="c" fill="#b45309">F1 recovered (disturbance)</text>
+  <text x="330" y="224" text-anchor="middle" class="c" fill="#15803d">rest harvested &#10003;</text>
+  <path d="M182,129 L228,150" fill="none" stroke="#6366f1" stroke-width="2" marker-end="url(#a)"/>
+  <!-- wall + reality -->
+  <line x1="478" y1="70" x2="478" y2="290" stroke="#0f172a" stroke-width="3" stroke-dasharray="3 4"/>
+  <text x="478" y="305" text-anchor="middle" class="c">isolated</text>
+  <rect x="500" y="130" width="180" height="80" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="590" y="166" text-anchor="middle" class="p" fill="#1d4ed8">Real robot</text>
+  <text x="590" y="188" text-anchor="middle" class="c">no effect on reality</text>
+</svg>

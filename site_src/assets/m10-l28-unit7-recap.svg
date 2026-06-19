@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7c3aed"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}.s{font-size:12.5px;font-weight:700;fill:#334155}</style></defs>
+  <text x="380.0" y="28" text-anchor="middle" class="t">Unit 7 Recap: Adaptation Closes the Loop</text>
+  <text x="380.0" y="46" text-anchor="middle" class="c">the spine is complete — Mirror → Simulate → Monitor → Predict → Adapt</text>
+  <rect x="40" y="92" width="118" height="46" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="99" y="120" text-anchor="middle" class="p" fill="#6366f1">Mirror</text>
+  <path d="M158,115 L178,115" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="178" y="92" width="118" height="46" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="237" y="120" text-anchor="middle" class="p" fill="#6366f1">Simulate</text>
+  <path d="M296,115 L316,115" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="316" y="92" width="118" height="46" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="375" y="120" text-anchor="middle" class="p" fill="#6366f1">Monitor</text>
+  <path d="M434,115 L454,115" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="454" y="92" width="118" height="46" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2.2"/>
+  <text x="513" y="120" text-anchor="middle" class="p" fill="#6366f1">Predict</text>
+  <path d="M572,115 L592,115" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <rect x="592" y="92" width="118" height="46" rx="12" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/>
+  <text x="651" y="120" text-anchor="middle" class="p" fill="#15803d">Adapt</text>
+  <rect x="470" y="176" width="130" height="48" rx="12" fill="#f0fdf4" stroke="#15803d" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="535" y="200" text-anchor="middle" class="p" fill="#15803d">pre-validate</text>
+  <text x="535" y="216" text-anchor="middle" class="c">(7.1)</text>
+  <rect x="615" y="176" width="120" height="48" rx="12" fill="#f0fdf4" stroke="#15803d" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="675" y="200" text-anchor="middle" class="p" fill="#15803d">choose</text>
+  <text x="675" y="216" text-anchor="middle" class="c">(7.2)</text>
+  <path d="M593,140 L560,174" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <path d="M640,140 L665,174" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#a)"/>
+  <text x="380.0" y="262" text-anchor="middle" class="s">adaptation = pre-validation + action-selection in the closed loop</text>
+  <text x="380.0" y="284" text-anchor="middle" class="c" fill="#b45309">no machine learning &#183; no RL &#183; no adaptive control &#183; no optimization</text>
+</svg>

@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twin Mirror — Module 10</title>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;
+--real:#3b82f6;--reald:#1d4ed8;--twin:#0d9488;--twind:#0f766e;--true:#ef4444;
+--ok:#22c55e;--okd:#15803d;--warn:#f59e0b;--btn:#0f172a;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:940px;margin:0 auto;padding:10px}
+.lead{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:12px}
+.panels{display:flex;gap:10px;flex-wrap:wrap}
+.panel{flex:1;min-width:240px;border:1px solid var(--line);border-radius:12px;padding:8px;background:#fff}
+.panel h3{margin:2px 0 4px;font-size:13px;text-align:center}
+.real h3{color:var(--reald)}.twin h3{color:var(--twind)}
+svg{width:100%;height:auto;display:block}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0 8px}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--soft)}
+.btn.primary{background:var(--btn);color:#fff;border-color:var(--btn)}
+.sl{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+input[type=range]{width:120px}
+label.tog{font-size:12.5px;display:inline-flex;align-items:center;gap:5px;cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:5px 9px}
+.meters{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.meter{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12.5px;background:#fff}
+.meter b{font-size:16px}
+.synced{color:var(--okd)}.drift{color:var(--warn)}.gap{color:var(--true)}
+.saw{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:8px;background:#fff}
+.saw h4{margin:0 0 4px;font-size:12px;color:var(--muted);font-weight:600}
+.hint{font-size:11.5px;color:var(--muted);margin-top:6px}
+</style></head>
+<body><div class="wrap">
+<div class="lead"><b>Twin Mirror.</b> The real robot (left) and its digital twin (right). Move the real arm, then
+<b>Sync</b> the twin to its reported state — the gap drops to zero (the mirror is faithful). Turn on a
+<b>hidden offset</b> and watch a residual <span style="color:#b91c1c">sim-to-real gap</span> remain even after a
+perfect sync: synced to the report ≠ matching reality.</div>
+
+<div class="panels">
+  <div class="panel real"><h3>Real robot (Module 9 system)</h3>
+    <svg viewBox="0 0 260 220" id="svgReal" aria-label="real robot arm"></svg></div>
+  <div class="panel twin"><h3>Digital Twin</h3>
+    <svg viewBox="0 0 260 220" id="svgTwin" aria-label="twin arm"></svg></div>
+</div>
+
+<div class="controls">
+  <button class="btn primary" id="sync">⟳ Sync twin → real</button>
+  <button class="btn" id="step">Step the real robot</button>
+  <span class="sl">q1<input type="range" id="q1" min="-90" max="170" value="40"></span>
+  <span class="sl">q2<input type="range" id="q2" min="-150" max="150" value="60"></span>
+  <label class="tog"><input type="checkbox" id="auto"> auto-sync</label>
+  <label class="tog"><input type="checkbox" id="hidden"> hidden offset (unmodeled)</label>
+</div>
+
+<div class="meters">
+  <div class="meter">sync error <span style="color:#64748b">(twin vs report)</span><br><b id="syncErr">0.000</b> rad · <span id="syncState" class="synced">synced ✓</span></div>
+  <div class="meter">residual gap <span style="color:#64748b">(twin vs <span style="color:#b91c1c">true</span>)</span><br><b id="trueGap" class="gap">0.000</b> rad · <span id="trueState" class="synced">no hidden effect</span></div>
+  <div class="meter">tool gap <span style="color:#64748b">(reported)</span><br><b id="toolGap">0.000</b> m</div>
+</div>
+
+<div class="saw"><h4>divergence (sync error) vs time — climbs as the real robot moves, drops to 0 at each sync</h4>
+  <svg viewBox="0 0 900 120" id="svgSaw" aria-label="divergence over time"></svg></div>
+<div class="hint" id="hint">Move a slider or press <b>Step</b> to make the real robot act; the twin only follows when you <b>Sync</b> (or enable auto-sync).</div>
+</div>
+
+<script>
+(function(){
+  var L1=0.4, L2=0.3, SC=170, OX=40, OY=170;   // kinematics + pixel mapping
+  var OFFSET=[0.18,-0.12];                       // the hidden, unmodeled offset (rad)
+  var real={q1:40*Math.PI/180, q2:60*Math.PI/180};   // REPORTED real config
+  var twin={q1:real.q1, q2:real.q2};                 // twin's synced config
+  var hist=[], t=0;
+
+  function fk(q1,q2){ // returns [[jx,jy],[ex,ey]] in pixels (elbow, end)
+    var jx=L1*Math.cos(q1), jy=L1*Math.sin(q1);
+    var ex=jx+L2*Math.cos(q1+q2), ey=jy+L2*Math.sin(q1+q2);
+    return [[OX+jx*SC, OY-jy*SC],[OX+ex*SC, OY-ey*SC]];
+  }
+  function toolXY(q1,q2){ return [L1*Math.cos(q1)+L2*Math.cos(q1+q2), L1*Math.sin(q1)+L2*Math.sin(q1+q2)]; }
+
+  function drawArm(svg, q1, q2, color, dash, ghost){
+    var p=fk(q1,q2);
+    var g='';
+    if(ghost){ // faint "true" arm
+      var pg=fk(q1+OFFSET[0], q2+OFFSET[1]);
+      g='<line x1="'+OX+'" y1="'+OY+'" x2="'+pg[0][0]+'" y2="'+pg[0][1]+'" stroke="#ef4444" stroke-width="4" opacity="0.35"/>'+
+        '<line x1="'+pg[0][0]+'" y1="'+pg[0][1]+'" x2="'+pg[1][0]+'" y2="'+pg[1][1]+'" stroke="#ef4444" stroke-width="4" opacity="0.35"/>'+
+        '<circle cx="'+pg[1][0]+'" cy="'+pg[1][1]+'" r="5" fill="#ef4444" opacity="0.45"/>'+
+        '<text x="'+pg[1][0]+'" y="'+(pg[1][1]-8)+'" font-size="9" fill="#b91c1c" text-anchor="middle">true</text>';
+    }
+    svg.innerHTML=
+      '<line x1="0" y1="'+OY+'" x2="260" y2="'+OY+'" stroke="#e2e8f0" stroke-width="1"/>'+
+      g+
+      '<line x1="'+OX+'" y1="'+OY+'" x2="'+p[0][0]+'" y2="'+p[0][1]+'" stroke="'+color+'" stroke-width="6" stroke-linecap="round"'+dash+'/>'+
+      '<line x1="'+p[0][0]+'" y1="'+p[0][1]+'" x2="'+p[1][0]+'" y2="'+p[1][1]+'" stroke="'+color+'" stroke-width="6" stroke-linecap="round"'+dash+'/>'+
+      '<circle cx="'+OX+'" cy="'+OY+'" r="6" fill="#334155"/>'+
+      '<circle cx="'+p[0][0]+'" cy="'+p[0][1]+'" r="5" fill="'+color+'"/>'+
+      '<circle cx="'+p[1][0]+'" cy="'+p[1][1]+'" r="7" fill="#22c55e" stroke="#15803d"/>';
+  }
+
+  function syncErr(){ return Math.hypot(real.q1-twin.q1, real.q2-twin.q2); }
+  function trueGap(){ var on=document.getElementById('hidden').checked;
+    var tq1=real.q1+(on?OFFSET[0]:0), tq2=real.q2+(on?OFFSET[1]:0);
+    return Math.hypot(tq1-twin.q1, tq2-twin.q2); }
+  function toolGap(){ var a=toolXY(real.q1,real.q2), b=toolXY(twin.q1,twin.q2);
+    return Math.hypot(a[0]-b[0], a[1]-b[1]); }
+
+  function drawSaw(){
+    var svg=document.getElementById('svgSaw'); var W=900,H=120, n=hist.length;
+    var max=Math.max(0.05, Math.max.apply(null, hist.map(function(p){return p.v;}).concat([0.05])));
+    var pts=hist.map(function(p,i){ var x=10+i*(W-20)/Math.max(1,59); var y=H-12-(p.v/max)*(H-30); return x+','+y; });
+    var marks=hist.map(function(p,i){ if(!p.sync) return ''; var x=10+i*(W-20)/Math.max(1,59); return '<line x1="'+x+'" y1="6" x2="'+x+'" y2="'+(H-12)+'" stroke="#0d9488" stroke-width="1" opacity="0.3"/>'; }).join('');
+    svg.innerHTML='<line x1="10" y1="'+(H-12)+'" x2="'+(W-10)+'" y2="'+(H-12)+'" stroke="#cbd5e1"/>'+marks+
+      (pts.length>1?'<polyline points="'+pts.join(' ')+'" fill="none" stroke="#0d9488" stroke-width="2"/>':'')+
+      '<text x="14" y="16" font-size="10" fill="#94a3b8">gap</text>';
+  }
+
+  function record(didSync){ t++; hist.push({v:syncErr(), sync:didSync}); if(hist.length>60) hist.shift(); drawSaw(); }
+
+  function render(){
+    var hidden=document.getElementById('hidden').checked;
+    drawArm(document.getElementById('svgReal'), real.q1, real.q2, '#3b82f6', '', hidden);
+    drawArm(document.getElementById('svgTwin'), twin.q1, twin.q2, '#0d9488', ' stroke-dasharray="9 5"', false);
+    var se=syncErr(), tg=trueGap(), tge=toolGap();
+    document.getElementById('syncErr').textContent=se.toFixed(3);
+    document.getElementById('toolGap').textContent=tge.toFixed(3);
+    var ss=document.getElementById('syncState');
+    if(se<1e-6){ ss.textContent='synced ✓'; ss.className='synced'; }
+    else { ss.textContent='drifted — needs sync'; ss.className='drift'; }
+    document.getElementById('trueGap').textContent=tg.toFixed(3);
+    var ts=document.getElementById('trueState');
+    if(!hidden){ ts.textContent='no hidden effect'; ts.className='synced'; }
+    else { ts.textContent= (tg>1e-6?'residual gap remains ✗':'—'); ts.className= tg>1e-6?'gap':'synced'; }
+  }
+
+  function moveReal(){
+    real.q1=(+document.getElementById('q1').value)*Math.PI/180;
+    real.q2=(+document.getElementById('q2').value)*Math.PI/180;
+    var didSync=false;
+    if(document.getElementById('auto').checked){ twin.q1=real.q1; twin.q2=real.q2; didSync=true; }
+    record(didSync); render();
+  }
+  function doSync(){ twin.q1=real.q1; twin.q2=real.q2; record(true); render();
+    document.getElementById('hint').innerHTML='Synced. The twin now mirrors the <b>reported</b> state (sync error 0) — but with a hidden offset it still differs from the <span style="color:#b91c1c">true</span> arm.'; }
+  function step(){
+    var q1=Math.max(-90,Math.min(170, (+document.getElementById('q1').value)+ (Math.random()*60-30)));
+    var q2=Math.max(-150,Math.min(150, (+document.getElementById('q2').value)+ (Math.random()*60-30)));
+    document.getElementById('q1').value=q1; document.getElementById('q2').value=q2; moveReal();
+  }
+
+  document.getElementById('q1').addEventListener('input', moveReal);
+  document.getElementById('q2').addEventListener('input', moveReal);
+  document.getElementById('sync').addEventListener('click', doSync);
+  document.getElementById('step').addEventListener('click', step);
+  document.getElementById('auto').addEventListener('change', function(){ if(this.checked) doSync(); });
+  document.getElementById('hidden').addEventListener('change', render);
+  record(true); render();
+})();
+</script>
+</body></html>

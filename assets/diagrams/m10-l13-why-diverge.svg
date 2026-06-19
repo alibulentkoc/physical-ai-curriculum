@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style>
+  <text x="360" y="28" text-anchor="middle" class="t">Why Twin and Reality Diverge</text>
+  <text x="360" y="46" text-anchor="middle" class="c">same logic, different worlds &#8212; unmodeled effects</text>
+  <!-- twin predicted -->
+  <rect x="50" y="78" width="250" height="150" rx="12" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="175" y="102" text-anchor="middle" class="p" fill="#0d9488">Twin (predicted)</text>
+  <text x="175" y="132" text-anchor="middle" class="c">F0 &#10003;  F1 &#10003;  F2 &#10003;</text>
+  <text x="175" y="158" text-anchor="middle" class="p" fill="#15803d">F3 &#10003; harvested</text>
+  <text x="175" y="184" text-anchor="middle" class="c">F5 &#10003;</text>
+  <text x="175" y="212" text-anchor="middle" class="c">world has no obstacle</text>
+  <!-- reality actual -->
+  <rect x="420" y="78" width="250" height="150" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.2"/>
+  <text x="545" y="102" text-anchor="middle" class="p" fill="#1d4ed8">Reality (actual)</text>
+  <text x="545" y="132" text-anchor="middle" class="c">F0 &#10003;  F1 &#10003;  F2 &#10003;</text>
+  <text x="545" y="158" text-anchor="middle" class="p" fill="#b91c1c">F3 &#10007; skipped</text>
+  <text x="545" y="184" text-anchor="middle" class="c">F5 &#10003;</text>
+  <text x="545" y="212" text-anchor="middle" class="c" fill="#b45309">unmodeled obstacle &#949;</text>
+  <!-- gap -->
+  <path d="M300,153 L420,153" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="360" y="146" text-anchor="middle" class="c" fill="#b91c1c">sim-to-real gap</text>
+  <text x="360" y="290" text-anchor="middle" class="c">identical harvest_row; reality's world carries effects the twin's world lacks</text>
+</svg>

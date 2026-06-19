@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}.m{font-size:11px}</style>
+  <text x="360" y="28" text-anchor="middle" class="t">Measuring the Gap: Divergence Metrics</text>
+  <text x="360" y="46" text-anchor="middle" class="c">score the forecast against reality</text>
+  <!-- columns -->
+  <rect x="70" y="70" width="180" height="200" rx="10" fill="#f0fdfa" stroke="#0d9488" stroke-width="2"/>
+  <text x="160" y="92" text-anchor="middle" class="p" fill="#0d9488">Twin predicted</text>
+  <rect x="320" y="70" width="180" height="200" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="410" y="92" text-anchor="middle" class="p" fill="#1d4ed8">Reality actual</text>
+  <!-- rows -->
+  <g class="m" fill="#94a3b8">
+    <text x="160" y="120" text-anchor="middle">F0 &#10003;</text><text x="410" y="120" text-anchor="middle">F0 &#10003;</text>
+    <text x="160" y="146" text-anchor="middle">F1 &#10003;</text><text x="410" y="146" text-anchor="middle">F1 &#10003;</text>
+    <text x="160" y="172" text-anchor="middle">F2 &#10003;</text><text x="410" y="172" text-anchor="middle">F2 &#10003;</text>
+  </g>
+  <rect x="80" y="186" width="160" height="24" rx="5" fill="#fef2f2"/><rect x="330" y="186" width="160" height="24" rx="5" fill="#fef2f2"/>
+  <text x="160" y="203" text-anchor="middle" class="m" fill="#15803d">F3 &#10003; harvested</text>
+  <text x="410" y="203" text-anchor="middle" class="m" fill="#b91c1c">F3 &#10007; skipped</text>
+  <g class="m" fill="#94a3b8">
+    <text x="160" y="234" text-anchor="middle">F5 &#10003;</text><text x="410" y="234" text-anchor="middle">F5 &#10003;</text>
+  </g>
+  <!-- tally -->
+  <rect x="530" y="120" width="150" height="120" rx="10" fill="#0f172a"/>
+  <text x="605" y="144" text-anchor="middle" class="p" fill="#fff">outcome gap</text>
+  <text x="545" y="170" class="m" fill="#fca5a5">n_diffs = 2</text>
+  <text x="545" y="190" class="m" fill="#cbd5e1">F3: harv (sim) /</text>
+  <text x="545" y="206" class="m" fill="#cbd5e1">    skip (real)</text>
+  <text x="545" y="228" class="m" fill="#fbbf24">match = false</text>
+  <text x="360" y="300" text-anchor="middle" class="c">localisable (which fruit) &#183; directional (optimistic vs pessimistic) &#183; trackable</text>
+</svg>

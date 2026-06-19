@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:12px;fill:#94a3b8}.lab{font-size:13px;font-weight:700}</style></defs>
+  <text x="360" y="30" text-anchor="middle" class="t">The Digital Twin: A Living Mirror</text>
+  <text x="360" y="49" text-anchor="middle" class="c">paired &#183; live &#183; mirroring</text>
+  <!-- real -->
+  <rect x="40" y="80" width="250" height="200" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.4"/>
+  <text x="165" y="106" text-anchor="middle" class="lab" fill="#1d4ed8">Real (Module 9 system)</text>
+  <circle cx="120" cy="170" r="8" fill="#1d4ed8"/><line x1="120" y1="170" x2="170" y2="150" stroke="#1d4ed8" stroke-width="5"/><line x1="170" y1="150" x2="210" y2="175" stroke="#1d4ed8" stroke-width="5"/>
+  <circle cx="225" cy="205" r="9" fill="#22c55e" stroke="#15803d"/>
+  <text x="165" y="262" text-anchor="middle" class="c">the deployed harvester</text>
+  <!-- twin -->
+  <rect x="430" y="80" width="250" height="200" rx="14" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.4" stroke-dasharray="7 4"/>
+  <text x="555" y="106" text-anchor="middle" class="lab" fill="#0d9488">Digital Twin</text>
+  <circle cx="510" cy="170" r="8" fill="#0d9488"/><line x1="510" y1="170" x2="560" y2="150" stroke="#0d9488" stroke-width="5"/><line x1="560" y1="150" x2="600" y2="175" stroke="#0d9488" stroke-width="5"/>
+  <circle cx="615" cy="205" r="9" fill="#22c55e" stroke="#15803d"/>
+  <text x="555" y="248" text-anchor="middle" class="c">observe &#183; experiment &#183; reason</text>
+  <text x="555" y="264" text-anchor="middle" class="c">&#8212; without touching the real robot</text>
+  <!-- sync arrow -->
+  <path d="M295,170 L425,170" fill="none" stroke="#0d9488" stroke-width="2.6" marker-end="url(#a)"/>
+  <text x="360" y="162" text-anchor="middle" class="c">mirror / sync</text>
+</svg>

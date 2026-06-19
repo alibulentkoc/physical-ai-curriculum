@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 310" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style>
+  <text x="360" y="28" text-anchor="middle" class="t">The Limits of Prediction: Calibrated Confidence</text>
+  <text x="360" y="46" text-anchor="middle" class="c">a forecast is only as faithful as the twin</text>
+  <!-- small gap -> tight band -->
+  <rect x="50" y="76" width="280" height="130" rx="12" fill="#0b1626" stroke="#15803d" stroke-width="2"/>
+  <text x="190" y="98" text-anchor="middle" class="p" fill="#86efac">small monitored gap</text>
+  <line x1="80" y1="150" x2="300" y2="150" stroke="#334155" stroke-width="1"/>
+  <rect x="80" y="142" width="220" height="16" fill="rgba(34,197,94,.25)"/>
+  <polyline points="80,150 140,148 200,151 260,149 300,150" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="190" y="186" text-anchor="middle" class="c" fill="#94a3b8">tight band &#8594; trust the forecast</text>
+  <!-- large gap -> wide band -->
+  <rect x="390" y="76" width="280" height="130" rx="12" fill="#0b1626" stroke="#ef4444" stroke-width="2"/>
+  <text x="530" y="98" text-anchor="middle" class="p" fill="#fca5a5">large / growing gap</text>
+  <line x1="420" y1="150" x2="640" y2="150" stroke="#334155" stroke-width="1"/>
+  <rect x="420" y="118" width="220" height="64" fill="rgba(239,68,68,.20)"/>
+  <polyline points="420,150 480,134 540,168 600,138 640,150" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+  <text x="530" y="186" text-anchor="middle" class="c" fill="#94a3b8">wide band &#8594; doubt the forecast</text>
+  <text x="360" y="244" text-anchor="middle" class="p" fill="#b45309">optimistic forecast (predicts success where reality may fail) = extra caution</text>
+  <text x="360" y="272" text-anchor="middle" class="c">weight a forecast by the twin's measured fidelity (monitoring + calibration) &#8212; no new theory</text>
+</svg>

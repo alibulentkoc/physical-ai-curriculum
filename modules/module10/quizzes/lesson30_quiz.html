@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Knowledge Check — Lesson 8.2</title>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--greenbg:#dcfce7;--red:#b91c1c;--redbg:#fee2e2;--accent:#0d9488;}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:760px;margin:0 auto;padding:6px}
+.note{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.qhead{font-weight:600;font-size:14.5px;margin-bottom:10px}.qnum{display:inline-block;min-width:22px;color:var(--accent);font-weight:700}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;margin:6px 0;font-size:14px;cursor:pointer}
+.opt:hover{background:var(--soft)}.opt.correct{background:var(--greenbg);border-color:#86efac;color:var(--green);font-weight:600}.opt.wrong{background:var(--redbg);border-color:#fecaca;color:var(--red)}
+.fb{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;display:none}.fb.show{display:block}.fb.ok{background:var(--greenbg);color:var(--green)}.fb.no{background:var(--redbg);color:var(--red)}.fb.info{background:#eff6ff;color:#1d4ed8}
+textarea{width:100%;min-height:60px;border:1px solid var(--line);border-radius:9px;padding:8px;font-family:inherit;font-size:14px;resize:vertical}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:8px}.btn:hover{background:var(--soft)}
+.model{display:none;font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;background:#eff6ff;color:#1d4ed8}.model.show{display:block}
+</style></head><body><div class="wrap">
+<div class="note">Formative — unlimited attempts, immediate feedback. This does <b>not</b> affect your grade.</div>
+<div id="quiz"></div></div>
+<script>var questions=[{"type": "mc", "prompt": "In the capstone, 'self-improving' means:", "options": [{"t": "The twin-in-the-loop improved the real outcome", "ok": true}, {"t": "The robot learned a better policy", "ok": false}, {"t": "An optimizer tuned the controller", "ok": false}, {"t": "The twin trained itself overnight", "ok": false}], "ok": "Correct — loop-improved outcome, not learned.", "no": "No — the loop improved the outcome; nothing was learned or optimized."}, {"type": "mc", "prompt": "How does twin-in-the-loop beat the blind plan?", "options": [{"t": "It pre-validates, foresees the doomed pick, and adapts around it", "ok": true}, {"t": "It runs faster", "ok": false}, {"t": "It uses more attempts", "ok": false}, {"t": "It ignores the obstacle", "ok": false}], "ok": "Right — foresight plus adaptation avoids wasted effort.", "no": "No — it foresees the failure and adapts, harvesting the same fruit with less waste."}, {"type": "mc", "prompt": "The capstone runs which stages?", "options": [{"t": "The full spine: Mirror, Simulate, Monitor, Predict, Adapt", "ok": true}, {"t": "Only Monitor and Predict", "ok": false}, {"t": "Only Adapt", "ok": false}, {"t": "A learned end-to-end policy", "ok": false}], "ok": "Yes — the whole spine on one harvest.", "no": "No — it runs the full spine, end to end."}, {"type": "mc", "prompt": "The capstone's improvement depends on:", "options": [{"t": "A faithful enough twin (calibration matters)", "ok": true}, {"t": "A larger neural network", "ok": false}, {"t": "More training data", "ok": false}, {"t": "A faster CPU", "ok": false}], "ok": "Correct — a blind spot in the twin blinds the loop.", "no": "No — it depends on the twin being faithful enough to foresee the problem."}, {"type": "tf", "prompt": "Twin-in-the-loop is guaranteed never to do worse than blind when the twin is faithful.", "answer": true, "ok": "Right — with a faithful twin it never scores worse, and can score better.", "no": "With a faithful twin, the loop never does worse than blind."}, {"type": "short", "prompt": "State, in one sentence, the condition under which twin-in-the-loop will not do worse than blind.", "model": "As long as the twin is faithful enough to correctly foresee the relevant outcome (small sim-to-real gap on the effect that matters), the loop's pre-validated choice is at least as good as the blind plan."}];
+var root=document.getElementById("quiz");
+questions.forEach(function(q,i){var card=document.createElement("div");card.className="q";
+var head=document.createElement("div");head.className="qhead";head.innerHTML='<span class="qnum">'+(i+1)+'.</span> '+q.prompt;card.appendChild(head);
+var fb=document.createElement("div");fb.className="fb";
+if(q.type==="mc"||q.type==="tf"){var opts=q.type==="tf"?[{t:"True",ok:q.answer===true},{t:"False",ok:q.answer===false}]:q.options;
+opts.forEach(function(o){var b=document.createElement("button");b.className="opt";b.type="button";b.innerHTML=o.t;
+b.addEventListener("click",function(){Array.prototype.forEach.call(card.querySelectorAll(".opt"),function(el){el.classList.remove("correct","wrong");});
+if(o.ok){b.classList.add("correct");fb.className="fb show ok";fb.innerHTML=q.ok;}else{b.classList.add("wrong");fb.className="fb show no";fb.innerHTML=q.no;}});card.appendChild(b);});card.appendChild(fb);}
+else if(q.type==="short"){var ta=document.createElement("textarea");ta.placeholder="Type your answer, then reveal the model answer to self-check…";card.appendChild(ta);
+var sh=document.createElement("button");sh.className="btn";sh.type="button";sh.textContent="Show model answer";var md=document.createElement("div");md.className="model";md.innerHTML=q.model;
+sh.addEventListener("click",function(){md.classList.toggle("show");sh.textContent=md.classList.contains("show")?"Hide model answer":"Show model answer";});card.appendChild(sh);card.appendChild(md);}
+root.appendChild(card);});
+if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetPromise();}
+</script></body></html>

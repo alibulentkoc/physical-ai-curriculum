@@ -389,6 +389,47 @@ nav:
         - "8.2 Capstone: Harvesting a Row with Injected Failure · demo": module09/lesson30.md
         - "8.3 Reading the Integrated System: Guarantees and Boundaries": module09/lesson31.md
         - "8.4 Unit 8 Recap, Module 9 Close, and Handoff to Module 10": module09/lesson32.md
+  - "Module 10 — Digital Twin Capstone":
+      - "Unit 1 — What Is a Digital Twin?":
+        - "1.1 The Twin Concept: A Living Mirror of the Robot": module10/lesson01.md
+        - "1.2 Twin vs. Model vs. Simulation · demo": module10/lesson02.md
+        - "1.3 What We Twin: the Module 9 System as the Physical Asset": module10/lesson03.md
+        - "1.4 Unit 1 Recap: The Twin Concept": module10/lesson04.md
+      - "Unit 2 — Building the Mirror: State Synchronization":
+        - "2.1 The Twin's State: Mirroring the World-State Model": module10/lesson05.md
+        - "2.2 Synchronizing Twin ↔ Real": module10/lesson06.md
+        - "2.3 When the Mirror Drifts: Sync Error": module10/lesson07.md
+        - "2.4 Unit 2 Recap and Installment A Milestone": module10/lesson08.md
+      - "Unit 3 — Simulating the System in the Twin":
+        - "3.1 Running the System Inside the Twin": module10/lesson09.md
+        - "3.2 The Twin as a Sandbox: Risk-Free Experimentation": module10/lesson10.md
+        - "3.3 Replay and Reproduce: Determinism in the Twin": module10/lesson11.md
+        - "3.4 Unit 3 Recap: Simulating the System in the Twin": module10/lesson12.md
+      - "Unit 4 — The Sim-to-Real Gap":
+        - "4.1 Why Twin and Reality Diverge · demo": module10/lesson13.md
+        - "4.2 Measuring the Gap: Divergence Metrics": module10/lesson14.md
+        - "4.3 Calibrating the Twin: Shrinking the Gap": module10/lesson15.md
+        - "4.4 Unit 4 Recap and Midpoint": module10/lesson16.md
+      - "Unit 5 — Monitoring with the Twin":
+        - "5.1 Monitoring as Reality ↔ Twin Comparison": module10/lesson17.md
+        - "5.2 Divergence as a Signal": module10/lesson18.md
+        - "5.3 From Divergence to Diagnosis": module10/lesson19.md
+        - "5.4 Unit 5 Recap: Monitoring with the Twin": module10/lesson20.md
+      - "Unit 6 — Prediction with the Twin":
+        - "6.1 Prediction as Run-Ahead Simulation": module10/lesson21.md
+        - "6.2 Lookahead and What-If · demo": module10/lesson22.md
+        - "6.3 The Limits of Prediction": module10/lesson23.md
+        - "6.4 Unit 6 Recap: Prediction with the Twin": module10/lesson24.md
+      - "Unit 7 — Adaptation: Closing the Twin-in-the-Loop":
+        - "7.1 Pre-Validating Actions in the Twin": module10/lesson25.md
+        - "7.2 Twin-Informed Decisions: Choosing the Better Action": module10/lesson26.md
+        - "7.3 The Twin-in-the-Loop Cycle": module10/lesson27.md
+        - "7.4 Unit 7 Recap: Adaptation and the Twin-in-the-Loop": module10/lesson28.md
+      - "Unit 8 — Digital Twin Capstone & Curriculum Close":
+        - "8.1 Assembling the Full Twin-in-the-Loop System": module10/lesson29.md
+        - "8.2 Capstone: The Self-Improving Greenhouse Harvest · demo": module10/lesson30.md
+        - "8.3 The Whole Journey: One Tomato Through Ten Modules": module10/lesson31.md
+        - "8.4 Course Close: From Mathematics to a Digital Twin": module10/lesson32.md
 
 markdown_extensions:
   - admonition

@@ -3,16 +3,30 @@ title: Project State — Physical AI Curriculum
 status: AUTHORITATIVE current-state snapshot
 purpose: A single, current picture of where production stands — current module, what is complete, what is in progress, what is deferred, known issues, and the next milestone. Update this whenever a unit/installment/module completes or a decision changes state.
 authority: Subordinate to ARCHITECT_DECISIONS.md. Counts mirror master_progress.md.
-last_updated: 2026-06 — Module 9 COMPLETE: Installments A–D delivered (Units 1–8, L01–L32; A = D-071, B = D-072, C = D-073, D = D-074); paused at module completion. Site at 293 lesson pages, mkdocs --strict green. Modules 1–9 COMPLETE; 9 of 10 modules signed off. Next: Module 10 — Digital Twin Capstone.
+last_updated: 2026-06 — **CURRICULUM COMPLETE.** Module 10 (Digital Twin Capstone) COMPLETE: Installments A–D delivered (Units 1–8, L01–L32; A = D-075, B = D-076, C = D-077, D = D-078); signed off. Site at 325 lesson pages, mkdocs --strict green. **10 of 10 modules complete.** Paused at full curriculum completion; no new module production remains.
 ---
 
 # Project State
 
 > Snapshot of production status. For the full decision history see `ARCHITECT_DECISIONS.md`; for counts see `master_progress.md`.
 
-## Current module
+## Curriculum status — COMPLETE
 
-**Module 9 — System Integration: COMPLETE (D-074)** — Installments A–D delivered (Units 1–8, L01–L32; A = D-071, B = D-072, C = D-073, D = D-074); paused at module completion. **9 of 10 modules signed off.**
+**The ten-module Physical AI curriculum is COMPLETE — 10 of 10 modules signed off.** No new module production remains; paused at full curriculum completion. The arc, end to end: **represent → perceive → reach → move → integrate → twin** (M1–M2 → M3 → M4–M6 → M7–M8 → M9 → M10), built on the single greenhouse-harvester example (planar 2-link arm L1=0.4, L2=0.3). Site at **325 lesson pages**, `mkdocs build --strict` green. Final deliverables: `curriculum/curriculum_completion_report.md`, `curriculum/module10_completion_report.md`, and the tracking-file updates. All work is **local working-tree only — not yet pushed**.
+
+## Most recent module
+
+**Module 10 — Digital Twin Capstone: COMPLETE (D-078)** — Installments A–D delivered (Units 1–8, L01–L32; A = D-075, B = D-076, C = D-077, D = D-078); signed off. **10 of 10 modules complete.**
+
+Module 10 wraps the Module 9 integrated harvester (`harvest_row`) in a lightweight **digital twin** along the spine **Model → Mirror → Simulate → Monitor → Predict → Adapt**. Reality (`GroundTruth`) and the twin (`DigitalTwin`) are represented **separately** with an explicit, preserved sim-to-real gap; the twin **wraps Module 9, does not redefine it**, and introduces **no new theory** (no formal dynamics, estimation, control theory, or **machine learning**). The deliverable is a **twin-in-the-loop** harvester: the twin syncs to reality, simulates run-ahead, monitors divergence, predicts outcomes, and pre-validates/selects actions so the real harvest beats a blind plan (*self-improving = loop-improved, not learned*). The arc: **Model → Mirror** (U1–U2, the twin concept + state synchronisation), **Simulate + Sim-to-Real Gap** (U3–U4, run-ahead on a copy + measure/calibrate the gap, midpoint *faithful but intentionally imperfect*), **Monitor + Predict** (U5–U6, Reality↔Twin comparison + run-ahead/what-if), **Adapt + Capstone & Close** (U7–U8, pre-validation + action-selection + the twin-in-the-loop cycle; the Self-Improving Greenhouse Harvest; one tomato through ten modules; the curriculum close). Twin substrate `modules/module10/twin/` (additive over the M9 integration package): `GroundTruth`, `DigitalTwin` (sync / simulate / calibrate / divergence), `outcome_gap`, `monitor`, `predict`, `compare_futures`, `prevalidate`, `select_action`, `twin_in_the_loop`.
+
+**Module 10 totals:** 8 units · 32 lessons · 32 notebooks · 32 SVGs · **4 flagship demos** (L02 Twin vs Model vs Simulation, L13 Sim-to-Real Gap Explorer, L22 Lookahead & What-If Explorer, L30 Twin-in-the-Loop Harvest) · 32 quizzes · 32 answer keys · midpoint assessment + key. **All 32 notebooks pass under Restart-and-Run-All; `mkdocs build --strict` green at 325 lesson pages (293 + 32).** Reports: `curriculum/module10_installment_a..d_report.md` and `curriculum/module10_completion_report.md`.
+
+---
+
+## Previous module
+
+**Module 9 — System Integration: COMPLETE (D-074)** — Installments A–D delivered (Units 1–8, L01–L32; A = D-071, B = D-072, C = D-073, D = D-074); paused at module completion. **(Consumed by Module 10; retained below for history.)**
 
 Module 9 answers "How do we make the eight separate layers cooperate as one robot?" It is the integration course that wires the **real** M3–M8 layers — perception, IK (M5), velocity (M6), reference (M7), control (M8) — into a single greenhouse harvesting robot, along the workflow spine **Perceive → Understand → Plan → Execute → Track → Recover**. The governing discipline held throughout: **wrap, do not redefine** (every stage calls a real existing layer) and **coordinate, do not re-theorise** (detection is reading existing signals; recovery is coordination + bookkeeping) — **no new estimation, planning, or control theory anywhere in the module.** The deliverable is an integrated, **self-healing** system: it perceives a row, picks each fruit through the full cycle, detects and localises any failure to a *what / where / who*, and recovers (transient) or skips-with-reason (deterministic) — graceful degradation, runnable in one call (`harvest_row`). Running example: planar 2-link arm **L1=0.4, L2=0.3**. The integration package `modules/module09/integration/` vendors the real M5/M6/M7/M8 layers verbatim plus the `world.py` greenhouse model and the `layers.py` adapter (understand / to_configuration / plan_reference / execute_reference / track / system_monitor / run_pipeline / recover / harvest_row).
 

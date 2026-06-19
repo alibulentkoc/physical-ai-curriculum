@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style>
+  <text x="360" y="28" text-anchor="middle" class="t">Sync Error vs. Residual Gap</text>
+  <text x="360" y="46" text-anchor="middle" class="c">synced to the report &#8800; matching reality</text>
+  <line x1="90" y1="180" x2="640" y2="180" stroke="#cbd5e1" stroke-width="2"/>
+  <!-- twin and reported coincide -->
+  <circle cx="250" cy="180" r="11" fill="#0d9488"/><text x="250" y="150" text-anchor="middle" class="p" fill="#0d9488">twin</text>
+  <circle cx="262" cy="180" r="7" fill="#3b82f6"/><text x="285" y="212" text-anchor="middle" class="p" fill="#1d4ed8">reported</text>
+  <!-- true offset -->
+  <circle cx="500" cy="180" r="11" fill="#ef4444"/><text x="500" y="150" text-anchor="middle" class="p" fill="#b91c1c">true</text>
+  <!-- brackets -->
+  <path d="M250,210 L262,210" fill="none" stroke="#0d9488" stroke-width="2"/>
+  <text x="256" y="236" text-anchor="middle" class="c" fill="#0d9488">sync error &#8594; 0</text>
+  <path d="M256,120 L500,120" fill="none" stroke="#b45309" stroke-width="2"/>
+  <line x1="256" y1="116" x2="256" y2="124" stroke="#b45309" stroke-width="2"/><line x1="500" y1="116" x2="500" y2="124" stroke="#b45309" stroke-width="2"/>
+  <text x="378" y="110" text-anchor="middle" class="c" fill="#b45309">residual gap (unmodeled effect)</text>
+  <text x="360" y="290" text-anchor="middle" class="c">a perfect sync to the report can still leave a gap to the true world</text>
+</svg>

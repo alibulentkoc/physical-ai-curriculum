@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style></defs>
+  <text x="360" y="28" text-anchor="middle" class="t">Unit 1 Recap: The Twin Concept</text>
+  <text x="360" y="46" text-anchor="middle" class="c">paired &#183; live &#183; mirroring &#183; wraps M9</text>
+  <!-- nested rings -->
+  <rect x="40" y="70" width="270" height="220" rx="14" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.2"/>
+  <text x="175" y="92" text-anchor="middle" class="p" fill="#0d9488">twin</text>
+  <rect x="75" y="104" width="200" height="150" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2"/>
+  <text x="175" y="124" text-anchor="middle" class="p" fill="#4338ca">simulation</text>
+  <rect x="110" y="138" width="130" height="90" rx="10" fill="#fff" stroke="#8b5cf6" stroke-width="1.8"/>
+  <text x="175" y="170" text-anchor="middle" class="p" fill="#6d28d9">model</text>
+  <text x="175" y="190" text-anchor="middle" class="c">behaviour</text>
+  <!-- M9 asset -->
+  <rect x="450" y="90" width="230" height="180" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.2"/>
+  <text x="565" y="114" text-anchor="middle" class="p" fill="#1d4ed8">M9 asset (4 inputs)</text>
+  <text x="565" y="142" text-anchor="middle" class="c">orchestrator</text>
+  <text x="565" y="166" text-anchor="middle" class="c">world-state</text>
+  <text x="565" y="190" text-anchor="middle" class="c">health signals</text>
+  <text x="565" y="214" text-anchor="middle" class="c">system interface</text>
+  <!-- greyed sync arrow -->
+  <path d="M315,180 L446,180" fill="none" stroke="#94a3b8" stroke-width="2.4" stroke-dasharray="6 4" marker-end="url(#a)"/>
+  <text x="380" y="172" text-anchor="middle" class="c">sync &#8212; built in Unit 2</text>
+</svg>

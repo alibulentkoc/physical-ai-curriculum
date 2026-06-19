@@ -36,7 +36,7 @@ S_ASSETS = os.path.join(ROOT, "site_src/assets")
 os.makedirs(S_ASSETS, exist_ok=True)
 
 # modules to build (extend as new modules are produced)
-MODULES = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
+MODULES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]
 
 # module + unit titles, for the in-page context header (Module / Unit / Lesson)
 MODULE_TITLES = {
@@ -49,6 +49,7 @@ MODULE_TITLES = {
     "07": "Trajectory Generation and Motion Planning",
     "08": "Feedback Control and Real-Time Execution (ROS 2)",
     "09": "System Integration — The Complete Physical AI System",
+    "10": "Digital Twin Capstone",
 }
 UNIT_TITLES = {
     ("01", "01"): "Physical Quantities & Measurement",
@@ -121,6 +122,14 @@ UNIT_TITLES = {
     ("09", "06"): "Failure Detection",
     ("09", "07"): "Recover",
     ("09", "08"): "Full System Integration",
+    ("10", "01"): "What Is a Digital Twin?",
+    ("10", "02"): "Building the Mirror: State Synchronization",
+    ("10", "03"): "Simulating the System in the Twin",
+    ("10", "04"): "The Sim-to-Real Gap",
+    ("10", "05"): "Monitoring with the Twin",
+    ("10", "06"): "Prediction with the Twin",
+    ("10", "07"): "Adaptation: Closing the Twin-in-the-Loop",
+    ("10", "08"): "Digital Twin Capstone & Curriculum Close",
 }
 
 def unit_of(text):

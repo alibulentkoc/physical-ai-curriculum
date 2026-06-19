@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6366f1"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style></defs>
+  <text x="360" y="28" text-anchor="middle" class="t">Monitoring as Reality &#8596; Twin Comparison</text>
+  <text x="360" y="46" text-anchor="middle" class="c">monitor: what is happening now?</text>
+  <rect x="40" y="78" width="190" height="70" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.2"/>
+  <text x="135" y="108" text-anchor="middle" class="p" fill="#1d4ed8">reality (live report)</text><text x="135" y="130" text-anchor="middle" class="c">q, tool, fruit status</text>
+  <rect x="40" y="172" width="190" height="70" rx="12" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <text x="135" y="202" text-anchor="middle" class="p" fill="#0d9488">twin (mirrored state)</text><text x="135" y="224" text-anchor="middle" class="c">last sync</text>
+  <rect x="290" y="128" width="120" height="64" rx="10" fill="#fff" stroke="#6366f1" stroke-width="2"/>
+  <text x="350" y="165" text-anchor="middle" class="p" fill="#4338ca">compare</text>
+  <path d="M230,113 L288,150" fill="none" stroke="#6366f1" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M230,207 L288,170" fill="none" stroke="#6366f1" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M410,160 L468,160" fill="none" stroke="#6366f1" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="472" y="92" width="210" height="60" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/>
+  <text x="577" y="118" text-anchor="middle" class="p" fill="#15803d">in sync &#8212; quiet</text><text x="577" y="138" text-anchor="middle" class="c">nothing notable</text>
+  <rect x="472" y="168" width="210" height="60" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="577" y="194" text-anchor="middle" class="p" fill="#b91c1c">diverged &#8212; signal</text><text x="577" y="214" text-anchor="middle" class="c">something is happening</text>
+  <text x="360" y="290" text-anchor="middle" class="c">divergence is the signal &#183; reuses twin.divergence &#183; no new estimation theory</text>
+</svg>

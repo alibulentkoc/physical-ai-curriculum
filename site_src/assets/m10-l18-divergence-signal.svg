@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style>
+  <text x="360" y="28" text-anchor="middle" class="t">Divergence as a Signal: Two Channels</text>
+  <text x="360" y="46" text-anchor="middle" class="c">state (stale snapshot) vs outcome (surprising behaviour)</text>
+  <!-- state channel -->
+  <rect x="40" y="70" width="300" height="130" rx="12" fill="#0b1626" stroke="#3b82f6" stroke-width="2"/>
+  <text x="190" y="92" text-anchor="middle" class="p" fill="#60a5fa">state divergence (2.3)</text>
+  <polyline points="60,180 110,176 160,168 210,156 260,140 320,120" fill="none" stroke="#60a5fa" stroke-width="2.5"/>
+  <text x="190" y="196" text-anchor="middle" class="c" fill="#94a3b8">rising drift &#8594; re-syncable</text>
+  <!-- outcome channel -->
+  <rect x="380" y="70" width="300" height="130" rx="12" fill="#0b1626" stroke="#ef4444" stroke-width="2"/>
+  <text x="530" y="92" text-anchor="middle" class="p" fill="#fca5a5">outcome divergence (4.2)</text>
+  <polyline points="400,180 440,180 480,180 520,180 522,120 524,180 600,180 660,180" fill="none" stroke="#fca5a5" stroke-width="2.5"/>
+  <text x="530" y="196" text-anchor="middle" class="c" fill="#94a3b8">localised spike on one fruit</text>
+  <!-- reader -->
+  <rect x="160" y="226" width="400" height="64" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="360" y="252" text-anchor="middle" class="p">interpret the signal</text>
+  <text x="360" y="274" text-anchor="middle" class="c">stale snapshot &#8594; re-sync &#160;&#183;&#160; surprising behaviour &#8594; investigate / calibrate</text>
+  <text x="360" y="312" text-anchor="middle" class="c">two signals, both built in earlier installments &#8212; no new theory</text>
+</svg>

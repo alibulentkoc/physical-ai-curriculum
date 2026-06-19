@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style>
+  <text x="380" y="30" text-anchor="middle" class="t">Unit 3 Recap: the Twin Now Simulates</text>
+  <text x="380" y="49" text-anchor="middle" class="c">Module 10 spine &#8212; next: how faithful?</text>
+  <rect x="20" y="86" width="110" height="54" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/><text x="75" y="110" text-anchor="middle" class="p" fill="#15803d">Model</text><text x="75" y="128" text-anchor="middle" class="c">&#10003;</text>
+  <rect x="142" y="86" width="110" height="54" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/><text x="197" y="110" text-anchor="middle" class="p" fill="#15803d">Mirror</text><text x="197" y="128" text-anchor="middle" class="c">&#10003;</text>
+  <rect x="264" y="86" width="110" height="54" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/><text x="319" y="110" text-anchor="middle" class="p" fill="#15803d">Simulate</text><text x="319" y="128" text-anchor="middle" class="c">&#10003; sandbox&#183;determinism</text>
+  <rect x="386" y="86" width="110" height="54" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="441" y="116" text-anchor="middle" class="p" fill="#94a3b8">Monitor</text>
+  <rect x="508" y="86" width="110" height="54" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="563" y="116" text-anchor="middle" class="p" fill="#94a3b8">Predict</text>
+  <rect x="630" y="86" width="110" height="54" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="685" y="116" text-anchor="middle" class="p" fill="#94a3b8">Adapt</text>
+  <text x="319" y="170" text-anchor="middle" class="c" fill="#b45309">but how faithful? &#8594; Unit 4 (midpoint)</text>
+  <text x="380" y="220" text-anchor="middle" class="c">the twin runs the harvester forward, safely and reproducibly &#8212; every prediction assumes it matches reality</text>
+</svg>

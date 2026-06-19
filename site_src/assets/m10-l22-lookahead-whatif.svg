@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7c3aed"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style></defs>
+  <text x="360" y="28" text-anchor="middle" class="t">Lookahead and What-If</text>
+  <text x="360" y="46" text-anchor="middle" class="c">many run-aheads &#8594; compare candidate futures</text>
+  <circle cx="90" cy="165" r="34" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.2"/>
+  <text x="90" y="162" text-anchor="middle" class="p" fill="#1d4ed8">now</text><text x="90" y="178" text-anchor="middle" class="c">synced</text>
+  <!-- branches -->
+  <path d="M124,150 L196,96" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M124,165 L196,165" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M124,180 L196,234" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="200" y="74" width="220" height="44" rx="9" fill="#ecfdf5" stroke="#15803d"/><text x="214" y="101" class="c" fill="#15803d">nominal &#8594; all harvested</text>
+  <rect x="200" y="143" width="220" height="44" rx="9" fill="#fef2f2" stroke="#ef4444"/><text x="214" y="170" class="c" fill="#b91c1c">obstacle F3 &#8594; F3 skipped</text>
+  <rect x="200" y="212" width="220" height="44" rx="9" fill="#fffbeb" stroke="#f59e0b"/><text x="214" y="239" class="c" fill="#b45309">disturbance F1 &#8594; F1 recovered</text>
+  <path d="M424,96 L470,150" fill="none" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M424,165 L470,165" fill="none" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M424,234 L470,180" fill="none" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="474" y="120" width="208" height="90" rx="10" fill="#0f172a"/>
+  <text x="578" y="148" text-anchor="middle" class="p" fill="#fff">compare futures</text>
+  <text x="492" y="172" class="c" fill="#cbd5e1">cost of obstacle = F3</text>
+  <text x="492" y="192" class="c" fill="#cbd5e1">pick the most informative</text>
+  <text x="360" y="300" text-anchor="middle" class="c">same start + same seed &#8594; differences attributable to the scenario (determinism) &#183; seed of action selection</text>
+</svg>

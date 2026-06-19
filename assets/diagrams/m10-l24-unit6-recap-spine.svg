@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style></defs>
+  <text x="380" y="30" text-anchor="middle" class="t">Unit 6 Recap: Now and Next from One Model</text>
+  <text x="380" y="49" text-anchor="middle" class="c">monitor compares (now) &#183; predict runs forward (next)</text>
+  <rect x="24" y="74" width="96" height="46" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/><text x="72" y="102" text-anchor="middle" class="p" fill="#15803d">Model &#10003;</text>
+  <rect x="128" y="74" width="96" height="46" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/><text x="176" y="102" text-anchor="middle" class="p" fill="#15803d">Mirror &#10003;</text>
+  <rect x="232" y="74" width="96" height="46" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/><text x="280" y="102" text-anchor="middle" class="p" fill="#15803d">Simulate &#10003;</text>
+  <rect x="336" y="74" width="96" height="46" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2"/><text x="384" y="102" text-anchor="middle" class="p" fill="#15803d">Monitor &#10003;</text>
+  <rect x="440" y="74" width="96" height="46" rx="9" fill="#ecfdf5" stroke="#15803d" stroke-width="2.4"/><text x="488" y="102" text-anchor="middle" class="p" fill="#15803d">Predict &#10003;</text>
+  <rect x="544" y="74" width="96" height="46" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="592" y="102" text-anchor="middle" class="p" fill="#94a3b8">Adapt</text>
+  <rect x="120" y="150" width="240" height="58" rx="10" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="240" y="174" text-anchor="middle" class="p" fill="#1d4ed8">now? &#8212; monitor (compare)</text><text x="240" y="194" text-anchor="middle" class="c">what is happening now?</text>
+  <rect x="400" y="150" width="240" height="58" rx="10" fill="#f0fdfa" stroke="#0d9488"/>
+  <text x="520" y="174" text-anchor="middle" class="p" fill="#0d9488">next? &#8212; predict (run forward)</text><text x="520" y="194" text-anchor="middle" class="c">what is likely to happen next?</text>
+  <text x="380" y="236" text-anchor="middle" class="c">same twin model, two questions</text>
+  <text x="380" y="262" text-anchor="middle" class="c" fill="#64748b">act on it &#8594; Unit 7 (Adaptation)</text>
+</svg>

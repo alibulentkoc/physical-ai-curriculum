@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style>
+  <text x="380" y="30" text-anchor="middle" class="t">Midpoint: an Honest, Useful Twin</text>
+  <text x="380" y="49" text-anchor="middle" class="c">first half: build an honest twin &#183; second half: put it to work</text>
+  <rect x="20" y="86" width="108" height="54" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/><text x="74" y="118" text-anchor="middle" class="p" fill="#15803d">Model &#10003;</text>
+  <rect x="138" y="86" width="108" height="54" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/><text x="192" y="118" text-anchor="middle" class="p" fill="#15803d">Mirror &#10003;</text>
+  <rect x="256" y="86" width="108" height="54" rx="10" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/><text x="310" y="118" text-anchor="middle" class="p" fill="#15803d">Simulate &#10003;</text>
+  <line x1="378" y1="74" x2="378" y2="200" stroke="#0f172a" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="378" y="216" text-anchor="middle" class="c">midpoint</text>
+  <rect x="392" y="86" width="108" height="54" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="446" y="118" text-anchor="middle" class="p" fill="#94a3b8">Monitor</text>
+  <rect x="510" y="86" width="108" height="54" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="564" y="118" text-anchor="middle" class="p" fill="#94a3b8">Predict</text>
+  <rect x="628" y="86" width="108" height="54" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><text x="682" y="118" text-anchor="middle" class="p" fill="#94a3b8">Adapt</text>
+  <text x="380" y="250" text-anchor="middle" class="p" fill="#0d9488">faithful but intentionally imperfect</text>
+  <text x="380" y="274" text-anchor="middle" class="c">the gap to reality is understood, measured, and managed &#8212; not hidden</text>
+</svg>

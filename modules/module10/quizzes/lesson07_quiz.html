@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Knowledge Check — Lesson 2.3</title>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--greenbg:#dcfce7;--red:#b91c1c;--redbg:#fee2e2;--accent:#0d9488;}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:760px;margin:0 auto;padding:6px}
+.note{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.qhead{font-weight:600;font-size:14.5px;margin-bottom:10px}.qnum{display:inline-block;min-width:22px;color:var(--accent);font-weight:700}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;margin:6px 0;font-size:14px;cursor:pointer}
+.opt:hover{background:var(--soft)}.opt.correct{background:var(--greenbg);border-color:#86efac;color:var(--green);font-weight:600}.opt.wrong{background:var(--redbg);border-color:#fecaca;color:var(--red)}
+.fb{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;display:none}.fb.show{display:block}.fb.ok{background:var(--greenbg);color:var(--green)}.fb.no{background:var(--redbg);color:var(--red)}.fb.info{background:#eff6ff;color:#1d4ed8}
+textarea{width:100%;min-height:60px;border:1px solid var(--line);border-radius:9px;padding:8px;font-family:inherit;font-size:14px;resize:vertical}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:8px}.btn:hover{background:var(--soft)}
+.model{display:none;font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;background:#eff6ff;color:#1d4ed8}.model.show{display:block}
+</style></head><body><div class="wrap">
+<div class="note">Formative — unlimited attempts, immediate feedback. This does <b>not</b> affect your grade.</div>
+<div id="quiz"></div></div>
+<script>var questions=[{"type": "mc", "prompt": "Sync error is the gap between:", "options": [{"t": "the twin and reality's true state", "ok": false}, {"t": "the twin and the reported state (→ 0 after a sync)", "ok": true}, {"t": "two twins", "ok": false}, {"t": "two reports", "ok": false}], "ok": "Right.", "no": "Sync error = twin vs report; it goes to zero after a sync."}, {"type": "mc", "prompt": "The residual gap is the gap between:", "options": [{"t": "the twin and the report", "ok": false}, {"t": "the twin and reality's TRUE state (can remain after a perfect sync)", "ok": true}, {"t": "two syncs", "ok": false}, {"t": "the model and the simulation", "ok": false}], "ok": "Right.", "no": "Residual gap = twin vs truth; nonzero when reality has unmodeled effects."}, {"type": "mc", "prompt": "A residual gap arises because:", "options": [{"t": "the sync code is buggy", "ok": false}, {"t": "reality carries unmodeled effects it does not report", "ok": true}, {"t": "the twin syncs too slowly", "ok": false}, {"t": "the robot is broken", "ok": false}], "ok": "Right.", "no": "It's the limit of mirroring an under-reporting reality — not a sync you can tighten away."}, {"type": "mc", "prompt": "From reports alone, can the twin see the residual gap to truth?", "options": [{"t": "yes, always", "ok": false}, {"t": "no — it can only mirror what reality reports", "ok": true}, {"t": "only if it syncs faster", "ok": false}, {"t": "only with a fleet", "ok": false}], "ok": "Right.", "no": "The true gap is invisible from reports; you need ground truth to measure it."}, {"type": "tf", "prompt": "'Synced to the report' is not the same as 'matching reality.'", "answer": true, "ok": "Correct.", "no": "True — a flawless sync to an incomplete report still misses unreported truth."}, {"type": "short", "prompt": "A twin reports divergence (vs the report) of all zeros, synced=True. A colleague says 'so it's exactly right about reality.' Are they correct?", "model": "Not necessarily. The divergence here measures the gap to the *reported* state, and that is zero — the sync is flawless. But if reality carries an unmodeled effect it didn't report (a hidden offset, an unsensed load), the twin still differs from the *true* state, and that gap does not appear in a report-based divergence. So the right conclusion is: the twin matches the report exactly; whether it matches reality depends on what the report omits. This is the origin of the sim-to-real gap."}];
+var root=document.getElementById("quiz");
+questions.forEach(function(q,i){var card=document.createElement("div");card.className="q";
+var head=document.createElement("div");head.className="qhead";head.innerHTML='<span class="qnum">'+(i+1)+'.</span> '+q.prompt;card.appendChild(head);
+var fb=document.createElement("div");fb.className="fb";
+if(q.type==="mc"||q.type==="tf"){var opts=q.type==="tf"?[{t:"True",ok:q.answer===true},{t:"False",ok:q.answer===false}]:q.options;
+opts.forEach(function(o){var b=document.createElement("button");b.className="opt";b.type="button";b.innerHTML=o.t;
+b.addEventListener("click",function(){Array.prototype.forEach.call(card.querySelectorAll(".opt"),function(el){el.classList.remove("correct","wrong");});
+if(o.ok){b.classList.add("correct");fb.className="fb show ok";fb.innerHTML=q.ok;}else{b.classList.add("wrong");fb.className="fb show no";fb.innerHTML=q.no;}});card.appendChild(b);});card.appendChild(fb);}
+else if(q.type==="short"){var ta=document.createElement("textarea");ta.placeholder="Type your answer, then reveal the model answer to self-check…";card.appendChild(ta);
+var sh=document.createElement("button");sh.className="btn";sh.type="button";sh.textContent="Show model answer";var md=document.createElement("div");md.className="model";md.innerHTML=q.model;
+sh.addEventListener("click",function(){md.classList.toggle("show");sh.textContent=md.classList.contains("show")?"Hide model answer":"Show model answer";});card.appendChild(sh);card.appendChild(md);}
+root.appendChild(card);});
+if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetPromise();}
+</script></body></html>

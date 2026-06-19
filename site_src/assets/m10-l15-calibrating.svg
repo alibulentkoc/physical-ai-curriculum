@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0d9488"/></marker>
+  <style>.t{font-size:18px;font-weight:700;fill:#0f172a}.c{font-size:11px;fill:#94a3b8}.p{font-size:12px;font-weight:700}</style></defs>
+  <text x="360" y="28" text-anchor="middle" class="t">Calibrating the Twin: Shrinking the Gap</text>
+  <text x="360" y="46" text-anchor="middle" class="c">model the known effect &#8212; not learning</text>
+  <!-- before -->
+  <rect x="40" y="74" width="240" height="150" rx="12" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+  <text x="160" y="98" text-anchor="middle" class="p" fill="#b91c1c">before calibration</text>
+  <text x="160" y="128" text-anchor="middle" class="c">twin F3 &#10003;  vs  real F3 &#10007;</text>
+  <text x="160" y="156" text-anchor="middle" class="p" fill="#b91c1c">gap open (n_diffs = 2)</text>
+  <text x="160" y="186" text-anchor="middle" class="c">twin world lacks the obstacle</text>
+  <!-- after -->
+  <rect x="440" y="74" width="240" height="150" rx="12" fill="#fff" stroke="#15803d" stroke-width="2"/>
+  <text x="560" y="98" text-anchor="middle" class="p" fill="#15803d">after calibration</text>
+  <text x="560" y="128" text-anchor="middle" class="c">twin F3 &#10007;  =  real F3 &#10007;</text>
+  <text x="560" y="156" text-anchor="middle" class="p" fill="#15803d">match = true</text>
+  <text x="560" y="186" text-anchor="middle" class="c" fill="#b45309">residual &#949;&#39; may still remain</text>
+  <!-- arrow -->
+  <path d="M282,150 L438,150" fill="none" stroke="#0d9488" stroke-width="2.4" marker-end="url(#a)"/>
+  <text x="360" y="142" text-anchor="middle" class="c" fill="#0d9488">add known &#949;</text>
+  <text x="360" y="290" text-anchor="middle" class="c">calibration narrows the gap effect-by-effect; a residual keeps the twin intentionally imperfect</text>
+</svg>
