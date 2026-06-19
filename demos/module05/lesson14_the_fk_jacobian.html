@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Local Linear Map: the FK Jacobian — Lesson 4.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;margin-top:8px}
+  .cell{height:30px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:11.5px;font-variant-numeric:tabular-nums}
+  .c1{background:#ccfbf1;border-color:#5eead4}.c2{background:#ede9fe;border-color:#c4b5fd}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drive the joints.</b> The Jacobian's two columns are the gripper-velocity directions: <span style="color:#0d9488">column 1</span> = how the tip moves per unit θ₁, <span style="color:#7c3aed">column 2</span> = per unit θ₂. A small Δθ moves the gripper by J·Δθ.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="170" step="1" value="30">
+    <label>θ₂</label><input type="range" id="t2" min="-160" max="160" step="1" value="60">
+    <div class="grid" id="mat"></div>
+    <div class="hint">J packages forward kinematics' local sensitivity. Inverse kinematics runs it the other way: given a desired gripper move, solve J·Δθ = Δp for the joint change.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,BX=120,BY=170,L1=0.4,L2=0.3,SC=150;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180;
+    var s1=Math.sin(t1),c1=Math.cos(t1),s12=Math.sin(t1+t2),c12=Math.cos(t1+t2);
+    var p1=[L1*c1,L1*s1],p2=[p1[0]+L2*c12,p1[1]+L2*s12];
+    var J=[[-L1*s1-L2*s12, -L2*s12],[L1*c1+L2*c12, L2*c12]];
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="m1" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker><marker id="m2" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7c3aed"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:15,y1:BY,x2:W-15,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var a=sv([0,0]),b=sv(p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#94a3b8","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    // jacobian column arrows at gripper (scaled)
+    var k=70;
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:c[0]+J[0][0]*k,y2:c[1]-J[1][0]*k,stroke:"#0d9488","stroke-width":2.6,"marker-end":"url(#m1)"}));
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:c[0]+J[0][1]*k,y2:c[1]-J[1][1]*k,stroke:"#7c3aed","stroke-width":2.6,"marker-end":"url(#m2)"}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:"#ef4444"}));
+    var g=document.getElementById("mat");g.innerHTML="";
+    var vals=[J[0][0],J[0][1],J[1][0],J[1][1]],cls=["c1","c2","c1","c2"];
+    vals.forEach(function(v,i){var dd=document.createElement("div");dd.className="cell "+cls[i];dd.textContent=(Math.round(v*100)/100).toFixed(2);g.appendChild(dd);});
+  }
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

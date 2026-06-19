@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choosing Among Solutions — Lesson 6.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin-bottom:8px;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px}
+  .flip{background:#fef3c7;color:#92400e;border-radius:8px;padding:6px;text-align:center;font-weight:700;margin-top:6px;font-size:11.5px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the target; set the current elbow.</b> The solver picks the solution <b>nearest the current pose</b> — no flip. But if a joint limit forbids that elbow, it's forced to flip to the far one.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 280"></svg>
+  <div class="panel">
+    <div class="seg"><button id="curU" class="on">current: elbow-up</button><button id="curD">elbow-down</button></div>
+    <label class="tog"><input type="checkbox" id="forbid"> joint limit forbids current elbow</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">During a harvest sweep, choosing the nearest configuration keeps motion smooth — sudden elbow flips are jerky and slow. Limits override that preference only when they must.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=280,BX=140,BY=165,L1=0.4,L2=0.3,SC=160,RO=0.7,RI=0.1,cur="up";
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var target=[0.5,0.0], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function sol(x,y,up){var d2=x*x+y*y,c2=(d2-L1*L1-L2*L2)/(2*L1*L2);if(c2<-1||c2>1)return null;c2=Math.max(-1,Math.min(1,c2));var s2=(up?-1:1)*Math.sqrt(1-c2*c2);var th2=Math.atan2(s2,c2);var th1=Math.atan2(y,x)-Math.atan2(L2*s2,L1+L2*c2);return [th1,th2];}
+  function draw(s,col,faint){if(!s)return;var p1=[L1*Math.cos(s[0]),L1*Math.sin(s[0])],p2=[p1[0]+L2*Math.cos(s[0]+s[1]),p1[1]+L2*Math.sin(s[0]+s[1])];var a=sv([0,0]),b=sv(p1),c=sv(p2);var o=faint?0.22:1;svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:col,"stroke-width":5,"stroke-linecap":"round",opacity:o}));svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:col,"stroke-width":5,"stroke-linecap":"round",opacity:o}));if(!faint)svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:col,"stroke-width":2}));}
+  function render(){
+    var forbid=document.getElementById("forbid").checked;
+    var su=sol(target[0],target[1],true),sd=sol(target[0],target[1],false);
+    var reach=!!su;
+    // nearest-to-current = same elbow as current; if forbidden, flip
+    var chosen, flipped=false, chosenName;
+    if(!forbid){chosen=(cur==="up")?su:sd;chosenName=cur;}
+    else {chosen=(cur==="up")?sd:su;chosenName=(cur==="up")?"down":"up";flipped=true;}
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:RO*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:8,fill:"#475569"}));
+    if(reach){draw(su,"#0d9488",chosen!==su);draw(sd,"#7c3aed",chosen!==sd);}
+    var t=sv(target);
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:11,fill:"none",stroke:reach?"#15803d":"#b91c1c","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:7,fill:reach?"#ef4444":"#b91c1c"}));
+    if(!hinted){var hh=el("text",{x:t[0]+12,y:t[1]-10,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    if(reach){var col=chosenName==="up"?"#0d9488":"#7c3aed";
+      out.innerHTML='<div style="text-align:center">chosen: <b style="color:'+col+'">elbow-'+chosenName+'</b></div>'+
+        (flipped?'<div class="flip">⚠ forced flip — limit excluded the nearest</div>':'<div style="text-align:center;color:#15803d;font-size:11.5px;margin-top:4px">nearest to current — no flip</div>');}
+    else out.innerHTML='<div style="color:#b91c1c;text-align:center">target unreachable</div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),t=sv(target);if(Math.hypot(m[0]-t[0],m[1]-t[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);target[0]=(m[0]-BX)/SC;target[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  document.getElementById("curU").addEventListener("click",function(){cur="up";this.classList.add("on");document.getElementById("curD").classList.remove("on");render();});
+  document.getElementById("curD").addEventListener("click",function(){cur="dn";this.classList.add("on");document.getElementById("curU").classList.remove("on");render();});
+  document.getElementById("forbid").addEventListener("change",render);
+  render();
+})();</script></body></html>
