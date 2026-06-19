@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SE(3) and Inverses — Lesson 4.5</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:9px 0 4px} input[type=range]{width:100%}
+  .steps{display:flex;gap:6px;margin-top:10px}
+  .steps button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11px;font-weight:600;cursor:pointer}
+  .steps button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;margin-top:10px;font-variant-numeric:tabular-nums}
+  .ok{color:#15803d;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>rotation about z</label><input type="range" id="th" min="0" max="180" step="1" value="70">
+    <div class="steps"><button data-s="0" class="on">start</button><button data-s="1">apply T</button><button data-s="2">then T⁻¹</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">T = rotate then translate in 3D. To undo: translate back first, then rotate back (reversed values). Step through — T⁻¹ returns the frame exactly to start, every edge length intact (SE(3) is rigid).</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=150,oy=195,s=80,C=Math.cos(Math.PI/6),Sn=Math.sin(Math.PI/6);
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var cube=[[0,0,0],[1,0,0],[1,1,0],[0,1,0]],t=[0.8,0.4,0.6],step=0;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function iso(p){return [ox+(p[0]-p[1])*C*s, oy-(p[0]+p[1])*Sn*s-p[2]*s];}
+  function rotZ(p,th){var c=Math.cos(th),sn=Math.sin(th);return [c*p[0]-sn*p[1],sn*p[0]+c*p[1],p[2]];}
+  function T(p,th){var r=rotZ(p,th);return [r[0]+t[0],r[1]+t[1],r[2]+t[2]];}
+  function Tinv(p,th){var q=[p[0]-t[0],p[1]-t[1],p[2]-t[2]];return rotZ(q,-th);}
+  function poly(pts,col){var s2=pts.map(function(p){var c=iso(p);return c[0]+","+c[1];}).join(" ");svg.appendChild(el("polygon",{points:s2,fill:col+"22",stroke:col,"stroke-width":2}));}
+  function render(){
+    var th=+document.getElementById("th").value*Math.PI/180;
+    svg.innerHTML="";
+    var o=iso([0,0,0]),ax=iso([1.4,0,0]),ay=iso([0,1.4,0]),az=iso([0,0,1.1]);
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:ax[0],y2:ax[1],stroke:"#e2e8f0","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:ay[0],y2:ay[1],stroke:"#e2e8f0","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:az[0],y2:az[1],stroke:"#e2e8f0","stroke-width":1.3}));
+    poly(cube,"#cbd5e1");
+    var pts=cube,col="#0d9488",msg="the original frame";
+    if(step===1){pts=cube.map(function(p){return T(p,th);});msg="moved by T (rotate "+Math.round(th*180/Math.PI)+"°, then translate)";}
+    else if(step===2){pts=cube.map(function(p){return Tinv(T(p,th),th);});col="#15803d";msg='<span class="ok">✓ back to start — T⁻¹ undid T exactly</span>';}
+    poly(pts,col);
+    out.innerHTML=msg;
+  }
+  document.querySelectorAll(".steps button").forEach(function(b){b.addEventListener("click",function(){step=+b.dataset.s;document.querySelectorAll(".steps button").forEach(function(x){x.classList.remove("on");});b.classList.add("on");render();});});
+  document.getElementById("th").addEventListener("input",render);
+  render();
+})();</script></body></html>

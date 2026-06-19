@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Translation Vectors in 3D — Lesson 4.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:9px 0 4px} input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout div{margin:4px 0} .pt{color:#0d9488}.dir{color:#b45309}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>apply translation t (slide its strength)</label><input type="range" id="k" min="0" max="1" step="0.02" value="0">
+    <div class="readout" id="out"></div>
+    <div class="hint">SE(3) with no rotation, just translation t = (0.4, 0.3, 0.9). The <span class="pt">point (w=1)</span> ends up at t; the <span class="dir">direction (w=0)</span> is untouched — a heading has no location to move.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=120,oy=200,s=110,C=Math.cos(Math.PI/6),Sn=Math.sin(Math.PI/6);
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var t=[0.4,0.3,0.9];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function iso(p){return [ox+(p[0]-p[1])*C*s, oy-(p[0]+p[1])*Sn*s-p[2]*s];}
+  function render(){
+    var k=+document.getElementById("k").value;
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="ad" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b45309"/></marker>';svg.appendChild(defs);
+    var o=iso([0,0,0]),ax=iso([1.1,0,0]),ay=iso([0,1.1,0]),az=iso([0,0,1.2]);
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:ax[0],y2:ax[1],stroke:"#cbd5e1","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:ay[0],y2:ay[1],stroke:"#cbd5e1","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:az[0],y2:az[1],stroke:"#cbd5e1","stroke-width":1.3}));
+    // point moves along t*k
+    var pp=iso([t[0]*k,t[1]*k,t[2]*k]);
+    if(k>0.02) svg.appendChild(el("circle",{cx:o[0],cy:o[1],r:5,fill:"#0d9488",opacity:.2}));
+    svg.appendChild(el("circle",{cx:pp[0],cy:pp[1],r:11,fill:"#0d9488"}));
+    svg.appendChild(el("text",{x:pp[0]+12,y:pp[1],"font-size":10,fill:"#0d9488"})).textContent="point";
+    // direction fixed (drawn from a fixed base, unchanged)
+    var b=iso([0.7,0.7,0]),dh=iso([0.7,0.7,0.7]);
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:dh[0],y2:dh[1],stroke:"#b45309","stroke-width":3,"marker-end":"url(#ad)"}));
+    svg.appendChild(el("text",{x:dh[0]+5,y:dh[1],"font-size":10,fill:"#b45309"})).textContent="direction";
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="pt">point: ('+f(t[0]*k)+', '+f(t[1]*k)+', '+f(t[2]*k)+', 1) — moving toward t</div>'+
+      '<div class="dir">direction: (0, 0, 1, 0) — unchanged</div>';
+  }
+  document.getElementById("k").addEventListener("input",render);
+  render();
+})();</script></body></html>

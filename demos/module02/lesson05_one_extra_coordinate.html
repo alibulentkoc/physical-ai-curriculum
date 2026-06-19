@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Extra Coordinate — Lesson 2.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px;text-align:center}
+  .h{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+  .w{color:#7c3aed} .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:12px;cursor:pointer;justify-content:center}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap">
+  <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px"><b>Click the handle to grab it, move, then click again to drop</b> (or just move off the canvas). Then you can use the slider.<br><span style="color:#0e7490"><b>Try it:</b> drag the teal point around the grid — its homogeneous form [x, y, 1] updates as you move.</span></div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 260 240"></svg>
+  <div class="panel">
+    <div class="readout"><div>homogeneous form</div><div class="h">[ <span id="x">2</span>, <span id="y">3</span>, <span class="w">1</span> ]</div></div>
+    <label class="tog"><input type="checkbox" id="id"> apply the 3×3 identity</label>
+    <div class="readout" id="after" style="margin-top:10px;display:none"></div>
+    <div class="hint">A 2D point gains a third coordinate <span class="w">w = 1</span>. Drag it — the first two are its position, the <span class="w">1</span> is just the "I'm a point" tag. The 3×3 identity returns it <b>unchanged</b>: you re-dressed the representation without moving the geometry.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=260,H=240,ox=40,oy=200,s=42,svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  var px=2,py=3,hinted=false,grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [ox+p[0]*s,oy-p[1]*s];}
+  function draw(){ svg.innerHTML="";
+    for(var g=1;g<=4;g++){svg.appendChild(el("line",{x1:ox+g*s,y1:10,x2:ox+g*s,y2:H-10,stroke:"#eef2f7","stroke-width":1}));svg.appendChild(el("line",{x1:10,y1:oy-g*s,x2:W-8,y2:oy-g*s,stroke:"#eef2f7","stroke-width":1}));}
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#cbd5e1","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#cbd5e1","stroke-width":1.3}));
+    var c=sv([px,py]);
+    var hit=el("circle",{cx:c[0],cy:c[1],r:24,fill:"transparent"});hit.style.cursor="pointer";svg.appendChild(hit);
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:15,fill:"none",stroke:"#0d9488","stroke-width":1.5,"stroke-dasharray":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:11,fill:"#0d9488"}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:3,fill:"#fff"}));
+    if(!hinted){var hh=el("text",{x:c[0]+20,y:c[1]-14,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="↖ click to grab";svg.appendChild(hh);}
+    
+  }
+  function render(){ draw();
+    document.getElementById("x").textContent=px.toFixed(2);document.getElementById("y").textContent=py.toFixed(2);
+    var aft=document.getElementById("after");
+    if(document.getElementById("id").checked){ aft.style.display="block"; aft.innerHTML='after I₃ × point:<br><b>[ '+px.toFixed(2)+', '+py.toFixed(2)+', 1 ]</b> — identical'; }
+    else aft.style.display="none";
+  }
+  document.getElementById("id").addEventListener("change",render);
+  
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),h=sv([px,py]);if(Math.hypot(m[0]-h[0],m[1]-h[1])<30){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);px=Math.max(0,Math.min(4.6,(m[0]-ox)/s));py=Math.max(0,Math.min(4.4,(oy-m[1])/s));render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  render();
+})();</script></body></html>

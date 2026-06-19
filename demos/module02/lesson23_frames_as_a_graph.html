@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frames as a Graph — Lesson 5.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout div{margin:4px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 320 230"></svg>
+  <div class="panel">
+    <div class="seg"><button id="fwd" class="on">camera → world</button><button id="bwd">world → camera</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Frames form a graph: camera→arm→world. To convert, chain the edges so the <b>inner names cancel</b>: T<sub>W←A</sub>T<sub>A←C</sub>. Going the other way inverts each edge and reverses the order.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=320,H=230,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var dir="fwd";
+  // frame world positions
+  var cam={p:[0.6,0.6],c:"#7c3aed",n:"camera"}, arm={p:[2.4,1.2],c:"#0d9488",n:"arm"}, wor={p:[4.6,0.7],c:"#475569",n:"world"};
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [30+p[0]*52, 190-p[1]*52];}
+  function node(F){var c=sv(F.p);svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:18,fill:"#fff",stroke:F.c,"stroke-width":2.5}));
+    svg.appendChild(el("text",{x:c[0],y:c[1]+4,"font-size":10,fill:F.c,"text-anchor":"middle","font-weight":"700"})).textContent=F.n;}
+  function edge(A,B,col){var a=sv(A.p),b=sv(B.p);var ux=b[0]-a[0],uy=b[1]-a[1],L=Math.hypot(ux,uy);ux/=L;uy/=L;
+    svg.appendChild(el("line",{x1:a[0]+ux*20,y1:a[1]+uy*20,x2:b[0]-ux*22,y2:b[1]-uy*22,stroke:col,"stroke-width":2.5,"marker-end":"url(#ah)"}));}
+  function render(){
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    if(dir==="fwd"){ edge(cam,arm,"#0d9488"); edge(arm,wor,"#0d9488"); }
+    else { edge(wor,arm,"#b45309"); edge(arm,cam,"#b45309"); }
+    node(cam);node(arm);node(wor);
+    out.innerHTML = dir==="fwd"
+      ? '<div><b>camera → world</b></div><div>T<sub>W←C</sub> = T<sub>W←A</sub> · T<sub>A←C</sub></div><div style="color:#64748b">inner "A" cancels — a camera point becomes a world point.</div>'
+      : '<div><b>world → camera</b></div><div>T<sub>C←W</sub> = T<sub>A←C</sub><sup>−1</sup> · T<sub>W←A</sub><sup>−1</sup></div><div style="color:#64748b">each edge inverted, order reversed.</div>';
+  }
+  document.getElementById("fwd").addEventListener("click",function(){dir="fwd";this.classList.add("on");document.getElementById("bwd").classList.remove("on");render();});
+  document.getElementById("bwd").addEventListener("click",function(){dir="bwd";this.classList.add("on");document.getElementById("fwd").classList.remove("on");render();});
+  render();
+})();</script></body></html>

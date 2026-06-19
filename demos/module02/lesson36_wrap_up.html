@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wrap-Up: The Road to Kinematics — Lesson 8.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px} .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:11px;color:var(--muted);display:block;margin:7px 0 3px} input[type=range]{width:100%}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout div{margin:3px 0} .wor{color:#ef4444;font-weight:700}
+  .next{background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:10px;font-size:12px;margin-top:8px;color:#3730a3}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style></head><body>
+<div class="wrap"><div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>arm x</label><input type="range" id="ax" min="0.4" max="2.6" step="0.05" value="1.0"/>
+    <label>detection distance</label><input type="range" id="dd" min="0.1" max="0.6" step="0.01" value="0.3"/>
+    <div class="readout" id="out"></div>
+    <div class="next">Module 2 turned a camera detection into a <b>world target pose</b>. Next — <b>kinematics</b>: given this target, what joint angles put the gripper there?</div>
+    <div class="hint">The whole journey in one view: perception → frames → pose. The reach itself is what Module 3 onward builds.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ox=40,oy=170,s=56,svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var ext={x:0.1,y:0,th:0};
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [ox+p[0]*s,oy-p[1]*s];}
+  function compose(A,B){var c=Math.cos(A.th),sn=Math.sin(A.th);return {x:A.x+c*B.x-sn*B.y,y:A.y+sn*B.x+c*B.y,th:A.th+B.th};}
+  function applyPose(P,l){var c=Math.cos(P.th),sn=Math.sin(P.th);return [P.x+c*l[0]-sn*l[1],P.y+sn*l[0]+c*l[1]];}
+  function render(){
+    var arm={x:+document.getElementById("ax").value,y:0.6,th:0},dd=+document.getElementById("dd").value;
+    var cam=compose(arm,ext),world=applyPose(cam,[dd,0]);
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:10,y1:oy,x2:W-8,y2:oy,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("text",{x:ox+3,y:oy-3,"font-size":9,fill:"#94a3b8"})).textContent="world";
+    // base at origin, suggested reach to target (dashed = unknown joint solution)
+    var base=sv([0.2,0.0]),wo=sv(world),co=sv([cam.x,cam.y]);
+    svg.appendChild(el("line",{x1:base[0],y1:base[1],x2:wo[0],y2:wo[1],stroke:"#94a3b8","stroke-width":1.6,"stroke-dasharray":"5 4","marker-end":"url(#ah)"}));
+    svg.appendChild(el("circle",{cx:base[0],cy:base[1],r:6,fill:"#475569"}));
+    svg.appendChild(el("text",{x:base[0]-2,y:base[1]+16,"font-size":9,fill:"#475569"})).textContent="base";
+    svg.appendChild(el("rect",{x:co[0]-5,y:co[1]-5,width:10,height:10,rx:2,fill:"#7c3aed"}));
+    svg.appendChild(el("circle",{cx:wo[0],cy:wo[1],r:9,fill:"#ef4444"}));
+    svg.appendChild(el("text",{x:wo[0]+11,y:wo[1],"font-size":9,fill:"#ef4444"})).textContent="target";
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="wor">world target: ('+f(world[0])+', '+f(world[1])+')</div>'+
+      '<div style="color:#94a3b8">dashed reach = the joint solution Module 3+ will find.</div>';
+  }
+  ["ax","dd"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>
