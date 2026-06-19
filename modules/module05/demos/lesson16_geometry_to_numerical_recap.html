@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Geometry to Numerical IK — Lesson 4.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drop the target anywhere — the solver iterates to it automatically.</b> No closed-form formula needed: measure error, take a Jacobian step, repeat until the gripper arrives.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 280"></svg>
+  <div class="panel">
+    <div class="readout" id="out"></div>
+    <div class="hint">Unit 4 in one tool: the Jacobian linearizes FK locally, and iterating those steps converges to a solution. This is the engine that handles arms where geometry alone can't give a formula.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=280,BX=140,BY=165,L1=0.4,L2=0.3,SC=160;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var th=[0.4,0.5], target=[0.45,0.25], iter=0, raf=null, hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function fk(t){var p1=[L1*Math.cos(t[0]),L1*Math.sin(t[0])];return [p1[0]+L2*Math.cos(t[0]+t[1]),p1[1]+L2*Math.sin(t[0]+t[1])];}
+  function step(){
+    var s1=Math.sin(th[0]),c1=Math.cos(th[0]),s12=Math.sin(th[0]+th[1]),c12=Math.cos(th[0]+th[1]);
+    var p=fk(th),e=[target[0]-p[0],target[1]-p[1]];
+    var J=[[-L1*s1-L2*s12,-L2*s12],[L1*c1+L2*c12,L2*c12]],det=J[0][0]*J[1][1]-J[0][1]*J[1][0];
+    if(Math.abs(det)<1e-4)det=(det<0?-1:1)*1e-4;
+    var Ji=[[J[1][1]/det,-J[0][1]/det],[-J[1][0]/det,J[0][0]/det]],al=0.5;
+    var d0=al*(Ji[0][0]*e[0]+Ji[0][1]*e[1]),d1=al*(Ji[1][0]*e[0]+Ji[1][1]*e[1]),mag=Math.hypot(d0,d1);
+    if(mag>0.5){d0*=0.5/mag;d1*=0.5/mag;}
+    th[0]+=d0;th[1]+=d1;iter++;return Math.hypot(e[0],e[1]);
+  }
+  function solve(){if(raf)cancelAnimationFrame(raf);iter=0;(function loop(){var err=step();render();if(err>0.003&&iter<300)raf=requestAnimationFrame(loop);})();}
+  function render(){
+    var p=fk(th),e=Math.hypot(target[0]-p[0],target[1]-p[1]),p1=[L1*Math.cos(th[0]),L1*Math.sin(th[0])];
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:(L1+L2)*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    var a=sv([0,0]),b=sv(p1),c=sv(p);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:8,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    var t=sv(target);
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:11,fill:"none",stroke:"#ef4444","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:6,fill:"#ef4444"}));
+    if(!hinted){var hh=el("text",{x:t[0]+12,y:t[1]-10,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    out.innerHTML='<div class="ln"><span>iterations</span><span>'+iter+'</span></div>'+
+      '<div class="ln"><span>error</span><span style="color:'+(e<0.01?"#15803d":"#d97706")+';font-weight:700">'+e.toFixed(4)+(e<0.01?' ✓':'')+'</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";solve();return;}var m=_ev(e),t=sv(target);if(Math.hypot(m[0]-t[0],m[1]-t[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);target[0]=(m[0]-BX)/SC;target[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";solve();}});
+  solve();
+})();</script></body></html>

@@ -76,6 +76,10 @@ Unit 5 — **Numerical Inverse Kinematics in Practice** — makes the bare loop 
 
 ---
 
+## Interactive Demonstration
+
+Unit 4 in one tool: drop a target and the Jacobian-based solver iterates to it automatically — no closed-form formula required.
+
 ## Coding Exercise
 
 Open the consolidation notebook for Unit 4 and run **Kernel → Restart & Run All**; it re-exercises the unit's key routines end to end and prints `All checks passed.`

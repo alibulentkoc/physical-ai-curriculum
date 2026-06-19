@@ -45,6 +45,10 @@ Take the one-joint arm from Module 4: gripper position $(L\cos\theta, L\sin\thet
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson01_from_forward_to_inverse.html" title="From Forward to Inverse interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson01_from_forward_to_inverse.html)
+
 **Guided prediction.** Stand the one-joint arm at several angles and read off the gripper position (forward). Now cover the angle and try to recover it from the position alone (inverse). For the target $(0, 0.5)$, what $\theta$ works? For $(0.5, 0)$? For $(0.4, 0.4)$ — is it even on the radius-$0.5$ circle? Predict which targets are reachable before checking.
 
 ## 8. Coding Exercise

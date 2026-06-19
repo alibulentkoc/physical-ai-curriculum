@@ -66,6 +66,10 @@ Unit 6 — **Singularities and Solution Selection** — explains *where* the sol
 
 ---
 
+## Interactive Demonstration
+
+Unit 5 in one tool: a damped-least-squares solver that converges on reachable targets, stays stable near singularities, and settles at the closest point for unreachable ones.
+
 ## Coding Exercise
 
 Open the consolidation notebook for Unit 5 and run **Kernel → Restart & Run All**; it re-exercises the unit's key routines end to end and prints `All checks passed.`

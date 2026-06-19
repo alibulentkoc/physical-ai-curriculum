@@ -53,6 +53,10 @@ Only the last two would be wrong or undefined with `arctan`; `atan2` handles all
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson10_atan2_and_quadrant.html" title="The atan2 Tool and Choosing the Right Quadrant interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson10_atan2_and_quadrant.html)
+
 **Guided prediction.** For each of the four worked-example targets, predict `atan2(y,x)` and what `arctan(y/x)` would (wrongly) give. Then take the closed-form 2-link solution for a target at $(-0.4, 0.2)$ (behind-and-above the base) and confirm the shoulder angle lands in the correct quadrant only because `atan2` was used.
 
 ## 8. Coding Exercise

@@ -44,6 +44,14 @@ Unit 4 — **From Geometry to Numerical IK** (and the module midpoint) — confr
 
 ---
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module05/lesson12_analytical_ik_recap.html" title="Analytical Inverse Kinematics (Unit 3 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson12_analytical_ik_recap.html)
+
+Unit 3 in one tool: the closed form returns θ₁, θ₂ directly and forward kinematics verifies the gripper lands on the target.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

@@ -44,6 +44,14 @@ Unit 6 — **Singularities and Solution Selection** — explains *where* the sol
 
 ---
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module05/lesson20_numerical_ik_practice_recap.html" title="Numerical Inverse Kinematics in Practice (Unit 5 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson20_numerical_ik_practice_recap.html)
+
+Unit 5 in one tool: a damped-least-squares solver that converges on reachable targets, stays stable near singularities, and settles at the closest point for unreachable ones.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

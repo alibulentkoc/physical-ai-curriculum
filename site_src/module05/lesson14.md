@@ -57,6 +57,10 @@ Read column 2: moving $\theta_2$ a little moves the gripper in direction $(-0.3,
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson14_the_fk_jacobian.html" title="The Local Linear Map: the FK Jacobian (for Solving) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson14_the_fk_jacobian.html)
+
 **Guided prediction.** At $(\theta_1,\theta_2)=(30°,60°)$, predict the gripper's motion for a small $\Delta\theta_1 = +2°$ (use column 1 of $J$, converting degrees to radians) and for $\Delta\theta_2=+2°$ (column 2). Then evaluate forward kinematics before and after the twitch and confirm the actual gripper shift matches $J\,\Delta\boldsymbol\theta$ closely (the small mismatch is the linearization error).
 
 ## 8. Coding Exercise

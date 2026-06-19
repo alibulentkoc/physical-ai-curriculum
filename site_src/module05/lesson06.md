@@ -59,6 +59,10 @@ So one solution is $(\theta_1, \theta_2) \approx (-36.87°, 90°)$. The other ($
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson06_two_link_geometry.html" title="The Planar Two-Link Arm: Geometry of the Solution interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson06_two_link_geometry.html)
+
 **Guided prediction.** For $L_1=0.4, L_2=0.3$, predict $\cos\theta_2$ (and thus the bend) for targets at $r = 0.7, 0.5, 0.1$. At $r=0.7$ expect $\cos\theta_2 = 1$ (straight), at $r=0.1$ expect $\cos\theta_2 = -1$ (fully folded), at $r=0.5$ a right angle. Sketch the triangle for each.
 
 ## 8. Coding Exercise

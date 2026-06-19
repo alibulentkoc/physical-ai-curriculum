@@ -49,6 +49,10 @@ Only the first should be passed to a solver; the other two are rejected at the g
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson03_reachability_and_workspace.html" title="Reachability and the Workspace interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson03_reachability_and_workspace.html)
+
 **Guided prediction.** For $L_1=0.4, L_2=0.3$, decide reachable/unreachable for $(0.7,0)$, $(0.1,0)$, $(0.3,0.3)$, $(0,0.05)$. Then imagine adding a joint limit $\theta_1 \in [0°, 90°]$ — predict which quadrant of the annulus survives and why a target at $(-0.3, 0)$ becomes unreachable even though its distance is fine.
 
 ## 8. Coding Exercise

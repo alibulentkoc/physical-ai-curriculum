@@ -44,6 +44,14 @@ Unit 3 turns this geometry into clean, reusable **closed-form** formulas: the fu
 
 ---
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module05/lesson08_ik_one_two_joints_recap.html" title="Inverse Kinematics of One and Two Joints (Unit 2 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson08_ik_one_two_joints_recap.html)
+
+Unit 2 in one tool: move a target and watch the two-step geometric solution — law of cosines for the bend, atan2 for the shoulder.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

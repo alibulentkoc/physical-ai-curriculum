@@ -53,6 +53,10 @@ The arm joints solve to place the wrist at $(0.50, 0.20, 0.20)$ (a position-only
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson11_decoupling_wrist_center.html" title="Decoupling Position and Orientation (Wrist-Partitioned Arms) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson11_decoupling_wrist_center.html)
+
 **Guided prediction.** Given a gripper pose and a wrist offset $d_6$, predict the wrist center $\mathbf p_w = \mathbf p_d - d_6 R_d\hat{\mathbf z}$ for approach axes pointing up, forward, and sideways. Notice the wrist center moves with the *approach direction*, not just the position — that coupling is exactly what Step 1 must account for before the arm sub-problem becomes pure position.
 
 ## 8. Coding Exercise

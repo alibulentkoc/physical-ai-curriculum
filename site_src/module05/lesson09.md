@@ -57,6 +57,10 @@ For $\theta_2 = +62.72°$: $\theta_1 = \operatorname{atan2}(0, 0.6) - \operatorn
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson09_closed_form_solution.html" title="Closed-Form Solution of the 2-Link Arm interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson09_closed_form_solution.html)
+
 **Guided prediction.** Reuse the Lesson 2.3 Two-Solution Explorer: drag to $(0.6, 0)$ and read off the two $(\theta_1, \theta_2)$ pairs — confirm they match the worked example. Then drag to $(0.7, 0)$ (boundary) and watch the formula's $\pm$ collapse to a single solution as $\cos\theta_2 \to 1$.
 
 ## 8. Coding Exercise

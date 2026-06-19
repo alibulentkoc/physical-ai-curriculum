@@ -60,6 +60,10 @@ The damped step is the one a real solver takes here. (The notebook computes all 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson18_jacobian_transpose_dls.html" title="The Jacobian-Transpose and Damped Least Squares interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson18_jacobian_transpose_dls.html)
+
 **Guided prediction.** Reuse the Lesson 5.1 convergence stepper mentally: pick a target near full extension and predict that the pseudoinverse step's magnitude spikes while a damped step stays moderate. Predict the effect of raising $\lambda$ from $0$ (Newton) to large (transpose-like): faster vs gentler. Confirm the trade-off in the notebook.
 
 ## 8. Coding Exercise

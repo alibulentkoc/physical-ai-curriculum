@@ -65,6 +65,10 @@ We stop describing the problem and start solving it — beginning as small as po
 
 ---
 
+## Interactive Demonstration
+
+Unit 1 in one tool: move a target and read its reachability, solution count (0/1/2), and the joint angles for each elbow option.
+
 ## Coding Exercise
 
 Open the consolidation notebook for Unit 1 and run **Kernel → Restart & Run All**; it re-exercises the unit's key routines end to end and prints `All checks passed.`

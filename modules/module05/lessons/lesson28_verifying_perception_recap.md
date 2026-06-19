@@ -65,6 +65,10 @@ Unit 8 — the **Mini Project: Reach the Fruit** — is the capstone. It runs th
 
 ---
 
+## Interactive Demonstration
+
+Unit 7 in one tool: a perceived fruit becomes a base-frame target, IK finds the joint angles, and forward kinematics verifies the grasp.
+
 ## Coding Exercise
 
 Open the consolidation notebook for Unit 7 and run **Kernel → Restart & Run All**; it re-exercises the unit's key routines end to end and prints `All checks passed.`

@@ -41,6 +41,10 @@ A planar **3-link** arm ($L_1=L_2=L_3=0.3$) reaching a 2D point has 3 joint angl
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson13_when_closed_form_runs_out.html" title="When Closed Form Runs Out interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson13_when_closed_form_runs_out.html)
+
 **Guided prediction.** For the planar 3-link arm at target $(0.6, 0)$, fix the wrist joint $\theta_3$ at several values and predict that each leaves a solvable 2-link sub-problem for the first two joints. Sketch two of the resulting whole-arm poses and confirm both reach the target. Notice you chose $\theta_3$ freely — that free choice is the redundancy a numerical solver must resolve.
 
 ## 8. Coding Exercise

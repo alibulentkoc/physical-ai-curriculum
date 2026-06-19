@@ -44,6 +44,14 @@ Unit 8 — the **Mini Project: Reach the Fruit** — is the capstone. It runs th
 
 ---
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module05/lesson28_verifying_perception_recap.html" title="Verifying and Connecting to Perception (Unit 7 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson28_verifying_perception_recap.html)
+
+Unit 7 in one tool: a perceived fruit becomes a base-frame target, IK finds the joint angles, and forward kinematics verifies the grasp.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

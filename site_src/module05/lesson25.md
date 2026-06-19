@@ -57,6 +57,10 @@ Only A is sent to the arm. The notebook verifies each candidate and prints accep
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson25_verifying_with_fk.html" title="Verifying a Solution with Forward Kinematics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson25_verifying_with_fk.html)
+
 **Guided prediction.** For the three worked-example candidates, predict accept/reject from the residual before computing. Then take a numerical solve you stop at `max_iter = 3` (deliberately too few) and predict it will be *rejected* by FK because the residual is still large — confirming that "the solver returned something" is not the same as "the something is correct."
 
 ## 8. Coding Exercise

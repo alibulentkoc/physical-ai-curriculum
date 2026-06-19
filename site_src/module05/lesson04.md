@@ -44,6 +44,14 @@ We stop describing the problem and start solving it — beginning as small as po
 
 ---
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module05/lesson04_the_inverse_problem_recap.html" title="The Inverse Problem (Unit 1 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson04_the_inverse_problem_recap.html)
+
+Unit 1 in one tool: move a target and read its reachability, solution count (0/1/2), and the joint angles for each elbow option.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

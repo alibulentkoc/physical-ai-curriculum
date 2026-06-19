@@ -66,6 +66,10 @@ The notebook runs each case and prints the status and iteration count.
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson19_convergence_step_failure.html" title="Convergence, Step Size, and Failure Modes interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson19_convergence_step_failure.html)
+
 **Guided prediction.** For target $(0.5,0.2)$, predict the iteration count and outcome for $\alpha = 0.1, 1.0, 2.5$. For the unreachable $(0.9, 0)$, predict that the error plateaus and the solver reports failure rather than looping forever. Reason about which remedy each failure needs.
 
 ## 8. Coding Exercise

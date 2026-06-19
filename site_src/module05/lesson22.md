@@ -56,6 +56,10 @@ Only elbow-down survives; the choice is forced. The notebook applies the filter 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson22_joint_limits_feasible.html" title="Joint Limits and Feasible Solutions interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson22_joint_limits_feasible.html)
+
 **Guided prediction.** For the worked example, predict which solution survives if $\theta_2$ is limited to $[0°, 150°]$ (elbow-down) versus $[-150°, 0°]$ (elbow-up). Predict a limit pair that makes the target infeasible (both $\theta_2$ signs excluded). Reason about how tightening $\theta_1$'s range carves a wedge out of the reachable annulus.
 
 ## 8. Coding Exercise

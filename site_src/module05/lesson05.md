@@ -45,6 +45,10 @@ $L = 0.5$. Target $(0, 0.5)$: check $\sqrt{0^2+0.5^2} = 0.5 = L$ ✓ reachable; 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson05_one_joint_by_inspection.html" title="One Joint: Solve by Inspection interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson05_one_joint_by_inspection.html)
+
 **Guided prediction.** For $L=0.5$, predict $\theta$ for targets $(0.5,0)$, $(0,0.5)$, $(-0.5,0)$, $(0,-0.5)$ using `atan2`. Then test $(0.3, 0.4)$ — on the circle ($\sqrt{0.25}=0.5$)? — and $(0.3, 0.3)$ — off it? Confirm which are reachable before computing.
 
 ## 8. Coding Exercise

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decoupling: the Wrist Center — Lesson 3.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .gp{color:#ef4444;font-weight:700}.wc{color:#7c3aed;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the gripper and move it; change the approach.</b> The wrist center p_w = p_d − d₆·(approach) is what the arm must reach. It swings with the <b>approach direction</b>, not just the position.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 280"></svg>
+  <div class="panel">
+    <label>approach direction</label><input type="range" id="ap" min="0" max="359" step="1" value="90">
+    <label>wrist offset d₆</label><input type="range" id="d6" min="0" max="25" step="1" value="14">
+    <div class="readout" id="out"></div>
+    <div class="hint">Wrist-partitioning splits IK in two: first solve the arm to put the wrist center in place (position), then solve the wrist for orientation. The subtraction above is what decouples them.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=280,BX=150,BY=150,SC=150;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var pd=[0.35,0.3], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var ap=+document.getElementById("ap").value*Math.PI/180, d6=+document.getElementById("d6").value/100;
+    var adir=[Math.cos(ap),Math.sin(ap)];
+    var pw=[pd[0]-d6*adir[0], pd[1]-d6*adir[1]];
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0369a1"/></marker>';svg.appendChild(defs);
+    // base
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:7,fill:"#475569"}));
+    var bl=el("text",{x:BX-4,y:BY+18,"font-size":9,fill:"#475569"});bl.textContent="base";svg.appendChild(bl);
+    var pdp=sv(pd),pwp=sv(pw);
+    // arm line base -> wrist center (the position sub-problem)
+    svg.appendChild(el("line",{x1:BX,y1:BY,x2:pwp[0],y2:pwp[1],stroke:"#cbd5e1","stroke-width":2,"stroke-dasharray":"5 4"}));
+    // d6 link wrist -> gripper
+    svg.appendChild(el("line",{x1:pwp[0],y1:pwp[1],x2:pdp[0],y2:pdp[1],stroke:"#7c3aed","stroke-width":4,"stroke-linecap":"round"}));
+    // approach arrow at gripper
+    svg.appendChild(el("line",{x1:pdp[0],y1:pdp[1],x2:pdp[0]+26*adir[0],y2:pdp[1]-26*adir[1],stroke:"#0369a1","stroke-width":2.4,"marker-end":"url(#a)"}));
+    // wrist center
+    svg.appendChild(el("circle",{cx:pwp[0],cy:pwp[1],r:6,fill:"#7c3aed"}));
+    var wl=el("text",{x:pwp[0]-30,y:pwp[1]+4,"font-size":9,fill:"#7c3aed"});wl.textContent="wrist p_w";svg.appendChild(wl);
+    // gripper handle
+    svg.appendChild(el("circle",{cx:pdp[0],cy:pdp[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:pdp[0],cy:pdp[1],r:11,fill:"none",stroke:"#ef4444","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:pdp[0],cy:pdp[1],r:7,fill:"#ef4444"}));
+    var gl=el("text",{x:pdp[0]+10,y:pdp[1]-9,"font-size":9,fill:"#ef4444"});gl.textContent="gripper p_d";svg.appendChild(gl);
+    if(!hinted){var hh=el("text",{x:pdp[0]+10,y:pdp[1]+16,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    var f2=function(v){return (Math.round(v*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span class="gp">gripper p_d</span><span class="gp">('+f2(pd[0])+', '+f2(pd[1])+')</span></div>'+
+      '<div class="ln"><span>approach</span><span>'+Math.round(ap*180/Math.PI)+'°</span></div>'+
+      '<div class="ln"><span class="wc">wrist p_w</span><span class="wc">('+f2(pw[0])+', '+f2(pw[1])+')</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),p=sv(pd);if(Math.hypot(m[0]-p[0],m[1]-p[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);pd[0]=(m[0]-BX)/SC;pd[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  ["ap","d6"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

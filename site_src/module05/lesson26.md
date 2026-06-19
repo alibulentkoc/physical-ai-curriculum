@@ -55,6 +55,10 @@ That base-frame point becomes the IK target $(0.5, 0.2)$ — exactly the target 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson26_grasp_pose_to_config.html" title="From a Fruit's Grasp Pose to a Target Configuration interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson26_grasp_pose_to_config.html)
+
 **Guided prediction.** Given $T_{\text{base}}^{\text{cam}}$ as a 10 cm forward translation and a fruit at $\mathbf p^{\text{cam}} = (0.4, 0.2)$, predict $\mathbf p^{\text{base}}$ and then the IK target. Predict what happens to the reach if you *forget* the transform and feed $\mathbf p^{\text{cam}}$ directly (the arm aims 10 cm short). Reason about why a frame error produces a confident-but-wrong reach.
 
 ## 8. Coding Exercise

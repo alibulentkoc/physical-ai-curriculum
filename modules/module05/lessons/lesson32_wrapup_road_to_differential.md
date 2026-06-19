@@ -73,6 +73,10 @@ Module 6 — **Differential Kinematics** — picks up exactly what Module 5 defe
 
 ---
 
+## Interactive Demonstration
+
+Inverse kinematics in one view: drag a target and the solver finds the joint angles — the map the next module extends to velocities via the Jacobian.
+
 ## Coding Exercise
 
 Open the consolidation notebook for Module 5 and run **Kernel → Restart & Run All**; it re-exercises the unit's key routines end to end and prints `All checks passed.`

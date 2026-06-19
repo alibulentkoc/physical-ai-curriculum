@@ -56,6 +56,10 @@ $L_1=0.4, L_2=0.3$, target $(0.5,0.2)$.
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson30_building_the_solver.html" title="Building the Solver (Analytical + Numerical) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson30_building_the_solver.html)
+
 **Guided prediction.** For target $(0.5,0.2)$, predict the two analytical candidates' elbow signs. Predict which seed recovers which solution in the numerical branch. Then predict what `solve()` returns for an *unreachable* target $(0.9,0)$ (empty list) and confirm the contract holds (no exception, just no candidates).
 
 ## 8. Coding Exercise

@@ -65,6 +65,10 @@ Unit 4 — **From Geometry to Numerical IK** (and the module midpoint) — confr
 
 ---
 
+## Interactive Demonstration
+
+Unit 3 in one tool: the closed form returns θ₁, θ₂ directly and forward kinematics verifies the gripper lands on the target.
+
 ## Coding Exercise
 
 Open the consolidation notebook for Unit 3 and run **Kernel → Restart & Run All**; it re-exercises the unit's key routines end to end and prints `All checks passed.`

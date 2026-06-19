@@ -44,6 +44,14 @@ Unit 7 — **Verifying and Connecting to Perception** — closes the loop. Befor
 
 ---
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module05/lesson24_singularities_selection_recap.html" title="Singularities and Solution Selection (Unit 6 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson24_singularities_selection_recap.html)
+
+Unit 6 in one tool: watch manipulability collapse near the boundary singularity while the two solutions merge — the cue for limit-aware, smooth solution selection.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Joint: Solve by Inspection — Lesson 2.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+  .grid2 button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .q{color:#7c3aed;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the target (or tap a preset).</b> One joint: θ = atan2(y, x), read straight off the direction. The quadrant comes along for free — that's why atan2 beats plain arctan.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 290"></svg>
+  <div class="panel">
+    <div class="grid2"><button data-x="0.5" data-y="0">(0.5, 0)</button><button data-x="0" data-y="0.5">(0, 0.5)</button><button data-x="-0.5" data-y="0">(−0.5, 0)</button><button data-x="0" data-y="-0.5">(0, −0.5)</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Reachable only when the distance equals the link length (0.5). Tap (0.3, 0.4) — on the circle, √(0.09+0.16)=0.5 — versus (0.3, 0.3), which isn't.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=290,BX=150,BY=155,L=0.5,SC=150;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var target=[0.35,0.35], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var r=Math.hypot(target[0],target[1]),th=Math.atan2(target[1],target[0]);
+    var on=Math.abs(r-L)<0.03, deg=th*180/Math.PI;
+    var quad = (target[0]>=0&&target[1]>=0)?"I":(target[0]<0&&target[1]>=0)?"II":(target[0]<0&&target[1]<0)?"III":"IV";
+    var tip=[L*Math.cos(th),L*Math.sin(th)];
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:L*SC,fill:"none",stroke:"#cbd5e1","stroke-width":1.5,"stroke-dasharray":"5 4"}));
+    svg.appendChild(el("line",{x1:10,y1:BY,x2:W-10,y2:BY,stroke:"#eef2f7","stroke-width":1}));
+    svg.appendChild(el("line",{x1:BX,y1:10,x2:BX,y2:H-10,stroke:"#eef2f7","stroke-width":1}));
+    var tp=sv(tip);
+    svg.appendChild(el("line",{x1:BX,y1:BY,x2:tp[0],y2:tp[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:8,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:tp[0],cy:tp[1],r:6,fill:"#0d9488"}));
+    var t=sv(target);
+    if(!on) svg.appendChild(el("line",{x1:tp[0],y1:tp[1],x2:t[0],y2:t[1],stroke:"#fca5a5","stroke-width":1.5,"stroke-dasharray":"3 3"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:11,fill:"none",stroke:on?"#15803d":"#b91c1c","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:7,fill:on?"#ef4444":"#b91c1c"}));
+    if(!hinted){var hh=el("text",{x:t[0]+12,y:t[1]-10,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    out.innerHTML='<div class="ln"><span>target</span><span>('+target[0].toFixed(2)+', '+target[1].toFixed(2)+')</span></div>'+
+      '<div class="ln"><span>θ = atan2(y,x)</span><span>'+Math.round(deg)+'°</span></div>'+
+      '<div class="ln"><span>quadrant</span><span class="q">'+quad+'</span></div>'+
+      '<div class="ln"><span>on circle?</span><span style="color:'+(on?"#15803d":"#b91c1c")+';font-weight:700">'+(on?"reachable":"no solution")+'</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),t=sv(target);if(Math.hypot(m[0]-t[0],m[1]-t[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);target[0]=(m[0]-BX)/SC;target[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  Array.prototype.forEach.call(document.querySelectorAll(".grid2 button"),function(b){b.addEventListener("click",function(){target=[+b.dataset.x,+b.dataset.y];hinted=true;render();});});
+  render();
+})();</script></body></html>

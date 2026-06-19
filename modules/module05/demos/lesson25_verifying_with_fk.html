@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verifying a Solution with Forward Kinematics — Lesson 7.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .row button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;margin-top:8px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .verdict{text-align:center;font-weight:700;border-radius:8px;padding:6px;margin-top:6px}
+  .acc{background:#dcfce7;color:#15803d}.rej{background:#fee2e2;color:#b91c1c}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Cap the iterations, then Solve.</b> The solver always returns <i>something</i> — but only forward kinematics can confirm it's right. Too few iterations leaves a big residual, and FK rejects it.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 230"></svg>
+  <div class="panel">
+    <label>max iterations</label><input type="range" id="mi" min="1" max="40" step="1" value="3">
+    <div class="row"><button id="solve">Solve & verify</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Verification is a separate gate: run FK on the returned joints and measure the residual against the target. "The solver returned an answer" is never the same as "the answer is correct."</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=230,BX=70,BY=120,L1=0.4,L2=0.3,SC=150,TOL=0.01;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var target=[0.5,0.2], th=[0.5,0.6];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function fk(t){var p1=[L1*Math.cos(t[0]),L1*Math.sin(t[0])];return [p1[0]+L2*Math.cos(t[0]+t[1]),p1[1]+L2*Math.sin(t[0]+t[1])];}
+  function step(){
+    var s1=Math.sin(th[0]),c1=Math.cos(th[0]),s12=Math.sin(th[0]+th[1]),c12=Math.cos(th[0]+th[1]);
+    var p=fk(th),e=[target[0]-p[0],target[1]-p[1]];
+    var J=[[-L1*s1-L2*s12,-L2*s12],[L1*c1+L2*c12,L2*c12]],det=J[0][0]*J[1][1]-J[0][1]*J[1][0];
+    if(Math.abs(det)<1e-4)det=(det<0?-1:1)*1e-4;
+    var Ji=[[J[1][1]/det,-J[0][1]/det],[-J[1][0]/det,J[0][0]/det]],al=0.5;
+    var d0=al*(Ji[0][0]*e[0]+Ji[0][1]*e[1]),d1=al*(Ji[1][0]*e[0]+Ji[1][1]*e[1]),mag=Math.hypot(d0,d1);
+    if(mag>0.5){d0*=0.5/mag;d1*=0.5/mag;}th[0]+=d0;th[1]+=d1;
+  }
+  function solve(){
+    var mi=+document.getElementById("mi").value; th=[0.5,0.6];
+    for(var i=0;i<mi;i++)step();
+    var p=fk(th),res=Math.hypot(target[0]-p[0],target[1]-p[1]),accept=res<TOL;
+    render(p);
+    out.innerHTML='<div class="ln"><span>iterations run</span><span>'+mi+'</span></div>'+
+      '<div class="ln"><span>FK residual</span><span>'+res.toFixed(4)+'</span></div>'+
+      '<div class="ln"><span>tolerance</span><span>'+TOL+'</span></div>'+
+      '<div class="verdict '+(accept?"acc":"rej")+'">'+(accept?"ACCEPT — residual within tolerance ✓":"REJECT — residual too large ✗")+'</div>';
+  }
+  function render(p){
+    p=p||fk(th);var p1=[L1*Math.cos(th[0]),L1*Math.sin(th[0])];
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:(L1+L2)*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    var a=sv([0,0]),b=sv(p1),c=sv(p),t=sv(target);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    // residual line gripper->target
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:t[0],y2:t[1],stroke:"#fca5a5","stroke-width":1.6,"stroke-dasharray":"3 2"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#0d9488"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:6,fill:"#ef4444"}));
+  }
+  document.getElementById("solve").addEventListener("click",solve);
+  render(); out.innerHTML='<div style="text-align:center;color:#94a3b8">press Solve &amp; verify</div>';
+})();</script></body></html>

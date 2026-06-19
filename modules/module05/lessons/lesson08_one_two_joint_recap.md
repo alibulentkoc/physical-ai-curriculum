@@ -65,6 +65,10 @@ Unit 3 turns this geometry into clean, reusable **closed-form** formulas: the fu
 
 ---
 
+## Interactive Demonstration
+
+Unit 2 in one tool: move a target and watch the two-step geometric solution — law of cosines for the bend, atan2 for the shoulder.
+
 ## Coding Exercise
 
 Open the consolidation notebook for Unit 2 and run **Kernel → Restart & Run All**; it re-exercises the unit's key routines end to end and prints `All checks passed.`

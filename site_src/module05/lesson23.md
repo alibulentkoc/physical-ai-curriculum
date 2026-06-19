@@ -60,6 +60,10 @@ Nearest → **elbow-down** (tiny adjustment) over elbow-up (a huge flip). Both h
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson23_choosing_among_solutions.html" title="Choosing Among Solutions (Nearest, Smooth, Limit-Safe) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson23_choosing_among_solutions.html)
+
 **Guided prediction.** For target $(0.5,0)$, predict which solution is chosen when the current pose is near elbow-down vs near elbow-up. Predict how the choice changes if a joint limit makes the nearest solution infeasible (the solver must take the farther one — a flip). Reason about why nearest-to-current avoids elbow flips during a harvest sweep.
 
 ## 8. Coding Exercise

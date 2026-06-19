@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From a Fruit's Grasp Pose to a Target Configuration — Lesson 7.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin-bottom:8px;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .err{background:#fee2e2;color:#b91c1c;border-radius:8px;padding:6px;text-align:center;font-weight:700;font-size:11.5px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the fruit (camera reading); toggle the transform.</b> p_base = p_cam + mount (10 cm forward). Forget the transform and the arm confidently aims 10 cm short of the real fruit.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 270"></svg>
+  <div class="panel">
+    <label class="tog"><input type="checkbox" id="forget"> forget the camera→base transform</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">The camera reports the fruit in its own frame. Skipping the transform feeds those numbers straight to IK — a clean solve to the wrong point. Frame errors are silent: the math succeeds, the reach fails.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=270,BX=110,BY=175,L1=0.4,L2=0.3,SC=160,mount=[0.1,0];
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var pcam=[0.4,0.2], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function ik(x,y){var d2=x*x+y*y,c2=(d2-L1*L1-L2*L2)/(2*L1*L2);if(c2<-1||c2>1)return null;c2=Math.max(-1,Math.min(1,c2));var s2=-Math.sqrt(1-c2*c2);var th2=Math.atan2(s2,c2);var th1=Math.atan2(y,x)-Math.atan2(L2*s2,L1+L2*c2);return [th1,th2];}
+  function render(){
+    var forget=document.getElementById("forget").checked;
+    var pbase=[pcam[0]+mount[0], pcam[1]+mount[1]];
+    var aim = forget? pcam : pbase;
+    var s=ik(aim[0],aim[1]);
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:15,y1:BY,x2:W-15,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:8,fill:"#475569"}));
+    // camera (mounted forward)
+    var cp=sv(mount);svg.appendChild(el("rect",{x:cp[0]-6,y:cp[1]-6,width:12,height:12,rx:2,fill:"#7c3aed"}));
+    var cl=el("text",{x:cp[0]-4,y:cp[1]+18,"font-size":9,fill:"#7c3aed"});cl.textContent="cam";svg.appendChild(cl);
+    // arm reaching aim
+    if(s){var p1=[L1*Math.cos(s[0]),L1*Math.sin(s[0])],p2=[p1[0]+L2*Math.cos(s[0]+s[1]),p1[1]+L2*Math.sin(s[0]+s[1])];
+      var a=sv([0,0]),b=sv(p1),c=sv(p2);
+      svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+      svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+      svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+      svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#0d9488"}));}
+    // real fruit at p_base
+    var fp=sv(pbase);
+    if(forget){var ap=sv(pcam);svg.appendChild(el("line",{x1:ap[0],y1:ap[1],x2:fp[0],y2:fp[1],stroke:"#fca5a5","stroke-width":1.6,"stroke-dasharray":"3 2"}));
+      svg.appendChild(el("circle",{cx:ap[0],cy:ap[1],r:6,fill:"none",stroke:"#b91c1c","stroke-width":2,"stroke-dasharray":"3 2"}));}
+    // fruit handle (real)
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:18,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:10,fill:"none",stroke:"#ef4444","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:fp[0],cy:fp[1],r:7,fill:"#ef4444"}));
+    var rl=el("text",{x:fp[0]+10,y:fp[1]-9,"font-size":9,fill:"#ef4444"});rl.textContent="real fruit";svg.appendChild(rl);
+    if(!hinted){var hh=el("text",{x:fp[0]+10,y:fp[1]+16,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    var f2=function(v){return (Math.round(v*100)/100).toFixed(2);};
+    var grip = s? [L1*Math.cos(s[0])+L2*Math.cos(s[0]+s[1]), L1*Math.sin(s[0])+L2*Math.sin(s[0]+s[1])] : null;
+    var miss = grip? Math.hypot(grip[0]-pbase[0],grip[1]-pbase[1]) : 0;
+    out.innerHTML='<div class="ln"><span>p_cam</span><span>('+f2(pcam[0])+', '+f2(pcam[1])+')</span></div>'+
+      '<div class="ln"><span>p_base = +mount</span><span>('+f2(pbase[0])+', '+f2(pbase[1])+')</span></div>'+
+      '<div class="ln"><span>IK aims at</span><span>('+f2(aim[0])+', '+f2(aim[1])+')</span></div>'+
+      (forget?'<div class="err">misses real fruit by '+(miss*100).toFixed(0)+' cm</div>':'<div style="text-align:center;color:#15803d;font-weight:700;margin-top:5px;font-size:11.5px">on the fruit ✓</div>');
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var pbase=[pcam[0]+mount[0],pcam[1]+mount[1]];var m=_ev(e),fp=sv(pbase);if(Math.hypot(m[0]-fp[0],m[1]-fp[1])<22){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);pcam[0]=(m[0]-BX)/SC-mount[0];pcam[1]=(BY-m[1])/SC-mount[1];render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  document.getElementById("forget").addEventListener("change",render);
+  render();
+})();</script></body></html>

@@ -67,6 +67,10 @@ Now move the fruit to $\mathbf p^{\text{base}}=(0.9,0)$: reachability gate fails
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson31_verify_select_no_solution.html" title="Verifying, Selecting, and Handling No-Solution Cases interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson31_verify_select_no_solution.html)
+
 **Guided prediction.** For the capstone target, predict the verified set, the feasible set, and $\boldsymbol\theta^\star$. Then predict the status for the unreachable variant and the tightened-limits variant before running them. Confirm each returns the right `(theta_star, status)` — an executable configuration or an actionable reason.
 
 ## 8. Coding Exercise

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>atan2 and the Right Quadrant — Lesson 3.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .good{color:#15803d;font-weight:700}.bad{color:#b91c1c;font-weight:700}
+  .warn{background:#fee2e2;color:#b91c1c;border-radius:8px;padding:5px;text-align:center;margin-top:6px;font-size:11.5px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the target — drag it behind the base (x &lt; 0).</b> atan2(y, x) (green) points correctly; arctan(y/x) (dashed red) loses the quadrant and aims the opposite way.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 290"></svg>
+  <div class="panel">
+    <div class="readout" id="out"></div>
+    <div class="hint">arctan only returns angles in (−90°, 90°), so it can't tell left from right. atan2 uses the signs of both x and y to land in the correct one of four quadrants — essential for shoulder angles.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=290,BX=150,BY=150,L=0.5,SC=150;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var target=[-0.4,0.25], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var x=target[0],y=target[1];
+    var at2=Math.atan2(y,x); var atn=Math.atan(y/(x===0?1e-9:x));
+    var differ=Math.abs(((at2-atn)%(2*Math.PI)))>0.05;
+    var tipA=[L*Math.cos(at2),L*Math.sin(at2)], tipN=[L*Math.cos(atn),L*Math.sin(atn)];
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:L*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    svg.appendChild(el("line",{x1:10,y1:BY,x2:W-10,y2:BY,stroke:"#eef2f7","stroke-width":1}));
+    svg.appendChild(el("line",{x1:BX,y1:10,x2:BX,y2:H-10,stroke:"#eef2f7","stroke-width":1}));
+    // naive arctan arm (ghost)
+    var tn=sv(tipN);
+    svg.appendChild(el("line",{x1:BX,y1:BY,x2:tn[0],y2:tn[1],stroke:"#fca5a5","stroke-width":4,"stroke-linecap":"round","stroke-dasharray":"5 4"}));
+    var nl=el("text",{x:tn[0]+4,y:tn[1]+4,"font-size":9,fill:"#b91c1c"});nl.textContent="arctan";svg.appendChild(nl);
+    // correct atan2 arm
+    var ta=sv(tipA);
+    svg.appendChild(el("line",{x1:BX,y1:BY,x2:ta[0],y2:ta[1],stroke:"#15803d","stroke-width":6,"stroke-linecap":"round"}));
+    var al=el("text",{x:ta[0]+4,y:ta[1]-4,"font-size":9,fill:"#15803d"});al.textContent="atan2";svg.appendChild(al);
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:8,fill:"#475569"}));
+    var t=sv(target);
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:11,fill:"none",stroke:"#0d9488","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:7,fill:"#ef4444"}));
+    if(!hinted){var hh=el("text",{x:t[0]+12,y:t[1]-10,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    out.innerHTML='<div class="ln"><span class="good">atan2(y,x)</span><span class="good">'+Math.round(at2*180/Math.PI)+'°</span></div>'+
+      '<div class="ln"><span class="bad">arctan(y/x)</span><span class="bad">'+Math.round(atn*180/Math.PI)+'°</span></div>'+
+      (differ?'<div class="warn">x &lt; 0 → arctan points the wrong way</div>':'<div style="text-align:center;color:#15803d;font-size:11.5px;margin-top:6px">x ≥ 0 → they agree</div>');
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),t=sv(target);if(Math.hypot(m[0]-t[0],m[1]-t[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);target[0]=(m[0]-BX)/SC;target[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  render();
+})();</script></body></html>

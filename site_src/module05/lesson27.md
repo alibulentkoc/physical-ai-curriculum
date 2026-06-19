@@ -56,6 +56,10 @@ The notebook runs the whole chain and prints each stage's outcome.
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson27_perceive_place_solve.html" title="Closing the Loop: Perceive → Place → Solve interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson27_perceive_place_solve.html)
+
 **Guided prediction.** Trace the worked example stage by stage, predicting the outcome at each gate. Then perturb it: move the fruit to $\mathbf p^{\text{cam}}=(0.7,0)$ (→ unreachable) and predict which gate fails; tighten $\theta_2$ limits to exclude both elbows (→ no feasible solution) and predict that gate. Confirm the pipeline returns the right failure reason each time.
 
 ## 8. Coding Exercise

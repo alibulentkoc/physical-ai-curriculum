@@ -65,6 +65,10 @@ Unit 7 — **Verifying and Connecting to Perception** — closes the loop. Befor
 
 ---
 
+## Interactive Demonstration
+
+Unit 6 in one tool: watch manipulability collapse near the boundary singularity while the two solutions merge — the cue for limit-aware, smooth solution selection.
+
 ## Coding Exercise
 
 Open the consolidation notebook for Unit 6 and run **Kernel → Restart & Run All**; it re-exercises the unit's key routines end to end and prints `All checks passed.`

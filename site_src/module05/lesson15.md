@@ -57,6 +57,10 @@ The arm converges to one of the two true solutions — whichever the seed was cl
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson15_the_iteration_idea.html" title="The Iteration Idea: Guess, Measure Error, Step interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson15_the_iteration_idea.html)
+
 **Guided prediction.** For the worked example, predict whether seeding at $(10°, 20°)$ versus $(10°, -20°)$ lands on the elbow-down or elbow-up solution. Predict what happens with gain $\alpha = 1.5$ (overshoot) versus $\alpha = 0.1$ (slow). Then trace the first two iterations by hand-ish reasoning: error measured, step taken, error smaller.
 
 ## 8. Coding Exercise

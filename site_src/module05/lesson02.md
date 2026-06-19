@@ -51,6 +51,10 @@ We will compute the actual angles for the two-solution case in Unit 3; here the 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module05/lesson02_why_hard_solution_count.html" title="Why It's Hard: Nonlinear, and 0/1/Many Solutions interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module05/lesson02_why_hard_solution_count.html)
+
 **Guided prediction.** With $L_1=L_2=0.3$, walk a target from the origin straight out along the $x$-axis to $r = 0.7$. Predict where the solution count changes: it is **2** inside, drops to **1** exactly at $r=0.6$, and becomes **0** beyond. Sketch the elbow-up and elbow-down poses for $r = 0.4$ and notice they merge into a single straight arm as $r \to 0.6$.
 
 ## 8. Coding Exercise
