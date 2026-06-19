@@ -3,7 +3,7 @@ title: Project State — Physical AI Curriculum
 status: AUTHORITATIVE current-state snapshot
 purpose: A single, current picture of where production stands — current module, what is complete, what is in progress, what is deferred, known issues, and the next milestone. Update this whenever a unit/installment/module completes or a decision changes state.
 authority: Subordinate to ARCHITECT_DECISIONS.md. Counts mirror master_progress.md.
-last_updated: 2026-06 — Module 8 IN PRODUCTION: Installments A–C delivered (Units 1–6, L01–L24 + midpoint; A = D-067, B = D-068, C = D-069); paused at the Installment C milestone. Site at 253 lesson pages, mkdocs --strict green. Modules 1–7 COMPLETE; 7 of 10 modules signed off.
+last_updated: 2026-06 — Module 8 COMPLETE: Installments A–D delivered (Units 1–8, L01–L32 + midpoint; launch = D-066, A = D-067, B = D-068, C = D-069, D = D-070); paused at module completion. Site at 261 lesson pages, mkdocs --strict green. Modules 1–8 COMPLETE; 8 of 10 modules signed off.
 ---
 
 # Project State
@@ -12,7 +12,30 @@ last_updated: 2026-06 — Module 8 IN PRODUCTION: Installments A–C delivered (
 
 ## Current module
 
-**Module 8 — Feedback Control and Real-Time Execution (ROS 2): IN PRODUCTION** — Installments A–C delivered (Units 1–6, L01–L24 + midpoint; launch package = D-066, A = D-067, B = D-068, C = D-069); paused at the Installment C milestone.
+**Module 8 — Feedback Control and Real-Time Execution (ROS 2): COMPLETE (D-070)** — Installments A–D delivered (Units 1–8, L01–L32 + midpoint; launch package = D-066, A = D-067, B = D-068, C = D-069, D = D-070); paused at module completion. **8 of 10 modules signed off.**
+
+Module 8 answers "How do we make the robot actually follow that motion — on a real, imperfect machine?" It consumes Module 7's reference layer `reference(t) → (q_d, q̇_d, q̈_d)` and closes the loop: tracking error → correction → stability → implementation, on a simulated plant (integrator + disturbance + load + saturation + latency). All §9 rulings held: dynamics as **disturbance/load/friction/saturation/model-mismatch intuition only** (no formal manipulator dynamics); **no control-theory formalism** (no Laplace/transfer functions/root-locus/Bode/Nyquist; and no discrete-time/sampling/z-transform or real-time scheduling formalism in Units 7–8); **ROS 2 conceptual + lightweight code only**; plant = integrator + disturbance + saturation; intuition-first; **explicitly consumes M7's q_d, q̇_d, q̈_d** (feedforward + feedback continuity); and **open-loop vs closed-loop contrasted before PID**. The module produced the **control layer** `tracking_controller(reference, measured_state) → actuator_command` — the Module 9 handoff, completing **velocity layer (M6) → reference layer (M7) → control layer (M8) → integrated system (M9)**. Running example: planar 2-link arm L1=0.4, L2=0.3, driven against the simulated plant through the actuator.
+
+**Installment D deliverables (Units 7–8, L25–L32, in repo):**
+- 8 lessons — `modules/module08/lessons/lesson25..32_*.md` (12-section template + AI Learning Companion + Global Learning Support in 4 languages).
+- 8 SVGs — `assets/diagrams/m08-l25..l32-*.svg` (XML-valid; embedded in §4 Visual Explanation; L29/L32 spot-rendered clean).
+- 8 notebooks — `modules/module08/notebooks/lesson25..32_*.ipynb` (all end "All checks passed." under Restart & Run All; embed the extended Module 8 engine verbatim).
+- 1 flagship demo — `modules/module08/demos/lesson29_closed_loop_tracking_studio.html` (the control stack closing the loop: scrub the reference, toggle feedback on/off, inject a disturbance; watch the measured trajectory converge and the tracking error shrink; topics shown live). Accessible; no browser storage.
+- 8 quizzes — `modules/module08/quizzes/lesson25..32_quiz.html` (5 MC + 3 short, MathJax).
+- 8 answer keys — `coaches/answer-keys/module08/lesson25..32_answer_key.md` (model answers + grading notes + common misconceptions).
+- Engine extension — `engine/m8_engine.py` extended additively for Installment D (Unit 7: `track_reference_variable_delay`, `track_reference_rt` with jitter/overrun/rare-spike timing; Unit 8: `control_layer` returning the `tracking_controller` handoff, `run_control_stack`, `run_arm_control_stack`). A+B+C API unchanged; C-state backup at `engine/m8_engine_C_backup.py`.
+- Nav for Units 7–8 added; generator unit titles ("08","07")="Embedded Execution and Real-Time Control", ("08","08")="ROS 2 Integration and the Control Stack"; `mkdocs build --strict` passes at **261 lesson pages** (253 + 8).
+- Reports — `curriculum/module08_installment_d_report.md` and `curriculum/module08_completion_report.md`.
+
+Installment D scope held to the architect rulings: **no formal dynamics, no advanced control theory, no system integration beyond the control layer.** Unit 7 teaches real-time qualitatively (worst-case-not-average; periodic execution; jitter/overruns/missed deadlines as added loop delay; the real-time target placement) with RT scheduling formalism named only as out-of-scope. Unit 8 keeps ROS 2 conceptual + lightweight (the pub/sub Bus stands in for the middleware) and stops at the control layer — planning, coordination, and supervision are explicitly Module 9.
+
+**Remaining for Module 8:** All four installments delivered (A–D); **Module 8 complete.** The capstone produced the **control layer** `tracking_controller(reference, measured_state) → actuator_command` consumed by Module 9 — the third link in the M6→M7→M8→M9 chain.
+
+**Module 8 totals:** 8 units · 32 lessons · 32 notebooks · 32 SVGs · **4 demos** (L07, L17, L21, L29) · 32 quizzes · 32 answer keys · 1 midpoint assessment · site at 261 lesson pages.
+
+---
+
+**Module 8 superseded snapshot (Installment C, retained for history):**
 
 Module 8 answers "How do we make the robot actually follow that motion — on a real, imperfect machine?" It consumes Module 7's reference layer `reference(t) → (q_d, q̇_d, q̈_d)` and closes the loop: tracking error → correction → stability → implementation, on a simulated plant (integrator + disturbance + saturation). The launch package was approved with all §9 rulings: dynamics as **disturbance/load/friction/saturation/model-mismatch intuition only** (no formal manipulator dynamics); **no control-theory formalism** (no Laplace/transfer functions/root-locus/Bode/Nyquist) — teach error → correction → stability → implementation; **ROS 2 conceptual + lightweight code only**; plant = integrator + disturbance + saturation; intuition-first across all domains; title "Feedback Control and Real-Time Execution (ROS 2)"; **explicitly consume M7's q_d, q̇_d, q̈_d** with feedforward + feedback as a major continuity theme; and **begin by repeatedly contrasting open-loop vs closed-loop** before introducing PID. Installment A (Units 1–2) establishes the tracking problem / feedback loop and builds the full single-joint PID controller. Demos land at L07/L17/L21/L29; midpoint after Unit 4. Capstone (U8) = the `tracking_controller` control layer as a ROS 2 node — the Module 9 handoff. Running example: planar 2-link arm L1=0.4, L2=0.3, now driven against the simulated plant.
 

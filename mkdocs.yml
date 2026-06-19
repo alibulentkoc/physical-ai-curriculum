@@ -338,6 +338,16 @@ nav:
         - "6.2 Publish and Subscribe: Nodes, Topics, and Messages": module08/lesson22.md
         - "6.3 Latency and Control Rate: How Communication Destabilises the Loop": module08/lesson23.md
         - "6.4 A Data-Flow Architecture Layered by Timing": module08/lesson24.md
+      - "Unit 7 — Embedded Execution and Real-Time Control":
+        - "7.1 What Real-Time Means: Deadlines, Determinism, and Worst-Case Timing": module08/lesson25.md
+        - "7.2 The Periodic Control Loop: Running at a Fixed Rate": module08/lesson26.md
+        - "7.3 Jitter, Overruns, and Missed Deadlines": module08/lesson27.md
+        - "7.4 Running the Inner Loop on a Real-Time Target": module08/lesson28.md
+      - "Unit 8 — ROS 2 Integration and the Control Stack":
+        - "8.1 The Closed-Loop Control Stack in ROS 2 · demo": module08/lesson29.md
+        - "8.2 A Lightweight ROS 2 Tracker Node": module08/lesson30.md
+        - "8.3 The Control Layer: the Module 9 Handoff": module08/lesson31.md
+        - "8.4 Capstone: The Greenhouse Arm Tracks Its Trajectory": module08/lesson32.md
 
 markdown_extensions:
   - admonition

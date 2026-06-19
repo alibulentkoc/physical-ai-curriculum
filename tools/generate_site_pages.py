@@ -28,15 +28,7 @@ Paths:
       demo  -> ../demos/moduleMM/<file>
       quiz  -> ../quizzes/moduleMM/<file>
 """
-import re, os, glob, shutil, sys
-
-# Ensure console output handles non-ASCII lesson titles (e.g. "->" arrows) on
-# platforms whose default stdout encoding is not UTF-8 (e.g. Windows cp1252).
-for _stream in (sys.stdout, sys.stderr):
-    try:
-        _stream.reconfigure(encoding="utf-8")
-    except (AttributeError, ValueError):
-        pass
+import re, os, glob, shutil
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIAG = os.path.join(ROOT, "assets/diagrams")
@@ -116,6 +108,10 @@ UNIT_TITLES = {
     ("08", "04"): "Tracking the Whole Arm: Feedforward and Feedback",
     ("08", "05"): "Actuator Control",
     ("08", "06"): "Communication",
+    ("08", "07"): "Embedded Execution and Real-Time Control",
+    ("08", "08"): "ROS 2 Integration and the Control Stack",
+    ("08", "07"): "Embedded Execution and Real-Time Control",
+    ("08", "08"): "ROS 2 Integration and the Control Stack",
 }
 
 def unit_of(text):
@@ -163,7 +159,7 @@ def build(path, mod):
     for d in (site_dir, s_quiz, s_demo): os.makedirs(d, exist_ok=True)
 
     nn = idx_of(path)
-    raw = open(path, encoding="utf-8").read()
+    raw = open(path).read()
     num = lesson_number(raw)
     title = title_of(raw)
     uu = unit_of(raw) or "01"
@@ -256,7 +252,7 @@ def build(path, mod):
                 "VISUAL PLACEHOLDER LEFTOVER: module %s lesson %s (%s) still contains a "
                 "`[Visual: ...]` placeholder in the published page." % (mod, nn, num)
             )
-        open(out, "w", encoding="utf-8").write(body)
+        open(out, "w").write(body)
     else:
         if os.path.exists(out): os.remove(out)
 

@@ -1,0 +1,165 @@
+<div id="cl-studio-root">
+<style>
+  #cl-studio-root{--bg:#0f172a;--panel:#1e293b;--ink:#e2e8f0;--mut:#94a3b8;--soft:#334155;
+    --teal:#2dd4bf;--em:#34d399;--red:#fb7185;--amb:#fbbf24;--sky:#38bdf8;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);
+    color:var(--ink);padding:18px;border-radius:14px;max-width:760px;margin:0 auto;box-sizing:border-box}
+  #cl-studio-root *{box-sizing:border-box}
+  #cl-studio-root h2{margin:0 0 2px;font-size:18px}
+  #cl-studio-root .sub{color:var(--mut);font-size:13px;margin:0 0 14px}
+  #cl-studio-root canvas{width:100%;height:auto;background:var(--panel);border-radius:10px;display:block}
+  #cl-studio-root .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+  #cl-studio-root button{background:var(--soft);color:var(--ink);border:1px solid #475569;border-radius:8px;
+    padding:8px 12px;font-size:13px;cursor:pointer;font-weight:600}
+  #cl-studio-root button:hover{background:#3e4c63}
+  #cl-studio-root button[aria-pressed="true"]{background:var(--teal);color:#062a26;border-color:var(--teal)}
+  #cl-studio-root button:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+  #cl-studio-root label{font-size:13px;color:var(--mut);display:flex;align-items:center;gap:8px}
+  #cl-studio-root input[type=range]{accent-color:var(--teal)}
+  #cl-studio-root input:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+  #cl-studio-root .metrics{display:flex;flex-wrap:wrap;gap:18px;margin-top:12px;font-size:13px}
+  #cl-studio-root .metrics b{font-size:18px;display:block;color:var(--ink)}
+  #cl-studio-root .metrics span{color:var(--mut)}
+  #cl-studio-root .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:8px}
+  #cl-studio-root .sw{display:inline-block;width:13px;height:3px;vertical-align:middle;margin-right:5px;border-radius:2px}
+  #cl-studio-root .note{font-size:12px;color:var(--mut);margin-top:10px;line-height:1.5}
+</style>
+
+<h2>Closed-Loop Tracking Studio</h2>
+<p class="sub">The control stack closing the loop: reference (Module 7) → tracker node (feedforward + feedback) → actuator → joint, sensed back. Watch the tracking error shrink as the loop closes.</p>
+
+<canvas id="cl-cv" width="720" height="300" role="img"
+  aria-label="Two stacked plots. Top: the desired joint trajectory (reference) and the measured trajectory tracking it. Bottom: the tracking error over time, shrinking toward zero when feedback is on."></canvas>
+
+<div class="legend">
+  <span><span class="sw" style="background:#94a3b8"></span>reference (q_d)</span>
+  <span><span class="sw" style="background:#34d399"></span>measured (q)</span>
+  <span><span class="sw" style="background:#fb7185"></span>tracking error</span>
+</div>
+
+<div class="row" role="group" aria-label="Controls">
+  <button id="cl-play" aria-label="Play or pause the simulation">⏸ Pause</button>
+  <button id="cl-fb" aria-pressed="true" aria-label="Toggle feedback on or off">Feedback: ON</button>
+  <button id="cl-dist" aria-label="Inject a disturbance kick on the joint">Inject disturbance</button>
+  <button id="cl-reset" aria-label="Reset the simulation">Reset</button>
+</div>
+<div class="row">
+  <label for="cl-target">Reference target (rad)
+    <input id="cl-target" type="range" min="0.4" max="1.6" step="0.05" value="1.2"
+      aria-label="Reference target angle in radians"></label>
+  <span id="cl-target-val" style="color:var(--ink);font-weight:600">1.20</span>
+</div>
+
+<div class="metrics" aria-live="polite">
+  <div><b id="cl-err">0.000</b><span>current |error| (rad)</span></div>
+  <div><b id="cl-rms">0.000</b><span>RMS error (rad)</span></div>
+  <div><b id="cl-state">running</b><span>loop</span></div>
+</div>
+
+<p class="note" id="cl-msg">Feedforward anticipates the move; feedback corrects what remains. Toggle feedback off to watch the loop drift — and inject a disturbance to see why feedback (not feedforward) is what rejects it.</p>
+
+<script>
+(function(){
+  var root=document.getElementById('cl-studio-root');
+  var cv=root.querySelector('#cl-cv'), ctx=cv.getContext('2d');
+  var C={bg:'#1e293b',mut:'#94a3b8',em:'#34d399',red:'#fb7185',amb:'#fbbf24',ink:'#e2e8f0',soft:'#334155'};
+  // sim params (mirror the engine: m*qdd + b*qd = u - load + dist; PID + feedforward; actuator saturation)
+  var m=0.5,b=0.8,load=2.0,umax=12.0,dt=0.02,T=4.0;
+  var Kp=18,Ki=8,Kd=4;
+  var st={};
+  function quintic(t,tf,q0,qf){ if(t<=0)return[q0,0,0]; if(t>=tf)return[qf,0,0];
+    var s=t/tf, s3=s*s*s, s4=s3*s, s5=s4*s; var p=10*s3-15*s4+6*s5;
+    var dp=(30*s*s-60*s3+30*s4)/tf, ddp=(60*s-180*s*s+120*s3)/(tf*tf);
+    var d=qf-q0; return [q0+d*p, d*dp, d*ddp]; }
+  function reset(){ st={t:0,q:0,qd:0,ei:0,prevE:0,se:0,n:0,fb:st.fb===undefined?true:st.fb,
+      target:parseFloat(root.querySelector('#cl-target').value),distLeft:0}; }
+  reset();
+  var playing=true;
+  function step(){
+    var ref=quintic(st.t,2.0,0,st.target); var qd_=ref[0],vd=ref[1],ad=ref[2];
+    var e=qd_-st.q;
+    var uff=m*ad+b*vd+load;                       // feedforward (anticipate)
+    var ufb=0;
+    if(st.fb){ st.ei+=e*dt; var de=(e-st.prevE)/dt; ufb=Kp*e+Ki*st.ei+Kd*de; }
+    st.prevE=e;
+    var u=uff+ufb; if(u>umax)u=umax; if(u<-umax)u=-umax;  // actuator saturation
+    var dist=0; if(st.distLeft>0){ dist=18.0; st.distLeft-=dt; }
+    var qdd=(u-b*st.qd-load+dist)/m;
+    st.qd+=qdd*dt; st.q+=st.qd*dt; st.t+=dt;
+    st.se+=e*e; st.n++;
+    if(st.t>=T){ st.t=0; st.q=0; st.qd=0; st.ei=0; st.prevE=0; st.se=0; st.n=0; }
+    // history for plotting
+  }
+  // keep a rolling trace
+  var hist=[];
+  function record(){ var ref=quintic(st.t,2.0,0,st.target);
+    hist.push({t:st.t,qd:ref[0],q:st.q,e:ref[0]-st.q}); if(hist.length>T/dt+2)hist.shift(); }
+  function draw(){
+    var W=cv.width,H=cv.height; ctx.clearRect(0,0,W,H);
+    var padL=44,padR=12,topH=170,gap=24,botY=topH+gap,botH=H-botY-26;
+    // top plot frame
+    function xmap(t){ return padL+(t/T)*(W-padL-padR); }
+    function ymapTop(q){ var lo=-0.2,hi=Math.max(1.8,st.target+0.3); return 14+(1-(q-lo)/(hi-lo))*(topH-20); }
+    function ymapBot(e){ var mx=0.8; var v=Math.max(-mx,Math.min(mx,e)); return botY+botH/2-(v/mx)*(botH/2-6); }
+    // grids
+    ctx.strokeStyle=C.soft; ctx.lineWidth=1;
+    ctx.strokeRect(padL,12,W-padL-padR,topH-8);
+    ctx.strokeRect(padL,botY,W-padL-padR,botH);
+    ctx.fillStyle=C.mut; ctx.font="11px system-ui"; ctx.textAlign="right";
+    ctx.fillText("rad",padL-6,20); ctx.fillText("0",padL-6,ymapTop(0));
+    ctx.textAlign="left"; ctx.fillText("joint angle",padL+4,26);
+    ctx.fillText("tracking error",padL+4,botY+14);
+    // zero line bottom
+    ctx.strokeStyle="#475569"; ctx.setLineDash([4,4]); ctx.beginPath();
+    ctx.moveTo(padL,ymapBot(0)); ctx.lineTo(W-padR,ymapBot(0)); ctx.stroke(); ctx.setLineDash([]);
+    if(hist.length>1){
+      // reference
+      ctx.strokeStyle=C.mut; ctx.lineWidth=2; ctx.setLineDash([5,4]); ctx.beginPath();
+      hist.forEach(function(h,i){ var x=xmap(h.t),y=ymapTop(h.qd); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}); ctx.stroke(); ctx.setLineDash([]);
+      // measured
+      ctx.strokeStyle=C.em; ctx.lineWidth=2.5; ctx.beginPath();
+      hist.forEach(function(h,i){ var x=xmap(h.t),y=ymapTop(h.q); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}); ctx.stroke();
+      // error
+      ctx.strokeStyle=C.red; ctx.lineWidth=2.2; ctx.beginPath();
+      hist.forEach(function(h,i){ var x=xmap(h.t),y=ymapBot(h.e); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}); ctx.stroke();
+      // playhead
+      var hx=xmap(st.t); ctx.strokeStyle="#64748b"; ctx.lineWidth=1; ctx.beginPath();
+      ctx.moveTo(hx,12); ctx.lineTo(hx,topH+4); ctx.stroke();
+    }
+    if(st.distLeft>0){ ctx.fillStyle=C.amb; ctx.font="12px system-ui"; ctx.textAlign="right";
+      ctx.fillText("disturbance!",W-padR-4,botY+16); }
+  }
+  function metrics(){
+    var ref=quintic(st.t,2.0,0,st.target); var e=Math.abs(ref[0]-st.q);
+    root.querySelector('#cl-err').textContent=e.toFixed(3);
+    var rms=st.n?Math.sqrt(st.se/st.n):0;
+    root.querySelector('#cl-rms').textContent=rms.toFixed(3);
+    root.querySelector('#cl-state').textContent=st.fb?'closed':'open';
+  }
+  var acc=0,last=performance.now();
+  function loop(now){
+    var d=Math.min(0.05,(now-last)/1000); last=now;
+    if(playing){ acc+=d; while(acc>=dt){ step(); record(); acc-=dt; } }
+    draw(); metrics(); requestAnimationFrame(loop);
+  }
+  // controls
+  var playBtn=root.querySelector('#cl-play');
+  playBtn.onclick=function(){ playing=!playing; playBtn.textContent=playing?'⏸ Pause':'▶ Play'; };
+  var fbBtn=root.querySelector('#cl-fb');
+  fbBtn.onclick=function(){ st.fb=!st.fb; fbBtn.setAttribute('aria-pressed',st.fb?'true':'false');
+    fbBtn.textContent='Feedback: '+(st.fb?'ON':'OFF'); st.ei=0;
+    root.querySelector('#cl-msg').textContent=st.fb
+      ? 'Feedback ON: the loop is closed — error is driven toward zero and disturbances are rejected.'
+      : 'Feedback OFF: feedforward alone runs open-loop — it follows the plan but cannot reject a disturbance or correct model error.'; };
+  root.querySelector('#cl-dist').onclick=function(){ st.distLeft=0.25;
+    root.querySelector('#cl-msg').textContent=st.fb
+      ? 'Disturbance injected: watch feedback drive the error back to zero — the loop rejects it.'
+      : 'Disturbance injected with feedback OFF: feedforward cannot see it, so the error persists.'; };
+  root.querySelector('#cl-reset').onclick=function(){ var fb=st.fb; reset(); st.fb=fb; hist=[]; st.se=0; st.n=0; };
+  var tgt=root.querySelector('#cl-target');
+  tgt.oninput=function(){ st.target=parseFloat(tgt.value);
+    root.querySelector('#cl-target-val').textContent=st.target.toFixed(2); };
+  requestAnimationFrame(loop);
+})();
+</script>
+</div>
