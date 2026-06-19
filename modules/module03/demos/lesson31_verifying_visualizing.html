@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verifying and Visualizing — Lesson 8.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin:8px 0;cursor:pointer}
+  .checks{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px}
+  .checks .ln{display:flex;justify-content:space-between;margin:6px 0}
+  .pass{color:#15803d;font-weight:700}.fail{color:#b91c1c;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Toggle each fault</b> and see which check catches it: re-projection (does the world point map back to the pixel?) and distance (does camera→fruit match the depth?).</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 230"></svg>
+  <div class="panel">
+    <label class="tog"><input type="checkbox" id="depth"> fault: depth read 0.6 (true 0.3)</label>
+    <label class="tog"><input type="checkbox" id="skip"> fault: skip the frame transform</label>
+    <div class="checks" id="checks"></div>
+    <div class="hint">A wrong depth places the point too far along the ray — the re-projection still matches the pixel, but the distance is off. Skipping the transform puts it in the wrong frame, breaking both checks.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=230,ML=34,sX=56,MidY=140,sY=46,fx=800,cx=320;
+  var svg=document.getElementById("svg"),checks=document.getElementById("checks"),NS="http://www.w3.org/2000/svg";
+  var u=470, trueZ=0.3, arm={x:1.0,y:0.6,th:0}, ext={x:0.25,y:0,th:0.2};
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(x,y){return [ML+x*sX, MidY-y*sY];}
+  function compose(A,B){var c=Math.cos(A.th),s=Math.sin(A.th);return {x:A.x+c*B.x-s*B.y,y:A.y+s*B.x+c*B.y,th:A.th+B.th};}
+  function apply(P,l){var c=Math.cos(P.th),s=Math.sin(P.th);return [P.x+c*l[0]-s*l[1], P.y+s*l[0]+c*l[1]];}
+  function render(){
+    var depthFault=document.getElementById("depth").checked, skip=document.getElementById("skip").checked;
+    var Z=depthFault?0.6:trueZ, xn=(u-cx)/fx, Pc=[Z, Z*xn];
+    var cam=compose(arm,ext);
+    var Pw=skip?Pc.slice():apply(cam,Pc);
+    // checks
+    var camDist=Math.hypot(Pc[0],Pc[1]); // distance camera->fruit (should equal sqrt(Z^2+(Z xn)^2) at true depth)
+    var trueDist=Math.hypot(trueZ, trueZ*xn);
+    var distOK=!skip && Math.abs(camDist-trueDist)<1e-6;
+    // reprojection: bring Pw back to camera frame, project
+    var back; if(skip){back=Pc;} else {var c=Math.cos(cam.th),s=Math.sin(cam.th);var dx=Pw[0]-cam.x,dy=Pw[1]-cam.y;back=[c*dx+s*dy, -s*dx+c*dy];}
+    var ru=fx*(back[1]/back[0])+cx;
+    var reprojOK=Math.abs(ru-u)<1.0 && !skip;
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:8,y1:MidY,x2:W-8,y2:MidY,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ML,y1:H-8,x2:ML,y2:8,stroke:"#e2e8f0","stroke-width":1.2}));
+    var co=sv(cam.x,cam.y);
+    svg.appendChild(el("rect",{x:co[0]-5,y:co[1]-5,width:10,height:10,rx:2,fill:"#7c3aed"}));
+    var pw=sv(Pw[0],Pw[1]);
+    svg.appendChild(el("line",{x1:co[0],y1:co[1],x2:pw[0],y2:pw[1],stroke:(distOK?"#0d9488":"#b91c1c"),"stroke-width":2,"stroke-dasharray":"4 3"}));
+    svg.appendChild(el("circle",{cx:pw[0],cy:pw[1],r:9,fill:(distOK&&reprojOK)?"#ef4444":"#f59e0b"}));
+    function row(lab,ok){return '<div class="ln"><span>'+lab+'</span><span class="'+(ok?"pass":"fail")+'">'+(ok?"✓ pass":"✗ fail")+'</span></div>';}
+    checks.innerHTML=row("re-projection → pixel",reprojOK)+row("camera→fruit distance",distOK);
+  }
+  ["depth","skip"].forEach(function(id){document.getElementById(id).addEventListener("change",render);});
+  render();
+})();</script></body></html>

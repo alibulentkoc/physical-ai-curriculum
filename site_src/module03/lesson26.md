@@ -39,6 +39,10 @@ Camera-frame point $\mathbf{P}_c = (0.06, -0.03, 0.3)$. Suppose $T_{a\leftarrow 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson26_extrinsics_chain.html" title="Bridging to Module 2 (The Extrinsics Chain) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson26_extrinsics_chain.html)
+
 **Guided prediction.** Using the figure, predict the order of multiplication for camera→arm→world. For the worked example, predict $\mathbf{P}_w$ after each hop. Confirm composition is right-to-left and the result matches.
 
 ## 8. Coding Exercise

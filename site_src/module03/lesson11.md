@@ -31,6 +31,10 @@ A $640\times480$ camera calibrates to $f_x = 805$, $f_y = 802$, $(c_x, c_y) = (3
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson11_principal_point_focal.html" title="Principal Point and Focal Length in Pixels interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson11_principal_point_focal.html)
+
 Adjust $f_x$, $f_y$, $c_x$, $c_y$ and watch where a fixed 3D direction lands in the image: moving the principal point shifts everything; raising focal length pushes the point farther from the principal point. A point straight ahead always sits exactly at the principal point. Confirm $u = f_x X/Z + c_x$ entry by entry.
 
 ## 8. Coding Exercise

@@ -41,6 +41,10 @@ So the tomato images at pixel $(480, 160)$. The $(160, -80)$ from Unit 2 were of
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson10_intrinsic_matrix_k.html" title="The Intrinsic Matrix K interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson10_intrinsic_matrix_k.html)
+
 **Guided prediction.** With $f_x = f_y = 800$ and principal point $(320, 240)$, predict the pixel for a point straight ahead $(0,0,0.5)$, then for $(0.06, -0.03, 0.3)$. Predict how $u$ changes if $c_x$ increases by 50. Confirm $u = f_x X/Z + c_x$.
 
 ## 8. Coding Exercise

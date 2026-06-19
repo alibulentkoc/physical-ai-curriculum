@@ -66,6 +66,10 @@ The second half **inverts** the map. **Unit 5** corrects lens **distortion** (re
 - **Labels:** "forward complete," "inverse next," "midpoint."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+The full pipeline, hands-on: move a 3D point and intrinsics and watch 3D → divide by Z → apply K → pixel.
+
 ## Coding Exercise
 
 A consolidation: run the full pipeline for a chosen camera pose and $K$, confirm against OpenCV (or the NumPy fallback), and classify a few points as in-frame / out-of-frame / behind-camera.

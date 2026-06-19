@@ -40,6 +40,10 @@ OpenCV: `cv2.projectPoints([[0.06,-0.03,0.3]], (0,0,0), (0,0,0), K, 0)` returns 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson15_opencv_introduction.html" title="Seeing It in Code (OpenCV Introduction) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson15_opencv_introduction.html)
+
 **Guided prediction.** Predict the OpenCV output for the worked example, then for `tvec=(0,0,0.1)` (camera moved along its axis — what happens to $Z_c$ and thus the pixel?). Predict why setting `distCoeffs` nonzero would change the result. Confirm OpenCV matches the hand-built pipeline when distortion is zero.
 
 ## 8. Coding Exercise

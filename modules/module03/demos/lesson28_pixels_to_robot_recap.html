@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Pixels to the Robot — Lesson 7.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:11.5px;color:var(--muted);display:block;margin:7px 0 3px} input[type=range]{width:100%}
+  .steps{font-size:11px;font-variant-numeric:tabular-nums;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+  .steps div{margin:2px 0}.arrow{color:#94a3b8}.got{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The whole Module 3 journey.</b> A pixel + depth becomes a camera-frame point, then rides the extrinsics chain to a world target the robot can reach.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>pixel u</label><input type="range" id="u" min="0" max="640" step="1" value="470">
+    <label>depth Z</label><input type="range" id="Z" min="0.3" max="0.8" step="0.01" value="0.5">
+    <label>arm x</label><input type="range" id="ax" min="0.4" max="2.0" step="0.05" value="1.0">
+    <div class="steps" id="steps"></div>
+    <div class="hint">Module 3 in one tool: intrinsics + depth recover the camera-frame point; Module 2's extrinsics chain carries it to the world. Next, Module 4 turns that world target into joint angles.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,ML=34,sX=56,MidY=150,sY=48,fx=800,cx=320;
+  var svg=document.getElementById("svg"),steps=document.getElementById("steps"),NS="http://www.w3.org/2000/svg";
+  var ext={x:0.25,y:0,th:0.2};
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(x,y){return [ML+x*sX, MidY-y*sY];}
+  function compose(A,B){var c=Math.cos(A.th),s=Math.sin(A.th);return {x:A.x+c*B.x-s*B.y,y:A.y+s*B.x+c*B.y,th:A.th+B.th};}
+  function apply(P,l){var c=Math.cos(P.th),s=Math.sin(P.th);return [P.x+c*l[0]-s*l[1], P.y+s*l[0]+c*l[1]];}
+  function render(){
+    var u=+document.getElementById("u").value, Z=+document.getElementById("Z").value, ax=+document.getElementById("ax").value;
+    var xn=(u-cx)/fx; var Pc=[Z, Z*xn];
+    var arm={x:ax,y:0.6,th:0}, cam=compose(arm,ext); var Pw=apply(cam,Pc);
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:8,y1:MidY,x2:W-8,y2:MidY,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ML,y1:H-8,x2:ML,y2:8,stroke:"#e2e8f0","stroke-width":1.2}));
+    var wl=el("text",{x:ML+3,y:MidY-4,"font-size":9,fill:"#94a3b8"});wl.textContent="world";svg.appendChild(wl);
+    var base=sv(0.15,0);
+    svg.appendChild(el("circle",{cx:base[0],cy:base[1],r:5,fill:"#475569"}));
+    var bl=el("text",{x:base[0]-2,y:base[1]+15,"font-size":9,fill:"#475569"});bl.textContent="base";svg.appendChild(bl);
+    var co=sv(cam.x,cam.y);
+    svg.appendChild(el("rect",{x:co[0]-5,y:co[1]-5,width:10,height:10,rx:2,fill:"#7c3aed"}));
+    var pw=sv(Pw[0],Pw[1]);
+    svg.appendChild(el("line",{x1:base[0],y1:base[1],x2:pw[0],y2:pw[1],stroke:"#cbd5e1","stroke-width":1.4,"stroke-dasharray":"5 4"}));
+    svg.appendChild(el("circle",{cx:pw[0],cy:pw[1],r:9,fill:"#ef4444"}));
+    var tl=el("text",{x:pw[0]+11,y:pw[1]+4,"font-size":9,fill:"#ef4444"});tl.textContent="target";svg.appendChild(tl);
+    var f2=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    steps.innerHTML='<div>pixel u='+Math.round(u)+', depth Z='+Z+'</div>'+
+      '<div class="arrow">↓ back-project (K⁻¹)</div>'+
+      '<div>P_c = ('+f2(Pc[0])+', '+f2(Pc[1])+')</div>'+
+      '<div class="arrow">↓ extrinsics chain</div>'+
+      '<div class="got">P_w target = ('+f2(Pw[0])+', '+f2(Pw[1])+')</div>';
+  }
+  ["u","Z","ax"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

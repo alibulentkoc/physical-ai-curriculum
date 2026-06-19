@@ -33,6 +33,14 @@ The point $\mathbf{P}_c$ is in the **camera frame** — useful, but the robot ac
   ![Back-Projection (Unit 6 Recap)](../assets/m03-l24-backprojection-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module03/lesson24_back_projection_recap.html" title="Back-Projection (Unit 6 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson24_back_projection_recap.html)
+
+Unit 6 in one tool: project a 3D point to a pixel, then back-project with the same depth and recover it exactly.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

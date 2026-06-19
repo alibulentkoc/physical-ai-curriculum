@@ -39,6 +39,10 @@ The camera reports $\mathbf{P}_c = (0.06, -0.03, 0.3)$ m for a tomato. The arm i
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson25_camera_frame_3d_point.html" title="The Camera-Frame 3D Point interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson25_camera_frame_3d_point.html)
+
 **Guided prediction.** Using the figure, state in words what $T_{w\leftarrow c}$ must do to $\mathbf{P}_c$ (rotate + translate into world axes). Predict what happens if you skip it (point interpreted in the wrong frame). Confirm: the point is correct, only its frame is wrong.
 
 ## 8. Coding Exercise

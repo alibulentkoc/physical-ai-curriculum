@@ -33,6 +33,14 @@ Everything else in the module is this rule, refined. **Intrinsics** (Unit 3) rew
   ![The Pinhole Camera Model (Unit 2 Recap)](../assets/m03-l8-pinhole-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module03/lesson08_pinhole_camera_recap.html" title="The Pinhole Camera Model (Unit 2 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson08_pinhole_camera_recap.html)
+
+Unit 2 in one tool: move a 3D point and resize the focal length, and watch the projection x = f·X/Z land on the sensor.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

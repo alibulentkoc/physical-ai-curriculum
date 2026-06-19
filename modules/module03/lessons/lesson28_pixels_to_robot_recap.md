@@ -58,6 +58,10 @@ Forward (Units 1–5) turned world into pixels; inverse (Units 6–7) turns pixe
 - **Labels:** "forward: Units 1–5," "inverse: Units 6–7," "next: Unit 8 capstone; Module 4 supplies T(world←arm)."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 7 in one tool: a pixel + depth becomes a camera-frame point, then rides the extrinsics chain to a world target.
+
 ## Coding Exercise
 
 A short consolidation: run `pixel_to_world` on the worked example, confirm $\mathbf{P}_w=(1.06,0.47,0.4)$, distance preservation, and re-projection.

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adding Depth Recovers a Point — Lesson 6.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 340px;min-width:300px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:5px 0}
+  .got{color:var(--green);font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Pick the pixel (xₙ), then slide depth Z.</b> Back-projection sets P_c = Z·(xₙ, yₙ, 1): the point slides outward along the fixed ray as Z grows.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 360 260"></svg>
+  <div class="panel">
+    <label>pixel → normalized xₙ</label><input type="range" id="xn" min="-0.6" max="0.6" step="0.01" value="0.3">
+    <label>depth Z</label><input type="range" id="Z" min="0.3" max="1.5" step="0.01" value="0.6">
+    <div class="readout" id="out"></div>
+    <div class="hint">The pixel fixes the ray direction (xₙ). Depth says how far along it the fruit sits. Both X and Y grow in proportion to Z — that's why a far point and a near point on the same ray share a pixel.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=360,H=260,ML=56,sX=150,MidY=130,sY=150,f=1.0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(Z,X){return [ML+Z*sX, MidY-X*sY];}  // Z=depth (right), X=lateral (up)
+  function render(){
+    var xn=+document.getElementById("xn").value, Z=+document.getElementById("Z").value;
+    var X=Z*xn;
+    svg.innerHTML="";
+    var cam=sv(0,0);
+    var ipTop=sv(f,0.6),ipBot=sv(f,-0.6);
+    svg.appendChild(el("line",{x1:ipTop[0],y1:ipTop[1],x2:ipBot[0],y2:ipBot[1],stroke:"#94a3b8","stroke-width":2}));
+    var sl=el("text",{x:ipTop[0],y:ipTop[1]-5,"font-size":10,fill:"#94a3b8","text-anchor":"middle"});sl.textContent="image";svg.appendChild(sl);
+    // ray (fixed direction xn)
+    var far=sv(1.7,1.7*xn);
+    svg.appendChild(el("line",{x1:cam[0],y1:cam[1],x2:far[0],y2:far[1],stroke:"#5eead4","stroke-width":1.6,"stroke-dasharray":"5 4"}));
+    // pixel on image plane
+    var pxp=sv(f,f*xn); svg.appendChild(el("circle",{cx:pxp[0],cy:pxp[1],r:5,fill:"#0d9488"}));
+    var pl=el("text",{x:pxp[0]+8,y:pxp[1]+4,"font-size":10,fill:"#0d9488"});pl.textContent="pixel";svg.appendChild(pl);
+    // back-projected point at depth Z
+    var pt=sv(Z,X);
+    svg.appendChild(el("circle",{cx:pt[0],cy:pt[1],r:11,fill:"#ef4444"}));
+    var rl=el("text",{x:pt[0]+14,y:pt[1]+4,"font-size":10,fill:"#ef4444"});rl.textContent="P_c";svg.appendChild(rl);
+    svg.appendChild(el("rect",{x:cam[0]-16,y:cam[1]-11,width:20,height:22,rx:3,fill:"#475569"}));
+    var f2=function(x){return (Math.round(x*1000)/1000).toFixed(3);};
+    out.innerHTML='<div class="ln"><span>xₙ (direction)</span><span>'+f2(xn)+'</span></div>'+
+      '<div class="ln"><span>depth Z</span><span>'+f2(Z)+'</span></div>'+
+      '<div class="ln"><span>P_c = Z·(xₙ, 1)</span><span class="got">('+f2(X)+', '+f2(Z)+')</span></div>';
+  }
+  ["xn","Z"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

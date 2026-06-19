@@ -35,6 +35,10 @@ A tomato at camera-frame point $(X, Y, Z) = (0.06, 0, 0.3)$ m (6 cm to the side,
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson05_the_pinhole_idea.html" title="The Pinhole Idea interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson05_the_pinhole_idea.html)
+
 **Guided prediction.** Using the figure, predict why the pinhole image is inverted, and what happens to a scene point's image location as the point moves along its ray toward/away from the hole. Predict the role of the distance $f$ between the hole and the image plane in how large the image is.
 
 ## 8. Coding Exercise

@@ -33,6 +33,14 @@ Every later unit is a response to these facts. The **pinhole model** (Unit 2) ma
   ![Why Perception (Unit 1 Recap)](../assets/m03-l4-perception-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module03/lesson04_why_perception_recap.html" title="Why Perception (Unit 1 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson04_why_perception_recap.html)
+
+Unit 1 in one tool: pick a pixel to fix the ray, then add depth to slide the recovered 3D point along it — pixel + depth pins down one position.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

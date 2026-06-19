@@ -42,6 +42,10 @@ Run the canonical inputs through the implemented stages: `undistort(480,160,...)
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson30_building_perception_pipeline.html" title="Building the Perception → World Pipeline interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson30_building_perception_pipeline.html)
+
 **Guided prediction.** Predict the output of each stage for the canonical inputs before running. Predict which stage's output changes if you set $T_{a\leftarrow c}$ rotation to a 90° yaw. Confirm by running the cells.
 
 ## 8. Coding Exercise

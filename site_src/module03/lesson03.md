@@ -35,6 +35,10 @@ A tomato of true diameter 6 cm appears 60 pixels wide at depth $Z = 0.3$ m. Move
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson03_projection_keeps_discards.html" title="What Projection Keeps and Discards interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson03_projection_keeps_discards.html)
+
 **Guided prediction.** Using the figure, predict what happens to a tomato's apparent size and to its center pixel as it moves straight away from the camera along its ray. Then predict whether the image can tell "a small near tomato" from "a large far tomato." Confirm that direction is preserved and depth/size is not.
 
 ## 8. Coding Exercise

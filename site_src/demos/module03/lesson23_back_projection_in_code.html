@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Back-Projection in Code — Lesson 6.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 220px;min-width:200px}
+  label{font-size:11.5px;color:var(--muted);display:block;margin:7px 0 4px} input[type=range]{width:100%}
+  .code{background:#0f172a;color:#e2e8f0;border-radius:8px;padding:10px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;line-height:1.55;margin-top:8px}
+  .code .k{color:#5eead4}.code .n{color:#fca5a5}.code .ok{color:#86efac}.code .bad{color:#fca5a5;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Set a pixel and its depth.</b> Back-projection inverts K: xₙ = (u−cₓ)/fₓ, then P_c = Z·(xₙ, yₙ, 1). The round-trip re-projects to the same pixel. Depth = 0 means a sensor miss.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 200"></svg>
+  <div class="panel">
+    <label>pixel u</label><input type="range" id="u" min="0" max="640" step="1" value="480">
+    <label>pixel v</label><input type="range" id="v" min="0" max="480" step="1" value="160">
+    <label>depth Z (0 = sensor miss)</label><input type="range" id="Z" min="0" max="1.0" step="0.01" value="0.3">
+    <div class="code" id="code"></div>
+    <div class="hint">Two checks make back-projection safe: a valid depth (Z &gt; 0), and the re-projection landing back on the input pixel. If the depth sensor returns 0, there's no point to recover.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=200,MX=14,MY=14,sc=0.40,IW=640,IH=480,fx=800,fy=800,cx=320,cy=240;
+  var svg=document.getElementById("svg"),code=document.getElementById("code"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function px(u,v){return [MX+u*sc, MY+v*sc];}
+  function render(){
+    var u=+document.getElementById("u").value,v=+document.getElementById("v").value,Z=+document.getElementById("Z").value;
+    var valid=Z>0.0001;
+    var xn=(u-cx)/fx, yn=(v-cy)/fy; var Pc=valid?[xn*Z,yn*Z,Z]:null;
+    // reproject
+    var ru=valid?fx*Pc[0]/Pc[2]+cx:NaN, rv=valid?fy*Pc[1]/Pc[2]+cy:NaN;
+    svg.innerHTML="";
+    var o=px(0,0),e=px(IW,IH);
+    svg.appendChild(el("rect",{x:o[0],y:o[1],width:e[0]-o[0],height:e[1]-o[1],fill:"#fff",stroke:"#94a3b8","stroke-width":1.5}));
+    var lab=el("text",{x:o[0]+2,y:o[1]-4,"font-size":10,fill:"#94a3b8"});lab.textContent="image";svg.appendChild(lab);
+    var pt=px(u,v);
+    svg.appendChild(el("circle",{cx:pt[0],cy:pt[1],r:7,fill:valid?"#ef4444":"#cbd5e1"}));
+    if(valid){var rp=px(ru,rv);svg.appendChild(el("circle",{cx:rp[0],cy:rp[1],r:11,fill:"none",stroke:"#0d9488","stroke-width":2}));}
+    var f2=function(x){return (Math.round(x*1000)/1000).toFixed(3);};
+    if(valid){
+      code.innerHTML='xₙ=(u−cₓ)/fₓ = <span class="n">'+f2(xn)+'</span><br>yₙ=(v−c_y)/f_y = <span class="n">'+f2(yn)+'</span><br>P_c = Z·(xₙ,yₙ,1)<br>&nbsp;&nbsp;= (<span class="n">'+f2(Pc[0])+', '+f2(Pc[1])+', '+f2(Pc[2])+'</span>)<br><span class="ok">reproject → ('+Math.round(ru)+', '+Math.round(rv)+') ✓ matches</span>';
+    } else {
+      code.innerHTML='depth Z = <span class="bad">0</span><br><span class="bad">sensor miss — no 3D point</span>';
+    }
+  }
+  ["u","v","Z"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

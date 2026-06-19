@@ -42,6 +42,14 @@ Module 3 delivers $\mathbf{P}_w$ *given* the camera's pose $T_{w\leftarrow c}=T_
   ![Wrap-Up and the Road to Kinematics](../assets/m03-l32-road-to-kinematics.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module03/lesson32_wrap_up_kinematics.html" title="Wrap-Up and the Road to Kinematics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson32_wrap_up_kinematics.html)
+
+The whole perception journey in one view: a pixel + depth becomes a world target the robot can aim at — the reach itself is the next module.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

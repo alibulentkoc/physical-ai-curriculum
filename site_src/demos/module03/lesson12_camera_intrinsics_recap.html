@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Camera Intrinsics — Lesson 3.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:11.5px;color:var(--muted);display:block;margin:7px 0 3px} input[type=range]{width:100%}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:8px 0}
+  .cell{height:26px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:11.5px;font-variant-numeric:tabular-nums}
+  .fx{background:#dcfce7;border-color:#bbf7d0}.cc{background:#e0f2fe;border-color:#bae6fd}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The full intrinsic map, hands-on.</b> Move the 3D direction and the four K entries; the pixel u = K·(direction) updates live on the image.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 230"></svg>
+  <div class="panel">
+    <label>X/Z</label><input type="range" id="dx" min="-0.4" max="0.4" step="0.01" value="0.15">
+    <label>Y/Z</label><input type="range" id="dy" min="-0.3" max="0.3" step="0.01" value="0.08">
+    <label>fₓ = f_y</label><input type="range" id="fl" min="400" max="1000" step="10" value="800">
+    <label>cₓ</label><input type="range" id="cx" min="240" max="400" step="2" value="320">
+    <div class="grid" id="kmat"></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Unit 3 in one tool: intrinsics K = focal length (green) + principal point (blue). They convert a metric direction into the pixel a real camera would report.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=230,MX=14,MY=20,sc=0.40,IW=640,IH=480;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function px(u,v){return [MX+u*sc, MY+v*sc];}
+  function render(){
+    var dx=+document.getElementById("dx").value, dy=+document.getElementById("dy").value;
+    var fl=+document.getElementById("fl").value, cx=+document.getElementById("cx").value, cy=240;
+    var u=fl*dx+cx, v=fl*dy+cy;
+    svg.innerHTML="";
+    var o=px(0,0),e=px(IW,IH);
+    svg.appendChild(el("rect",{x:o[0],y:o[1],width:e[0]-o[0],height:e[1]-o[1],fill:"#fff",stroke:"#94a3b8","stroke-width":1.5}));
+    var lab=el("text",{x:o[0]+2,y:o[1]-5,"font-size":10,fill:"#94a3b8"});lab.textContent="image (640×480 px)";svg.appendChild(lab);
+    var pp=px(cx,cy);
+    svg.appendChild(el("line",{x1:pp[0]-7,y1:pp[1],x2:pp[0]+7,y2:pp[1],stroke:"#0369a1","stroke-width":1.5}));
+    svg.appendChild(el("line",{x1:pp[0],y1:pp[1]-7,x2:pp[0],y2:pp[1]+7,stroke:"#0369a1","stroke-width":1.5}));
+    var pt=px(Math.max(0,Math.min(IW,u)),Math.max(0,Math.min(IH,v)));
+    svg.appendChild(el("circle",{cx:pt[0],cy:pt[1],r:7,fill:"#ef4444"}));
+    var fl0=Math.round(fl);
+    var cells=[fl0,0,Math.round(cx),0,fl0,Math.round(cy),0,0,1], cls=["fx","","cc","","fx","cc","","",""];
+    var kg=document.getElementById("kmat");kg.innerHTML="";
+    cells.forEach(function(val,i){var d=document.createElement("div");d.className="cell "+cls[i];d.textContent=val;kg.appendChild(d);});
+    out.innerHTML='pixel (u, v) = <b>('+Math.round(u)+', '+Math.round(v)+')</b>';
+  }
+  ["dx","dy","fl","cx"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

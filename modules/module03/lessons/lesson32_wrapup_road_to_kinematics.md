@@ -63,6 +63,10 @@ Module 3 delivers $\mathbf{P}_w$ *given* the camera's pose $T_{w\leftarrow c}=T_
 - **Labels:** "Module 3: perception → world target," "Module 4: joints → arm pose," "seeing meets reaching."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+The whole perception journey in one view: a pixel + depth becomes a world target the robot can aim at — the reach itself is the next module.
+
 ## Coding Exercise
 
 A short consolidation: run the full `see_fruit_place_in_world` + `verify` on the canonical inputs one last time, print $\mathbf{P}_w$ and all checks, and note (in a comment) that $T_{w\leftarrow a}$ was given — Module 4 will compute it.

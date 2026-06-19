@@ -53,6 +53,10 @@ Every later unit is a response to these facts. The **pinhole model** (Unit 2) ma
 - **Labels:** "forward (loses depth)," "inverse (add depth)," "direction kept."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 1 in one tool: pick a pixel to fix the ray, then add depth to slide the recovered 3D point along it — pixel + depth pins down one position.
+
 ## Coding Exercise
 
 A short consolidation: project a 3D point to a pixel (forward), show another point on the same ray gives the same pixel, then recover a unique 3D point only after supplying depth.

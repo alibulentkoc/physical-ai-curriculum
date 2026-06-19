@@ -54,6 +54,10 @@ The point $\mathbf{P}_c$ is in the **camera frame** — useful, but the robot ac
 - **Labels:** "ray (x_n,y_n,1)," "P_c = Z(x_n,y_n,1)," "still camera frame," "next: into the world."
 - **Form:** SVG (faux-3D).
 
+## Interactive Demonstration
+
+Unit 6 in one tool: project a 3D point to a pixel, then back-project with the same depth and recover it exactly.
+
 ## Coding Exercise
 
 A short consolidation: deproject a couple of pixels with depth to camera-frame points, verify round-trips, and note that the points are not yet in the world frame.

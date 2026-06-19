@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radial Distortion — Lesson 5.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Click the point to grab it, move, click to drop.</b> Slide k₁ too. The distorted point (red) = (1 + k₁·r²)·(ideal). Drag toward the edge and the shift grows fast; at the centre it's zero.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 260 260"></svg>
+  <div class="panel">
+    <label>radial coefficient k₁</label><input type="range" id="k1" min="-0.4" max="0.4" step="0.01" value="-0.2">
+    <div class="readout" id="out"></div>
+    <div class="hint">The correction scales with r², so doubling the distance from the centre roughly quadruples the shift. With k₁ = 0 the point doesn't move at all — distortion is purely radial here.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=260,H=260,C=130,sc=95,NS="http://www.w3.org/2000/svg";
+  var svg=document.getElementById("svg"),out=document.getElementById("out");
+  var pt=[0.5,0.35], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(x,y){return [C+x*sc, C-y*sc];}
+  function render(){
+    var k1=+document.getElementById("k1").value;
+    var r2=pt[0]*pt[0]+pt[1]*pt[1], r=Math.sqrt(r2), fac=1+k1*r2;
+    var dx=pt[0]*fac, dy=pt[1]*fac;
+    svg.innerHTML="";
+    // frame + axes
+    svg.appendChild(el("rect",{x:C-sc,y:C-sc,width:sc*2,height:sc*2,fill:"#fff",stroke:"#cbd5e1","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:C-sc,y1:C,x2:C+sc,y2:C,stroke:"#eef2f7","stroke-width":1}));
+    svg.appendChild(el("line",{x1:C,y1:C-sc,x2:C,y2:C+sc,stroke:"#eef2f7","stroke-width":1}));
+    svg.appendChild(el("circle",{cx:C,cy:C,r:3,fill:"#94a3b8"}));
+    // ideal (ghost) point + handle
+    var ip=sv(pt[0],pt[1]);
+    svg.appendChild(el("circle",{cx:ip[0],cy:ip[1],r:24,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:ip[0],cy:ip[1],r:13,fill:"none",stroke:"#94a3b8","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.8}));
+    svg.appendChild(el("circle",{cx:ip[0],cy:ip[1],r:6,fill:"#94a3b8"}));
+    var il=el("text",{x:ip[0]+9,y:ip[1]-8,"font-size":9,fill:"#94a3b8"});il.textContent="ideal";svg.appendChild(il);
+    // distorted point
+    var dp=sv(dx,dy);
+    svg.appendChild(el("line",{x1:ip[0],y1:ip[1],x2:dp[0],y2:dp[1],stroke:"#fca5a5","stroke-width":1.4}));
+    svg.appendChild(el("circle",{cx:dp[0],cy:dp[1],r:7,fill:"#ef4444"}));
+    var dl=el("text",{x:dp[0]+9,y:dp[1]+4,"font-size":9,fill:"#ef4444"});dl.textContent="distorted";svg.appendChild(dl);
+    if(!hinted){var hh=el("text",{x:ip[0]-6,y:ip[1]-18,"font-size":11,fill:"#0d9488","font-weight":"700","text-anchor":"middle"});hh.textContent="click to grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    var f2=function(x){return (Math.round(x*1000)/1000).toFixed(3);};
+    out.innerHTML='<div class="ln"><span>r (from centre)</span><span>'+f2(r)+'</span></div>'+
+      '<div class="ln"><span>factor 1 + k₁·r²</span><span>'+f2(fac)+'</span></div>'+
+      '<div class="ln"><span>shift</span><span>'+f2(Math.hypot(dx-pt[0],dy-pt[1]))+'</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){
+    if(grabbing){grabbing=false;svg.style.cursor="";render();return;}
+    var m=_ev(e),h=sv(pt[0],pt[1]);
+    if(Math.hypot(m[0]-h[0],m[1]-h[1])<30){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}
+  });
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);
+    pt[0]=Math.max(-1,Math.min(1,(m[0]-C)/sc));pt[1]=Math.max(-1,Math.min(1,(C-m[1])/sc));render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  render();
+})();</script></body></html>

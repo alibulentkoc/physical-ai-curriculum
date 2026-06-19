@@ -54,6 +54,10 @@ Everything else in the module is this rule, refined. **Intrinsics** (Unit 3) rew
 - **Labels:** "center of projection," "f," "image plane," "x = fX/Z," "÷Z."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 2 in one tool: move a 3D point and resize the focal length, and watch the projection x = f·X/Z land on the sensor.
+
 ## Coding Exercise
 
 A short consolidation: implement pinhole projection, project a few points for a chosen $f$, and confirm (a) points on a ray share an image point, (b) image scales with $f$, (c) image position scales with $1/Z$.

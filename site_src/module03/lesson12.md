@@ -33,6 +33,14 @@ $K$ is the form every vision tool uses. **Unit 4** puts it to work — the full 
   ![Camera Intrinsics (Unit 3 Recap)](../assets/m03-l12-intrinsics-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module03/lesson12_camera_intrinsics_recap.html" title="Camera Intrinsics (Unit 3 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson12_camera_intrinsics_recap.html)
+
+Unit 3 in one tool: move a 3D direction and the four K entries, and watch the pixel u = K·(direction) update on the image.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

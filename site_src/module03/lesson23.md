@@ -38,6 +38,10 @@ Round-trip: projecting $(0.06,-0.03,0.3)$ → $(480,160)$ ✓; projecting $(0,0,
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson23_back_projection_in_code.html" title="Back-Projection in Code interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson23_back_projection_in_code.html)
+
 **Guided prediction.** For pixels $(480,160,0.3)$ and $(320,240,0.5)$ with the $K$ above, predict each $\mathbf{P}_c$. Predict what happens to a pixel whose depth reads 0 (sensor miss). Confirm the round-trip recovers the original pixels.
 
 ## 8. Coding Exercise

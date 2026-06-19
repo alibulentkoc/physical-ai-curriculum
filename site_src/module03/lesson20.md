@@ -33,6 +33,14 @@ The full forward map is now complete and *realistic*: world → extrinsics → n
   ![Lens Distortion (Unit 5 Recap)](../assets/m03-l20-distortion-recap.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module03/lesson20_lens_distortion_recap.html" title="Lens Distortion (Unit 5 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson20_lens_distortion_recap.html)
+
+Unit 5 in one tool: set k₁, then switch between the distorted image and the undistorted (corrected) one and watch straight lines return.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

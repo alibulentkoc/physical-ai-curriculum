@@ -54,6 +54,10 @@ $K$ is the form every vision tool uses. **Unit 4** puts it to work — the full 
 - **Labels:** "K: f_x, f_y, c_x, c_y," "÷Z (perspective)," "u = f_x X/Z + c_x."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 3 in one tool: move a 3D direction and the four K entries, and watch the pixel u = K·(direction) update on the image.
+
 ## Coding Exercise
 
 A short consolidation: build $K$, project a few camera-frame points to pixels, confirm the optical-axis point lands at the principal point, and show focal length scales the offset from the principal point.

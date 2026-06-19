@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Camera-Frame 3D Point — Lesson 7.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:290px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:8px;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Move the camera (position + heading).</b> The fruit's camera-frame point P_c is fixed; T_w←c rotates and shifts it into world axes. Tick the box to skip the transform and see it land in the wrong place.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 320 250"></svg>
+  <div class="panel">
+    <label>camera x</label><input type="range" id="cx" min="0.4" max="2.6" step="0.05" value="1.0">
+    <label>camera heading</label><input type="range" id="cth" min="-60" max="60" step="1" value="20">
+    <label class="tog"><input type="checkbox" id="skip"> skip T_w←c (wrong frame)</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">P_c is the right point — but expressed in the camera's axes. Only T_w←c rotates and translates it into the world frame. Skip it and the same numbers describe a completely different world location.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=320,H=250,ML=40,sX=58,MidY=150,sY=52;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var Pc=[0.7,0.35]; // in camera frame: forward, lateral
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(x,y){return [ML+x*sX, MidY-y*sY];}
+  function render(){
+    var cx=+document.getElementById("cx").value, cth=+document.getElementById("cth").value*Math.PI/180, skip=document.getElementById("skip").checked;
+    var c=Math.cos(cth),s=Math.sin(cth), cam=[cx,0.5];
+    // P_c expressed in world via T_w<-c (camera forward = +x rotated by heading)
+    var Pw=[cam[0]+c*Pc[0]-s*Pc[1], cam[1]+s*Pc[0]+c*Pc[1]];
+    var Pwrong=[Pc[0],Pc[1]]; // skipping: interpret camera coords as world coords
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:10,y1:MidY,x2:W-8,y2:MidY,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ML,y1:H-8,x2:ML,y2:8,stroke:"#e2e8f0","stroke-width":1.2}));
+    var wl=el("text",{x:ML+3,y:MidY-4,"font-size":9,fill:"#94a3b8"});wl.textContent="world";svg.appendChild(wl);
+    // camera frame axes
+    var co=sv(cam[0],cam[1]);
+    svg.appendChild(el("line",{x1:co[0],y1:co[1],x2:co[0]+30*c,y2:co[1]-30*s,stroke:"#7c3aed","stroke-width":2.4}));
+    svg.appendChild(el("rect",{x:co[0]-7,y:co[1]-7,width:14,height:14,rx:3,fill:"#7c3aed"}));
+    var cl=el("text",{x:co[0]-2,y:co[1]+20,"font-size":9,fill:"#7c3aed"});cl.textContent="camera";svg.appendChild(cl);
+    // correct world point
+    var pw=sv(Pw[0],Pw[1]);
+    svg.appendChild(el("line",{x1:co[0],y1:co[1],x2:pw[0],y2:pw[1],stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"3 3"}));
+    svg.appendChild(el("circle",{cx:pw[0],cy:pw[1],r:9,fill:"#0d9488"}));
+    var pl=el("text",{x:pw[0]+11,y:pw[1]+4,"font-size":9,fill:"#0d9488"});pl.textContent="P_w (correct)";svg.appendChild(pl);
+    if(skip){var pwr=sv(Pwrong[0],Pwrong[1]);
+      svg.appendChild(el("circle",{cx:pwr[0],cy:pwr[1],r:8,fill:"none",stroke:"#b91c1c","stroke-width":2,"stroke-dasharray":"3 2"}));
+      var wl2=el("text",{x:pwr[0]+10,y:pwr[1]+4,"font-size":9,fill:"#b91c1c"});wl2.textContent="wrong (skipped)";svg.appendChild(wl2);}
+    var f2=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span>P_c (camera frame)</span><span>('+f2(Pc[0])+', '+f2(Pc[1])+')</span></div>'+
+      '<div class="ln"><span>P_w (world)</span><span style="color:#0d9488;font-weight:700">('+f2(Pw[0])+', '+f2(Pw[1])+')</span></div>';
+  }
+  ["cx","cth"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  document.getElementById("skip").addEventListener("change",render);
+  render();
+})();</script></body></html>

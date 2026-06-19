@@ -54,6 +54,10 @@ The full forward map is now complete and *realistic*: world → extrinsics → n
 - **Labels:** "distortion: radial+tangential," "undistortion restores ideal pinhole," "needed before back-projection."
 - **Form:** SVG.
 
+## Interactive Demonstration
+
+Unit 5 in one tool: set k₁, then switch between the distorted image and the undistorted (corrected) one and watch straight lines return.
+
 ## Coding Exercise
 
 A short consolidation: distort a grid of points, undistort them, and confirm the round-trip returns the originals; show the center is unaffected and edges are corrected most.

@@ -39,6 +39,10 @@ A tomato projects to pixel $(320, 240)$. Forward, that's deterministic. Inverse:
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson02_perception_problem.html" title="World → Pixels → World: The Perception Problem interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson02_perception_problem.html)
+
 **Guided prediction.** Using the figure, predict: if two tomatoes sit at different distances but along the same ray, what pixels do they produce? Then predict what single extra number turns a pixel back into a unique 3D point. Confirm that forward is many-to-one and inverse needs depth.
 
 ## 8. Coding Exercise

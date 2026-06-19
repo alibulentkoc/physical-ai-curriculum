@@ -33,6 +33,10 @@ For the canonical $\mathbf{P}_w=(1.06,0.47,0.4)$: invert $T_{w\leftarrow c}$ to 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson31_verifying_visualizing.html" title="Verifying and Visualizing interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson31_verifying_visualizing.html)
+
 **Guided prediction.** Predict which check fails if depth is read as $0.6$ instead of $0.3$ (distance? re-projection? both?). Predict which fails if $\mathbf{P}_c$ is handed to the arm without transforming. Confirm by toggling each fault.
 
 ## 8. Coding Exercise

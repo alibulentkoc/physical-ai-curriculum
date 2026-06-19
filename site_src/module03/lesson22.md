@@ -35,6 +35,10 @@ Pixel $(480, 160)$, $K$ ($f_x=f_y=800$, principal point $(320,240)$), depth $Z =
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson22_adding_depth_recovers_point.html" title="Adding Depth Recovers a Point interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson22_adding_depth_recovers_point.html)
+
 **Guided prediction.** For pixel $(480,160)$ and $K$ above, predict $\mathbf{P}_c$ at $Z=0.3$ and at $Z=0.5$. Predict what happens to $X$ and $Y$ as $Z$ grows (does the point move outward?). Confirm $\mathbf{P}_c = Z(x_n,y_n,1)$ and that projecting it returns the pixel.
 
 ## 8. Coding Exercise

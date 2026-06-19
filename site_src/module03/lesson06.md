@@ -35,6 +35,10 @@ A sensor half-width $w = 12$ mm. With $f = 12$ mm: $\theta_{\text{half}} = \arct
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson06_image_plane_focal_length.html" title="The Image Plane and Focal Length interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson06_image_plane_focal_length.html)
+
 Adjust the focal length and watch the field of view and a tomato's apparent image size change together — larger $f$ zooms in (narrow FOV, bigger image), smaller $f$ widens out. The projected position $x = fX/Z$ and the FOV angle update live, showing the magnification-vs-FOV trade-off.
 
 ## 8. Coding Exercise

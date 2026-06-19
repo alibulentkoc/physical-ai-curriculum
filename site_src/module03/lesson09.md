@@ -39,6 +39,10 @@ Lens focal length $f_m = 4$ mm; pixel size $s_x = s_y = 0.005$ mm. Then $f_x = f
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson09_metric_to_pixels.html" title="From Metric to Pixels interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson09_metric_to_pixels.html)
+
 **Guided prediction.** Using the figure, predict $f_x$ in pixels for a 4 mm lens on a sensor with 0.005 mm pixels, then for 0.0025 mm pixels. Predict whether a point's pixel offset grows or shrinks when pixels get smaller (for a fixed lens). Confirm $f_x = f_m/s_x$.
 
 ## 8. Coding Exercise

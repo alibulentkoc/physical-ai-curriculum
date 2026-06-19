@@ -37,6 +37,14 @@ Forward (Units 1–5) turned world into pixels; inverse (Units 6–7) turns pixe
   ![From Pixels to the Robot (Unit 7 Recap)](../assets/m03-l28-forward-inverse.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module03/lesson28_pixels_to_robot_recap.html" title="From Pixels to the Robot (Unit 7 Recap) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson28_pixels_to_robot_recap.html)
+
+Unit 7 in one tool: a pixel + depth becomes a camera-frame point, then rides the extrinsics chain to a world target.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

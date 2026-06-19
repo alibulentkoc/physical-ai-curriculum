@@ -35,6 +35,10 @@ Suppose the camera produces a $640\times480$ image. A tomato detector reports th
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson01_robot_needs_to_see.html" title="The Robot Needs to See interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson01_robot_needs_to_see.html)
+
 **Guided prediction.** Look at the figure: light from the tomato enters the camera and lands on the image grid. Predict what the image gives you directly (a direction/pixel, or a full 3D position?) and what is missing to actually reach the fruit. Predict why a robot with a camera but no notion of distance still cannot grasp reliably.
 
 ## 8. Coding Exercise

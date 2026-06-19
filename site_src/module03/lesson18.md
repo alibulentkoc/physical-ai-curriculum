@@ -39,6 +39,10 @@ Normalized point $(x_n, y_n) = (0.4, 0.3)$, so $r^2 = 0.16 + 0.09 = 0.25$. With 
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson18_radial_tangential_distortion.html" title="Radial and Tangential Distortion interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson18_radial_tangential_distortion.html)
+
 **Guided prediction.** For $(x_n,y_n)=(0.4,0.3)$, predict the radial factor with $k_1 = -0.2$ (others zero), then the distorted point. Predict the effect of doubling $r$ (a point twice as far from center) on the size of the correction. Confirm radial scales with $r^2$ and that $k_1=0$ leaves the point unchanged.
 
 ## 8. Coding Exercise

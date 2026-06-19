@@ -44,6 +44,14 @@ The second half **inverts** the map. **Unit 5** corrects lens **distortion** (re
   ![Projection in Practice (Unit 4 Recap · Midpoint Checkpoint)](../assets/m03-l16-midpoint.svg){ width="680" }
 </figure>
 
+## Interactive Demonstration
+
+<iframe src="../../demos/module03/lesson16_projection_in_practice_recap.html" title="Projection in Practice (Unit 4 Recap · Midpoint Checkpoint) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson16_projection_in_practice_recap.html)
+
+The full pipeline, hands-on: move a 3D point and intrinsics and watch 3D → divide by Z → apply K → pixel.
+
 ## Coding Exercise
 
 !!! tip "Run the hands-on notebook"

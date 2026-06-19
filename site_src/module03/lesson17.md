@@ -35,6 +35,10 @@ A camera images a straight horizontal rail. Under the ideal model, the rail's pi
 
 ## 7. Interactive Demonstration
 
+<iframe src="../../demos/module03/lesson17_why_straight_lines_bend.html" title="Why Straight Lines Bend interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module03/lesson17_why_straight_lines_bend.html)
+
 **Guided prediction.** Using the figure, predict whether barrel distortion moves edge points *toward* or *away from* the center relative to the ideal, and where the distortion is smallest. Predict what a straight vertical line at the image edge looks like under pincushion distortion. Confirm: error grows with radius, center is least affected.
 
 ## 8. Coding Exercise

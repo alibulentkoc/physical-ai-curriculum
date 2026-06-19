@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Straight Lines Bend — Lesson 5.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .tag{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:700;font-size:13px;margin-top:6px}
+  .barrel{background:#fef3c7;color:#92400e}.pin{background:#dbeafe;color:#1e40af}.none{background:#f1f5f9;color:#475569}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Slide the distortion k₁.</b> Negative = barrel (lines bow outward), positive = pincushion (lines bow inward). The centre barely moves; the edges bend most.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 260 260"></svg>
+  <div class="panel">
+    <label>radial distortion k₁</label><input type="range" id="k1" min="-0.35" max="0.35" step="0.01" value="-0.2">
+    <div id="tag"></div>
+    <div class="hint">Radial distortion scales each point by (1 + k₁·r²), where r is the distance from the centre. Because of the r², the correction is tiny near the middle and grows fast toward the edges — that's why straight lines bow only at the rim.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=260,H=260,C=130,sc=95,NS="http://www.w3.org/2000/svg";
+  var svg=document.getElementById("svg");
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function distort(x,y,k1){var r2=x*x+y*y,f=1+k1*r2;return [x*f,y*f];}
+  function sv(x,y){return [C+x*sc, C-y*sc];}
+  function render(){
+    var k1=+document.getElementById("k1").value;
+    svg.innerHTML="";
+    var g=[-1,-0.6,-0.2,0.2,0.6,1];
+    // vertical lines
+    g.forEach(function(gx){var pts=[];for(var t=-1;t<=1.001;t+=0.1){var d=distort(gx,t,k1);var p=sv(d[0],d[1]);pts.push(p[0].toFixed(1)+","+p[1].toFixed(1));}
+      svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:"#0d9488","stroke-width":1.6}));});
+    // horizontal lines
+    g.forEach(function(gy){var pts=[];for(var t=-1;t<=1.001;t+=0.1){var d=distort(t,gy,k1);var p=sv(d[0],d[1]);pts.push(p[0].toFixed(1)+","+p[1].toFixed(1));}
+      svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:"#94a3b8","stroke-width":1.4}));});
+    // center marker
+    svg.appendChild(el("circle",{cx:C,cy:C,r:3,fill:"#b91c1c"}));
+    var lab=el("text",{x:C+6,y:C-5,"font-size":10,fill:"#b91c1c"});lab.textContent="centre (fixed)";svg.appendChild(lab);
+    var kind=Math.abs(k1)<0.02?["none","no distortion"]:(k1<0?["barrel","barrel (k₁<0)"]:["pin","pincushion (k₁>0)"]);
+    document.getElementById("tag").innerHTML='<span class="tag '+kind[0]+'">'+kind[1]+'</span>';
+  }
+  document.getElementById("k1").addEventListener("input",render);
+  render();
+})();</script></body></html>
