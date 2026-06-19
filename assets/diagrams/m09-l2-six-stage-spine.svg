@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <marker id="rarrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b5cf6"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .stage{fill:#ffffff;stroke-width:2.2}
+      .s1{stroke:#0ea5e9}.s2{stroke:#6366f1}.s3{stroke:#8b5cf6}.s4{stroke:#10b981}.s5{stroke:#f59e0b}.s6{stroke:#ef4444}
+      .name{font-size:13.5px;font-weight:700;fill:#0f172a}
+      .own{font-size:10.5px;fill:#64748b}
+      .flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#arrow)}
+      .data{font-size:10.5px;font-weight:600;fill:#334155}
+      .loop{fill:none;stroke:#8b5cf6;stroke-width:2;stroke-dasharray:6 5;marker-end:url(#rarrow)}
+    </style>
+  </defs>
+  <text x="430" y="30" text-anchor="middle" class="title">The Six-Stage Workflow</text>
+  <text x="430" y="50" text-anchor="middle" class="caption">Perceive &#8594; Understand &#8594; Plan &#8594; Execute &#8594; Track &#8594; Recover &#183; each arrow is an interface</text>
+
+  <!-- boxes -->
+  <g>
+    <rect class="stage s1" x="20"  y="150" width="120" height="60" rx="12"/><text x="80"  y="178" text-anchor="middle" class="name">Perceive</text><text x="80"  y="196" text-anchor="middle" class="own">M3</text>
+    <rect class="stage s2" x="160" y="150" width="120" height="60" rx="12"/><text x="220" y="178" text-anchor="middle" class="name">Understand</text><text x="220" y="196" text-anchor="middle" class="own">M9 + M4/M5</text>
+    <rect class="stage s3" x="300" y="150" width="120" height="60" rx="12"/><text x="360" y="178" text-anchor="middle" class="name">Plan</text><text x="360" y="196" text-anchor="middle" class="own">M7</text>
+    <rect class="stage s4" x="440" y="150" width="120" height="60" rx="12"/><text x="500" y="178" text-anchor="middle" class="name">Execute</text><text x="500" y="196" text-anchor="middle" class="own">M6 + M8</text>
+    <rect class="stage s5" x="580" y="150" width="120" height="60" rx="12"/><text x="640" y="178" text-anchor="middle" class="name">Track</text><text x="640" y="196" text-anchor="middle" class="own">M8</text>
+    <rect class="stage s6" x="720" y="150" width="120" height="60" rx="12"/><text x="780" y="178" text-anchor="middle" class="name">Recover</text><text x="780" y="196" text-anchor="middle" class="own">M9</text>
+  </g>
+
+  <!-- flow arrows + data labels -->
+  <path class="flow" d="M140,180 L158,180"/><text x="149" y="142" text-anchor="middle" class="data">detections</text>
+  <path class="flow" d="M280,180 L298,180"/><text x="289" y="142" text-anchor="middle" class="data">current_target</text>
+  <path class="flow" d="M420,180 L438,180"/><text x="429" y="142" text-anchor="middle" class="data">reference(t)</text>
+  <path class="flow" d="M560,180 L578,180"/><text x="569" y="142" text-anchor="middle" class="data">command, q</text>
+  <path class="flow" d="M700,180 L718,180"/><text x="709" y="142" text-anchor="middle" class="data">tracking_error</text>
+
+  <!-- recover loopback to Understand -->
+  <path class="loop" d="M780,210 C780,300 220,300 220,212"/>
+  <text x="500" y="318" text-anchor="middle" class="data" fill="#8b5cf6">Recover loops back: re-select / replan</text>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .box{fill:#fff;stroke-width:2}
+      .exec{stroke:#10b981}.track{stroke:#0d9488}.mon{stroke:#6366f1}
+      .grey{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2;stroke-dasharray:5 4}
+      .name{font-size:12.5px;font-weight:700;fill:#0f172a}
+      .gname{font-size:12.5px;font-weight:700;fill:#94a3b8}
+      .sub{font-size:10px;fill:#64748b}
+      .flow{fill:none;stroke:#334155;stroke-width:2.2;marker-end:url(#arrow)}
+      .bub{fill:#eef2ff;stroke:#6366f1;stroke-width:1.4}
+      .read{font-size:11px;fill:#3730a3;font-weight:600}
+    </style>
+  </defs>
+  <text x="390" y="28" text-anchor="middle" class="title">Unit 5 &#183; Execute &#8594; Track (the system gains eyes)</text>
+  <text x="390" y="48" text-anchor="middle" class="caption">move &#183; judge &#183; monitor &#183; read</text>
+
+  <rect class="box exec" x="40"  y="110" width="150" height="60" rx="12"/><text x="115" y="138" text-anchor="middle" class="name">Execute</text><text x="115" y="156" text-anchor="middle" class="sub">produces motion</text>
+  <rect class="box track" x="250" y="110" width="160" height="60" rx="12"/><text x="330" y="138" text-anchor="middle" class="name">Track</text><text x="330" y="156" text-anchor="middle" class="sub">verdict + reason</text>
+  <rect class="box mon"  x="250" y="200" width="160" height="56" rx="12"/><text x="330" y="224" text-anchor="middle" class="name">system monitor</text><text x="330" y="242" text-anchor="middle" class="sub">telemetry dashboard</text>
+
+  <path class="flow" d="M190,140 L248,140"/>
+  <path class="flow" d="M190,150 C215,160 215,222 248,228"/>
+
+  <!-- reading bubble -->
+  <rect class="bub" x="470" y="120" width="200" height="80" rx="14"/>
+  <text x="570" y="148" text-anchor="middle" class="read">reading:</text>
+  <text x="570" y="168" text-anchor="middle" class="read">what happened,</text>
+  <text x="570" y="186" text-anchor="middle" class="read">how healthy, where to look</text>
+  <path class="flow" d="M410,140 L468,150"/>
+  <path class="flow" d="M410,225 C440,210 445,175 468,168"/>
+
+  <!-- next -->
+  <rect class="grey" x="470" y="225" width="240" height="46" rx="12"/>
+  <text x="590" y="253" text-anchor="middle" class="gname">Unit 6: automatic detection</text>
+  <text x="390" y="300" text-anchor="middle" class="caption">health &#8800; success &#183; reading encodes into detection next</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .box{fill:#fff;stroke-width:2}
+      .det{stroke:#ef4444}.orch{stroke:#0d9488}.pol{stroke:#6366f1}.bud{stroke:#f59e0b}
+      .grey{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2;stroke-dasharray:5 4}
+      .name{font-size:12px;font-weight:700;fill:#0f172a}
+      .gname{font-size:12px;font-weight:700;fill:#94a3b8}
+      .sub{font-size:9.5px;fill:#64748b}
+      .flow{fill:none;stroke:#334155;stroke-width:2.2;marker-end:url(#arrow)}
+      .ex{font-size:9.5px;font-weight:700}
+    </style>
+  </defs>
+  <text x="400" y="26" text-anchor="middle" class="title">Unit 7 &#183; Recover closes the loop</text>
+  <text x="400" y="45" text-anchor="middle" class="caption">coordinate &#183; route by owner &#183; bound retries &#183; recover or escalate</text>
+
+  <rect class="box det"  x="30"  y="110" width="120" height="56" rx="12"/><text x="90"  y="134" text-anchor="middle" class="name">Detection</text><text x="90"  y="152" text-anchor="middle" class="sub">localised fault + owner</text>
+  <rect class="box orch" x="180" y="110" width="120" height="56" rx="12"/><text x="240" y="134" text-anchor="middle" class="name">Orchestrator</text><text x="240" y="152" text-anchor="middle" class="sub">coordinate</text>
+  <rect class="box pol"  x="330" y="110" width="120" height="56" rx="12"/><text x="390" y="134" text-anchor="middle" class="name">Policy</text><text x="390" y="152" text-anchor="middle" class="sub">owner &#8594; action</text>
+  <rect class="box bud"  x="480" y="110" width="120" height="56" rx="12"/><text x="540" y="134" text-anchor="middle" class="name">Budget + state</text><text x="540" y="152" text-anchor="middle" class="sub">bounded retry</text>
+
+  <path class="flow" d="M150,138 L178,138"/>
+  <path class="flow" d="M300,138 L328,138"/>
+  <path class="flow" d="M450,138 L478,138"/>
+
+  <!-- exits -->
+  <text x="540" y="196" text-anchor="middle" class="ex" fill="#15803d">recovered</text>
+  <text x="540" y="212" text-anchor="middle" class="ex" fill="#b91c1c">escalated (skip / budget)</text>
+  <path class="flow" d="M540,166 L540,182"/>
+
+  <!-- next -->
+  <rect class="grey" x="630" y="110" width="140" height="56" rx="12"/>
+  <text x="700" y="134" text-anchor="middle" class="gname">Unit 8</text>
+  <text x="700" y="152" text-anchor="middle" class="sub">full self-healing cycle</text>
+  <path class="flow" d="M600,138 L628,138"/>
+
+  <text x="400" y="262" text-anchor="middle" class="caption">no new theory &#8212; control flow + bookkeeping around existing layers</text>
+</svg>

@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Knowledge Check — Lesson 3.1</title>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--greenbg:#dcfce7;--red:#b91c1c;--redbg:#fee2e2;--accent:#0d9488;}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:760px;margin:0 auto;padding:6px}
+.note{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.qhead{font-weight:600;font-size:14.5px;margin-bottom:10px}.qnum{display:inline-block;min-width:22px;color:var(--accent);font-weight:700}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;margin:6px 0;font-size:14px;cursor:pointer}
+.opt:hover{background:var(--soft)}.opt.correct{background:var(--greenbg);border-color:#86efac;color:var(--green);font-weight:600}.opt.wrong{background:var(--redbg);border-color:#fecaca;color:var(--red)}
+.fb{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;display:none}.fb.show{display:block}.fb.ok{background:var(--greenbg);color:var(--green)}.fb.no{background:var(--redbg);color:var(--red)}.fb.info{background:#eff6ff;color:#1d4ed8}
+textarea{width:100%;min-height:60px;border:1px solid var(--line);border-radius:9px;padding:8px;font-family:inherit;font-size:14px;resize:vertical}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:8px}.btn:hover{background:var(--soft)}
+.model{display:none;font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;background:#eff6ff;color:#1d4ed8}.model.show{display:block}
+</style></head><body><div class="wrap">
+<div class="note">Formative — unlimited attempts, immediate feedback. This does <b>not</b> affect your grade.</div>
+<div id="quiz"></div></div>
+<script>var questions=[{"type": "mc", "prompt": "Inverse kinematics maps:", "options": [{"t": "joint angles → a pose", "ok": false}, {"t": "a target pose → joint angles (configuration)", "ok": true}, {"t": "a pose → a trajectory", "ok": false}, {"t": "an image → a detection", "ok": false}], "ok": "Right.", "no": "IK goes pose → configuration; FK goes configuration → pose."}, {"type": "mc", "prompt": "to_configuration(target) returns None. This means:", "options": [{"t": "the planner failed", "ok": false}, {"t": "the pose is unreachable (outside the workspace)", "ok": true}, {"t": "the controller is off", "ok": false}, {"t": "the target is unripe", "ok": false}], "ok": "Right.", "no": "None means IK found no solution — the pose is outside the reach annulus."}, {"type": "mc", "prompt": "The elbow-up / elbow-down ambiguity means a reachable target usually has:", "options": [{"t": "no solutions", "ok": false}, {"t": "exactly one solution", "ok": false}, {"t": "two joint-space solutions", "ok": true}, {"t": "infinitely many solutions", "ok": false}], "ok": "Right.", "no": "For the planar 2R arm, a reachable interior point has two configurations (elbow up and down)."}, {"type": "mc", "prompt": "Forward kinematics is used here to:", "options": [{"t": "choose the target", "ok": false}, {"t": "verify the IK configuration reaches the target (round-trip ~0)", "ok": true}, {"t": "plan the trajectory", "ok": false}, {"t": "detect fruit", "ok": false}], "ok": "Right.", "no": "FK(IK(target)) ≈ target confirms the configuration genuinely reaches the pose."}, {"type": "tf", "prompt": "If a target is unreachable, the seam should return the closest boundary configuration so the robot still moves.", "answer": false, "ok": "Correct — surface the unreachability, don't fudge it.", "no": "False. Fudging an unreachable target into a boundary angle hides the fault downstream (the Lesson 1.1 trap); return None and let Recover handle it."}, {"type": "short", "prompt": "State the ownership split for the pose → configuration seam.", "model": "Module 5 owns the inverse-kinematics math (the closed-form solution) and Module 4 owns the forward-kinematics verification. Integration owns the decisions around them: invoking IK, choosing the elbow branch by a consistent policy, FK-verifying the result, and deciding what to do when IK returns None (surface the unreachability to Recover, never fudge a boundary angle). The math is the layers'; the seam decisions are integration's."}, {"type": "short", "prompt": "Target (0.5, 0.0), arm L1=0.4, L2=0.3. Is it reachable, and how many solutions?", "model": "cos q2 = (0.25 − 0.16 − 0.09)/(2·0.4·0.3) = 0/0.24 = 0, so |cos q2| = 0 ≤ 1 — reachable. q2 = ±π/2 gives two solutions (elbow up and elbow down), each reaching the same point; FK verifies either. The seam must pick one branch by policy and record it so all downstream stages agree."}];
+var root=document.getElementById("quiz");
+questions.forEach(function(q,i){var card=document.createElement("div");card.className="q";
+var head=document.createElement("div");head.className="qhead";head.innerHTML='<span class="qnum">'+(i+1)+'.</span> '+q.prompt;card.appendChild(head);
+var fb=document.createElement("div");fb.className="fb";
+if(q.type==="mc"||q.type==="tf"){var opts=q.type==="tf"?[{t:"True",ok:q.answer===true},{t:"False",ok:q.answer===false}]:q.options;
+opts.forEach(function(o){var b=document.createElement("button");b.className="opt";b.type="button";b.innerHTML=o.t;
+b.addEventListener("click",function(){Array.prototype.forEach.call(card.querySelectorAll(".opt"),function(el){el.classList.remove("correct","wrong");});
+if(o.ok){b.classList.add("correct");fb.className="fb show ok";fb.innerHTML=q.ok;}else{b.classList.add("wrong");fb.className="fb show no";fb.innerHTML=q.no;}});card.appendChild(b);});card.appendChild(fb);}
+else if(q.type==="short"){var ta=document.createElement("textarea");ta.placeholder="Type your answer, then reveal the model answer to self-check…";card.appendChild(ta);
+var sh=document.createElement("button");sh.className="btn";sh.type="button";sh.textContent="Show model answer";var md=document.createElement("div");md.className="model";md.innerHTML=q.model;
+sh.addEventListener("click",function(){md.classList.toggle("show");sh.textContent=md.classList.contains("show")?"Hide model answer":"Show model answer";});card.appendChild(sh);card.appendChild(md);}
+root.appendChild(card);});
+if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetPromise();}
+</script></body></html>

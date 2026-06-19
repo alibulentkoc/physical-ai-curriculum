@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .box{fill:#fff;stroke-width:2}
+      .exec{stroke:#10b981}.track{stroke:#0d9488}
+      .name{font-size:13px;font-weight:700;fill:#0f172a}
+      .sub{font-size:10.5px;fill:#64748b}
+      .crit{fill:#f0fdfa;stroke:#0d9488;stroke-width:1.4}
+      .ct{font-size:11.5px;font-weight:600;fill:#0f172a}
+      .flow{fill:none;stroke:#334155;stroke-width:2.2;marker-end:url(#arrow)}
+      .ok{font-size:12px;font-weight:700;fill:#15803d}
+      .no{font-size:12px;font-weight:700;fill:#b91c1c}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">The Track Stage: Judging the Executed Motion</text>
+  <text x="380" y="48" text-anchor="middle" class="caption">Execute produces motion &#183; Track judges it against success criteria</text>
+
+  <rect class="box exec" x="30" y="140" width="150" height="74" rx="12"/>
+  <text x="105" y="170" text-anchor="middle" class="name">Execute</text>
+  <text x="105" y="190" text-anchor="middle" class="sub">error(t), final err, rms,</text>
+  <text x="105" y="205" text-anchor="middle" class="sub">tool position</text>
+
+  <rect class="box track" x="300" y="100" width="180" height="156" rx="12"/>
+  <text x="390" y="124" text-anchor="middle" class="name">Track</text>
+  <rect class="crit" x="316" y="136" width="148" height="28" rx="7"/><text x="390" y="155" text-anchor="middle" class="ct">final error &#8804; &#964;_final</text>
+  <rect class="crit" x="316" y="170" width="148" height="28" rx="7"/><text x="390" y="189" text-anchor="middle" class="ct">RMS &#8804; &#964;_rms</text>
+  <rect class="crit" x="316" y="204" width="148" height="28" rx="7"/><text x="390" y="223" text-anchor="middle" class="ct">pose &#8804; &#964;_pose</text>
+  <path class="flow" d="M180,177 L298,177"/>
+
+  <!-- verdicts -->
+  <rect class="box" x="560" y="120" width="170" height="50" rx="12" stroke="#15803d"/>
+  <text x="645" y="142" text-anchor="middle" class="ok">success = True</text>
+  <text x="645" y="160" text-anchor="middle" class="sub">reason = ok</text>
+  <rect class="box" x="560" y="190" width="170" height="50" rx="12" stroke="#b91c1c"/>
+  <text x="645" y="212" text-anchor="middle" class="no">success = False</text>
+  <text x="645" y="230" text-anchor="middle" class="sub">reason = which criterion</text>
+  <path class="flow" d="M480,160 L558,145"/>
+  <path class="flow" d="M480,196 L558,212"/>
+
+  <text x="380" y="300" text-anchor="middle" class="caption">reached &#8800; succeeded &#183; thresholds are integration choices, not new theory</text>
+</svg>

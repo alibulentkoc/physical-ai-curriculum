@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .node{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+      .run{fill:#eef2ff;stroke:#6366f1;stroke-width:2}
+      .ok{fill:#ecfdf5;stroke:#10b981;stroke-width:2}
+      .esc{fill:#fef2f2;stroke:#ef4444;stroke-width:2}
+      .t{font-size:11px;font-weight:700;fill:#0f172a}
+      .ts{font-size:9.5px;fill:#64748b}
+      .flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#arrow)}
+      .lbl{font-size:9.5px;font-weight:700;fill:#475569}
+      .ctr{font-size:11px;font-weight:700;fill:#6366f1}
+    </style>
+  </defs>
+  <text x="390" y="26" text-anchor="middle" class="title">Bounded Retry: Memory + Budget = Termination</text>
+  <text x="390" y="45" text-anchor="middle" class="caption">counter k across attempts &#183; budget N &#183; three exits</text>
+
+  <rect class="run" x="300" y="80" width="180" height="56" rx="12"/>
+  <text x="390" y="104" text-anchor="middle" class="t">run forward path</text>
+  <text x="390" y="122" text-anchor="middle" class="ctr">attempt k of N</text>
+
+  <!-- success exit -->
+  <rect class="ok" x="300" y="180" width="180" height="46" rx="11"/>
+  <text x="390" y="202" text-anchor="middle" class="t">success</text>
+  <text x="390" y="217" text-anchor="middle" class="ts">recovered (k&gt;0) or first-try</text>
+  <path class="flow" d="M390,136 L390,178"/><text x="430" y="162" class="lbl">pass</text>
+
+  <!-- deterministic escalation (left) -->
+  <rect class="esc" x="40" y="180" width="200" height="56" rx="11"/>
+  <text x="140" y="204" text-anchor="middle" class="t">escalate now</text>
+  <text x="140" y="221" text-anchor="middle" class="ts">deterministic fault &#183; skip</text>
+  <path class="flow" d="M300,112 C180,120 150,150 140,178"/>
+  <text x="190" y="140" class="lbl">non-retryable</text>
+
+  <!-- retry loop (right) -->
+  <path class="flow" d="M480,108 C620,108 620,108 620,150"/>
+  <path class="flow" d="M620,150 C620,200 540,200 482,180"/>
+  <text x="635" y="130" class="lbl">retryable</text>
+  <text x="560" y="172" class="lbl">k = k+1</text>
+
+  <!-- budget exhaustion exit -->
+  <rect class="esc" x="540" y="250" width="200" height="56" rx="11"/>
+  <text x="640" y="274" text-anchor="middle" class="t">escalate at k=N</text>
+  <text x="640" y="291" text-anchor="middle" class="ts">budget exhausted (persistent)</text>
+  <path class="flow" d="M620,168 C660,200 645,228 640,248"/>
+
+  <!-- two traces -->
+  <text x="120" y="300" class="lbl" fill="#15803d">trace A (transient): recovers at k=1</text>
+  <text x="120" y="318" class="lbl" fill="#b91c1c">trace B (persistent): escalates at k=N</text>
+
+  <text x="390" y="352" text-anchor="middle" class="caption">budget is an integration choice &#183; bookkeeping, not new theory</text>
+</svg>

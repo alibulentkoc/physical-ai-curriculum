@@ -348,6 +348,47 @@ nav:
         - "8.2 A Lightweight ROS 2 Tracker Node": module08/lesson30.md
         - "8.3 The Control Layer: the Module 9 Handoff": module08/lesson31.md
         - "8.4 Capstone: The Greenhouse Arm Tracks Its Trajectory": module08/lesson32.md
+  - "Module 9 — System Integration: The Complete Physical AI System":
+      - "Unit 1 — The System View":
+        - "1.1 Why Integration Is Hard: The Whole vs. The Parts": module09/lesson01.md
+        - "1.2 The Six-Stage Workflow: Data Flow, Interfaces, Ownership · demo": module09/lesson02.md
+        - "1.3 System Walkthrough: Tracing One Tomato": module09/lesson03.md
+        - "1.4 Unit 1 Recap: The System View": module09/lesson04.md
+      - "Unit 2 — Perceive → Understand":
+        - "2.1 From Perception Output to World State": module09/lesson05.md
+        - "2.2 Target Selection: Which Fruit, Which Pose?": module09/lesson06.md
+        - "2.3 Case Study — When Perception Lies": module09/lesson07.md
+        - "2.4 Unit 2 Recap: Perceive → Understand": module09/lesson08.md
+      - "Unit 3 — Understand → Plan":
+        - "3.1 From Target Pose to Goal Configuration": module09/lesson09.md
+        - "3.2 Invoking the Planner: Calling the Reference Layer": module09/lesson10.md
+        - "3.3 Integration Exercise: Pose to Plan, Wired End to End": module09/lesson11.md
+        - "3.4 Unit 3 Recap: Understand → Plan": module09/lesson12.md
+      - "Unit 4 — Plan → Execute":
+        - "4.1 The Motion Stack: Reference → Velocity → Tracking Controller · demo": module09/lesson13.md
+        - "4.2 Handoff Contracts: ξ_d, q̇, and Real-Time Execution": module09/lesson14.md
+        - "4.3 System Walkthrough: A Goal Pose's Journey to Joint Motion": module09/lesson15.md
+        - "4.4 Unit 4 Recap and Midpoint Checkpoint": module09/lesson16.md
+      - "Unit 5 — Execute → Track":
+        - "5.1 Closing the Loop: Tracking Error and Success Criteria": module09/lesson17.md
+        - "5.2 System Monitoring: Telemetry and the Info Dictionaries": module09/lesson18.md
+        - "5.3 Case Study: Reading Telemetry": module09/lesson19.md
+        - "5.4 Unit 5 Recap: Execute → Track": module09/lesson20.md
+      - "Unit 6 — Failure Detection":
+        - "6.1 The Failure Taxonomy: Integration Events": module09/lesson21.md
+        - "6.2 Detecting Failure: Health Signals and Guards · demo": module09/lesson22.md
+        - "6.3 Failure Analysis: What, Where, Who Owns the Fix": module09/lesson23.md
+        - "6.4 Unit 6 Recap and Installment C Milestone": module09/lesson24.md
+      - "Unit 7 — Recover":
+        - "7.1 The Orchestrator: Coordination as a Stage": module09/lesson25.md
+        - "7.2 Targeted Responses: Matching Action to Owner": module09/lesson26.md
+        - "7.3 Retry Limits and State Across Attempts": module09/lesson27.md
+        - "7.4 Unit 7 Recap: Recover": module09/lesson28.md
+      - "Unit 8 — Full System Integration":
+        - "8.1 The Full Pick Cycle: Six Stages as One Loop": module09/lesson29.md
+        - "8.2 Capstone: Harvesting a Row with Injected Failure · demo": module09/lesson30.md
+        - "8.3 Reading the Integrated System: Guarantees and Boundaries": module09/lesson31.md
+        - "8.4 Unit 8 Recap, Module 9 Close, and Handoff to Module 10": module09/lesson32.md
 
 markdown_extensions:
   - admonition

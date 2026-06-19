@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .card{fill:#ffffff;stroke:#cbd5e1;stroke-width:1.6}
+      .hdr{font-size:13px;font-weight:700;fill:#0f172a}
+      .stage{font-size:12.5px;font-weight:700;fill:#0f172a}
+      .io{font-size:11px;fill:#334155}
+      .own{font-size:10.5px;font-weight:700;fill:#0d9488}
+      .stamp{fill:#f0fdfa;stroke:#0d9488;stroke-width:1.3}
+      .num{font-size:11px;font-weight:700;fill:#0d9488}
+    </style>
+  </defs>
+  <text x="380" y="30" text-anchor="middle" class="title">Tracing One Tomato (F3) Through Six Stages</text>
+  <text x="380" y="50" text-anchor="middle" class="caption">a boarding pass that collects one stamp per stage &#183; input &#8594; decision &#8594; output &#183; owner</text>
+
+  <rect class="card" x="120" y="70" width="520" height="370" rx="14"/>
+  <text x="140" y="96" class="hdr">FRUIT F3 &#183; harvest record</text>
+  <line x1="140" y1="106" x2="620" y2="106" stroke="#e2e8f0"/>
+
+  <!-- rows -->
+  <g>
+    <rect class="stamp" x="140" y="118" width="40" height="40" rx="8"/><text x="160" y="143" text-anchor="middle" class="num">1</text>
+    <text x="196" y="134" class="stage">Perceive</text>
+    <text x="196" y="151" class="io">world &#8594; detections: F3 @ (0.45, 0.30), ripe, conf 0.90</text>
+    <text x="600" y="134" text-anchor="end" class="own">M3</text>
+
+    <rect class="stamp" x="140" y="168" width="40" height="40" rx="8"/><text x="160" y="193" text-anchor="middle" class="num">2</text>
+    <text x="196" y="184" class="stage">Understand</text>
+    <text x="196" y="201" class="io">detections &#8594; current_target = F3 (nearest ripe, reachable)</text>
+    <text x="600" y="184" text-anchor="end" class="own">M9</text>
+
+    <rect class="stamp" x="140" y="218" width="40" height="40" rx="8"/><text x="160" y="243" text-anchor="middle" class="num">3</text>
+    <text x="196" y="234" class="stage">Plan</text>
+    <text x="196" y="251" class="io">current_target, q &#8594; reference(t) toward F3</text>
+    <text x="600" y="234" text-anchor="end" class="own">M7</text>
+
+    <rect class="stamp" x="140" y="268" width="40" height="40" rx="8"/><text x="160" y="293" text-anchor="middle" class="num">4</text>
+    <text x="196" y="284" class="stage">Execute</text>
+    <text x="196" y="301" class="io">reference &#8594; command, new q (real FK keeps tool_xy)</text>
+    <text x="600" y="284" text-anchor="end" class="own">M6+M8</text>
+
+    <rect class="stamp" x="140" y="318" width="40" height="40" rx="8"/><text x="160" y="343" text-anchor="middle" class="num">5</text>
+    <text x="196" y="334" class="stage">Track</text>
+    <text x="196" y="351" class="io">reference, q &#8594; tracking_error within tolerance &#8594; healthy</text>
+    <text x="600" y="334" text-anchor="end" class="own">M8</text>
+
+    <rect class="stamp" x="140" y="368" width="40" height="40" rx="8"/><text x="160" y="393" text-anchor="middle" class="num">6</text>
+    <text x="196" y="384" class="stage">Recover</text>
+    <text x="196" y="401" class="io">health healthy &#8594; no action &#8594; F3 marked harvested</text>
+    <text x="600" y="384" text-anchor="end" class="own">M9</text>
+  </g>
+  <line x1="140" y1="418" x2="620" y2="418" stroke="#e2e8f0"/>
+  <text x="380" y="434" text-anchor="middle" class="caption">reading the trace = checking each contract link in order</text>
+</svg>

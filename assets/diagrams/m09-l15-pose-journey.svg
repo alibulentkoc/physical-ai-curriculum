@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .card{fill:#ffffff;stroke:#cbd5e1;stroke-width:1.6}
+      .hdr{font-size:13px;font-weight:700;fill:#0f172a}
+      .stage{font-size:12.5px;font-weight:700;fill:#0f172a}
+      .io{font-size:11px;fill:#334155}
+      .own{font-size:10.5px;font-weight:700;fill:#0d9488}
+      .stamp{fill:#f0fdfa;stroke:#0d9488;stroke-width:1.3}
+      .num{font-size:11px;font-weight:700;fill:#0d9488}
+      .chk{font-size:11px;font-weight:700;fill:#15803d}
+    </style>
+  </defs>
+  <text x="380" y="30" text-anchor="middle" class="title">A Goal Pose's Journey to Joint Motion</text>
+  <text x="380" y="50" text-anchor="middle" class="caption">one pose &#183; value &#183; owner &#183; check &#8212; ending in real movement</text>
+
+  <rect class="card" x="110" y="70" width="540" height="320" rx="14"/>
+  <text x="130" y="96" class="hdr">POSE F3 &#183; (0.447, 0.152) &#8594; motion</text>
+  <line x1="130" y1="106" x2="630" y2="106" stroke="#e2e8f0"/>
+
+  <rect class="stamp" x="130" y="118" width="40" height="44" rx="8"/><text x="150" y="145" text-anchor="middle" class="num">1</text>
+  <text x="186" y="134" class="stage">target pose</text>
+  <text x="186" y="151" class="io">Understand commits F3 at (0.447, 0.152)</text>
+  <text x="612" y="134" text-anchor="end" class="own">M9</text>
+
+  <rect class="stamp" x="130" y="172" width="40" height="44" rx="8"/><text x="150" y="199" text-anchor="middle" class="num">2</text>
+  <text x="186" y="188" class="stage">goal configuration</text>
+  <text x="186" y="205" class="io">IK &#8594; q_goal = (-0.356, 1.684) &#183; FK verifies &#10003;</text>
+  <text x="612" y="188" text-anchor="end" class="own">M5/M4</text>
+
+  <rect class="stamp" x="130" y="226" width="40" height="44" rx="8"/><text x="150" y="253" text-anchor="middle" class="num">3</text>
+  <text x="186" y="242" class="stage">reference(t)</text>
+  <text x="186" y="259" class="io">planner &#8594; validated &#10003; &#183; duration &#8776; 1.13 s</text>
+  <text x="612" y="242" text-anchor="end" class="own">M7</text>
+
+  <rect class="stamp" x="130" y="280" width="40" height="44" rx="8"/><text x="150" y="307" text-anchor="middle" class="num">4</text>
+  <text x="186" y="296" class="stage">executed q(t)</text>
+  <text x="186" y="313" class="io">motion stack tracks &#183; rms &#8776; 0.0001 rad</text>
+  <text x="612" y="296" text-anchor="end" class="own">M8</text>
+
+  <rect class="stamp" x="130" y="334" width="40" height="44" rx="8"/><text x="150" y="361" text-anchor="middle" class="num">5</text>
+  <text x="186" y="350" class="stage">arrived</text>
+  <text x="186" y="367" class="chk">FK(final q) = (0.447, 0.152) &#8594; gripper at F3 &#10003;</text>
+  <text x="612" y="350" text-anchor="end" class="own">FK</text>
+</svg>

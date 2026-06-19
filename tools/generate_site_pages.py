@@ -36,7 +36,7 @@ S_ASSETS = os.path.join(ROOT, "site_src/assets")
 os.makedirs(S_ASSETS, exist_ok=True)
 
 # modules to build (extend as new modules are produced)
-MODULES = ["01", "02", "03", "04", "05", "06", "07", "08"]
+MODULES = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
 
 # module + unit titles, for the in-page context header (Module / Unit / Lesson)
 MODULE_TITLES = {
@@ -48,6 +48,7 @@ MODULE_TITLES = {
     "06": "Jacobians and Differential Motion",
     "07": "Trajectory Generation and Motion Planning",
     "08": "Feedback Control and Real-Time Execution (ROS 2)",
+    "09": "System Integration — The Complete Physical AI System",
 }
 UNIT_TITLES = {
     ("01", "01"): "Physical Quantities & Measurement",
@@ -112,6 +113,14 @@ UNIT_TITLES = {
     ("08", "08"): "ROS 2 Integration and the Control Stack",
     ("08", "07"): "Embedded Execution and Real-Time Control",
     ("08", "08"): "ROS 2 Integration and the Control Stack",
+    ("09", "01"): "The System View",
+    ("09", "02"): "Perceive \u2192 Understand",
+    ("09", "03"): "Understand \u2192 Plan",
+    ("09", "04"): "Plan \u2192 Execute",
+    ("09", "05"): "Execute \u2192 Track",
+    ("09", "06"): "Failure Detection",
+    ("09", "07"): "Recover",
+    ("09", "08"): "Full System Integration",
 }
 
 def unit_of(text):

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .stage{fill:#ffffff;stroke-width:2}
+      .raw{stroke:#f87171}.clean{stroke:#6366f1}.decide{stroke:#10b981}.out{stroke:#15803d}
+      .name{font-size:12.5px;font-weight:700;fill:#0f172a}
+      .sub{font-size:10px;fill:#64748b}
+      .flow{fill:none;stroke:#334155;stroke-width:2.2;marker-end:url(#arrow)}
+      .fault{font-size:10.5px;font-weight:700;fill:#b91c1c}
+      .faulticon{font-size:15px}
+    </style>
+  </defs>
+  <text x="390" y="30" text-anchor="middle" class="title">Unit 2 &#183; The Perceive &#8594; Understand Seam</text>
+  <text x="390" y="50" text-anchor="middle" class="caption">clean &#8594; decide &#8594; stay robust &#8594; hand forward</text>
+
+  <rect class="stage raw"    x="30"  y="130" width="150" height="64" rx="12"/><text x="105" y="158" text-anchor="middle" class="name">detections</text><text x="105" y="176" text-anchor="middle" class="sub">raw, noisy (M3)</text>
+  <rect class="stage clean"  x="220" y="130" width="150" height="64" rx="12"/><text x="295" y="155" text-anchor="middle" class="name">clean</text><text x="295" y="172" text-anchor="middle" class="sub">dedupe&#183;annotate</text><text x="295" y="186" text-anchor="middle" class="sub">normalize</text>
+  <rect class="stage decide" x="410" y="130" width="150" height="64" rx="12"/><text x="485" y="155" text-anchor="middle" class="name">decide</text><text x="485" y="172" text-anchor="middle" class="sub">filter&#183;rank</text><text x="485" y="186" text-anchor="middle" class="sub">commit</text>
+  <rect class="stage out"    x="600" y="130" width="150" height="64" rx="12"/><text x="675" y="158" text-anchor="middle" class="name">target + pose</text><text x="675" y="176" text-anchor="middle" class="sub">&#8594; Plan</text>
+
+  <path class="flow" d="M180,162 L218,162"/>
+  <path class="flow" d="M370,162 L408,162"/>
+  <path class="flow" d="M560,162 L598,162"/>
+
+  <!-- faults absorbed at clean -->
+  <text x="295" y="108" text-anchor="middle" class="fault">faults absorbed here</text>
+  <text x="250" y="226" class="faulticon">&#127811;</text><text x="270" y="225" class="fault">occlusion</text>
+  <text x="320" y="226" class="faulticon">&#12303;</text><text x="335" y="225" class="fault">noise</text>
+  <text x="250" y="248" class="faulticon">&#9696;&#9696;</text><text x="270" y="247" class="fault">duplicates</text>
+  <path class="flow" d="M295,210 L295,196" />
+</svg>

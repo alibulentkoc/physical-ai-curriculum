@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 400" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .card{fill:#fff;stroke:#cbd5e1;stroke-width:1.6}
+      .ev{font-size:12.5px;font-weight:700;fill:#0f172a}
+      .q{font-size:9.5px;font-weight:700;fill:#64748b}
+      .a{font-size:10.5px;fill:#334155}
+      .own{font-size:10.5px;font-weight:700;fill:#0d9488}
+      .banner{font-size:12px;font-weight:700;fill:#b45309}
+      .flag{font-size:9.5px;font-weight:700;fill:#b91c1c}
+    </style>
+  </defs>
+  <text x="390" y="28" text-anchor="middle" class="title">Failure Analysis: What &#183; Where &#183; Who Owns the Fix</text>
+  <text x="390" y="48" text-anchor="middle" class="banner">localise (with an owner) before recover</text>
+
+  <!-- card 1 -->
+  <rect class="card" x="30" y="70" width="350" height="140" rx="12"/>
+  <text x="50" y="94" class="ev">NO_TARGET</text>
+  <text x="50" y="118" class="q">What failed?</text><text x="170" y="118" class="a">nothing committable to pick</text>
+  <text x="50" y="142" class="q">Where?</text><text x="170" y="142" class="a">Understand</text>
+  <text x="50" y="166" class="q">Who owns the fix?</text><text x="170" y="166" class="own">Perceive / Understand</text>
+  <text x="50" y="192" class="a">&#8594; re-perceive or widen the search</text>
+
+  <!-- card 2 -->
+  <rect class="card" x="400" y="70" width="350" height="140" rx="12"/>
+  <text x="420" y="94" class="ev">UNREACHABLE</text>
+  <text x="420" y="118" class="q">What failed?</text><text x="540" y="118" class="a">target pose out of workspace</text>
+  <text x="420" y="142" class="q">Where (surfaced)?</text><text x="560" y="142" class="a">IK seam</text>
+  <text x="420" y="166" class="q">Who owns the fix?</text><text x="560" y="166" class="own">Understand</text>
+  <text x="420" y="192" class="flag">surfaced &#8800; owner: re-select target</text>
+
+  <!-- card 3 -->
+  <rect class="card" x="30" y="226" width="350" height="140" rx="12"/>
+  <text x="50" y="250" class="ev">PLAN_INVALID</text>
+  <text x="50" y="274" class="q">What failed?</text><text x="170" y="274" class="a">no valid path to the goal</text>
+  <text x="50" y="298" class="q">Where?</text><text x="170" y="298" class="a">Plan</text>
+  <text x="50" y="322" class="q">Who owns the fix?</text><text x="170" y="322" class="own">Plan (or Recover)</text>
+  <text x="50" y="348" class="flag">NOT Perceive &#8212; re-perceive loops</text>
+
+  <!-- card 4 -->
+  <rect class="card" x="400" y="226" width="350" height="140" rx="12"/>
+  <text x="420" y="250" class="ev">TRACKING_FAILURE</text>
+  <text x="420" y="274" class="q">What failed?</text><text x="540" y="274" class="a">missed success criteria</text>
+  <text x="420" y="298" class="q">Where?</text><text x="540" y="298" class="a">Execute &#8594; Track</text>
+  <text x="420" y="322" class="q">Who owns the fix?</text><text x="560" y="322" class="own">Execute / Recover</text>
+  <text x="420" y="348" class="a">&#8594; execution-time event</text>
+</svg>

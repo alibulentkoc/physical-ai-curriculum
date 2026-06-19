@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .lyr{fill:#fff;stroke-width:2}
+      .m6{stroke:#f59e0b}.m7{stroke:#8b5cf6}.m8{stroke:#10b981}
+      .name{font-size:12px;font-weight:700;fill:#0f172a}
+      .sig{font-size:10px;fill:#64748b}
+      .flow{fill:none;stroke:#94a3b8;stroke-width:2;marker-end:url(#arrow)}
+      .dash{fill:#0f172a}
+      .gname{font-size:10px;fill:#cbd5e1}
+      .gval{font-size:13px;font-weight:700;fill:#fff}
+      .gauge{fill:#1e293b;stroke:#334155}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">System Monitoring: Collecting the Info Dictionaries</text>
+  <text x="380" y="48" text-anchor="middle" class="caption">health signals the layers already emit &#8212; collected, not computed anew</text>
+
+  <rect class="lyr m6" x="30" y="90" width="180" height="56" rx="11"/><text x="120" y="113" text-anchor="middle" class="name">velocity layer [M6]</text><text x="120" y="132" text-anchor="middle" class="sig">w, &#963;_min, &#954;, singular</text>
+  <rect class="lyr m7" x="30" y="162" width="180" height="56" rx="11"/><text x="120" y="185" text-anchor="middle" class="name">reference layer [M7]</text><text x="120" y="204" text-anchor="middle" class="sig">validated, metrics</text>
+  <rect class="lyr m8" x="30" y="234" width="180" height="56" rx="11"/><text x="120" y="257" text-anchor="middle" class="name">control layer [M8]</text><text x="120" y="276" text-anchor="middle" class="sig">u_req, u_del, error</text>
+
+  <path class="flow" d="M210,118 C280,150 300,180 318,188"/>
+  <path class="flow" d="M210,190 L318,190"/>
+  <path class="flow" d="M210,262 C280,230 300,200 318,192"/>
+
+  <!-- dashboard -->
+  <rect class="dash" x="330" y="90" width="400" height="200" rx="14"/>
+  <text x="530" y="116" text-anchor="middle" class="gval">system monitor</text>
+  <rect class="gauge" x="350" y="130" width="110" height="60" rx="8"/><text x="405" y="152" text-anchor="middle" class="gname">peak error</text><text x="405" y="174" text-anchor="middle" class="gval">0.0001</text>
+  <rect class="gauge" x="475" y="130" width="110" height="60" rx="8"/><text x="530" y="152" text-anchor="middle" class="gname">rms</text><text x="530" y="174" text-anchor="middle" class="gval">0.0001</text>
+  <rect class="gauge" x="600" y="130" width="110" height="60" rx="8"/><text x="655" y="152" text-anchor="middle" class="gname">min manip w</text><text x="655" y="174" text-anchor="middle" class="gval">0.086</text>
+  <rect class="gauge" x="350" y="202" width="110" height="60" rx="8"/><text x="405" y="224" text-anchor="middle" class="gname">peak effort</text><text x="405" y="246" text-anchor="middle" class="gval">4.6</text>
+  <rect class="gauge" x="475" y="202" width="110" height="60" rx="8"/><text x="530" y="224" text-anchor="middle" class="gname">sat fraction</text><text x="530" y="246" text-anchor="middle" class="gval">0.00</text>
+  <rect class="gauge" x="600" y="202" width="110" height="60" rx="8"/><text x="655" y="224" text-anchor="middle" class="gname">&#963;_min</text><text x="655" y="246" text-anchor="middle" class="gval">0.137</text>
+
+  <text x="380" y="330" text-anchor="middle" class="caption">telemetry = health &#183; distinct from the Track verdict = success</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .annulus{fill:#eff6ff;stroke:#bfdbfe;stroke-width:1.5}
+      .armup{fill:none;stroke:#8b5cf6;stroke-width:3;stroke-dasharray:5 4}
+      .armdn{fill:none;stroke:#10b981;stroke-width:3}
+      .joint{fill:#334155}
+      .target{fill:#ef4444}
+      .lbl{font-size:12px;font-weight:600;fill:#0f172a}
+      .sub{font-size:11px;fill:#64748b}
+      .fk{fill:none;stroke:#0d9488;stroke-width:1.6;stroke-dasharray:3 3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">Pose &#8594; Configuration: IK Solutions, Reach, FK Verify</text>
+  <text x="380" y="48" text-anchor="middle" class="caption">L1=0.4, L2=0.3 &#183; reach 0.7 m</text>
+
+  <!-- workspace annulus (schematic) centered at base (160,250) -->
+  <circle class="annulus" cx="160" cy="250" r="110"/>
+  <circle cx="160" cy="250" r="18" fill="#fff" stroke="#bfdbfe"/>
+  <circle class="joint" cx="160" cy="250" r="5"/>
+  <text x="160" y="378" text-anchor="middle" class="sub">base</text>
+
+  <!-- target reachable at (about) upper right -->
+  <circle class="target" cx="250" cy="180" r="7"/>
+  <text x="262" y="178" class="lbl">target</text>
+  <!-- elbow-up arm: base -> elbow -> target -->
+  <polyline class="armup" points="160,250 205,160 250,180"/>
+  <circle class="joint" cx="205" cy="160" r="4"/>
+  <text x="196" y="150" class="sub" fill="#8b5cf6">elbow up</text>
+  <!-- elbow-down arm -->
+  <polyline class="armdn" points="160,250 235,235 250,180"/>
+  <circle class="joint" cx="235" cy="235" r="4"/>
+  <text x="240" y="252" class="sub" fill="#10b981">elbow down</text>
+
+  <!-- unreachable target outside annulus -->
+  <circle cx="340" cy="300" r="7" fill="#cbd5e1"/>
+  <text x="352" y="304" class="lbl" fill="#94a3b8">IK &#8594; None</text>
+  <text x="352" y="320" class="sub">(unreachable)</text>
+
+  <!-- FK verify box -->
+  <rect x="500" y="150" width="220" height="130" rx="12" fill="#fff" stroke="#0d9488"/>
+  <text x="610" y="178" text-anchor="middle" class="lbl">FK verifies</text>
+  <text x="610" y="206" text-anchor="middle" class="sub">q_goal = IK(x, y)</text>
+  <text x="610" y="228" text-anchor="middle" class="sub">FK(q_goal) = (x, y) ?</text>
+  <text x="610" y="256" text-anchor="middle" class="lbl" fill="#15803d">round-trip err &#8776; 0 &#10003;</text>
+  <path class="fk" d="M258,182 C400,150 440,200 498,205"/>
+</svg>

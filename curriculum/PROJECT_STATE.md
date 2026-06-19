@@ -3,7 +3,7 @@ title: Project State — Physical AI Curriculum
 status: AUTHORITATIVE current-state snapshot
 purpose: A single, current picture of where production stands — current module, what is complete, what is in progress, what is deferred, known issues, and the next milestone. Update this whenever a unit/installment/module completes or a decision changes state.
 authority: Subordinate to ARCHITECT_DECISIONS.md. Counts mirror master_progress.md.
-last_updated: 2026-06 — Module 8 COMPLETE: Installments A–D delivered (Units 1–8, L01–L32 + midpoint; launch = D-066, A = D-067, B = D-068, C = D-069, D = D-070); paused at module completion. Site at 261 lesson pages, mkdocs --strict green. Modules 1–8 COMPLETE; 8 of 10 modules signed off.
+last_updated: 2026-06 — Module 9 COMPLETE: Installments A–D delivered (Units 1–8, L01–L32; A = D-071, B = D-072, C = D-073, D = D-074); paused at module completion. Site at 293 lesson pages, mkdocs --strict green. Modules 1–9 COMPLETE; 9 of 10 modules signed off. Next: Module 10 — Digital Twin Capstone.
 ---
 
 # Project State
@@ -12,7 +12,30 @@ last_updated: 2026-06 — Module 8 COMPLETE: Installments A–D delivered (Units
 
 ## Current module
 
-**Module 8 — Feedback Control and Real-Time Execution (ROS 2): COMPLETE (D-070)** — Installments A–D delivered (Units 1–8, L01–L32 + midpoint; launch package = D-066, A = D-067, B = D-068, C = D-069, D = D-070); paused at module completion. **8 of 10 modules signed off.**
+**Module 9 — System Integration: COMPLETE (D-074)** — Installments A–D delivered (Units 1–8, L01–L32; A = D-071, B = D-072, C = D-073, D = D-074); paused at module completion. **9 of 10 modules signed off.**
+
+Module 9 answers "How do we make the eight separate layers cooperate as one robot?" It is the integration course that wires the **real** M3–M8 layers — perception, IK (M5), velocity (M6), reference (M7), control (M8) — into a single greenhouse harvesting robot, along the workflow spine **Perceive → Understand → Plan → Execute → Track → Recover**. The governing discipline held throughout: **wrap, do not redefine** (every stage calls a real existing layer) and **coordinate, do not re-theorise** (detection is reading existing signals; recovery is coordination + bookkeeping) — **no new estimation, planning, or control theory anywhere in the module.** The deliverable is an integrated, **self-healing** system: it perceives a row, picks each fruit through the full cycle, detects and localises any failure to a *what / where / who*, and recovers (transient) or skips-with-reason (deterministic) — graceful degradation, runnable in one call (`harvest_row`). Running example: planar 2-link arm **L1=0.4, L2=0.3**. The integration package `modules/module09/integration/` vendors the real M5/M6/M7/M8 layers verbatim plus the `world.py` greenhouse model and the `layers.py` adapter (understand / to_configuration / plan_reference / execute_reference / track / system_monitor / run_pipeline / recover / harvest_row).
+
+**Module 9 deliverables (in repo):**
+- 32 lessons — `modules/module09/lessons/lesson01..32_*.md` (12-section template + AI Learning Companion + Global Learning Support in 4 languages).
+- 32 SVGs — `assets/diagrams/m09-l1..l32-*.svg` (XML-valid; embedded in §4 Visual Explanation; one figure per lesson).
+- 32 notebooks — `modules/module09/notebooks/lesson01..32_*.ipynb` (all end "All checks passed." under Restart & Run All; import the integration package).
+- **4 flagship demos** — `modules/module09/demos/`: `lesson02_pipeline_dataflow_explorer.html` (A, L1.2), `lesson13_motion_stack_visualizer.html` (B, L4.1), `lesson22_failure_injection_sandbox.html` (C, L6.2), `lesson30_pick_cycle_player.html` (D, L8.2). Accessible; no browser storage.
+- 32 quizzes — `modules/module09/quizzes/lesson01..32_quiz.html` (MC + short/tf, MathJax).
+- 32 answer keys — `coaches/answer-keys/module09/lesson01..32_answer_key.md` (model answers + grading notes).
+- Integration package — `modules/module09/integration/` (vendored real layers + world + adapter; reusable build helpers `tools/_m9_nbbuild.py`, `tools/_m9_quizbuild.py`).
+- Nav for Units 1–8 added (`· demo` on L1.2/L4.1/L6.2/L8.2); generator `MODULES` includes "09" with 8 unit titles; `mkdocs build --strict` passes at **293 lesson pages** (261 + 32).
+- Reports — `curriculum/module09_installment_a..d_report.md` and `curriculum/module09_completion_report.md`.
+
+**The arc:** Perceive → Understand (Units 1–2, target commitment) · Plan → Execute (Units 3–4, motion stack + midpoint) · Track → Detect (Units 5–6, success verdict + failure taxonomy/guards/localisation) · Recover → Integrate (Units 7–8, orchestrator + full self-healing row harvest). Boundaries held: **no new estimation, planning, or control theory** — the M6→M7→M8→M9 chain is complete; the integrated harvester is the deliverable consumed by Module 10.
+
+**Module 9 totals:** 8 units · 32 lessons · 32 notebooks · 32 SVGs · **4 demos** (L02, L13, L22, L30) · 32 quizzes · 32 answer keys · site at 293 lesson pages.
+
+**Next:** Module 10 — the **Digital Twin Capstone** (single robot, not a fleet), which mirrors / simulates / validates the integrated system; it consumes `harvest_row` / the Module 9 integrated harvester.
+
+---
+
+**Module 8 — Feedback Control and Real-Time Execution (ROS 2): COMPLETE (D-070)** — Installments A–D delivered (Units 1–8, L01–L32 + midpoint; launch package = D-066, A = D-067, B = D-068, C = D-069, D = D-070). **(Previous module — retained below for history.)**
 
 Module 8 answers "How do we make the robot actually follow that motion — on a real, imperfect machine?" It consumes Module 7's reference layer `reference(t) → (q_d, q̇_d, q̈_d)` and closes the loop: tracking error → correction → stability → implementation, on a simulated plant (integrator + disturbance + load + saturation + latency). All §9 rulings held: dynamics as **disturbance/load/friction/saturation/model-mismatch intuition only** (no formal manipulator dynamics); **no control-theory formalism** (no Laplace/transfer functions/root-locus/Bode/Nyquist; and no discrete-time/sampling/z-transform or real-time scheduling formalism in Units 7–8); **ROS 2 conceptual + lightweight code only**; plant = integrator + disturbance + saturation; intuition-first; **explicitly consumes M7's q_d, q̇_d, q̈_d** (feedforward + feedback continuity); and **open-loop vs closed-loop contrasted before PID**. The module produced the **control layer** `tracking_controller(reference, measured_state) → actuator_command` — the Module 9 handoff, completing **velocity layer (M6) → reference layer (M7) → control layer (M8) → integrated system (M9)**. Running example: planar 2-link arm L1=0.4, L2=0.3, driven against the simulated plant through the actuator.
 

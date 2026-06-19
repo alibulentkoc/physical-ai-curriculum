@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .panel{fill:#0f172a}
+      .light{stroke-width:2}
+      .red{fill:#7f1d1d;stroke:#f87171}
+      .amber{fill:#78350f;stroke:#fbbf24}
+      .ev{font-size:12px;font-weight:700;fill:#fff}
+      .sig{font-size:9.5px;fill:#cbd5e1}
+      .stg{font-size:9px;fill:#94a3b8}
+      .key{font-size:11px;fill:#64748b}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">The Failure Taxonomy: an Annunciator Panel</text>
+  <text x="380" y="48" text-anchor="middle" class="caption">named integration events &#183; each wired to a signal the layers already emit</text>
+
+  <rect class="panel" x="40" y="70" width="680" height="230" rx="16"/>
+
+  <!-- four failures (red) -->
+  <rect class="light red" x="66" y="96" width="150" height="86" rx="10"/>
+  <text x="141" y="124" text-anchor="middle" class="ev">NO_TARGET</text>
+  <text x="141" y="146" text-anchor="middle" class="sig">understand() commits nothing</text>
+  <text x="141" y="168" text-anchor="middle" class="stg">stage: Understand</text>
+
+  <rect class="light red" x="232" y="96" width="150" height="86" rx="10"/>
+  <text x="307" y="124" text-anchor="middle" class="ev">UNREACHABLE</text>
+  <text x="307" y="146" text-anchor="middle" class="sig">to_configuration() = None</text>
+  <text x="307" y="168" text-anchor="middle" class="stg">stage: IK seam</text>
+
+  <rect class="light red" x="398" y="96" width="150" height="86" rx="10"/>
+  <text x="473" y="124" text-anchor="middle" class="ev">PLAN_INVALID</text>
+  <text x="473" y="146" text-anchor="middle" class="sig">validated == False</text>
+  <text x="473" y="168" text-anchor="middle" class="stg">stage: Plan</text>
+
+  <rect class="light red" x="564" y="96" width="130" height="86" rx="10"/>
+  <text x="629" y="124" text-anchor="middle" class="ev">TRACKING_</text>
+  <text x="629" y="140" text-anchor="middle" class="ev">FAILURE</text>
+  <text x="629" y="160" text-anchor="middle" class="sig">verdict success=False</text>
+  <text x="629" y="176" text-anchor="middle" class="stg">stage: Track</text>
+
+  <!-- two warnings (amber) -->
+  <rect class="light amber" x="150" y="200" width="200" height="80" rx="10"/>
+  <text x="250" y="228" text-anchor="middle" class="ev">NEAR_SINGULAR</text>
+  <text x="250" y="250" text-anchor="middle" class="sig">min manipulability &lt; &#964;</text>
+  <text x="250" y="270" text-anchor="middle" class="stg">warning &#183; Execute (path)</text>
+
+  <rect class="light amber" x="410" y="200" width="200" height="80" rx="10"/>
+  <text x="510" y="228" text-anchor="middle" class="ev">EXCESS_EFFORT</text>
+  <text x="510" y="250" text-anchor="middle" class="sig">peak effort &gt; &#964;</text>
+  <text x="510" y="270" text-anchor="middle" class="stg">warning &#183; Execute</text>
+
+  <text x="380" y="330" text-anchor="middle" class="key">red = hard failure (halts the path) &#183; amber = warning (a fragile but possibly successful run)</text>
+</svg>

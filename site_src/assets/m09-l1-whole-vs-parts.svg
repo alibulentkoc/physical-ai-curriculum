@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .panel{font-size:14px;font-weight:700;fill:#0f172a}
+      .lbl{font-size:12.5px;font-weight:600;fill:#0f172a}
+      .ok{fill:#dcfce7;stroke:#16a34a;stroke-width:2}
+      .box{fill:#ffffff;stroke:#334155;stroke-width:1.8}
+      .flow{fill:none;stroke:#334155;stroke-width:2;marker-end:url(#arrow)}
+      .seam{fill:none;stroke:#dc2626;stroke-width:2.5;stroke-dasharray:5 4}
+      .seamdot{fill:#dc2626}
+      .red{font-size:12px;font-weight:700;fill:#b91c1c}
+      .grn{font-size:11.5px;font-weight:700;fill:#15803d}
+    </style>
+  </defs>
+  <text x="380" y="30" text-anchor="middle" class="title">The Whole vs. The Parts</text>
+  <text x="380" y="50" text-anchor="middle" class="caption">Greenhouse Harvesting Robot &#183; eight correct layers do not make one correct robot</text>
+
+  <!-- LEFT: parts each verified -->
+  <text x="180" y="84" text-anchor="middle" class="panel">Parts &#8212; each verified</text>
+  <g>
+    <rect class="ok" x="120" y="100" width="120" height="26" rx="7"/><text x="180" y="118" text-anchor="middle" class="grn">M3 Perceive &#10003;</text>
+    <rect class="ok" x="120" y="134" width="120" height="26" rx="7"/><text x="180" y="152" text-anchor="middle" class="grn">M4 FK &#10003;</text>
+    <rect class="ok" x="120" y="168" width="120" height="26" rx="7"/><text x="180" y="186" text-anchor="middle" class="grn">M5 IK &#10003;</text>
+    <rect class="ok" x="120" y="202" width="120" height="26" rx="7"/><text x="180" y="220" text-anchor="middle" class="grn">M6 velocity &#10003;</text>
+    <rect class="ok" x="120" y="236" width="120" height="26" rx="7"/><text x="180" y="254" text-anchor="middle" class="grn">M7 reference &#10003;</text>
+    <rect class="ok" x="120" y="270" width="120" height="26" rx="7"/><text x="180" y="288" text-anchor="middle" class="grn">M8 control &#10003;</text>
+  </g>
+  <text x="180" y="322" text-anchor="middle" class="caption">all unit tests green</text>
+
+  <!-- RIGHT: composed, seams at risk -->
+  <text x="560" y="84" text-anchor="middle" class="panel">Whole &#8212; the seams carry the risk</text>
+  <rect class="box" x="470" y="104" width="180" height="24" rx="7"/><text x="560" y="121" text-anchor="middle" class="lbl">Perceive</text>
+  <rect class="box" x="470" y="156" width="180" height="24" rx="7"/><text x="560" y="173" text-anchor="middle" class="lbl">Understand</text>
+  <rect class="box" x="470" y="208" width="180" height="24" rx="7"/><text x="560" y="225" text-anchor="middle" class="lbl">Plan &#8594; Execute</text>
+  <rect class="box" x="470" y="260" width="180" height="24" rx="7"/><text x="560" y="277" text-anchor="middle" class="lbl">Track &#8594; Recover</text>
+  <!-- seams -->
+  <path class="seam" d="M560,128 L560,156"/><circle class="seamdot" cx="560" cy="142" r="4"/>
+  <path class="seam" d="M560,180 L560,208"/><circle class="seamdot" cx="560" cy="194" r="4"/>
+  <path class="seam" d="M560,232 L560,260"/><circle class="seamdot" cx="560" cy="246" r="4"/>
+  <text x="600" y="146" class="red">units?</text>
+  <text x="600" y="198" class="red">reachable?</text>
+  <text x="600" y="250" class="red">timing?</text>
+  <text x="560" y="322" text-anchor="middle" class="red">the bugs live here &#8212; in the seams</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .panel{fill:#ffffff;stroke:#e2e8f0;stroke-width:1.6}
+      .ph{font-size:13px;font-weight:700;fill:#0f172a}
+      .lbl{font-size:11px;fill:#334155}
+      .def{font-size:11px;font-weight:700;fill:#15803d}
+      .fruit{fill:#ef4444}
+      .fruitg{fill:#cbd5e1}
+      .leaf{fill:#22c55e}
+      .noise{fill:none;stroke:#f59e0b;stroke-width:1.4;stroke-dasharray:3 3}
+    </style>
+  </defs>
+  <text x="390" y="30" text-anchor="middle" class="title">When Perception Lies</text>
+  <text x="390" y="50" text-anchor="middle" class="caption">facts of operation, not bugs &#183; each fault absorbed at the seam</text>
+
+  <!-- Occlusion -->
+  <rect class="panel" x="30" y="70" width="230" height="250" rx="12"/>
+  <text x="145" y="96" text-anchor="middle" class="ph">Occlusion</text>
+  <circle class="fruitg" cx="110" cy="150" r="12"/>
+  <rect class="leaf" x="96" y="132" width="40" height="20" rx="9"/>
+  <circle class="fruit" cx="190" cy="150" r="12"/>
+  <text x="145" y="200" text-anchor="middle" class="lbl">leaf hides F2 this frame</text>
+  <text x="145" y="220" text-anchor="middle" class="lbl">&#8594; F2 absent from detections</text>
+  <text x="145" y="252" text-anchor="middle" class="def">defense: reflect observability,</text>
+  <text x="145" y="268" text-anchor="middle" class="def">fall back to next target</text>
+
+  <!-- Clutter / noise -->
+  <rect class="panel" x="275" y="70" width="230" height="250" rx="12"/>
+  <text x="390" y="96" text-anchor="middle" class="ph">Clutter (noise)</text>
+  <circle class="noise" cx="390" cy="150" r="22"/>
+  <circle class="fruit" cx="384" cy="146" r="11"/>
+  <circle class="fruit" cx="396" cy="154" r="6" opacity="0.4"/>
+  <text x="390" y="200" text-anchor="middle" class="lbl">position jitters frame to frame</text>
+  <text x="390" y="220" text-anchor="middle" class="lbl">&#8594; ranking can wobble slightly</text>
+  <text x="390" y="252" text-anchor="middle" class="def">defense: deterministic filter,</text>
+  <text x="390" y="268" text-anchor="middle" class="def">bounded, stable result</text>
+
+  <!-- Duplicates -->
+  <rect class="panel" x="520" y="70" width="230" height="250" rx="12"/>
+  <text x="635" y="96" text-anchor="middle" class="ph">Duplicates</text>
+  <circle class="fruit" cx="620" cy="150" r="12"/>
+  <circle class="fruit" cx="650" cy="150" r="12" opacity="0.55"/>
+  <text x="635" y="200" text-anchor="middle" class="lbl">tracker reports F1 twice</text>
+  <text x="635" y="220" text-anchor="middle" class="lbl">&#8594; risk of a double pick</text>
+  <text x="635" y="252" text-anchor="middle" class="def">defense: dedupe within &#964;,</text>
+  <text x="635" y="268" text-anchor="middle" class="def">keep higher confidence</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .panel{fill:#0f172a}
+      .hd{font-size:13px;font-weight:700;fill:#fff}
+      .row{font-size:11.5px;fill:#cbd5e1}
+      .green{fill:#34d399;font-weight:700}
+      .red{fill:#f87171;font-weight:700}
+      .amber{fill:#fbbf24;font-weight:700}
+      .read{font-size:11px;fill:#64748b}
+    </style>
+  </defs>
+  <text x="380" y="28" text-anchor="middle" class="title">Reading Telemetry: Healthy vs. Degraded</text>
+  <text x="380" y="48" text-anchor="middle" class="caption">read the pattern across signals &#8212; which gauges moved?</text>
+
+  <!-- healthy -->
+  <rect class="panel" x="40" y="70" width="320" height="230" rx="14"/>
+  <text x="60" y="98" class="hd">HEALTHY pick</text>
+  <text x="60" y="128" class="row">verdict: <tspan class="green">success (ok)</tspan></text>
+  <text x="60" y="154" class="row">peak error: <tspan class="green">0.0001</tspan></text>
+  <text x="60" y="180" class="row">peak effort: <tspan class="green">4.6</tspan></text>
+  <text x="60" y="206" class="row">manipulability: <tspan class="green">0.086</tspan></text>
+  <text x="60" y="232" class="row">saturation: <tspan class="green">0.00</tspan></text>
+  <text x="60" y="270" class="read" fill="#94a3b8">"clean pick &#8212; nothing to investigate"</text>
+
+  <!-- degraded -->
+  <rect class="panel" x="400" y="70" width="320" height="230" rx="14"/>
+  <text x="420" y="98" class="hd">DEGRADED pick</text>
+  <text x="420" y="128" class="row">verdict: <tspan class="red">failure (final_error)</tspan></text>
+  <text x="420" y="154" class="row">peak error: <tspan class="red">2.20</tspan></text>
+  <text x="420" y="180" class="row">peak effort: <tspan class="red">70.0</tspan></text>
+  <text x="420" y="206" class="row">manipulability: <tspan class="green">0.086</tspan></text>
+  <text x="420" y="232" class="row">saturation: <tspan class="green">0.00</tspan></text>
+  <text x="420" y="262" class="read" fill="#94a3b8">"failed on final error; effort &amp; error</text>
+  <text x="420" y="278" class="read" fill="#94a3b8">spiked, geometry fine &#8594; external strain"</text>
+</svg>

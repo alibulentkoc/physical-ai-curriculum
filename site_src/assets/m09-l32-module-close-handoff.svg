@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0d9488"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .sys{fill:#f0fdfa;stroke:#0d9488;stroke-width:2.4}
+      .stage{fill:#fff;stroke:#cbd5e1;stroke-width:1.6}
+      .nm{font-size:10px;font-weight:700;fill:#0f172a}
+      .grey{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2.4;stroke-dasharray:6 4}
+      .gname{font-size:13px;font-weight:700;fill:#94a3b8}
+      .gsub{font-size:10px;fill:#94a3b8}
+      .hand{fill:none;stroke:#0d9488;stroke-width:2.6;marker-end:url(#arrow)}
+      .banner{font-size:12px;font-weight:700;fill:#0d9488}
+    </style>
+  </defs>
+  <text x="390" y="26" text-anchor="middle" class="title">Module 9 Complete &#8594; Handoff to Module 10</text>
+  <text x="390" y="45" text-anchor="middle" class="banner">wrap &#183; coordinate &#183; explicit seams</text>
+
+  <!-- Module 9 system box -->
+  <rect class="sys" x="30" y="80" width="430" height="190" rx="16"/>
+  <text x="245" y="106" text-anchor="middle" class="nm" font-size="13" fill="#0d9488">Module 9: self-healing harvester</text>
+  <!-- six stages inside -->
+  <rect class="stage" x="50"  y="124" width="120" height="40" rx="9"/><text x="110" y="148" text-anchor="middle" class="nm">Perceive</text>
+  <rect class="stage" x="180" y="124" width="120" height="40" rx="9"/><text x="240" y="148" text-anchor="middle" class="nm">Understand</text>
+  <rect class="stage" x="310" y="124" width="120" height="40" rx="9"/><text x="370" y="148" text-anchor="middle" class="nm">Plan</text>
+  <rect class="stage" x="50"  y="176" width="120" height="40" rx="9"/><text x="110" y="200" text-anchor="middle" class="nm">Execute</text>
+  <rect class="stage" x="180" y="176" width="120" height="40" rx="9"/><text x="240" y="200" text-anchor="middle" class="nm">Track</text>
+  <rect class="stage" x="310" y="176" width="120" height="40" rx="9"/><text x="370" y="200" text-anchor="middle" class="nm">Detect</text>
+  <rect class="stage" x="180" y="228" width="120" height="34" rx="9" stroke="#0d9488"/><text x="240" y="250" text-anchor="middle" class="nm" fill="#0d9488">Recover (loop)</text>
+  <text x="245" y="120" text-anchor="middle" class="caption"></text>
+
+  <!-- handoff arrow -->
+  <path class="hand" d="M462,175 L548,175"/>
+  <text x="505" y="166" text-anchor="middle" class="caption">harvest_row</text>
+
+  <!-- Module 10 twin -->
+  <rect class="grey" x="552" y="95" width="200" height="160" rx="16"/>
+  <text x="652" y="160" text-anchor="middle" class="gname">Module 10</text>
+  <text x="652" y="180" text-anchor="middle" class="gname">Digital Twin Capstone</text>
+  <text x="652" y="206" text-anchor="middle" class="gsub">mirror &#183; simulate &#183; validate</text>
+  <text x="652" y="222" text-anchor="middle" class="gsub">(single robot)</text>
+
+  <text x="390" y="305" text-anchor="middle" class="caption">eight layers &#8594; one working system &#183; the twin is its validation rig</text>
+</svg>

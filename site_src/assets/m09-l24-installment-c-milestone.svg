@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font-size:18px;font-weight:700;fill:#0f172a}
+      .caption{font-size:12px;fill:#94a3b8}
+      .box{fill:#fff;stroke-width:2}
+      .exec{stroke:#10b981}.track{stroke:#0d9488}.guard{stroke:#ef4444}.anal{stroke:#6366f1}
+      .grey{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2;stroke-dasharray:5 4}
+      .name{font-size:12px;font-weight:700;fill:#0f172a}
+      .gname{font-size:12px;font-weight:700;fill:#94a3b8}
+      .sub{font-size:9.5px;fill:#64748b}
+      .flow{fill:none;stroke:#334155;stroke-width:2.2;marker-end:url(#arrow)}
+      .lbl{font-size:10px;font-weight:700;fill:#15803d}
+    </style>
+  </defs>
+  <text x="410" y="28" text-anchor="middle" class="title">Installment C Milestone: The System Sees Its Own Failures</text>
+  <text x="410" y="48" text-anchor="middle" class="caption">judge &#183; monitor &#183; name &#183; detect &#183; localise &#8212; everything but recover</text>
+
+  <rect class="box exec"  x="30"  y="120" width="120" height="60" rx="12"/><text x="90"  y="146" text-anchor="middle" class="name">Execute</text><text x="90"  y="164" text-anchor="middle" class="sub">motion</text>
+  <rect class="box track" x="190" y="120" width="140" height="60" rx="12"/><text x="260" y="142" text-anchor="middle" class="name">Track + Monitor</text><text x="260" y="160" text-anchor="middle" class="sub">verdict + telemetry</text>
+  <rect class="box guard" x="370" y="120" width="120" height="60" rx="12"/><text x="430" y="146" text-anchor="middle" class="name">Guards</text><text x="430" y="164" text-anchor="middle" class="sub">fire events</text>
+  <rect class="box anal"  x="530" y="120" width="150" height="60" rx="12"/><text x="605" y="142" text-anchor="middle" class="name">Analysis</text><text x="605" y="160" text-anchor="middle" class="sub">What/Where/Who + owner</text>
+
+  <path class="flow" d="M150,150 L188,150"/>
+  <path class="flow" d="M330,150 L368,150"/>
+  <path class="flow" d="M490,150 L528,150"/>
+
+  <!-- recover greyed -->
+  <rect class="grey" x="700" y="120" width="100" height="60" rx="12"/>
+  <text x="750" y="146" text-anchor="middle" class="gname">Recover</text>
+  <text x="750" y="164" text-anchor="middle" class="sub">Unit 7 (How?)</text>
+  <path class="flow" d="M680,150 L698,150"/>
+  <text x="690" y="108" text-anchor="middle" class="lbl">localised fault + owner</text>
+
+  <text x="410" y="240" text-anchor="middle" class="caption">detection precedes recovery: a targeted fix needs a localised, owned fault to aim at</text>
+</svg>
