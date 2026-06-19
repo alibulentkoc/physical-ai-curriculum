@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building the Perception → World Pipeline — Lesson 8.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:11.5px;color:var(--muted);display:block;margin:7px 0 3px} input[type=range]{width:100%}
+  .pipe{font-size:11px;font-variant-numeric:tabular-nums;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+  .pipe div{margin:2px 0;display:flex;justify-content:space-between}.arrow{color:#94a3b8;justify-content:flex-start!important}
+  .chg{background:#fef9c3;border-radius:4px;padding:0 4px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Add yaw to the camera extrinsics</b> and watch which stages change. The pixel and P_c stay put; everything from P_arm onward rotates.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 240"></svg>
+  <div class="panel">
+    <label>extrinsics yaw (T_arm←c rotation)</label><input type="range" id="yaw" min="0" max="90" step="1" value="0">
+    <div class="pipe" id="pipe"></div>
+    <div class="hint">Each stage feeds the next. Rotating the camera-to-arm mount leaves the camera-frame point unchanged but re-aims it inside the arm frame, so P_arm and the world target both move.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=240,ML=34,sX=56,MidY=140,sY=46,fx=800,cx=320;
+  var svg=document.getElementById("svg"),pipe=document.getElementById("pipe"),NS="http://www.w3.org/2000/svg";
+  var u=470,Z=0.5, arm={x:1.0,y:0.6,th:0}, offset=[0.25,0];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(x,y){return [ML+x*sX, MidY-y*sY];}
+  function compose(A,B){var c=Math.cos(A.th),s=Math.sin(A.th);return {x:A.x+c*B.x-s*B.y,y:A.y+s*B.x+c*B.y,th:A.th+B.th};}
+  function apply(P,l){var c=Math.cos(P.th),s=Math.sin(P.th);return [P.x+c*l[0]-s*l[1], P.y+s*l[0]+c*l[1]];}
+  function render(){
+    var yaw=+document.getElementById("yaw").value*Math.PI/180;
+    var ext={x:offset[0],y:offset[1],th:yaw};
+    var xn=(u-cx)/fx, Pc=[Z, Z*xn];
+    var Parm=apply(ext,Pc);
+    var cam=compose(arm,ext), Pw=apply(cam,Pc);
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:8,y1:MidY,x2:W-8,y2:MidY,stroke:"#e2e8f0","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:ML,y1:H-8,x2:ML,y2:8,stroke:"#e2e8f0","stroke-width":1.2}));
+    var ao=sv(arm.x,arm.y),co=sv(cam.x,cam.y);
+    svg.appendChild(el("circle",{cx:ao[0],cy:ao[1],r:4,fill:"#475569"}));
+    var al=el("text",{x:ao[0]+4,y:ao[1]+14,"font-size":9,fill:"#475569"});al.textContent="arm";svg.appendChild(al);
+    var cc=Math.cos(cam.th),cs=Math.sin(cam.th);
+    svg.appendChild(el("line",{x1:co[0],y1:co[1],x2:co[0]+22*cc,y2:co[1]-22*cs,stroke:"#7c3aed","stroke-width":2}));
+    svg.appendChild(el("rect",{x:co[0]-5,y:co[1]-5,width:10,height:10,rx:2,fill:"#7c3aed"}));
+    var pw=sv(Pw[0],Pw[1]);
+    svg.appendChild(el("line",{x1:co[0],y1:co[1],x2:pw[0],y2:pw[1],stroke:"#cbd5e1","stroke-width":1.2,"stroke-dasharray":"3 3"}));
+    svg.appendChild(el("circle",{cx:pw[0],cy:pw[1],r:9,fill:"#ef4444"}));
+    var f2=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    var ch=yaw>0.001?' class="chg"':'';
+    pipe.innerHTML='<div><span>pixel u</span><span>'+u+'</span></div>'+
+      '<div class="arrow">↓ back-project</div>'+
+      '<div><span>P_c</span><span>('+f2(Pc[0])+', '+f2(Pc[1])+')</span></div>'+
+      '<div class="arrow">↓ extrinsics (yaw)</div>'+
+      '<div><span>P_arm</span><span'+ch+'>('+f2(Parm[0])+', '+f2(Parm[1])+')</span></div>'+
+      '<div class="arrow">↓ arm pose</div>'+
+      '<div><span>P_w</span><span'+ch+' style="color:#0d9488;font-weight:700">('+f2(Pw[0])+', '+f2(Pw[1])+')</span></div>';
+  }
+  document.getElementById("yaw").addEventListener("input",render);
+  render();
+})();</script></body></html>

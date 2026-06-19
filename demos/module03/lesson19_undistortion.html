@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Undistortion — Lesson 5.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Click the observed (distorted) point to grab it, move, click to drop.</b> Undistortion inverts the lens: it recovers the true point. Near the centre nothing moves; at the edges the correction is large.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 260 260"></svg>
+  <div class="panel">
+    <label>lens distortion k₁</label><input type="range" id="k1" min="-0.4" max="0.4" step="0.01" value="-0.25">
+    <div class="readout" id="out"></div>
+    <div class="hint">Undistortion solves "what ideal point would distort to this?" by iterating a few times. The centre is a fixed point of the lens, so it never moves; edge points get pushed back to where the straight world really is.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=260,H=260,C=130,sc=95,NS="http://www.w3.org/2000/svg";
+  var svg=document.getElementById("svg"),out=document.getElementById("out");
+  var obs=[0.55,0.3], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(x,y){return [C+x*sc, C-y*sc];}
+  function undistort(xd,yd,k1){var x=xd,y=yd;for(var i=0;i<8;i++){var r2=x*x+y*y;var f=1+k1*r2;x=xd/f;y=yd/f;}return [x,y,8];}
+  function render(){
+    var k1=+document.getElementById("k1").value;
+    var u=undistort(obs[0],obs[1],k1); var ux=u[0],uy=u[1];
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:C-sc,y:C-sc,width:sc*2,height:sc*2,fill:"#fff",stroke:"#cbd5e1","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:C-sc,y1:C,x2:C+sc,y2:C,stroke:"#eef2f7","stroke-width":1}));
+    svg.appendChild(el("line",{x1:C,y1:C-sc,x2:C,y2:C+sc,stroke:"#eef2f7","stroke-width":1}));
+    svg.appendChild(el("circle",{cx:C,cy:C,r:3,fill:"#94a3b8"}));
+    var op=sv(obs[0],obs[1]), rp=sv(ux,uy);
+    // arrow observed -> recovered
+    svg.appendChild(el("line",{x1:op[0],y1:op[1],x2:rp[0],y2:rp[1],stroke:"#5eead4","stroke-width":1.6}));
+    // recovered (true) point
+    svg.appendChild(el("circle",{cx:rp[0],cy:rp[1],r:6,fill:"#0d9488"}));
+    var rl=el("text",{x:rp[0]+9,y:rp[1]+4,"font-size":9,fill:"#0d9488"});rl.textContent="recovered";svg.appendChild(rl);
+    // observed (distorted) + handle
+    svg.appendChild(el("circle",{cx:op[0],cy:op[1],r:24,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:op[0],cy:op[1],r:13,fill:"none",stroke:"#ef4444","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.8}));
+    svg.appendChild(el("circle",{cx:op[0],cy:op[1],r:7,fill:"#ef4444"}));
+    var ol=el("text",{x:op[0]+9,y:op[1]-8,"font-size":9,fill:"#ef4444"});ol.textContent="observed";svg.appendChild(ol);
+    if(!hinted){var hh=el("text",{x:op[0]-6,y:op[1]-18,"font-size":11,fill:"#0d9488","font-weight":"700","text-anchor":"middle"});hh.textContent="click to grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:12,y:18,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    var f2=function(x){return (Math.round(x*1000)/1000).toFixed(3);};
+    out.innerHTML='<div class="ln"><span>observed</span><span>('+f2(obs[0])+', '+f2(obs[1])+')</span></div>'+
+      '<div class="ln"><span>recovered (true)</span><span>('+f2(ux)+', '+f2(uy)+')</span></div>'+
+      '<div class="ln"><span>iterations</span><span>'+u[2]+'</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){
+    if(grabbing){grabbing=false;svg.style.cursor="";render();return;}
+    var m=_ev(e),h=sv(obs[0],obs[1]);
+    if(Math.hypot(m[0]-h[0],m[1]-h[1])<30){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}
+  });
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);
+    obs[0]=Math.max(-1,Math.min(1,(m[0]-C)/sc));obs[1]=Math.max(-1,Math.min(1,(C-m[1])/sc));render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  render();
+})();</script></body></html>

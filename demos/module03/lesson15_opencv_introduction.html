@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seeing It in Code — Lesson 4.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:11.5px;color:var(--muted);display:block;margin:8px 0 4px} input[type=range]{width:100%}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:8px;cursor:pointer}
+  .code{background:#0f172a;color:#e2e8f0;border-radius:8px;padding:10px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;line-height:1.5;margin-top:8px}
+  .code .k{color:#5eead4}.code .n{color:#fca5a5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Slide the camera along its own axis (tvec z)</b> and toggle distortion. Watch Z_c and the output pixel change — and see OpenCV match the hand-built pipeline when distortion is zero.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 220"></svg>
+  <div class="panel">
+    <label>tvec z (camera moves along axis)</label><input type="range" id="tz" min="-0.15" max="0.4" step="0.01" value="0">
+    <label class="tog"><input type="checkbox" id="dist"> distCoeffs nonzero (k₁ = −0.25)</label>
+    <div class="code" id="code"></div>
+    <div class="hint">cv2.projectPoints runs object → [R|t] → K → pixel. Moving the camera forward shrinks Z_c, so the pixel pushes outward. With distCoeffs = 0 it equals our formula exactly; nonzero coeffs bend it.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=220,MX=14,MY=18,sc=0.40,IW=640,IH=480,cx=320,cy=240,fl=800;
+  var svg=document.getElementById("svg"),code=document.getElementById("code"),NS="http://www.w3.org/2000/svg";
+  var P=[0.12,-0.06,0.5];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function px(u,v){return [MX+u*sc, MY+v*sc];}
+  function render(){
+    var tz=+document.getElementById("tz").value, dist=document.getElementById("dist").checked;
+    var Zc=P[2]+tz; var xn=P[0]/Zc, yn=P[1]/Zc;
+    var k1=dist?-0.25:0; var r2=xn*xn+yn*yn; var fac=1+k1*r2;
+    var u=fl*xn*fac+cx, v=fl*yn*fac+cy;
+    svg.innerHTML="";
+    var o=px(0,0),e=px(IW,IH);
+    svg.appendChild(el("rect",{x:o[0],y:o[1],width:e[0]-o[0],height:e[1]-o[1],fill:"#fff",stroke:"#94a3b8","stroke-width":1.5}));
+    var lab=el("text",{x:o[0]+2,y:o[1]-5,"font-size":10,fill:"#94a3b8"});lab.textContent="cv2.projectPoints output";svg.appendChild(lab);
+    var pp=px(cx,cy);
+    svg.appendChild(el("line",{x1:pp[0]-6,y1:pp[1],x2:pp[0]+6,y2:pp[1],stroke:"#0369a1","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:pp[0],y1:pp[1]-6,x2:pp[0],y2:pp[1]+6,stroke:"#0369a1","stroke-width":1.3}));
+    // ideal (no distortion) ghost
+    var ui=fl*xn+cx, vi=fl*yn+cy, gi=px(ui,vi);
+    if(dist) svg.appendChild(el("circle",{cx:gi[0],cy:gi[1],r:6,fill:"none",stroke:"#cbd5e1","stroke-width":1.5,"stroke-dasharray":"3 2"}));
+    var pt=px(Math.max(0,Math.min(IW,u)),Math.max(0,Math.min(IH,v)));
+    svg.appendChild(el("circle",{cx:pt[0],cy:pt[1],r:7,fill:"#ef4444"}));
+    code.innerHTML='<span class="k">cv2.projectPoints</span>(<br>&nbsp; obj=(0.12,-0.06,0.5),<br>&nbsp; tvec=(0,0,<span class="n">'+tz.toFixed(2)+'</span>), K, dist)<br>Z_c = <span class="n">'+Zc.toFixed(2)+'</span><br>&rarr; pixel = (<span class="n">'+Math.round(u)+', '+Math.round(v)+'</span>)';
+  }
+  ["tz"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  document.getElementById("dist").addEventListener("change",render);
+  render();
+})();</script></body></html>

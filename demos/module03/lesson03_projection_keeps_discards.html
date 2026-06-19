@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Projection Keeps and Discards — Lesson 1.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 340px;min-width:300px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .tog{font-size:13px;display:flex;gap:7px;align-items:center;margin-top:10px;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:5px 0}
+  .keep{color:var(--green);font-weight:700}.lost{color:var(--bad);font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Slide the tomato's distance.</b> Watch its <b>apparent size</b> shrink while its <b>center pixel stays put</b> — then tick the box to see a far-but-big tomato make the identical image.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 360 240"></svg>
+  <div class="panel">
+    <label>distance from camera</label><input type="range" id="d" min="1.2" max="4.0" step="0.02" value="1.8">
+    <label class="tog"><input type="checkbox" id="big"> show a large, far tomato instead</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">Projection <b>keeps direction</b> (the center pixel is fixed) but <b>discards depth and true size</b>: a small near tomato and a large far one can produce the very same image. That ambiguity is why depth must come from elsewhere.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=360,H=240,ML=60,sX=64,MidY=120,sY=46,f=1.0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var dir=[1,0.35], trueR=0.28;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(x,y){return [ML+x*sX, MidY-y*sY];}
+  function render(){
+    var d=+document.getElementById("d").value, big=document.getElementById("big").checked;
+    var L=Math.hypot(dir[0],dir[1]);
+    var dist=big?3.6:d, R=big?trueR*(3.6/1.8):trueR;
+    var pos=[dir[0]/L*dist, dir[1]/L*dist];
+    svg.innerHTML="";
+    var cam=sv(0,0), ipTop=sv(f,2.0),ipBot=sv(f,-2.0);
+    svg.appendChild(el("line",{x1:ipTop[0],y1:ipTop[1],x2:ipBot[0],y2:ipBot[1],stroke:"#94a3b8","stroke-width":2}));
+    var sl=el("text",{x:ipTop[0]-6,y:ipTop[1]-6,"font-size":10,fill:"#94a3b8","text-anchor":"middle"});sl.textContent="sensor";svg.appendChild(sl);
+    // ray to center
+    var far=sv(dir[0]/L*4.4, dir[1]/L*4.4);
+    svg.appendChild(el("line",{x1:cam[0],y1:cam[1],x2:far[0],y2:far[1],stroke:"#fca5a5","stroke-width":1.3,"stroke-dasharray":"5 4"}));
+    // tomato (screen radius scales with true size / distance => apparent size)
+    var p=sv(pos[0],pos[1]); var appR=Math.max(5, R/dist*240);
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:appR,fill:"#ef4444"}));
+    svg.appendChild(el("line",{x1:p[0],y1:p[1]-appR,x2:p[0]+4,y2:p[1]-appR-6,stroke:"#15803d","stroke-width":2}));
+    // center pixel (constant) + projected size on sensor
+    var yimg=f*dir[1]/dir[0]; var px=sv(f,yimg);
+    var imgHalf=(R/dist)*f*sY; // projected half-height on sensor (screen units)
+    svg.appendChild(el("line",{x1:px[0],y1:px[1]-imgHalf,x2:px[0],y2:px[1]+imgHalf,stroke:"#0d9488","stroke-width":4,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:px[0],cy:px[1],r:3,fill:"#0d9488"}));
+    var pl=el("text",{x:px[0]+8,y:px[1]+4,"font-size":10,fill:"#0d9488"});pl.textContent="image";svg.appendChild(pl);
+    svg.appendChild(el("rect",{x:cam[0]-16,y:cam[1]-11,width:20,height:22,rx:3,fill:"#475569"}));
+    var f2=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span>center pixel</span><span class="keep">'+f2(yimg)+' (fixed)</span></div>'+
+      '<div class="ln"><span>apparent size</span><span class="lost">'+f2(R/dist)+'</span></div>'+
+      '<div class="ln"><span>true distance</span><span class="lost">'+(big?"hidden":"hidden")+'</span></div>'+
+      '<div style="margin-top:6px;color:#94a3b8;font-size:11.5px">direction kept · depth &amp; size discarded</div>';
+  }
+  document.getElementById("d").addEventListener("input",render);
+  document.getElementById("big").addEventListener("change",render);
+  render();
+})();</script></body></html>

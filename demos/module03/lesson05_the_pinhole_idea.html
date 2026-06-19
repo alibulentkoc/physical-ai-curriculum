@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Pinhole Idea — Lesson 2.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 360px;min-width:320px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:5px 0}
+  .flip{color:var(--bad);font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Click the tomato to grab it, move, click to drop.</b> Light goes straight through the pinhole, so the image on the far wall is <b>upside-down and left-right flipped</b>. Slide <b>f</b> to resize it.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 380 250"></svg>
+  <div class="panel">
+    <label>f — hole-to-wall distance</label><input type="range" id="f" min="0.7" max="1.8" step="0.02" value="1.2">
+    <div class="readout" id="out"></div>
+    <div class="hint">Every ray must pass through the single hole, so a point high on the left projects low on the right — the image inverts. Moving along a ray doesn't change where it lands; a larger <b>f</b> just spreads the image bigger.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=380,H=250,OX=150,sX=52,MidY=125,sY=52;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var obj=[-2.0,0.9], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(x,y){return [OX+x*sX, MidY-y*sY];}
+  function render(){
+    var f=+document.getElementById("f").value;
+    svg.innerHTML="";
+    var hole=sv(0,0);
+    // barrier with a hole
+    svg.appendChild(el("line",{x1:hole[0],y1:14,x2:hole[0],y2:hole[1]-7,stroke:"#475569","stroke-width":3}));
+    svg.appendChild(el("line",{x1:hole[0],y1:hole[1]+7,x2:hole[0],y2:H-14,stroke:"#475569","stroke-width":3}));
+    var hl=el("text",{x:hole[0],y:H-4,"font-size":10,fill:"#475569","text-anchor":"middle"});hl.textContent="pinhole";svg.appendChild(hl);
+    // wall (image plane) at x=f
+    var wTop=sv(f,1.7),wBot=sv(f,-1.7);
+    svg.appendChild(el("line",{x1:wTop[0],y1:wTop[1],x2:wBot[0],y2:wBot[1],stroke:"#94a3b8","stroke-width":2}));
+    var wl=el("text",{x:wTop[0]+4,y:wTop[1]-5,"font-size":10,fill:"#94a3b8"});wl.textContent="wall";svg.appendChild(wl);
+    // image point (inverted): x=f, y = f*Yo/Xo  (Xo<0 -> sign flips)
+    var yimg=f*obj[1]/obj[0]; var ip=sv(f,yimg);
+    // ray from object through hole to image
+    svg.appendChild(el("line",{x1:sv(obj[0],obj[1])[0],y1:sv(obj[0],obj[1])[1],x2:ip[0],y2:ip[1],stroke:"#fca5a5","stroke-width":1.4,"stroke-dasharray":"5 4"}));
+    // inverted tomato image
+    svg.appendChild(el("circle",{cx:ip[0],cy:ip[1],r:8,fill:"#f87171"}));
+    svg.appendChild(el("line",{x1:ip[0],y1:ip[1]+8,x2:ip[0]-3,y2:ip[1]+14,stroke:"#15803d","stroke-width":2}));
+    var il=el("text",{x:ip[0]+10,y:ip[1]+4,"font-size":9,fill:"#b91c1c"});il.textContent="image (flipped)";svg.appendChild(il);
+    // object tomato + handle
+    var op=sv(obj[0],obj[1]);
+    svg.appendChild(el("circle",{cx:op[0],cy:op[1],r:24,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:op[0],cy:op[1],r:18,fill:"none",stroke:"#ef4444","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:op[0],cy:op[1],r:12,fill:"#ef4444"}));
+    svg.appendChild(el("line",{x1:op[0],y1:op[1]-12,x2:op[0]+4,y2:op[1]-18,stroke:"#15803d","stroke-width":2}));
+    if(!hinted){var hh=el("text",{x:op[0]-6,y:op[1]-22,"font-size":11,fill:"#0d9488","font-weight":"700","text-anchor":"middle"});hh.textContent="↙ click to grab";svg.appendChild(hh);}
+    if(grabbing){var dr=el("text",{x:14,y:20,"font-size":11,fill:"#0d9488","font-weight":"700"});dr.textContent="carrying — click to drop";svg.appendChild(dr);}
+    var f2=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span>object (x, y)</span><span>('+f2(obj[0])+', '+f2(obj[1])+')</span></div>'+
+      '<div class="ln"><span>image y</span><span class="flip">'+f2(yimg)+'</span></div>'+
+      '<div style="margin-top:6px;color:#94a3b8;font-size:11.5px">opposite sign = upside-down</div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){
+    if(grabbing){grabbing=false;svg.style.cursor="";render();return;}
+    var m=_ev(e),h=sv(obj[0],obj[1]);
+    if(Math.hypot(m[0]-h[0],m[1]-h[1])<30){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}
+  });
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);
+    obj[0]=Math.max(-3.2,Math.min(-0.6,(m[0]-OX)/sX));obj[1]=Math.max(-1.3,Math.min(1.3,(MidY-m[1])/sY));render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  render();
+})();</script></body></html>
