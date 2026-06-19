@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matrix Addition — Lesson 4.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .mats{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .mblock{text-align:center}
+  .mlbl{font-size:12px;color:var(--muted);margin-bottom:4px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+  .grid input{width:54px;font-size:15px;padding:6px;border:1px solid var(--line);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+  .cell{width:54px;height:34px;display:flex;align-items:center;justify-content:center;background:#dcfce7;border:1px solid #86efac;border-radius:8px;font-weight:700;font-variant-numeric:tabular-nums}
+  .op{font-size:22px;color:var(--muted)}
+  .test{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13.5px;margin-top:14px}
+  .test div{margin:4px 0;font-variant-numeric:tabular-nums}
+  .ne{color:var(--bad);font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mats">
+    <div class="mblock"><div class="mlbl">A</div><div class="grid">
+      <input id="a0" type="number" step="any" value="1"><input id="a1" type="number" step="any" value="2">
+      <input id="a2" type="number" step="any" value="0"><input id="a3" type="number" step="any" value="1"></div></div>
+    <div class="op">+</div>
+    <div class="mblock"><div class="mlbl">B</div><div class="grid">
+      <input id="b0" type="number" step="any" value="0"><input id="b1" type="number" step="any" value="1">
+      <input id="b2" type="number" step="any" value="3"><input id="b3" type="number" step="any" value="2"></div></div>
+    <div class="op">=</div>
+    <div class="mblock"><div class="mlbl">A + B</div><div class="grid">
+      <div class="cell" id="s0">1</div><div class="cell" id="s1">3</div>
+      <div class="cell" id="s2">3</div><div class="cell" id="s3">3</div></div></div>
+  </div>
+  <div class="test" id="test"></div>
+  <div class="hint">Addition is <b>cell by cell</b> — each green cell is the two inputs above it added. But adding is not chaining: feeding a point through A then B is a different operation from applying (A + B) once, as the test point shows.</div>
+</div>
+<script>
+(function(){
+  var P=[1,1];
+  function v(id){ return +document.getElementById(id).value||0; }
+  function ap(m,p){ return [m[0]*p[0]+m[1]*p[1], m[2]*p[0]+m[3]*p[1]]; }
+  function f(x){ return (Math.round(x*100)/100).toString(); }
+  function render(){
+    var A=[v("a0"),v("a1"),v("a2"),v("a3")], B=[v("b0"),v("b1"),v("b2"),v("b3")];
+    var S=[A[0]+B[0],A[1]+B[1],A[2]+B[2],A[3]+B[3]];
+    ["s0","s1","s2","s3"].forEach(function(id,i){ document.getElementById(id).textContent=f(S[i]); });
+    var chain=ap(B,ap(A,P)), sum=ap(S,P);
+    var same=Math.abs(chain[0]-sum[0])<1e-9 && Math.abs(chain[1]-sum[1])<1e-9;
+    document.getElementById("test").innerHTML=
+      'test point p = ('+P[0]+', '+P[1]+')'+
+      '<div>apply A then B &nbsp; B(A·p) = <b>('+f(chain[0])+', '+f(chain[1])+')</b></div>'+
+      '<div>apply the sum &nbsp; (A+B)·p = <b>('+f(sum[0])+', '+f(sum[1])+')</b></div>'+
+      '<div class="'+(same?"":"ne")+'">'+(same?"(equal here — try other entries)":"≠ different — addition blended the matrices, it did not chain the actions.")+'</div>';
+  }
+  ["a0","a1","a2","a3","b0","b1","b2","b3"].forEach(function(id){ document.getElementById(id).addEventListener("input",render); });
+  render();
+})();
+</script>
+</body>
+</html>

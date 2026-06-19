@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit Converter — Lesson 1.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+  .fld{flex:1 1 150px;min-width:130px}
+  label{font-size:13px;color:var(--muted);display:block;margin:0 0 4px}
+  input,select{width:100%;font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:0}
+  .swap{flex:0 0 auto}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;font-size:14px;font-weight:600;cursor:pointer}
+  .btn:hover{background:var(--soft)}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:15px;margin-top:14px}
+  .result{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+  .ratio{font-size:13px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+  .err{background:#fee2e2;border:1px solid #fecaca;color:var(--bad);border-radius:10px;padding:14px;font-size:14px;margin-top:14px}
+  .dim{display:inline-block;padding:2px 9px;border-radius:999px;background:#e0f2fe;color:#0369a1;font-size:12px;font-weight:700;margin-left:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="row">
+    <div class="fld">
+      <label for="val">Value</label>
+      <input id="val" type="number" value="250" step="any" inputmode="decimal">
+    </div>
+    <div class="fld">
+      <label for="from">From</label>
+      <select id="from"></select>
+    </div>
+    <div class="swap">
+      <label>&nbsp;</label>
+      <button class="btn" id="swap" title="Swap from/to">&#8646;</button>
+    </div>
+    <div class="fld">
+      <label for="to">To</label>
+      <select id="to"></select>
+    </div>
+  </div>
+
+  <div id="out"></div>
+  <div class="hint">Conversion only works <b>within the same dimension</b>. Try meters &#8594; seconds to see why a cross-dimension conversion is undefined.</div>
+</div>
+
+<script>
+(function(){
+  // unit -> {dimension, factor-to-base, label}
+  var UNITS = {
+    mm:  {dim:"length", f:0.001,            label:"millimeters (mm)"},
+    cm:  {dim:"length", f:0.01,             label:"centimeters (cm)"},
+    m:   {dim:"length", f:1,                label:"meters (m)"},
+    deg: {dim:"angle",  f:Math.PI/180,      label:"degrees (deg)"},
+    rad: {dim:"angle",  f:1,                label:"radians (rad)"},
+    s:   {dim:"time",   f:1,                label:"seconds (s)"}
+  };
+  var ORDER = ["mm","cm","m","deg","rad","s"];
+
+  var valEl = document.getElementById("val");
+  var fromEl = document.getElementById("from");
+  var toEl = document.getElementById("to");
+  var out = document.getElementById("out");
+
+  ORDER.forEach(function(u){
+    [fromEl,toEl].forEach(function(sel){
+      var o = document.createElement("option");
+      o.value = u; o.textContent = UNITS[u].label; sel.appendChild(o);
+    });
+  });
+  fromEl.value = "cm"; toEl.value = "m";
+
+  function fmt(x){
+    if(!isFinite(x)) return String(x);
+    var a = Math.abs(x);
+    if(a !== 0 && (a < 1e-3 || a >= 1e6)) return x.toExponential(4);
+    return parseFloat(x.toFixed(6)).toString();
+  }
+
+  function render(){
+    var v = parseFloat(valEl.value);
+    var A = UNITS[fromEl.value], B = UNITS[toEl.value];
+    if(A.dim !== B.dim){
+      out.innerHTML = '<div class="err"><b>Undefined conversion.</b> ' +
+        fromEl.value + ' is a <b>' + A.dim + '</b> unit but ' + toEl.value +
+        ' is a <b>' + B.dim + '</b> unit. You can only convert <b>within</b> a dimension &#8212; ' +
+        'there is no number that turns ' + A.dim + ' into ' + B.dim + '.</div>';
+      return;
+    }
+    if(isNaN(v)){ out.innerHTML = '<div class="readout">Enter a value to convert.</div>'; return; }
+    var ratio = A.f / B.f;             // multiply the value by this
+    var result = v * ratio;
+    out.innerHTML = '<div class="readout">' +
+      '<div class="result">' + fmt(v) + ' ' + fromEl.value + ' = ' + fmt(result) + ' ' + toEl.value +
+      ' <span class="dim">' + A.dim + '</span></div>' +
+      '<div class="ratio">ratio applied: &#215; ' + fmt(ratio) +
+      '  (1 ' + fromEl.value + ' = ' + fmt(ratio) + ' ' + toEl.value + ')</div></div>';
+  }
+
+  valEl.addEventListener("input", render);
+  fromEl.addEventListener("change", render);
+  toEl.addEventListener("change", render);
+  document.getElementById("swap").addEventListener("click", function(){
+    var t = fromEl.value; fromEl.value = toEl.value; toEl.value = t; render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

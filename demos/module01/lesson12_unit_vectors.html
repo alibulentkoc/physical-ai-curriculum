@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit Vectors — Lesson 2.6</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 220px;min-width:210px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13.5px}
+  .big{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+  .k{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+  label{font-size:12px;color:var(--muted);display:block;margin:12px 0 4px}
+  input[type=range]{width:100%}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 280 240"></svg>
+    <div class="panel">
+      <div class="readout" id="out"></div>
+      <label>step size</label>
+      <input type="range" id="step" min="0" max="3" step="0.01" value="1.5">
+      <div class="hint">Drag the target to set the <b>direction</b>. The <span style="color:#b45309">unit vector</span> always has length 1 — pure direction. The <span style="color:#0d9488">step</span> is the unit vector times your step size: change the size and the move rescales, but the direction holds.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=280,H=240,ox=50,oy=180,s=42;
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var tx=3.0, ty=1.8, step=1.5;
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function draw(){
+    svg.innerHTML="";
+    var defs=el("defs",{}); defs.innerHTML=
+      '<marker id="au" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b45309"/></marker>'+
+      '<marker id="as" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';
+    svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:18,y1:oy,x2:W-12,y2:oy,stroke:"#cbd5e1","stroke-width":1}));
+    svg.appendChild(el("line",{x1:ox,y1:H-10,x2:ox,y2:12,stroke:"#cbd5e1","stroke-width":1}));
+    var mag=Math.sqrt(tx*tx+ty*ty)||1e-6, ux=tx/mag, uy=ty/mag;
+    // step arrow (teal) along the unit direction
+    var spx=ox+ux*step*s, spy=oy-uy*step*s;
+    svg.appendChild(el("line",{x1:ox,y1:oy,x2:spx,y2:spy,stroke:"#0d9488","stroke-width":6,opacity:0.28}));
+    // unit vector (amber), length 1
+    var upx=ox+ux*s, upy=oy-uy*s;
+    svg.appendChild(el("line",{x1:ox,y1:oy,x2:upx,y2:upy,stroke:"#b45309","stroke-width":3,"marker-end":"url(#au)"}));
+    var ul=el("text",{x:upx+5,y:upy-4,"font-size":10,fill:"#b45309"}); ul.textContent="unit (1)"; svg.appendChild(ul);
+    var sl=el("text",{x:spx+5,y:spy+12,"font-size":10,fill:"#0d9488"}); sl.textContent="step"; svg.appendChild(sl);
+    svg.appendChild(el("circle",{cx:ox,cy:oy,r:4,fill:"#475569"}));
+    // target handle
+    var hx=ox+tx*s, hy=oy-ty*s;
+    svg.appendChild(el("line",{x1:ox,y1:oy,x2:hx,y2:hy,stroke:"#cbd5e1","stroke-width":1,"stroke-dasharray":"3 3"}));
+    var hd=el("circle",{cx:hx,cy:hy,r:11,fill:"#ef4444",opacity:0.85}); hd.style.cursor="grab"; svg.appendChild(hd);
+    svg.appendChild(el("circle",{cx:hx,cy:hy,r:3,fill:"#fff"}));
+    hd.addEventListener("pointerdown",function(e){ hd.setPointerCapture(e.pointerId);
+      function mv(ev){ var r=svg.getBoundingClientRect(); var sx=(ev.clientX-r.left)/r.width*W, sy=(ev.clientY-r.top)/r.height*H; tx=Math.max(-0.5,Math.min(5,(sx-ox)/s)); ty=Math.max(-0.5,Math.min(2.6,(oy-sy)/s)); render(); }
+      svg.addEventListener("pointermove",mv); hd.addEventListener("pointerup",function(){ svg.removeEventListener("pointermove",mv); },{once:true});
+    });
+  }
+  function render(){
+    draw();
+    var mag=Math.sqrt(tx*tx+ty*ty)||1e-6, ux=tx/mag, uy=ty/mag;
+    out.innerHTML='<span class="k" style="background:#ef4444"></span>aiming: ['+tx.toFixed(2)+', '+ty.toFixed(2)+'], length '+mag.toFixed(2)+
+      '<br><span class="k" style="background:#b45309"></span>unit: <b>['+ux.toFixed(2)+', '+uy.toFixed(2)+']</b>, length 1.00'+
+      '<br><span class="k" style="background:#0d9488"></span>step = '+step.toFixed(2)+' × unit = <span class="big">['+(ux*step).toFixed(2)+', '+(uy*step).toFixed(2)+']</span>';
+  }
+  document.getElementById("step").addEventListener("input",function(e){ step=+e.target.value; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

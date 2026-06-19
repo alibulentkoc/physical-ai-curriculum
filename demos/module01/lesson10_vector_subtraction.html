@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vector Subtraction — Lesson 2.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;touch-action:none}
+  .panel{flex:1 1 220px;min-width:210px}
+  .readout{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px}
+  .big{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:10px}
+  .btn:hover{background:#fff}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 300 240"></svg>
+    <div class="panel">
+      <div class="readout" id="out"></div>
+      <button class="btn" id="swap">Swap order</button>
+      <div class="hint">The aiming vector is <b>target − start</b>. Drag either point. Swap the order and the very same arrow <b>flips</b> to point the other way — subtraction order sets the direction.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=300,H=240,ox=55,oy=185,s=42;
+  var svg=document.getElementById("svg"), out=document.getElementById("out");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var G=[1.0,0.6], T=[3.6,2.4];          // gripper, tomato (world)
+  var order=0;                            // 0: T-G, 1: G-T
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function sv(p){ return [ox+p[0]*s, oy-p[1]*s]; }
+  function pt(name,p,color){
+    var c=sv(p);
+    var dot=el("circle",{cx:c[0],cy:c[1],r:11,fill:color}); dot.style.cursor="grab";
+    svg.appendChild(dot); svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:3,fill:"#fff"}));
+    var lb=el("text",{x:c[0]+13,y:c[1]-9,"font-size":11,fill:"#475569"}); lb.textContent=name; svg.appendChild(lb);
+    dot.addEventListener("pointerdown",function(e){ dot.setPointerCapture(e.pointerId);
+      function mv(ev){ var r=svg.getBoundingClientRect(); var sx=(ev.clientX-r.left)/r.width*W, sy=(ev.clientY-r.top)/r.height*H; p[0]=Math.max(0,Math.min(5.5,(sx-ox)/s)); p[1]=Math.max(0,Math.min(3.4,(oy-sy)/s)); render(); }
+      svg.addEventListener("pointermove",mv); dot.addEventListener("pointerup",function(){ svg.removeEventListener("pointermove",mv); },{once:true});
+    });
+  }
+  function draw(){
+    svg.innerHTML="";
+    var defs=el("defs",{}); defs.innerHTML='<marker id="ah" markerWidth="10" markerHeight="10" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#0d9488"/></marker>'; svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:20,y1:oy,x2:W-12,y2:oy,stroke:"#cbd5e1","stroke-width":1}));
+    svg.appendChild(el("line",{x1:ox,y1:H-12,x2:ox,y2:14,stroke:"#cbd5e1","stroke-width":1}));
+    var a=order? T : G, b=order? G : T;        // arrow from a to b  (= b - a)
+    var sa=sv(a), sb=sv(b);
+    svg.appendChild(el("line",{x1:sa[0],y1:sa[1],x2:sb[0],y2:sb[1],stroke:"#0d9488","stroke-width":3.5,"marker-end":"url(#ah)"}));
+    pt("gripper",G,"#475569"); pt("tomato",T,"#ef4444");
+  }
+  function render(){
+    draw();
+    var d=order? [G[0]-T[0],G[1]-T[1]] : [T[0]-G[0],T[1]-G[1]];
+    var lbl=order? "gripper − tomato" : "tomato − gripper";
+    var ang=Math.atan2(d[1],d[0])*180/Math.PI;
+    out.innerHTML='aiming vector<br><b>'+lbl+'</b><br><span class="big">['+d[0].toFixed(2)+', '+d[1].toFixed(2)+']</span>'+
+      '<br><br>heading: <b>'+ang.toFixed(0)+'°</b>';
+  }
+  document.getElementById("swap").addEventListener("click",function(){ order^=1; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

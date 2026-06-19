@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matrices as Operators — Lesson 4.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .stage{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px}
+  .panel{flex:1 1 220px;min-width:210px}
+  .mat{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:170px}
+  .mat input{width:100%;font-size:15px;padding:6px;border:1px solid var(--line);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+  .pre{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .pre button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer}
+  .pre button:hover{background:#fff}
+  .leg{font-size:12.5px;margin-top:10px}
+  .leg b.i{color:#0d9488}.leg b.j{color:#b45309}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 260 260"></svg>
+    <div class="panel">
+      <div class="mat">
+        <input id="a" type="number" step="any" value="0"><input id="b" type="number" step="any" value="-1">
+        <input id="c" type="number" step="any" value="1"><input id="d" type="number" step="any" value="0">
+      </div>
+      <div class="pre">
+        <button data-m="0,-1,1,0">rotate 90°</button>
+        <button data-m="2,0,0,2">scale ×2</button>
+        <button data-m="1,0.6,0,1">shear</button>
+        <button data-m="1,0,0,1">identity</button>
+      </div>
+      <div class="leg">The columns are where the basis arrows land:<br><b class="i">î → (a, c)</b> &nbsp; <b class="j">ĵ → (b, d)</b></div>
+      <div class="hint">A matrix is a machine: feed in the basis arrows and the columns tell you exactly where they go. Every other point (and the whole shape) follows the same rule. Edit the entries or pick a preset.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var W=260,H=260,ox=130,oy=130,s=42;
+  var svg=document.getElementById("svg");
+  var SVGNS="http://www.w3.org/2000/svg";
+  var ids=["a","b","c","d"];
+  var shape=[[0,0],[1.4,0],[1.4,0.45],[0.45,0.45],[0.45,1.4],[0,1.4]]; // an L
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function M(){ return [ +document.getElementById("a").value||0, +document.getElementById("b").value||0,
+                         +document.getElementById("c").value||0, +document.getElementById("d").value||0 ]; }
+  function ap(m,p){ return [m[0]*p[0]+m[1]*p[1], m[2]*p[0]+m[3]*p[1]]; }
+  function sv(p){ return [ox+p[0]*s, oy-p[1]*s]; }
+  function draw(){
+    svg.innerHTML="";
+    var defs=el("defs",{}); defs.innerHTML=
+      '<marker id="mi" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>'+
+      '<marker id="mj" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b45309"/></marker>';
+    svg.appendChild(defs);
+    for(var g=-2;g<=2;g++){ if(g===0)continue;
+      svg.appendChild(el("line",{x1:ox+g*s,y1:8,x2:ox+g*s,y2:H-8,stroke:"#eef2f7","stroke-width":1}));
+      svg.appendChild(el("line",{x1:8,y1:oy+g*s,x2:W-8,y2:oy+g*s,stroke:"#eef2f7","stroke-width":1})); }
+    svg.appendChild(el("line",{x1:8,y1:oy,x2:W-8,y2:oy,stroke:"#cbd5e1","stroke-width":1.3}));
+    svg.appendChild(el("line",{x1:ox,y1:H-8,x2:ox,y2:8,stroke:"#cbd5e1","stroke-width":1.3}));
+    var m=M();
+    // original shape (ghost)
+    var op=shape.map(function(p){var c=sv(p);return c[0]+","+c[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:op,fill:"none",stroke:"#cbd5e1","stroke-width":1.3,"stroke-dasharray":"4 3"}));
+    // transformed shape
+    var tp=shape.map(function(p){var c=sv(ap(m,p));return c[0]+","+c[1];}).join(" ");
+    svg.appendChild(el("polygon",{points:tp,fill:"#0d948822",stroke:"#0d9488","stroke-width":2}));
+    // basis vectors transformed
+    var iC=sv(ap(m,[1,0])), jC=sv(ap(m,[0,1])), o=sv([0,0]);
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:iC[0],y2:iC[1],stroke:"#0d9488","stroke-width":3,"marker-end":"url(#mi)"}));
+    svg.appendChild(el("line",{x1:o[0],y1:o[1],x2:jC[0],y2:jC[1],stroke:"#b45309","stroke-width":3,"marker-end":"url(#mj)"}));
+  }
+  ids.forEach(function(id){ document.getElementById(id).addEventListener("input",draw); });
+  document.querySelectorAll(".pre button").forEach(function(btn){ btn.addEventListener("click",function(){
+    var v=btn.dataset.m.split(","); ids.forEach(function(id,i){ document.getElementById(id).value=v[i]; }); draw();
+  }); });
+  draw();
+})();
+</script>
+</body>
+</html>

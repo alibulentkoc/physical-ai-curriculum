@@ -104,7 +104,7 @@
     dxV.textContent=dx.toFixed(2); dyV.textContent=dy.toFixed(2); thV.textContent=Math.round(th);
     steps.textContent = (Math.abs(th)<0.5)
       ? 'B aligned with A (θ = 0): conversion is just subtract the offset.'
-      : 'Step 1: subtract the offset ('+dx.toFixed(2)+', '+dy.toFixed(2)+'). Step 2: turn by θ = '+Math.round(th)+'° to read along B\u2019s axes.';
+      : 'Step 1: subtract the offset ('+dx.toFixed(2)+', '+dy.toFixed(2)+'). Step 2: turn by θ = '+Math.round(th)+'° to read along B’s axes.';
   }
   Sdx.addEventListener('input',function(){dx=parseFloat(this.value);render();});
   Sdy.addEventListener('input',function(){dy=parseFloat(this.value);render();});

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Does Averaging Help? — Lesson 1.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .ctrls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:12px}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 14px;font-size:14px;font-weight:600;cursor:pointer}
+  .btn:hover{background:var(--soft)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  label.tog{font-size:13.5px;color:var(--ink);display:flex;align-items:center;gap:6px;cursor:pointer}
+  .readings{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+  .r{font-size:12.5px;font-variant-numeric:tabular-nums;background:var(--soft);border:1px solid var(--line);border-radius:7px;padding:4px 8px}
+  .panel{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px}
+  .big{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+  .verdict{margin-top:8px;font-weight:600}
+  .ok{color:var(--green)} .no{color:var(--bad)}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="ctrls">
+    <button class="btn primary" id="take">Take 10 measurements</button>
+    <button class="btn" id="more">+ 90 more</button>
+    <label class="tog"><input type="checkbox" id="bias"> ruler reads 2 cm too long (systematic)</label>
+  </div>
+  <div class="readings" id="readings"></div>
+  <div class="panel" id="panel">True distance is <b>30.00 cm</b>. Take some measurements and watch the average.</div>
+  <div class="hint">Random error scatters readings around the truth, so averaging cancels it. A systematic error shifts <i>every</i> reading the same way, so the average is shifted too — averaging can't remove it.</div>
+</div>
+<script>
+(function(){
+  var TRUE = 30.0, NOISE = 0.8;     // cm; random noise half-range
+  var vals = [];
+  var readings = document.getElementById("readings");
+  var panel = document.getElementById("panel");
+  var biasEl = document.getElementById("bias");
+
+  function measure(){
+    var bias = biasEl.checked ? 2.0 : 0.0;
+    var noise = (Math.random()*2 - 1) * NOISE;   // uniform random error
+    return TRUE + bias + noise;
+  }
+  function take(n){
+    for(var k=0;k<n;k++) vals.push(measure());
+    render();
+  }
+  function avg(a){ return a.reduce(function(s,x){return s+x;},0)/a.length; }
+
+  function render(){
+    readings.innerHTML = "";
+    vals.slice(0,30).forEach(function(v){
+      var d=document.createElement("span"); d.className="r"; d.textContent=v.toFixed(2); readings.appendChild(d);
+    });
+    if(vals.length>30){ var more=document.createElement("span"); more.className="r"; more.textContent="+"+(vals.length-30)+" more"; readings.appendChild(more); }
+    var a = avg(vals), err = a - TRUE;
+    var sys = biasEl.checked;
+    panel.innerHTML =
+      'n = '+vals.length+' &nbsp;&middot;&nbsp; true = 30.00 cm<br>'+
+      'average of readings: <span class="big">'+a.toFixed(3)+' cm</span><br>'+
+      'distance from true: <b>'+(err>=0?"+":"")+err.toFixed(3)+' cm</b>'+
+      '<div class="verdict '+(Math.abs(err)<0.3?"ok":"no")+'">'+
+        (sys
+          ? '✗ averaging settled near 32 cm — the 2 cm systematic shift stays no matter how many readings you take.'
+          : '✓ averaging is closing in on 30 cm — random error cancels out as n grows.')+
+      '</div>';
+  }
+
+  document.getElementById("take").addEventListener("click", function(){ vals=[]; take(10); });
+  document.getElementById("more").addEventListener("click", function(){ take(90); });
+  biasEl.addEventListener("change", function(){ if(vals.length) { vals=[]; take(10); } });
+})();
+</script>
+</body>
+</html>
