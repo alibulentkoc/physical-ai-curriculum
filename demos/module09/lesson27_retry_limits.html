@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retry Limits and State Across Attempts — Lesson 7.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .board{flex:1 1 280px;min-width:260px}
+  .attempts{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+  .att{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#cbd5e1;background:#fff}
+  .att.fail{border-color:#b91c1c;background:#fee2e2;color:#b91c1c}
+  .att.ok{border-color:#15803d;background:#dcfce7;color:#15803d}
+  .att.esc{border-color:#d97706;background:#fef3c7;color:#b45309}
+  .log{background:#0f172a;border-radius:10px;padding:9px;font-family:ui-monospace,monospace;font-size:11px;color:#e2e8f0;line-height:1.7;min-height:80px}
+  .panel{flex:1 1 180px;min-width:170px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .seg{display:flex;gap:6px;margin:8px 0}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .row button{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The budget guarantees termination.</b> A persistent fault retries exactly the budgeted number of times, then escalates. A transient fault recovers early, well under budget. The attempt counter makes both visible.</div>
+  <div class="stage">
+  <div class="board">
+    <div class="attempts" id="atts"></div>
+    <div class="log" id="log"></div>
+  </div>
+  <div class="panel">
+    <label>retry budget <span id="bv"></span></label><input type="range" id="b" min="1" max="6" step="1" value="3">
+    <div class="seg"><button id="pers" class="on">persistent</button><button id="trans">transient</button></div>
+    <div class="row"><button id="run">▶ run</button></div>
+    <div class="hint">Without a budget, a persistent fault loops forever. The limit turns "try to recover" into a bounded, terminating policy — escalate instead of hang.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var mode="pers";
+  function render(atts,log){
+    document.getElementById("bv").textContent=document.getElementById("b").value;
+    document.getElementById("atts").innerHTML=(atts||[]).map(function(a){return '<div class="att '+a.cls+'">'+a.label+'</div>';}).join("")||'<div style="color:#94a3b8;font-size:11px">no run yet</div>';
+    document.getElementById("log").innerHTML=log||'<span style="color:#475569">click run</span>';
+  }
+  function run(){
+    var budget=+document.getElementById("b").value,atts=[],lines=[],recoverAt=mode==="trans"?2:999;
+    for(var i=1;i<=budget;i++){
+      if(i>=recoverAt){atts.push({label:"✓",cls:"ok"});lines.push('<div style="color:#86efac">attempt '+i+': recovered ✓</div>');break;}
+      atts.push({label:i,cls:"fail"});lines.push('<div style="color:#fca5a5">attempt '+i+': failed</div>');
+      if(i===budget){atts.push({label:"!",cls:"esc"});lines.push('<div style="color:#fcd34d">budget reached → ESCALATE</div>');}
+    }
+    render(atts,lines.join(""));
+  }
+  document.getElementById("b").addEventListener("input",function(){render();});
+  ["pers","trans"].forEach(function(id){document.getElementById(id).addEventListener("click",function(){mode=id;["pers","trans"].forEach(function(o){document.getElementById(o).classList.toggle("on",o===id);});});});
+  document.getElementById("run").addEventListener("click",run);
+  render();
+})();</script></body></html>

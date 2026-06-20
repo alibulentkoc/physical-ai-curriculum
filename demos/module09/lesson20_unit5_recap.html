@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 5 Recap: Execute → Track — Lesson 5.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .board{flex:1 1 250px;min-width:240px}
+  .seg{display:flex;gap:5px;margin-bottom:10px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 4px;font-size:10.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .gauge{margin:7px 0}.gauge .lab{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;font-variant-numeric:tabular-nums}
+  .bar{height:13px;border-radius:4px;background:#eef2f7;overflow:hidden}.bar i{display:block;height:100%;border-radius:4px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .verdict{text-align:center;font-weight:700;border-radius:8px;padding:8px;font-size:13px}
+  .reading{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Unit 5 at a glance.</b> One pick, three success criteria, a live telemetry dashboard, and a one-sentence reading. Toggle a disturbance or a near-singular target and watch the verdict and the relevant gauge respond together.</div>
+  <div class="stage">
+  <div class="board">
+    <div class="seg"><button id="nom" class="on">nominal</button><button id="dist">disturbance</button><button id="sing">near-singular</button></div>
+    <div id="gauges"></div>
+  </div>
+  <div class="panel">
+    <div class="verdict" id="verd"></div>
+    <div class="reading" id="read"></div>
+    <div class="hint">Execute produces motion; Track decides whether it counts. Together they turn an open-loop hope into a closed-loop guarantee with instruments to back it.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var mode="nom";
+  function gauge(name,val,col){return '<div class="gauge"><div class="lab"><span>'+name+'</span><span>'+val.toFixed(2)+'</span></div><div class="bar"><i style="width:'+(Math.min(1,val)*100)+'%;background:'+col+'"></i></div></div>';}
+  function render(){
+    var err,eff,manip,verd,reading,ok;
+    if(mode==="nom"){err=0.18;eff=0.35;manip=0.85;ok=true;reading="Nominal pick — all criteria green, instruments healthy.";}
+    else if(mode==="dist"){err=0.95;eff=0.82;manip=0.78;ok=false;reading="Disturbance — error and effort spike; verdict FAILURE on RMS.";}
+    else {err=0.30;eff=0.88;manip=0.09;ok=true;reading="Near-singular — manipulability collapses, effort climbs, but error stays in spec: still SUCCESS, yet unhealthy.";}
+    document.getElementById("gauges").innerHTML=gauge("tracking error",err,err>0.5?"#b91c1c":"#0d9488")+gauge("effort",eff,eff>0.7?"#b91c1c":"#7c3aed")+gauge("manipulability",manip,manip<0.2?"#b91c1c":"#15803d");
+    var v=document.getElementById("verd");v.style.background=ok?"#dcfce7":"#fee2e2";v.style.color=ok?"#15803d":"#b91c1c";v.textContent=ok?"SUCCESS":"FAILURE";
+    document.getElementById("read").textContent=reading;
+  }
+  ["nom","dist","sing"].forEach(function(id){document.getElementById(id).addEventListener("click",function(){mode=id;["nom","dist","sing"].forEach(function(o){document.getElementById(o).classList.toggle("on",o===id);});render();});});
+  render();
+})();</script></body></html>

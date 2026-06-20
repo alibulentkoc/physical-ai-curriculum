@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Integration Is Hard: The Whole vs. The Parts — Lesson 1.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .board{flex:1 1 300px;min-width:280px}
+  .lights{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .light{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:11.5px}
+  .dot{width:11px;height:11px;border-radius:50%;flex:none;background:#22c55e}
+  .sys{margin-top:8px;display:flex;align-items:center;gap:9px;border:2px solid;border-radius:10px;padding:10px;font-weight:700;font-size:13px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+  .seg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer;text-align:left}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Every component passes; the system can still fail.</b> Flip one seam assumption — perception reports centimetres, the planner expects metres. All eight component lights stay green, but the system light goes red and the gripper lands a hundredfold off.</div>
+  <div class="stage">
+  <div class="board">
+    <div class="lights" id="lights"></div>
+    <div class="sys" id="sys"></div>
+  </div>
+  <div class="panel">
+    <div class="seg"><button id="ok" class="on">units consistent</button><button id="bad">cm/m seam mismatch</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Integration bugs live in the seams between components, not inside them. That's why the system needs its own health check — the ninth light no single component can provide.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var comps=["Camera","Perception","Calibration","Kinematics","Planner","Controller","Actuator","Comms"],mode="ok";
+  function render(){
+    document.getElementById("lights").innerHTML=comps.map(function(c){return '<div class="light"><span class="dot"></span>'+c+' ✓</div>';}).join("");
+    var sys=document.getElementById("sys"),bad=mode==="bad";
+    sys.style.borderColor=bad?"#b91c1c":"#15803d";sys.style.color=bad?"#b91c1c":"#15803d";sys.style.background=bad?"#fee2e2":"#dcfce7";
+    sys.innerHTML='<span class="dot" style="background:'+(bad?"#ef4444":"#22c55e")+'"></span> System Health: '+(bad?"RED — integration fault":"GREEN");
+    var target=0.30,landed=bad?30.0:0.30;
+    document.getElementById("out").innerHTML='<div>target tip: '+target.toFixed(2)+' m</div>'+
+      '<div>landed at: <b style="color:'+(bad?"#b91c1c":"#15803d")+'">'+landed.toFixed(2)+' m</b></div>'+
+      '<div style="color:#64748b;margin-top:4px">'+(bad?"100× off — cm read as m":"on target")+'</div>'+
+      '<div style="margin-top:4px;color:'+(bad?"#b91c1c":"#15803d")+'">8/8 components OK · system '+(bad?"FAIL":"OK")+'</div>';
+  }
+  document.getElementById("ok").addEventListener("click",function(){mode="ok";this.classList.add("on");document.getElementById("bad").classList.remove("on");render();});
+  document.getElementById("bad").addEventListener("click",function(){mode="bad";this.classList.add("on");document.getElementById("ok").classList.remove("on");render();});
+  render();
+})();</script></body></html>

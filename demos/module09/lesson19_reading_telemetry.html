@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Study: Reading Telemetry — Lesson 5.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .board{flex:1 1 280px;min-width:260px}
+  .seg{display:flex;gap:6px;margin-bottom:10px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .gauge{margin:8px 0}.gauge .lab{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px;font-variant-numeric:tabular-nums}
+  .bar{height:14px;border-radius:4px;background:#eef2f7;overflow:hidden}.bar i{display:block;height:100%;border-radius:4px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Map the signal pattern to the cause.</b> Same failed run, two different causes. A disturbance spikes error and effort but leaves manipulability fine. A near-singular path collapses manipulability and climbs effort while error stays low. Different fingerprints.</div>
+  <div class="stage">
+  <div class="board">
+    <div class="seg"><button id="dist" class="on">external disturbance</button><button id="sing">near-singular path</button></div>
+    <div id="gauges"></div>
+  </div>
+  <div class="panel">
+    <div class="diag" id="diag"></div>
+    <div class="hint">Reading telemetry is diagnosis: the gauges that move tell you what broke and who owns the fix — disturbance rejection vs path planning — before you touch the code.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var mode="dist";
+  function gauge(name,val,col){return '<div class="gauge"><div class="lab"><span>'+name+'</span><span>'+val.toFixed(2)+'</span></div><div class="bar"><i style="width:'+(val*100)+'%;background:'+col+'"></i></div></div>';}
+  function render(){
+    var g,diag;
+    if(mode==="dist"){
+      g=gauge("tracking error",0.85,"#b91c1c")+gauge("effort",0.80,"#b91c1c")+gauge("manipulability",0.72,"#15803d");
+      diag='<div><b>error ↑ · effort ↑ · manipulability normal</b></div><div style="margin-top:5px;color:#b91c1c">→ external disturbance</div><div style="color:#64748b;margin-top:3px">owner: disturbance rejection / control</div>';
+    } else {
+      g=gauge("tracking error",0.30,"#0d9488")+gauge("effort",0.88,"#b91c1c")+gauge("manipulability",0.08,"#b91c1c");
+      diag='<div><b>manipulability ↓ · effort ↑ · error low</b></div><div style="margin-top:5px;color:#b91c1c">→ near-singular path</div><div style="color:#64748b;margin-top:3px">owner: path planning / IK branch</div>';
+    }
+    document.getElementById("gauges").innerHTML=g;
+    document.getElementById("diag").innerHTML=diag;
+  }
+  document.getElementById("dist").addEventListener("click",function(){mode="dist";this.classList.add("on");document.getElementById("sing").classList.remove("on");render();});
+  document.getElementById("sing").addEventListener("click",function(){mode="sing";this.classList.add("on");document.getElementById("dist").classList.remove("on");render();});
+  render();
+})();</script></body></html>

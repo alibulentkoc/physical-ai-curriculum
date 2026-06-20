@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 Recap: The System View — Lesson 1.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .bb{flex:1 1 300px;min-width:280px;background:#0f172a;border-radius:12px;padding:12px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#e2e8f0;line-height:1.7;min-height:150px}
+  .bb .k{color:#5eead4}.bb .o{color:#fcd34d;font-size:9.5px}
+  .panel{flex:1 1 160px;min-width:160px}
+  .row button{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;width:100%}
+  .trace{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;line-height:1.6;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Unit 1 in one run.</b> Build the world, run Perceive and Understand for real, and print the spine with owners — then emit a two-stamp trace asserting the contract chain holds. The system view, compressed.</div>
+  <div class="stage">
+  <div class="bb" id="bb"></div>
+  <div class="panel">
+    <div class="row"><button id="run">▶ run consolidated</button></div>
+    <div class="trace" id="trace"></div>
+    <div class="hint">Every later unit extends this same spine with one more stage. By Unit 8 the trace carries all six stamps — one auditable record of a single fruit's journey.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var bb=document.getElementById("bb"),trace=document.getElementById("trace"),ran=false;
+  function render(){
+    if(!ran){bb.innerHTML='<div style="color:#64748b">world built · click run</div>';trace.innerHTML='<div style="color:#64748b">no trace yet</div>';return;}
+    bb.innerHTML='<div style="color:#94a3b8">spine {</div>'+
+      '<div>&nbsp;<span class="k">world</span>: 3 fruit, 1 obstacle <span class="o">@scene</span></div>'+
+      '<div>&nbsp;<span class="k">detections</span>: [F1, F2, F3] <span class="o">@perception</span></div>'+
+      '<div>&nbsp;<span class="k">target_pose</span>: (0.42, 0.18, 0.55) <span class="o">@world_model</span></div>'+
+      '<div style="color:#94a3b8">}</div>';
+    trace.innerHTML='<div><b>contract trace</b></div>'+
+      '<div style="margin-top:3px;color:#15803d">Perceive → detections ✓</div>'+
+      '<div style="color:#15803d">Understand → target_pose ✓</div>'+
+      '<div style="color:#15803d;margin-top:3px">chain holds ✓</div>';
+  }
+  document.getElementById("run").addEventListener("click",function(){ran=true;render();});
+  render();
+})();</script></body></html>

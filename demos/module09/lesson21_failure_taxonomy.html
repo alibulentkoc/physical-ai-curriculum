@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Failure Taxonomy: Integration Events — Lesson 6.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .ann{flex:1 1 280px;min-width:260px}
+  .events{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .ev{border:1.5px solid var(--line);border-radius:9px;padding:9px;font-size:11px;font-weight:700;text-align:center;color:#cbd5e1;background:#fff;font-family:ui-monospace,monospace;transition:.12s}
+  .ev.fail{border-color:#b91c1c;background:#fee2e2;color:#b91c1c;box-shadow:0 0 0 3px #fecaca}
+  .ev.warn{border-color:#d97706;background:#fef3c7;color:#b45309;box-shadow:0 0 0 3px #fde68a}
+  .panel{flex:1 1 170px;min-width:160px}
+  .panel button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px;text-align:left}
+  .status{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;line-height:1.5;margin-top:4px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The taxonomy as an annunciator panel.</b> Inject a fault and the matching event lights up. Failures glow red and halt the pipeline; warnings glow amber and pass. Each fault has its signature event.</div>
+  <div class="stage">
+  <div class="ann">
+    <div class="events" id="events"></div>
+    <div class="status" id="status"></div>
+  </div>
+  <div class="panel">
+    <button data-f="occlude">occlude target</button>
+    <button data-f="block">block the path</button>
+    <button data-f="kick">disturbance kick</button>
+    <button data-f="edge">drive to edge</button>
+    <button data-f="clear" style="border-color:#0d9488;color:#0d9488">↺ clear</button>
+    <div class="hint">A named taxonomy is the vocabulary recovery speaks. You can't route a fix for a fault you can't name — so the system names every way it can break.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var events=["NO_TARGET","PLAN_INVALID","TRACKING_FAILURE","EXCESS_EFFORT","NEAR_SINGULAR"];
+  var sev={NO_TARGET:"fail",PLAN_INVALID:"fail",TRACKING_FAILURE:"fail",EXCESS_EFFORT:"warn",NEAR_SINGULAR:"warn"};
+  var map={occlude:["NO_TARGET"],block:["PLAN_INVALID"],kick:["TRACKING_FAILURE","EXCESS_EFFORT"],edge:["NEAR_SINGULAR"]};
+  var lit=[];
+  function render(){
+    document.getElementById("events").innerHTML=events.map(function(e){var on=lit.indexOf(e)>=0;return '<div class="ev'+(on?" "+sev[e]:"")+'">'+e+'</div>';}).join("");
+    var st=document.getElementById("status");
+    if(!lit.length){st.innerHTML='<span style="color:#64748b">no fault injected</span>';return;}
+    var hasFail=lit.some(function(e){return sev[e]==="fail";});
+    st.innerHTML='<div>fired: '+lit.join(", ")+'</div><div style="color:'+(hasFail?"#b91c1c":"#d97706")+';margin-top:3px">'+(hasFail?"pipeline HALTED (failure)":"pipeline PASSED (warning)")+'</div>';
+  }
+  document.querySelectorAll("[data-f]").forEach(function(b){b.addEventListener("click",function(){var f=this.getAttribute("data-f");if(f==="clear")lit=[];else lit=map[f].slice();render();});});
+  render();
+})();</script></body></html>

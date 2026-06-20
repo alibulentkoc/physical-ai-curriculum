@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Knowledge Check — Lesson 6.4</title>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--greenbg:#dcfce7;--red:#b91c1c;--redbg:#fee2e2;--accent:#0d9488;}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:760px;margin:0 auto;padding:6px}
+.note{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.qhead{font-weight:600;font-size:14.5px;margin-bottom:10px}.qnum{display:inline-block;min-width:22px;color:var(--accent);font-weight:700}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;margin:6px 0;font-size:14px;cursor:pointer}
+.opt:hover{background:var(--soft)}.opt.correct{background:var(--greenbg);border-color:#86efac;color:var(--green);font-weight:600}.opt.wrong{background:var(--redbg);border-color:#fecaca;color:var(--red)}
+.fb{font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;display:none}.fb.show{display:block}.fb.ok{background:var(--greenbg);color:var(--green)}.fb.no{background:var(--redbg);color:var(--red)}.fb.info{background:#eff6ff;color:#1d4ed8}
+textarea{width:100%;min-height:60px;border:1px solid var(--line);border-radius:9px;padding:8px;font-family:inherit;font-size:14px;resize:vertical}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;margin-top:8px}.btn:hover{background:var(--soft)}
+.model{display:none;font-size:13px;margin-top:8px;padding:8px 10px;border-radius:8px;background:#eff6ff;color:#1d4ed8}.model.show{display:block}
+</style></head><body><div class="wrap">
+<div class="note">Formative — unlimited attempts, immediate feedback. This does <b>not</b> affect your grade.</div>
+<div id="quiz"></div></div>
+<script>var questions=[{"type": "mc", "prompt": "Installment C gave the system the ability to:", "options": [{"t": "recover from any failure", "ok": false}, {"t": "judge, monitor, name, detect, and localise its failures (not yet recover)", "ok": true}, {"t": "control a second arm", "ok": false}, {"t": "build a digital twin", "ok": false}], "ok": "Right.", "no": "Units 5–6 added self-awareness about failure — everything except recovery, which is Unit 7."}, {"type": "mc", "prompt": "On failure, the detect-and-localise pipeline returns:", "options": [{"t": "only a boolean", "ok": false}, {"t": "the stage reached, the fired event(s), and a what/where/who with an owner", "ok": true}, {"t": "a new plan", "ok": false}, {"t": "a control gain", "ok": false}], "ok": "Right.", "no": "It returns where the run got, which events fired, and the localisation with a named owner — all from existing signals."}, {"type": "mc", "prompt": "Why could recovery not be built in Unit 6 alongside detection?", "options": [{"t": "it could have been; order is arbitrary", "ok": false}, {"t": "recovery must be targeted, and targeting needs a reliable, localised, owned fault to aim at", "ok": true}, {"t": "Unit 6 ran out of space", "ok": false}, {"t": "recovery needs a second robot", "ok": false}], "ok": "Right.", "no": "Detection is the prerequisite — building recovery first means responding to failures the system can't yet name or place."}, {"type": "mc", "prompt": "What does Unit 7 (Recover) consume from Unit 6?", "options": [{"t": "raw camera images", "ok": false}, {"t": "the localised fault with its owner", "ok": true}, {"t": "a new control law", "ok": false}, {"t": "the digital twin", "ok": false}], "ok": "Right.", "no": "Unit 7 acts on the localised, owner-tagged fault that detection produced."}, {"type": "tf", "prompt": "Detection is thresholded reading of existing signals — no estimation, fault-diagnosis, or control theory was added.", "answer": true, "ok": "Correct.", "no": "True — the whole detect-and-localise pipeline reads only what the layers already emit."}, {"type": "short", "prompt": "Explain why detection must precede recovery, and what Unit 6 hands Unit 7.", "model": "Recovery must be targeted — the right stage acting on the right failure — and targeting requires a reliable, localised, owner-tagged fault to aim at. Building recovery first would mean responding to failures the system cannot yet name or place, producing untargeted fixes that loop (re-perceiving a blocked plan) or compound the failure. So detection is the dependency, not a parallel track. Unit 6 hands Unit 7 the stage reached, the fired event(s), and the what/where/who localisation with a named owner — exactly the input a targeted recovery needs."}];
+var root=document.getElementById("quiz");
+questions.forEach(function(q,i){var card=document.createElement("div");card.className="q";
+var head=document.createElement("div");head.className="qhead";head.innerHTML='<span class="qnum">'+(i+1)+'.</span> '+q.prompt;card.appendChild(head);
+var fb=document.createElement("div");fb.className="fb";
+if(q.type==="mc"||q.type==="tf"){var opts=q.type==="tf"?[{t:"True",ok:q.answer===true},{t:"False",ok:q.answer===false}]:q.options;
+opts.forEach(function(o){var b=document.createElement("button");b.className="opt";b.type="button";b.innerHTML=o.t;
+b.addEventListener("click",function(){Array.prototype.forEach.call(card.querySelectorAll(".opt"),function(el){el.classList.remove("correct","wrong");});
+if(o.ok){b.classList.add("correct");fb.className="fb show ok";fb.innerHTML=q.ok;}else{b.classList.add("wrong");fb.className="fb show no";fb.innerHTML=q.no;}});card.appendChild(b);});card.appendChild(fb);}
+else if(q.type==="short"){var ta=document.createElement("textarea");ta.placeholder="Type your answer, then reveal the model answer to self-check…";card.appendChild(ta);
+var sh=document.createElement("button");sh.className="btn";sh.type="button";sh.textContent="Show model answer";var md=document.createElement("div");md.className="model";md.innerHTML=q.model;
+sh.addEventListener("click",function(){md.classList.toggle("show");sh.textContent=md.classList.contains("show")?"Hide model answer":"Show model answer";});card.appendChild(sh);card.appendChild(md);}
+root.appendChild(card);});
+if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetPromise();}
+</script></body></html>

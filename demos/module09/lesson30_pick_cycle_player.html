@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>End-to-End Pick-Cycle Player — Module 9</title>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--btn:#0f172a;
+--ok:#22c55e;--okd:#15803d;--fail:#ef4444;--faild:#b91c1c;--warn:#f59e0b;--warnd:#b45309;
+--idle:#cbd5e1;--accent:#0d9488;--stem:#15803d;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+.wrap{max-width:940px;margin:0 auto;padding:10px}
+.lead{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);
+border-radius:10px;padding:9px 12px;margin-bottom:12px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 14px;
+font-size:13.5px;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--soft)}
+.btn.primary{background:var(--btn);color:#fff;border-color:var(--btn)}
+.sel{font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:#fff}
+label.l{font-size:12px;color:var(--muted);margin-left:4px}
+.row{position:relative;height:120px;margin:14px 0 4px;border-bottom:3px solid var(--stem)}
+.fruit{position:absolute;bottom:34px;width:30px;height:30px;border-radius:50%;border:2px solid var(--okd);
+background:#dcfce7;transition:all .3s;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#14532d}
+.fruit.unripe{background:#e2e8f0;border-color:#94a3b8;color:#64748b}
+.fruit.active{box-shadow:0 0 0 4px rgba(13,148,136,.25);transform:scale(1.12)}
+.fruit.harv{background:var(--ok);border-color:var(--okd);color:#fff}
+.fruit.recov{background:var(--warn);border-color:var(--warnd);color:#fff}
+.fruit.skip{background:var(--fail);border-color:var(--faild);color:#fff}
+.flabel{position:absolute;bottom:14px;font-size:9px;color:var(--muted);width:60px;text-align:center}
+.robot{position:absolute;bottom:74px;width:34px;height:22px;border-radius:5px;background:var(--accent);
+transition:left .4s;transform:translateX(-2px)}
+.pipe{display:flex;gap:5px;margin:8px 0;flex-wrap:wrap}
+.stg{flex:1;min-width:70px;border:2px solid var(--idle);border-radius:9px;background:#fff;padding:6px 4px;text-align:center;font-size:10.5px;font-weight:700;transition:all .2s}
+.stg.on{border-color:var(--accent);background:#f0fdfa}
+.stg.pass{border-color:var(--okd);background:#ecfdf5}
+.stg.fail{border-color:var(--faild);background:#fef2f2;color:var(--faild)}
+.panel{display:flex;gap:10px;margin-top:8px}
+.ledger,.status{flex:1;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;background:#fff}
+.ledger b{font-size:12px}
+.h{color:var(--okd);font-weight:700}.s{color:var(--faild);font-weight:700}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:6px;margin:2px 3px 0 0}
+.tag.h{background:#dcfce7;color:#14532d}.tag.s{background:#fee2e2;color:#7f1d1d}
+.tag.r{background:#fef3c7;color:#78350f}
+.now{font-weight:700}
+</style></head>
+<body><div class="wrap">
+<div class="lead"><b>End-to-End Pick-Cycle Player.</b> The whole of Module 9 in one run: the robot harvests a row,
+running the six-stage cycle per fruit. Pick a fruit and inject a fault, then press <b>Harvest</b>. A
+<span style="color:#15803d">transient</span> fault recovers; a <span style="color:#b91c1c">deterministic</span>
+one is skipped. One stubborn fruit never stalls the row.</div>
+
+<div class="controls">
+  <button class="btn primary" id="run">▶ Harvest the row</button>
+  <label class="l">inject on</label>
+  <select class="sel" id="who"></select>
+  <label class="l">fault</label>
+  <select class="sel" id="what">
+    <option value="none">none</option>
+    <option value="transient">transient disturbance → recover</option>
+    <option value="persistent">persistent disturbance → skip (budget)</option>
+    <option value="obstacle">blocking obstacle → skip (PLAN_INVALID)</option>
+  </select>
+</div>
+
+<div class="row" id="rowbox"></div>
+
+<div class="pipe" id="pipe">
+  <div class="stg" data-s="Perceive">Perceive</div>
+  <div class="stg" data-s="Understand">Understand</div>
+  <div class="stg" data-s="Plan">Plan</div>
+  <div class="stg" data-s="Execute">Execute</div>
+  <div class="stg" data-s="Track">Track</div>
+  <div class="stg" data-s="Recover">Recover</div>
+</div>
+
+<div class="panel">
+  <div class="status" id="status">Press <b>Harvest the row</b> to begin.</div>
+  <div class="ledger" id="ledger"><b>Harvest ledger</b><div id="ledbody" style="margin-top:6px"></div></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var FRUIT=[
+    {id:"F0",ripe:true},{id:"F1",ripe:true},{id:"F2",ripe:true},
+    {id:"F3",ripe:true},{id:"F4",ripe:false},{id:"F5",ripe:true}
+  ];
+  var BUDGET=3;
+  var rowbox=document.getElementById("rowbox");
+  var who=document.getElementById("who");
+  var stgs=[].slice.call(document.querySelectorAll(".stg"));
+  var STAGES=["Perceive","Understand","Plan","Execute","Track","Recover"];
+
+  // build row + selector
+  var nodes={};
+  FRUIT.forEach(function(f,i){
+    var left=(6+ i*15.5);
+    var el=document.createElement("div");
+    el.className="fruit"+(f.ripe?"":" unripe"); el.style.left=left+"%"; el.textContent=f.id;
+    rowbox.appendChild(el); nodes[f.id]=el;
+    var lab=document.createElement("div"); lab.className="flabel"; lab.style.left="calc("+left+"% - 15px)";
+    lab.textContent=f.ripe?"":"unripe"; rowbox.appendChild(lab);
+    if(f.ripe){var o=document.createElement("option"); o.value=f.id; o.textContent=f.id; who.appendChild(o);}
+  });
+  who.value="F2";
+  var robot=document.createElement("div"); robot.className="robot"; robot.style.left="6%"; rowbox.appendChild(robot);
+
+  function reset(){
+    FRUIT.forEach(function(f){ nodes[f.id].className="fruit"+(f.ripe?"":" unripe"); });
+    stgs.forEach(function(s){ s.className="stg"; });
+    robot.style.left="6%";
+  }
+  function setStages(state){ // state: map stage->class
+    stgs.forEach(function(s){ var st=s.getAttribute("data-s"); s.className="stg"+(state[st]?(" "+state[st]):""); });
+  }
+  function sleep(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+
+  var ledH=[], ledS=[];
+  function renderLedger(){
+    var b=document.getElementById("ledbody"); b.innerHTML="";
+    b.innerHTML+='<div class="h">harvested ('+ledH.length+')</div>';
+    ledH.forEach(function(x){ b.innerHTML+='<span class="tag '+(x.r?"r":"h")+'">'+x.id+(x.r?" ↻":"")+'</span>'; });
+    b.innerHTML+='<div class="s" style="margin-top:6px">skipped ('+ledS.length+')</div>';
+    ledS.forEach(function(x){ b.innerHTML+='<span class="tag s">'+x.id+' · '+x.fault+'</span>'; });
+  }
+
+  async function pickFruit(f, fault){
+    nodes[f.id].classList.add("active");
+    robot.style.left="calc("+(6+ FRUIT.indexOf(f)*15.5)+"% )";
+    var status=document.getElementById("status");
+    // forward stages
+    var seq=["Perceive","Understand","Plan","Execute","Track"];
+    var state={};
+    // obstacle -> PLAN_INVALID at Plan
+    if(fault==="obstacle"){
+      for(var k=0;k<2;k++){ state[seq[k]]="pass"; setStages(state); status.innerHTML='<span class="now">'+f.id+'</span>: '+seq[k]+' ✓'; await sleep(220);}
+      state["Plan"]="fail"; setStages(state);
+      status.innerHTML='<span class="now">'+f.id+'</span>: PLAN_INVALID at Plan — deterministic → <b>skip</b>';
+      await sleep(700);
+      nodes[f.id].className="fruit skip"; ledS.push({id:f.id,fault:"PLAN_INVALID"}); renderLedger();
+      nodes[f.id].classList.remove("active"); return;
+    }
+    var attempts = (fault==="transient")?2 : (fault==="persistent")?BUDGET : 1;
+    var recovered=false, skipped=false;
+    for(var a=1;a<=attempts;a++){
+      state={};
+      for(var k=0;k<seq.length;k++){
+        var st=seq[k];
+        var isTrackFail = (st==="Track") && ((fault==="transient"&&a===1)||(fault==="persistent"));
+        state[st]= isTrackFail ? "fail" : "pass"; setStages(state);
+        status.innerHTML='<span class="now">'+f.id+'</span>: '+st+(isTrackFail?' ✗ (TRACKING_FAILURE)':' ✓')+(a>1?'  · attempt '+a:'');
+        await sleep(190);
+        if(isTrackFail){
+          state["Recover"]="on"; setStages(state);
+          if(a<attempts && fault==="transient"){ status.innerHTML='<span class="now">'+f.id+'</span>: Recover → retry-execute (transient)'; recovered=true; }
+          else if(fault==="persistent"){ status.innerHTML='<span class="now">'+f.id+'</span>: Recover → retry '+a+'/'+BUDGET; }
+          await sleep(360);
+          break;
+        }
+      }
+      if(state["Track"]==="pass"){ // success this attempt
+        nodes[f.id].className="fruit "+(recovered?"recov":"harv");
+        ledH.push({id:f.id, r:recovered}); renderLedger();
+        status.innerHTML='<span class="now">'+f.id+'</span>: harvested'+(recovered?' (recovered, '+a+' attempts)':'');
+        nodes[f.id].classList.remove("active"); await sleep(360); return;
+      }
+    }
+    // persistent: budget exhausted
+    nodes[f.id].className="fruit skip"; ledS.push({id:f.id,fault:"TRACKING_FAILURE (budget)"}); renderLedger();
+    status.innerHTML='<span class="now">'+f.id+'</span>: retry budget exhausted → <b>skip</b>';
+    nodes[f.id].classList.remove("active"); await sleep(500);
+  }
+
+  document.getElementById("run").addEventListener("click", async function(){
+    reset(); ledH=[]; ledS=[]; renderLedger();
+    this.disabled=true;
+    var injOn=who.value, injType=document.getElementById("what").value;
+    for(var i=0;i<FRUIT.length;i++){
+      var f=FRUIT[i];
+      if(!f.ripe){ continue; } // Understand never selects an unripe fruit
+      var fault = (f.id===injOn)?injType:"none";
+      await pickFruit(f, fault);
+    }
+    setStages({});
+    var done=document.getElementById("status");
+    done.innerHTML='<b>Row complete.</b> harvested '+ledH.length+' · skipped '+ledS.length+
+      ' · every fruit accounted for (complete = true). Recovery is Unit 7; this is the full Module 9 system.';
+    this.disabled=false;
+  });
+  renderLedger();
+})();
+</script>
+</body></html>
