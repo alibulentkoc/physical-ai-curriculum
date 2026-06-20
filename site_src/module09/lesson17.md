@@ -35,6 +35,11 @@ A run returns: final error 0.01 rad (≤ 0.05 ✓), RMS 0.03 rad (> 0.02 ✗), p
 Reasoning: the arm *ended* close to the reference and the tool *is* near the target, but the *RMS* criterion failed — the tracking was poor *along the way* even though it settled correctly at the end. Verdict: `success = False, reason = "rms"`. This is a real and useful distinction: a run can arrive correctly yet have tracked badly mid-flight (oscillation, a transient disturbance), which may matter for a delicate pick or signal an underlying problem. Track surfaces it because RMS is one of its criteria; an end-point-only check would have wrongly passed this run.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson17_success_criteria.html" title="Closing the Loop: Tracking Error and Success Criteria interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson17_success_criteria.html)
+
 *(Conceptual — runnable in the notebook and the Installment-C flagship demo.)*
 A run with a slider for disturbance strength: at low strength the three criteria all stay green (success); as you increase it, watch the RMS criterion trip first, then the final-error criterion, the verdict flipping to failure with the `reason` naming which one. The demonstration makes "reached vs. succeeded" and the per-criterion reason concrete.
 

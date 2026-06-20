@@ -42,6 +42,11 @@ Detections this frame: `F1@(0.30,0.40)(0.93)`, `F1@(0.33,0.39)(0.86)` (duplicate
 All three faults appeared in one frame; the seam handled all three and produced a single clean target.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson07_when_perception_lies.html" title="Case Study: When Perception Lies interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson07_when_perception_lies.html)
+
 *(Conceptual — runnable in the notebook.)*
 Three toggles — *occlude*, *noise*, *duplicate* — each wired to the real `model_perception`. Flip them in combination and watch two numbers: the raw detection count and the world-state count, plus the committed target. The demonstration's punchline is that the world-state count and the committed target stay sensible across every combination, because the seam cleans before it decides.
 

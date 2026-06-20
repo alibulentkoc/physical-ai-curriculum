@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Study: When Perception Lies — Lesson 2.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .tog{display:flex;align-items:center;gap:7px;font-size:12px;margin:6px 0;cursor:pointer}
+  .sw{width:34px;height:18px;border-radius:9px;background:#cbd5e1;position:relative;flex:none}
+  .sw.on{background:#b91c1c}.sw b{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.15s}.sw.on b{left:18px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.6;font-variant-numeric:tabular-nums;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Perception lies in three ways — the seam cleans before it decides.</b> Occlude, add noise, add a duplicate, in any combination. The raw detection count swings wildly, but the world-state count and committed target stay sensible.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 200"></svg>
+  <div class="panel">
+    <label class="tog" id="t_occ"><span class="sw"><b></b></span>occlude</label>
+    <label class="tog" id="t_noise"><span class="sw"><b></b></span>noise</label>
+    <label class="tog" id="t_dup"><span class="sw"><b></b></span>duplicate</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">The conversion seam is a firewall: whatever perception throws at it, the world state it hands downstream is deduplicated, denoised, and trustworthy.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=200,occ=false,noise=false,dup=false;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var truth=[{n:"F1",p:[80,90]},{n:"F2",p:[150,120]},{n:"F3",p:[210,80]}];
+  var seed=3;function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff-0.5;}
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    seed=3;var dets=[];
+    truth.forEach(function(t,i){if(occ&&i===0)return;var nx=noise?rnd()*22:0,ny=noise?rnd()*22:0;dets.push({n:t.n,p:[t.p[0]+nx,t.p[1]+ny]});});
+    if(dup&&(!(occ)||truth.length>1)){var src=dets.find(function(d){return d.n==="F2";})||dets[0];if(src)dets.push({n:src.n+"'",p:[src.p[0]+8,src.p[1]+8]});}
+    // merge within tau=30
+    var ws=[],used=[];for(var i=0;i<dets.length;i++){if(used[i])continue;var grp=[dets[i]];used[i]=1;for(var j=i+1;j<dets.length;j++){if(!used[j]&&Math.hypot(dets[i].p[0]-dets[j].p[0],dets[i].p[1]-dets[j].p[1])<30){grp.push(dets[j]);used[j]=1;}}ws.push(grp[0]);}
+    svg.innerHTML="";
+    dets.forEach(function(d){svg.appendChild(el("circle",{cx:d.p[0],cy:d.p[1],r:3,fill:"#cbd5e1"}));});
+    ws.forEach(function(w,i){svg.appendChild(el("circle",{cx:w.p[0],cy:w.p[1],r:8,fill:i===0?"#ef4444":"#0d9488"}));var t=el("text",{x:w.p[0],y:w.p[1]+3,"font-size":7.5,fill:"#fff","text-anchor":"middle","font-weight":"700"});t.textContent=w.n;svg.appendChild(t);});
+    var target=ws.length?ws[0].n:"None";
+    var lab=el("text",{x:8,y:14,"font-size":9,fill:"#94a3b8"});lab.textContent="grey = raw · coloured = world-state";svg.appendChild(lab);
+    out.innerHTML='<div>raw detections: <b>'+dets.length+'</b></div>'+
+      '<div>world-state: <b style="color:#0d9488">'+ws.length+'</b></div>'+
+      '<div>committed target: <b style="color:#0d9488">'+target+'</b></div>'+
+      '<div style="color:#15803d;margin-top:4px">target stays sensible ✓</div>';
+  }
+  function tog(id,set){document.getElementById(id).addEventListener("click",function(){set();this.querySelector(".sw").classList.toggle("on");render();});}
+  tog("t_occ",function(){occ=!occ;});tog("t_noise",function(){noise=!noise;});tog("t_dup",function(){dup=!dup;});
+  render();
+})();</script></body></html>

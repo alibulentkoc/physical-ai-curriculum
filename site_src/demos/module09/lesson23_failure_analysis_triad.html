@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Failure Analysis: What Failed, Where, and Who Owns the Fix — Lesson 6.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .triad{flex:1 1 290px;min-width:270px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;margin-bottom:8px}
+  .card .t{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em}
+  .card .v{font-size:15px;font-weight:700;font-family:ui-monospace,monospace;margin-top:2px}
+  .panel{flex:1 1 170px;min-width:160px}
+  .panel button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px;font-size:11.5px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px;text-align:left}
+  .panel button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Every fault resolves to a triad: What, Where, Who.</b> The fired event, the stage where it surfaced, and the owner of the fix. Sometimes surfaced ≠ owner — UNREACHABLE surfaces at Plan but is owned upstream.</div>
+  <div class="stage">
+  <div class="triad" id="triad"></div>
+  <div class="panel">
+    <button data-f="no_target" class="on">NO_TARGET</button>
+    <button data-f="plan_invalid">PLAN_INVALID</button>
+    <button data-f="tracking">TRACKING_FAILURE</button>
+    <button data-f="unreachable">UNREACHABLE</button>
+    <div class="hint">Surfaced-vs-owner is the subtle one: a fault often appears far from its cause. The triad keeps you from "fixing" the messenger stage instead of the real owner.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var faults={
+    no_target:{what:"NO_TARGET",where:"Understand",who:"perception",diff:false},
+    plan_invalid:{what:"PLAN_INVALID",where:"Plan",who:"planner",diff:false},
+    tracking:{what:"TRACKING_FAILURE",where:"Track",who:"control",diff:false},
+    unreachable:{what:"UNREACHABLE",where:"Plan (IK)",who:"target selection",diff:true}
+  },cur="no_target";
+  function render(){
+    var f=faults[cur];
+    document.getElementById("triad").innerHTML=
+      '<div class="card"><div class="t">What — fired event</div><div class="v" style="color:#b91c1c">'+f.what+'</div></div>'+
+      '<div class="card"><div class="t">Where — surfaced at stage</div><div class="v" style="color:#7c3aed">'+f.where+'</div></div>'+
+      '<div class="card"><div class="t">Who — owner of the fix</div><div class="v" style="color:#0d9488">'+f.who+'</div></div>'+
+      (f.diff?'<div style="font-size:11.5px;color:#b45309;background:#fef3c7;border-radius:8px;padding:8px">⚠ surfaced ≠ owner: the fault appears at Plan but the fix lives upstream in target selection.</div>':'<div style="font-size:11.5px;color:#15803d">surfaced stage owns the fix ✓</div>');
+  }
+  document.querySelectorAll("[data-f]").forEach(function(b){b.addEventListener("click",function(){cur=this.getAttribute("data-f");document.querySelectorAll("[data-f]").forEach(function(o){o.classList.toggle("on",o===b);});render();});});
+  render();
+})();</script></body></html>

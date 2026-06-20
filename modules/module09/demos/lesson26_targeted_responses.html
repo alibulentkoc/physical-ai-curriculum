@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Targeted Responses: Matching Action to Owner — Lesson 7.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .flow{flex:1 1 290px;min-width:270px}
+  .panel{flex:1 1 160px;min-width:150px}
+  .panel button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px;font-size:11px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px;text-align:left;font-family:ui-monospace,monospace}
+  .panel button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .node{border:1.5px solid;border-radius:9px;padding:9px 11px;font-size:12px;font-weight:700;font-family:ui-monospace,monospace}
+  .arrow{color:#94a3b8;font-size:18px}
+  .tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The owner decides the action.</b> Each fault routes to a targeted response: NO_TARGET re-perceives (loops), TRACKING_FAILURE retries execute (loops), PLAN_INVALID skips the fruit (stops immediately). Matching action to owner is the recovery policy.</div>
+  <div class="stage">
+  <div class="flow">
+    <div class="chain" id="chain"></div>
+    <div id="tag"></div>
+  </div>
+  <div class="panel">
+    <button data-f="no_target" class="on">NO_TARGET</button>
+    <button data-f="tracking">TRACKING_FAILURE</button>
+    <button data-f="plan_invalid">PLAN_INVALID</button>
+    <div class="hint">Retry vs skip is the key tag: some faults are worth another attempt, others mean abandon this fruit and move on. The policy encodes that judgment per owner.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var policy={
+    no_target:{owner:"perception",action:"re-perceive",tag:"retry (loops)",col:"#0d9488"},
+    tracking:{owner:"control",action:"retry-execute",tag:"retry (loops)",col:"#0d9488"},
+    plan_invalid:{owner:"planner",action:"skip fruit",tag:"skip (stops)",col:"#b91c1c"}
+  },cur="no_target";
+  function render(){
+    var p=policy[cur];
+    document.getElementById("chain").innerHTML=
+      '<div class="node" style="border-color:#b91c1c;color:#b91c1c">'+cur.toUpperCase()+'</div>'+
+      '<span class="arrow">→</span>'+
+      '<div class="node" style="border-color:#7c3aed;color:#7c3aed">owner: '+p.owner+'</div>'+
+      '<span class="arrow">→</span>'+
+      '<div class="node" style="border-color:'+p.col+';color:'+p.col+'">'+p.action+'</div>';
+    document.getElementById("tag").innerHTML='<span class="tag" style="background:'+(p.tag.indexOf("skip")>=0?"#fee2e2":"#dcfce7")+';color:'+p.col+'">'+p.tag+'</span>';
+  }
+  document.querySelectorAll("[data-f]").forEach(function(b){b.addEventListener("click",function(){cur=this.getAttribute("data-f");document.querySelectorAll("[data-f]").forEach(function(o){o.classList.toggle("on",o===b);});render();});});
+  render();
+})();</script></body></html>

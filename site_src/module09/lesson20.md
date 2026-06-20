@@ -36,6 +36,11 @@ The two F3 picks, one recap line each. Healthy: verdict `success`, dashboard all
 Self-test, answered. *Question:* a run returns verdict `success`, but the dashboard shows minimum manipulability 0.003 and high peak effort. Should the system be satisfied? *Answer:* the *task* succeeded, but the *health* is poor — the arm passed close to a singularity and worked hard to do so. A robust system flags this: success this time does not mean success next time from a slightly different target. The right disposition is "succeeded, with a near-singular health warning worth investigating." Distinguishing a healthy success from a fragile one is the core Unit 5 competence.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson20_unit5_recap.html" title="Unit 5 Recap: Execute → Track interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson20_unit5_recap.html)
+
 *(Conceptual — runnable in the notebook and the flagship demo.)*
 The recap demonstration runs a pick end to end and shows all of Unit 5 at once: the motion, the three success criteria evaluating to a verdict, the live telemetry dashboard, and a printed one-sentence reading. Toggle a disturbance or a near-singular target and watch the verdict and the relevant gauge respond together.
 

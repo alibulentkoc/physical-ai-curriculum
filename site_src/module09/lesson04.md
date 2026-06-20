@@ -35,6 +35,11 @@ The greenhouse robot, summarised as one sentence per stage, is the working examp
 Quick self-test, answered. *Question:* a teammate says "all eight layer test suites pass, so the robot is done." What is the one-sentence integration rebuttal? *Answer:* passing per-layer tests proves the **parts** are correct, but system correctness is a separate property of the **composition** — the seams (interfaces, contracts, timing, shared state) are untested by per-layer suites, and that is precisely where systems fail. Being able to give that rebuttal crisply is the Unit 1 outcome.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson04_unit1_recap.html" title="Unit 1 Recap: The System View interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson04_unit1_recap.html)
+
 *(Conceptual — runnable in the notebook.)*
 The recap demonstration is a single consolidated run: build the world, run Perceive and Understand for real, print the spine with owners, and emit a two-stamp trace (Perceive → Understand) asserting the contract chain holds. It is Unit 1 compressed into one cell you can execute and trust.
 

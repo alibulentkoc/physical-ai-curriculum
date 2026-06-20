@@ -59,6 +59,11 @@ Compose them. Is the system correct? Walk the contract:
 The gap between selection's postcondition and the planner's precondition is the bug, and it is invisible if you test each layer alone. Fixing it is an integration act: either selection must also guarantee reachability, or a seam-check between them must reject unreachable targets. Module 9 will make exactly this kind of contract explicit at every handoff.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson01_integration_dashboard.html" title="Why Integration Is Hard: The Whole vs. The Parts interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson01_integration_dashboard.html)
+
 *(Conceptual — the runnable version lives in the notebook track.)*
 Picture a dashboard with eight layer lights, all green. Now add a ninth indicator: *system health*. Flip one seam assumption — say, let perception report positions in centimetres while the planner expects metres. Every layer light stays green; the system light goes red and the gripper lands a hundred-fold off. The demonstration's whole point: the system indicator can fail while every component indicator passes. That ninth light is what Module 9 builds.
 

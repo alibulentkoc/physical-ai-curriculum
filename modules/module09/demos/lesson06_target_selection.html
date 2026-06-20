@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Target Selection: Which Fruit, Which Pose? — Lesson 2.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 190px;min-width:180px}
+  .fr{display:flex;align-items:center;gap:7px;font-size:11.5px;margin:5px 0;cursor:pointer}
+  .sw{width:34px;height:18px;border-radius:9px;background:#cbd5e1;position:relative;transition:.15s;flex:none}
+  .sw.on{background:#15803d}.sw b{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.15s}.sw.on b{left:18px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Selection is a function of the world state.</b> Toggle ripeness and drag fruit in and out of the reach annulus; the committed target updates live. Grey out the winner and the next-ranked lights up. Make everything unripe and the target becomes None.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 220"></svg>
+  <div class="panel">
+    <div id="toggles"></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Deterministic and inspectable — selection is the single place the robot's priorities live. Change the rule here and you change what the whole system reaches for.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=220,CX=140,CY=120,RIN=40,ROUT=95;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var fruit=[{n:"F1",p:[100,90],ripe:true},{n:"F2",p:[190,140],ripe:true},{n:"F3",p:[150,60],ripe:false}];
+  var grab=-1,hinted=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function inReach(p){var d=Math.hypot(p[0]-CX,p[1]-CY);return d>=RIN&&d<=ROUT;}
+  function select(){var cands=fruit.filter(function(f){return f.ripe&&inReach(f.p);});if(!cands.length)return [];cands.sort(function(a,b){return Math.hypot(a.p[0]-CX,a.p[1]-CY)-Math.hypot(b.p[0]-CX,b.p[1]-CY);});return cands;}
+  function render(){
+    var ranked=select();
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:ROUT,fill:"rgba(148,163,184,0.06)",stroke:"#cbd5e1","stroke-width":1,"stroke-dasharray":"3 3"}));
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:RIN,fill:"#fff",stroke:"#cbd5e1","stroke-width":1,"stroke-dasharray":"3 3"}));
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:5,fill:"#475569"}));
+    var rl=el("text",{x:CX,y:CY-ROUT-4,"font-size":8.5,fill:"#94a3b8","text-anchor":"middle"});rl.textContent="reach annulus";svg.appendChild(rl);
+    fruit.forEach(function(f,i){var sel=ranked.length&&ranked[0]===f,next=ranked.length>1&&ranked[1]===f;
+      var col=f.ripe?(inReach(f.p)?"#ef4444":"#fca5a5"):"#94a3b8";
+      svg.appendChild(el("circle",{cx:f.p[0],cy:f.p[1],r:sel?11:8,fill:col,stroke:sel?"#0d9488":(next?"#fcd34d":"none"),"stroke-width":sel?3:(next?2:0)}));
+      var t=el("text",{x:f.p[0],y:f.p[1]+3,"font-size":8,fill:"#fff","text-anchor":"middle","font-weight":"700"});t.textContent=f.n;svg.appendChild(t);
+      if(sel){var sl=el("text",{x:f.p[0],y:f.p[1]-14,"font-size":8.5,fill:"#0d9488","text-anchor":"middle","font-weight":"700"});sl.textContent="TARGET";svg.appendChild(sl);}
+    });
+    if(!hinted){var hh=el("text",{x:8,y:H-8,"font-size":10,fill:"#0d9488"});hh.textContent="drag fruit · toggle ripeness →";svg.appendChild(hh);}
+    document.getElementById("toggles").innerHTML=fruit.map(function(f,i){return '<div class="fr" data-i="'+i+'"><span class="sw '+(f.ripe?"on":"")+'"><b></b></span>'+f.n+' '+(f.ripe?"ripe":"unripe")+'</div>';}).join("");
+    document.querySelectorAll(".fr").forEach(function(el2){el2.addEventListener("click",function(){var i=+this.getAttribute("data-i");fruit[i].ripe=!fruit[i].ripe;render();});});
+    out.innerHTML='<div>committed target: <b style="color:'+(ranked.length?"#0d9488":"#b91c1c")+'">'+(ranked.length?ranked[0].n:"None")+'</b></div>'+
+      '<div style="color:#64748b;margin-top:4px">fallback order: '+(ranked.length?ranked.map(function(f){return f.n;}).join(" → "):"—")+'</div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grab>=0){grab=-1;return;}var m=_ev(e);for(var i=0;i<fruit.length;i++){if(Math.hypot(m[0]-fruit[i].p[0],m[1]-fruit[i].p[1])<14){grab=i;hinted=true;break;}}});
+  svg.addEventListener("pointermove",function(e){if(grab<0)return;var m=_ev(e);fruit[grab].p=[Math.max(10,Math.min(W-10,m[0])),Math.max(10,Math.min(H-10,m[1]))];render();});
+  svg.addEventListener("pointerup",function(){grab=-1;});
+  svg.addEventListener("pointerleave",function(){grab=-1;});
+  render();
+})();</script></body></html>

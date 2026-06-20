@@ -35,6 +35,11 @@ End to end, the working example you should be able to recite: Understand commits
 Self-test, answered. *Question:* the wired seam returns `validated = False`, but IK succeeded and FK confirmed $q_{\text{goal}}$. Where is the fault, and whose decision is the fix? *Answer:* the fault is in **Plan**, not IK or perception — the goal is a valid reachable configuration, but the *trajectory* between start and goal failed validation (e.g. a limit violation at the requested timing, or no collision-free path). The fix is a Plan/Recover decision: relax the timing, replan, or re-select a target. Reaching that conclusion from the trace is the Unit 3 outcome.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson12_unit3_recap.html" title="Unit 3 Recap: Understand → Plan interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson12_unit3_recap.html)
+
 *(Conceptual — runnable in the notebook.)*
 The recap demonstration is one consolidated run: perceive, understand, convert to configuration, plan, and print a five-stamp trace ending in "endpoint = target ✓". Toggle the target out of reach and the trace stops at IK with `None`. It is Unit 3 compressed into a cell you can execute and trust.
 

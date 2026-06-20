@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Walkthrough: Tracing One Tomato — Lesson 1.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stages{display:flex;gap:4px;margin-bottom:10px}
+  .stages div{flex:1;text-align:center;font-size:9.5px;font-weight:600;padding:6px 2px;border-radius:7px;background:#f1f5f9;color:#94a3b8;border:1px solid var(--line)}
+  .stages div.done{background:#ccfbf1;color:#0f766e;border-color:#5eead4}
+  .stages div.cur{background:#0d9488;color:#fff;border-color:#0d9488}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .bb{flex:1 1 300px;min-width:280px;background:#0f172a;border-radius:12px;padding:12px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#e2e8f0;line-height:1.7;min-height:170px}
+  .bb .k{color:#5eead4}.bb .o{color:#fcd34d;font-size:9.5px}.bb .new{color:#86efac}
+  .panel{flex:1 1 160px;min-width:160px}
+  .row button{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px}
+  .row button.sec{background:#fff;color:#475569;border-color:var(--line)}
+  .diff{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:11.5px;line-height:1.5;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Step one tomato through all six stages.</b> Each click stamps the shared blackboard with a new field — what changed, from what to what, and who owns it. The contract chain must hold at every step.</div>
+  <div class="stages" id="strip"></div>
+  <div class="stage">
+  <div class="bb" id="bb"></div>
+  <div class="panel">
+    <div class="row"><button id="step">stamp next stage →</button><button id="reset" class="sec">reset</button></div>
+    <div class="diff" id="diff"></div>
+    <div class="hint">The blackboard is the system's spine: every stage reads what it needs and writes its contribution, owned and traceable. That shared contract is what makes integration auditable.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var stages=[
+    ["Perceive","detections","[3 fruit blobs]","perception"],
+    ["Understand","target_pose","(0.42, 0.18, 0.55)","world_model"],
+    ["Plan","trajectory","reference(t), 2.4s","planner"],
+    ["Execute","joint_cmd","q̇ stream @1kHz","controller"],
+    ["Track","track_status","error 4mm ✓","monitor"],
+    ["Recover","recovery","none needed","orchestrator"]
+  ],step=0;
+  function render(){
+    document.getElementById("strip").innerHTML=stages.map(function(s,i){var cls=i<step?"done":(i===step?"cur":"");return '<div class="'+cls+'">'+s[0]+'</div>';}).join("");
+    var bb=document.getElementById("bb"),lines='<div style="color:#94a3b8">blackboard {</div>';
+    for(var i=0;i<step;i++){var s=stages[i];lines+='<div>&nbsp;<span class="k">'+s[1]+'</span>: '+s[2]+' <span class="o">@'+s[3]+'</span></div>';}
+    lines+='<div style="color:#94a3b8">}</div>';
+    if(step===0)lines='<div style="color:#64748b">blackboard { }</div><div style="color:#64748b;margin-top:8px">click "stamp next stage" to begin</div>';
+    bb.innerHTML=lines;
+    var d=document.getElementById("diff");
+    if(step>0&&step<=stages.length){var s=stages[step-1];d.innerHTML='<div><b>'+s[0]+'</b> added:</div><div style="margin-top:3px"><span style="color:#0f766e">'+s[1]+'</span> ← '+s[2]+'</div><div style="color:#64748b;margin-top:2px">owner: '+s[3]+'</div>';}
+    else d.innerHTML='<div style="color:#64748b">no stamp yet</div>';
+    document.getElementById("step").disabled=step>=stages.length;
+    document.getElementById("step").textContent=step>=stages.length?"✓ all six stamped":"stamp next stage →";
+  }
+  document.getElementById("step").addEventListener("click",function(){if(step<stages.length)step++;render();});
+  document.getElementById("reset").addEventListener("click",function(){step=0;render();});
+  render();
+})();</script></body></html>

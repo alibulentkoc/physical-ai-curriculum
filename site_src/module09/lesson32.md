@@ -37,6 +37,11 @@ The module, demonstrated in one call. `harvest_row(world)` runs the entire syste
 Self-test, answered. *Question:* in one sentence each, what did each pair of units contribute to the finished harvester? *Answer:* Units 1–2 (Perceive → Understand) turn raw detections into a committed, deduplicated target; Units 3–4 (Plan, Execute) turn that target into a validated reference and drive it into tracked motion; Units 5–6 (Track, Detect) judge the motion and detect-and-localise any failure from existing signals; Units 7–8 (Recover, Integrate) respond to faults by targeted bounded recovery and loop the whole cycle across a row with graceful degradation. Eight units, four contributions, one system. If you can give those four sentences, you hold the module.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson32_module_close_capstone.html" title="Unit 8 Recap, Module 9 Close, and the Handoff to Module 10 interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson32_module_close_capstone.html)
+
 *(Conceptual — the Installment-D flagship: the End-to-End Pick-Cycle Player.)*
 The player as a module-wide demonstration: run the full row, inject any fault, and watch the complete system — all six stages, detection, recovery, and the ledger — handle it and finish. It is Module 9 in one interactive panel, and the artifact that best shows the integration is real.
 

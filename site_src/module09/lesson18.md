@@ -38,6 +38,11 @@ You are handed a run's telemetry: peak error 0.002 rad (small), RMS 0.001 (small
 Reasoning: the *task* succeeded — error and tracking are excellent. But the *health* gauge for manipulability is alarming: 0.004 means the arm passed very close to a singularity, where small tool motions demand large joint rates and the velocity mapping is ill-conditioned. This run succeeded, but barely, through a fragile region; a slightly different target might not. Monitoring surfaces this latent risk that the success verdict alone hides. The right reading: "succeeded, but with a near-singular health warning" — a flag worth investigating even though nothing failed *this* time. That gap between *success* and *health* is the whole reason to monitor.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson18_telemetry_dashboard.html" title="System Monitoring: Telemetry and the Info Dictionaries interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson18_telemetry_dashboard.html)
+
 *(Conceptual — runnable in the notebook and the flagship demo.)*
 A live dashboard alongside a running pick: error, effort, and manipulability gauges updating over the trajectory. Drive the target toward a singular configuration and watch the manipulability gauge sink toward zero and the effort gauge climb, even while the run still "succeeds." The demonstration makes the health-vs-success distinction visible on the instruments.
 

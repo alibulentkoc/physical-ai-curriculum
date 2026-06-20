@@ -43,6 +43,11 @@ Reading one harvest report. A run returns `harvested = [F3, F5, F0, F2]`, `skipp
 An operator complains: "The harvester left two fruit — it's broken." Evaluate the claim against the system's guarantees. Reasoning: leaving fruit is not, by itself, a failure of the system — the guarantee is a *definite, accounted-for outcome per fruit*, not completeness. If the report shows the two fruit `skipped` with fault codes (say one `UNREACHABLE`, one `PLAN_INVALID`), the system worked *exactly as designed*: it identified two fruit it could not take, localised why, skipped them, and finished the row. The right response is not "it's broken" but "it correctly degraded — here is why those two were skipped, and whether a human or an upstream change (a different approach, a moved obstacle) could recover them." Confusing best-effort with completeness is the operator's error, not the system's. Stating the guarantee precisely resolves the complaint.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson31_harvest_report.html" title="Reading the Integrated System: Guarantees, Degradation, and Boundaries interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson31_harvest_report.html)
+
 *(Conceptual — runnable in the notebook and the flagship player.)*
 The player's harvest report panel, read alongside the run: harvested vs skipped, each skip's fault, per-fruit attempts. Toggle injections and watch the report change — a transient fault adds a `recovered` flag, a deterministic one adds a skip-with-reason — while the guarantees (accounting, completion) always hold. The demonstration trains reading the system's self-account.
 

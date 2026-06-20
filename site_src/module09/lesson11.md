@@ -39,6 +39,11 @@ One run, narrated by its trace. Perceive yields detections; Understand commits F
 Suppose the end-to-end run breaks at link 3: the plan comes back `validated = False`. Localise it using the trace, without opening the planner. Reasoning: links 1 and 2 passed, so the target is reachable and $q_{\text{goal}}$ is a valid configuration that FK confirms. A failed validation with a good goal points to the *plan between start and goal* — for instance, the move violates a velocity/acceleration limit at the requested timing, or (with an obstacle) no collision-free path exists. The fault is in Plan's inputs or constraints, not in IK or perception. The fix is a Plan/Recover concern (relax timing, replan, or re-select). The exercise teaches you to read the trace to that conclusion.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson11_pose_to_plan_seam.html" title="Integration Exercise: Pose to Plan, Wired End to End interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson11_pose_to_plan_seam.html)
+
 *(Conceptual — runnable in the notebook.)*
 A single "run the seam" button that prints the trace: `perceive → N detections`, `understand → target F3`, `IK → q_goal (FK err ≈ 0)`, `plan → validated, duration`, `endpoint → matches target`. Flip a switch to push the target out of reach and watch the trace stop at the IK link (`None`), demonstrating fault localisation. The notebook implements exactly this.
 

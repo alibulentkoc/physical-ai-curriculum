@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 7 Recap: Recover — Lesson 7.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 250px;min-width:240px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:5px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 3px;font-size:10px;font-weight:600;cursor:pointer;font-family:ui-monospace,monospace}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  label{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;margin:8px 0 5px} input[type=range]{width:100%}
+  .tog{font-size:12px;display:flex;gap:7px;align-items:center;margin:8px 0;cursor:pointer}
+  .row button{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%}
+  .log{background:#0f172a;border-radius:10px;padding:9px;font-family:ui-monospace,monospace;font-size:10px;color:#e2e8f0;line-height:1.6;min-height:70px;margin-top:8px}
+  .log .ok{color:#86efac}.log .r{color:#fcd34d}.log .f{color:#fca5a5}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Unit 7 in one cycle.</b> Pick a fault and a retry budget; the orchestrator detects, routes by owner, retries within budget, and either recovers or escalates — the workflow loop closing on each attempt.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 240 240"></svg>
+  <div class="panel">
+    <div class="seg"><button data-f="no_target" class="on">NO_TARGET</button><button data-f="tracking">TRACKING</button><button data-f="plan_invalid">PLAN_INVALID</button></div>
+    <label>retry budget <span id="bv"></span></label><input type="range" id="b" min="1" max="5" step="1" value="3">
+    <label class="tog"><input type="checkbox" id="pers"> persistent fault</label>
+    <div class="row"><button id="run">▶ run cycle</button></div>
+    <div class="log" id="log"></div>
+    <div class="hint">Detect, route, retry, terminate — recovery is a bounded policy, not an open-ended loop.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=240,H=240,CX=120,CY=120,R=78;
+  var stages=["Perceive","Understand","Plan","Execute","Track","Recover"];
+  var faultMap={no_target:{stage:1,owner:"perception",action:"re-perceive",skip:false},tracking:{stage:4,owner:"control",action:"retry-execute",skip:false},plan_invalid:{stage:2,owner:"planner",action:"skip fruit",skip:true}};
+  var cur="no_target";
+  var svg=document.getElementById("svg"),log=document.getElementById("log"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var active=-1,recover=false,faultStage=-1;
+  function pos(i){var ang=-Math.PI/2+i/6*2*Math.PI;return [CX+R*Math.cos(ang),CY+R*Math.sin(ang)];}
+  function render(lines){
+    svg.innerHTML="";svg.appendChild(el("circle",{cx:CX,cy:CY,r:R,fill:"none",stroke:"#e2e8f0","stroke-width":1.5}));
+    for(var i=0;i<6;i++){var p=pos(i),isRec=i===5,on=i===active;
+      var fill=on?(recover&&isRec?"#7c3aed":(i===faultStage?"#b91c1c":"#0d9488")):"#fff";
+      svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:22,fill:fill,stroke:isRec?"#7c3aed":"#0d9488","stroke-width":on?2.5:1.4}));
+      var t=el("text",{x:p[0],y:p[1]+3,"font-size":7.5,fill:on?"#fff":"#475569","text-anchor":"middle","font-weight":"700"});t.textContent=stages[i];svg.appendChild(t);}
+    log.innerHTML=(lines||[]).join("")||'<span style="color:#475569">click run cycle</span>';
+  }
+  function run(){
+    var f=faultMap[cur],budget=+document.getElementById("b").value,persistent=document.getElementById("pers").checked;
+    var script=[],lines=[];
+    for(var i=0;i<=f.stage;i++)script.push([i,stages[i].toLowerCase()+" ✓","ok"]);
+    if(f.skip){script.push([f.stage,cur+" → skip ("+f.owner+")","f","fault"]);}
+    else {
+      var recoverAt=persistent?budget+1:2;
+      for(var att=1;att<=budget;att++){
+        script.push([f.stage,"attempt "+att+": fault","f","fault"]);
+        script.push([5,"route → "+f.action,"r","rec"]);
+        if(att>=recoverAt){script.push([f.stage,"attempt "+att+": recovered ✓","ok"]);break;}
+        if(att===budget&&persistent)script.push([5,"budget reached → ESCALATE","r"]);
+      }
+    }
+    var idx=0;
+    function next(){
+      if(idx>=script.length){render(lines);return;}
+      var s=script[idx++];active=s[0];faultStage=(s[3]==="fault")?s[0]:-1;recover=(s[3]==="rec");
+      lines.push('<div class="'+s[2]+'">'+s[1]+'</div>');if(lines.length>7)lines.shift();
+      render(lines);setTimeout(next,600);
+    }
+    lines=[];next();
+  }
+  document.querySelectorAll("[data-f]").forEach(function(b){b.addEventListener("click",function(){cur=this.getAttribute("data-f");document.querySelectorAll("[data-f]").forEach(function(o){o.classList.toggle("on",o===b);});});});
+  document.getElementById("b").addEventListener("input",function(){document.getElementById("bv").textContent=this.value;});
+  document.getElementById("bv").textContent="3";
+  document.getElementById("run").addEventListener("click",run);
+  render();
+})();</script></body></html>

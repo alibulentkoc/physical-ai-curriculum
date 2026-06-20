@@ -38,6 +38,11 @@ Two faults, two routings. **Occlusion run:** `NO_TARGET`, owner Perceive/Underst
 Should `TRACKING_FAILURE` be retryable, and what is the risk? *Reasoning:* a tracking failure can come from a transient disturbance (a passing gust — retry succeeds) or a persistent one (a standing overload — retry fails identically). Marking it retryable is correct *because the transient case exists and is common*, and retrying is cheap. The risk is the persistent case: without a bound, the orchestrator would retry-execute forever against a standing disturbance. The resolution is not to make it non-retryable (that would abandon recoverable transient faults) but to **bound the retries** (Lesson 7.3): retry a few times — enough to clear a transient — then escalate. So `TRACKING_FAILURE` is retryable *with a budget*: the policy says "this is worth trying again," and the budget says "but not forever." Both pieces are needed.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson26_targeted_responses.html" title="Targeted Responses: Matching Action to Owner interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson26_targeted_responses.html)
+
 *(Conceptual — runnable in the notebook and the flagship player.)*
 Inject each fault and watch the policy route it: `NO_TARGET` → re-perceive (loops), `TRACKING_FAILURE` → retry-execute (loops), `PLAN_INVALID` → skip (stops immediately). The demonstration makes the owner→action mapping and the retry-vs-skip tag tangible.
 

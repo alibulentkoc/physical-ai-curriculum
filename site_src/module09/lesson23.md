@@ -40,6 +40,11 @@ A run fires `PLAN_INVALID`. Walk the triad, and name one wrong owner to avoid.
 *What failed?* No valid path to the goal — the planner could not validate a trajectory (e.g. an obstacle blocks every route). *Where?* Plan. *Who owns the fix?* Plan — replan with relaxed timing or a different path, or escalate to Recover if no path exists. *Wrong owner to avoid:* **Perceive**. Re-perceiving will faithfully re-detect the same reachable fruit and hand the same goal to a planner that still cannot route to it — an infinite loop. The analysis prevents this by assigning the owner to Plan, where the obstacle actually blocks progress. This is precisely why localisation-with-owner must precede recovery: the wrong owner turns a fixable failure into a loop.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson23_failure_analysis_triad.html" title="Failure Analysis: What Failed, Where, and Who Owns the Fix interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson23_failure_analysis_triad.html)
+
 *(Conceptual — runnable in the notebook and the flagship sandbox.)*
 Inject a fault and the sandbox prints its triad: the fired event, the stage where it surfaced, and the owner — with the surfaced-vs-owner distinction shown when they differ (`UNREACHABLE`). Step through all four hard faults and watch each resolve to a clear owner, building the analysis habit before recovery enters in Unit 7.
 

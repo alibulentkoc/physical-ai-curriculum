@@ -41,6 +41,11 @@ The reference hands the controller $(q_d, \dot q_d, \ddot q_d)$ at tick $t$. Sup
 Reasoning: dropping $\dot q_d, \ddot q_d$ removes the feed-forward terms. The controller falls back to pure feedback on $q_d - q$, so it is always reacting to an error rather than anticipating the motion — tracking lags, especially during fast segments. No exception is thrown; the arm just trails the plan. The violated contract is **(a)**: the reference→controller handoff must carry the full 3-tuple, because the controller's feed-forward depends on the derivatives. The bug is invisible to a type check and visible only as degraded tracking — a classic seam failure.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson14_handoff_contracts.html" title="Handoff Contracts: ξ_d, q̇, and Real-Time Execution interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson14_handoff_contracts.html)
+
 *(Conceptual — runnable in the notebook.)*
 A toggle that drops the feed-forward derivatives from the handoff, side by side with the full handoff, plotting both tracking errors. The full contract tracks tightly; the stripped handoff lags. A second toggle coarsens $\Delta t$ and shows tracking degrade. The demonstration makes the cost of a violated contract visible without any exception being raised.
 

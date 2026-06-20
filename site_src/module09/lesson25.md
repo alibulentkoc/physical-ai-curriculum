@@ -40,6 +40,11 @@ The orchestrator on a transient disturbance. The forward path runs; a one-time k
 Why is Recover a *stage* and not a *layer*? Contrast it with Plan (a layer). Plan owns a body of theory — trajectory generation, limit validation — and produces a capability the system did not otherwise have. Recover owns *no* theory: it cannot perceive, plan, or control; it can only *call* the stages that do. Its job is the *when and which* — when to retry, which stage to re-invoke, when to stop. That is a coordination role, exactly like a workflow's controller-of-controllers. Calling it a "layer" would wrongly imply it adds a new capability; calling it a "stage" correctly places it as the coordinating step that uses the capabilities already present. The distinction is not pedantic — it is the guardrail that keeps recovery from smuggling in new theory.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson25_orchestrator_ring.html" title="The Orchestrator: Coordination as a Stage interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson25_orchestrator_ring.html)
+
 *(Conceptual — fully realised in the Installment-D flagship, the End-to-End Pick-Cycle Player.)*
 A pick cycle runs; inject a transient fault and watch the orchestrator detect it, name the owner, and re-invoke the matching stage, the second attempt succeeding — the workflow ring lighting Recover, then looping back to the re-invoked stage. The demonstration shows recovery as routing, not as new machinery.
 

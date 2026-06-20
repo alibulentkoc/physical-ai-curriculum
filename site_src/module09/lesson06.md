@@ -40,6 +40,11 @@ Apply the policy by hand to: F1 (ripe, reachable, dist 1.4), F2 (unripe, reachab
 Note F2 was *nearest* (0.5) but unripe, so it is not chosen — the filter dominates the rank. Getting that precedence right (feasibility before cost) is the crux of the policy.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson06_target_selection.html" title="Target Selection: Which Fruit, Which Pose? interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson06_target_selection.html)
+
 *(Conceptual — runnable in the notebook.)*
 Picture toggling each fruit's ripeness and dragging it in and out of the reach annulus, and watching the committed target update live: grey out the current pick and the next-ranked fruit lights up; make everything unripe and the target becomes `None`. The demonstration makes visceral that selection is a *function* of the world state — deterministic, inspectable, and the single place the robot's priorities live.
 

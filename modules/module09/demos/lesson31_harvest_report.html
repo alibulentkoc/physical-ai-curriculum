@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading the Integrated System: Guarantees, Degradation, Boundaries — Lesson 8.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .report{flex:1 1 300px;min-width:280px}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{text-align:left;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;padding:5px 6px;border-bottom:1px solid var(--line)}
+  td{padding:7px 6px;border-bottom:1px solid #f1f5f9;font-variant-numeric:tabular-nums}
+  .pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:10.5px;font-weight:700}
+  .acct{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;margin-top:10px;line-height:1.6}
+  .panel{flex:1 1 170px;min-width:160px}
+  .seg{display:flex;flex-direction:column;gap:6px}
+  .seg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11px;font-weight:600;cursor:pointer;text-align:left}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The system's self-account.</b> Read the harvest report: harvested vs skipped, each skip's fault, per-fruit attempts. A transient fault adds a recovered flag; a deterministic one adds a skip-with-reason — but the accounting always balances and the run always completes.</div>
+  <div class="stage">
+  <div class="report">
+    <table id="tbl"></table>
+    <div class="acct" id="acct"></div>
+  </div>
+  <div class="panel">
+    <div class="seg">
+      <button data-m="clean" class="on">no injection</button>
+      <button data-m="transient">transient on F3</button>
+      <button data-m="deterministic">deterministic on F3</button>
+    </div>
+    <div class="hint">Guarantees that always hold: every fruit is accounted for, and the run terminates. Degradation (a skip) is reported, not hidden — the boundary of what the system promises.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var mode="clean";
+  function rows(){
+    var base=[{n:"F1",out:"harvested",att:1},{n:"F2",out:"harvested",att:1},{n:"F3",out:"harvested",att:1},{n:"F4",out:"harvested",att:1},{n:"F5",out:"harvested",att:1}];
+    if(mode==="transient"){base[2]={n:"F3",out:"harvested",att:2,flag:"recovered"};}
+    if(mode==="deterministic"){base[2]={n:"F3",out:"skipped",att:3,reason:"UNREACHABLE"};}
+    return base;
+  }
+  function render(){
+    var r=rows();
+    document.getElementById("tbl").innerHTML='<tr><th>fruit</th><th>outcome</th><th>attempts</th><th>note</th></tr>'+
+      r.map(function(x){var col=x.out==="harvested"?"#15803d":"#b91c1c",bg=x.out==="harvested"?"#dcfce7":"#fee2e2";
+        var note=x.flag?'<span class="pill" style="background:#ede9fe;color:#7c3aed">'+x.flag+'</span>':(x.reason?'<span style="color:#b91c1c">'+x.reason+'</span>':'—');
+        return '<tr><td><b>'+x.n+'</b></td><td><span class="pill" style="background:'+bg+';color:'+col+'">'+x.out+'</span></td><td>'+x.att+'</td><td>'+note+'</td></tr>';}).join("");
+    var h=r.filter(function(x){return x.out==="harvested";}).length,s=r.length-h;
+    document.getElementById("acct").innerHTML='<div>harvested: <b style="color:#15803d">'+h+'</b> · skipped: <b style="color:'+(s?"#b91c1c":"#15803d")+'">'+s+'</b> · total: '+r.length+'</div>'+
+      '<div style="color:'+(h+s===r.length?"#15803d":"#b91c1c")+';margin-top:3px">accounting balances ('+h+'+'+s+' = '+r.length+') ✓</div>'+
+      '<div style="color:#15803d">run completed ✓</div>';
+  }
+  document.querySelectorAll("[data-m]").forEach(function(b){b.addEventListener("click",function(){mode=this.getAttribute("data-m");document.querySelectorAll("[data-m]").forEach(function(o){o.classList.toggle("on",o===b);});render();});});
+  render();
+})();</script></body></html>

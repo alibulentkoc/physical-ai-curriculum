@@ -40,6 +40,11 @@ Here is the trace the notebook produces (values rounded), the spine made literal
 Suppose at stage 2 the trace showed `current_target = None`. Diagnose it *from the trace alone*, without looking inside any layer. Reasoning: `current_target` is written by Understand, whose rule is "nearest ripe **reachable** detection." `None` means the filtered set was empty. Either (a) `detections` was empty (a Perceive problem upstream), or (b) detections existed but none were both ripe and reachable (a legitimate Understand outcome — nothing to pick). You distinguish them by reading the previous stamp, `s_1.detections`. This is the skill the walkthrough builds: localising a fault to a stage by reading the blackboard, before ever opening a layer.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson03_six_stage_stepper.html" title="System Walkthrough: Tracing One Tomato Through All Six Stages interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson03_six_stage_stepper.html)
+
 *(Conceptual — runnable in the notebook.)*
 Picture a "step" button that advances the trace one stage at a time, printing the blackboard diff: which field changed, from what to what, owned by whom. Stepping F3 through six clicks, you watch the boarding pass collect its six stamps. The notebook implements exactly this stepwise trace and asserts the contract chain holds at every step.
 

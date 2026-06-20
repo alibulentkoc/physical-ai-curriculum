@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 8 Recap, Module 9 Close, and the Handoff to Module 10 — Lesson 8.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .tog{font-size:12px;display:flex;gap:7px;align-items:center;margin-bottom:8px;cursor:pointer}
+  .row button{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%}
+  .ledger{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.6;margin-top:8px;font-variant-numeric:tabular-nums}
+  .hand{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:9px 11px;font-size:12px;color:#5b21b6;margin-top:8px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Module 9 in one panel.</b> Run the full row: all six stages, detection, recovery, and the ledger — handle an injected fault and finish. This is the artifact that best shows the integration is real.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 230"></svg>
+  <div class="panel">
+    <label class="tog"><input type="checkbox" id="inj" checked> inject fault on one fruit</label>
+    <div class="row"><button id="run">▶ harvest the row</button></div>
+    <div class="ledger" id="ledger"></div>
+    <div class="hand" id="hand" style="display:none">→ <b>Module 10</b> takes this working system to the real world: sim-to-real, hardware, and deployment.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=230,BX=35,BY=195,L1=1.4,L2=1.1,SC=66;
+  var svg=document.getElementById("svg"),ledger=document.getElementById("ledger"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var fruit=[{x:1.0,y:1.0},{x:1.4,y:1.2},{x:1.8,y:1.0},{x:2.1,y:0.8},{x:2.35,y:0.55}];
+  var picked=[],q=[0.9,0.4],reqIdx=0,phase="idle",log=[],recovering=false;
+  function sv(p){return [BX+p[0]*SC,BY-p[1]*SC];}
+  function ik(x,y){var d2=x*x+y*y,c2=(d2-L1*L1-L2*L2)/(2*L1*L2);if(c2<-1||c2>1)return null;var s2=-Math.sqrt(1-c2*c2);var t2=Math.atan2(s2,c2);var t1=Math.atan2(y,x)-Math.atan2(L2*s2,L1+L2*c2);return [t1,t2];}
+  function fk(qq){var p1=[L1*Math.cos(qq[0]),L1*Math.sin(qq[0])];return {p1:p1,p2:[p1[0]+L2*Math.cos(qq[0]+qq[1]),p1[1]+L2*Math.sin(qq[0]+qq[1])]};}
+  function render(){
+    var f=fk(q);svg.innerHTML="";
+    // ground row
+    svg.appendChild(el("line",{x1:20,y1:BY,x2:295,y2:BY,stroke:"#cbd5e1","stroke-width":1.5}));
+    fruit.forEach(function(fr,i){var p=sv([fr.x,fr.y]);var done=picked.indexOf(i)>=0;
+      svg.appendChild(el("line",{x1:p[0],y1:p[1],x2:p[0],y2:BY,stroke:"#86efac","stroke-width":1}));
+      svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:7,fill:done?"#cbd5e1":"#ef4444",stroke:i===reqIdx&&phase!=="idle"?"#0d9488":"none","stroke-width":2}));
+      if(done){var ck=el("text",{x:p[0],y:p[1]+3,"font-size":8,fill:"#15803d","text-anchor":"middle"});ck.textContent="✓";svg.appendChild(ck);}
+    });
+    var a=sv([0,0]),b=sv(f.p1),c=sv(f.p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":5,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:recovering?"#7c3aed":"#0d9488","stroke-width":5,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:6,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:recovering?"#7c3aed":"#0d9488"}));
+    var h=picked.length;
+    ledger.innerHTML='<div>harvested: <b style="color:#15803d">'+h+'</b> / '+fruit.length+'</div>'+
+      (log.length?'<div style="color:#7c3aed;margin-top:3px">'+log[log.length-1]+'</div>':'')+
+      (h===fruit.length?'<div style="color:#15803d;margin-top:3px">row complete · accounting ✓</div>':'');
+  }
+  function animateTo(target,cb){var start=q.slice(),steps=18,k=0;function go(){k++;var u=k/steps;q[0]=start[0]+(target[0]-start[0])*u;q[1]=start[1]+(target[1]-start[1])*u;render();if(k<steps)requestAnimationFrame(go);else cb();}go();}
+  function run(){
+    picked=[];log=[];reqIdx=0;recovering=false;var inj=document.getElementById("inj").checked;document.getElementById("hand").style.display="none";
+    function nextFruit(){
+      if(reqIdx>=fruit.length){phase="idle";recovering=false;render();document.getElementById("hand").style.display="block";return;}
+      phase="run";var fr=fruit[reqIdx],sol=ik(fr.x,fr.y);
+      if(!sol){log.push("F"+(reqIdx+1)+" UNREACHABLE → skip");reqIdx++;render();setTimeout(nextFruit,250);return;}
+      var faulted=inj&&reqIdx===2;
+      animateTo(sol,function(){
+        if(faulted&&!recovering){recovering=true;log.push("F3 Track failed → Recover → retry");render();setTimeout(function(){animateTo([sol[0]+0.15,sol[1]-0.1],function(){animateTo(sol,function(){recovering=false;picked.push(reqIdx);log.push("F3 recovered ✓");reqIdx++;render();setTimeout(nextFruit,250);});});},350);}
+        else {picked.push(reqIdx);reqIdx++;render();setTimeout(nextFruit,250);}
+      });
+    }
+    nextFruit();
+  }
+  document.getElementById("run").addEventListener("click",run);
+  render();
+})();</script></body></html>

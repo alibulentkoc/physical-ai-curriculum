@@ -44,6 +44,11 @@ Target $(0.5, 0.0)$ on the arm with $L_1=0.4, L_2=0.3$. Compute the configuratio
 Note the two valid solutions $q_2 = \pm\pi/2$; the seam must *choose*, and record which, so the planner and controller agree.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson09_pose_to_goal_config.html" title="From Target Pose to Goal Configuration interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson09_pose_to_goal_config.html)
+
 *(Conceptual — runnable in the notebook.)*
 Drag a target around the workspace and watch the two elbow solutions appear; drag it past the reach boundary and watch both vanish as IK returns `None`. A live FK readout shows the round-trip error hovering at machine zero for reachable points. The demonstration makes the three outcomes — two solutions, one chosen, or none — concrete.
 

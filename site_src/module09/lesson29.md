@@ -37,6 +37,11 @@ One pick of F3, all six stages. Perceive returns detections; Understand dedupes 
 Trace what the cycle returns for a healthy pick versus a transiently disturbed one, and identify what differs. Healthy: the forward path runs once, Track passes, `recover` reports `success = True, recovered = False, n_attempts = 1`. Transiently disturbed: the first attempt's Track fails with `TRACKING_FAILURE`, Recover (policy: `retry-execute`, retryable) re-runs Execute, the disturbance has cleared, Track passes, and `recover` reports `success = True, recovered = True, n_attempts = 2`. What differs is *only* the recovery bookkeeping — `recovered` and `n_attempts` — not any stage's internals. The cycle is identical; the loop simply ran Execute twice. This is the signature of integration: the same composed stages, re-sequenced by the orchestrator, handle both the clean and the faulted case.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson29_full_pick_cycle.html" title="The Full Pick Cycle: Six Stages as One Loop interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson29_full_pick_cycle.html)
+
 *(Conceptual — the Installment-D flagship: the End-to-End Pick-Cycle Player.)*
 Watch a single pick advance stage by stage around the ring, each stage lighting as it runs; toggle a transient disturbance and watch Track fail, Recover retry, and the pick complete on the second pass. The player makes the closed loop and its self-healing visible — the whole module animated as one cycle.
 

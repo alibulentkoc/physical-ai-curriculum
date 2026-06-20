@@ -33,6 +33,11 @@ The full forward run on the real layers. Perceive yields detections from a seede
 Self-test, answered. *Question:* the midpoint run reaches the target. A teammate says "great, the robot is done — ship it." What is the one-sentence rebuttal? *Answer:* the forward path works *when nothing goes wrong*, but the run has **no failure detection and no recovery** — it cannot yet notice an occluded fruit mid-reach, a diverging tracking error, or an unreachable target chosen under noise, let alone respond to them; that is exactly what Units 5–8 add. Being able to state crisply what the midpoint does *not* yet cover is the checkpoint's real outcome.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson16_midpoint_motion_stack.html" title="Unit 4 Recap and Midpoint Checkpoint: The Forward Path, Assembled interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson16_midpoint_motion_stack.html)
+
 *(Conceptual — runnable in the notebook and the flagship demo.)*
 A single "run the forward path" button that prints a four-stamp trace (perceive → understand → plan → execute) ending in "arrived ✓", with the planned vs. actual joint trajectory plotted. The flagship Motion Stack Visualizer shows the same run as animated motion. The demonstration is the midpoint in miniature: the whole forward half, in one click.
 

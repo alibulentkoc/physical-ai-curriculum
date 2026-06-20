@@ -41,6 +41,11 @@ You call the reference layer and receive `{validated: True, duration: 1.13, refe
 3. *What if `validated` were False?* Plan must not write the reference for execution; the failure is routed to Recover. The point: the Plan stage's whole job is *call, check, hand off* — three verbs, no planning math.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson10_invoking_planner.html" title="Invoking the Planner: Calling the Reference Layer interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson10_invoking_planner.html)
+
 *(Conceptual — runnable in the notebook.)*
 Pick a start and goal configuration, call the planner, and scrub a time slider from $0$ to `duration`, watching $q_d(t)$, $\dot q_d(t)$, $\ddot q_d(t)$ evolve and the arm trace the planned motion. A `validated` badge confirms the plan passed its checks. The demonstration shows the reference as a *sampleable schedule*, which is exactly how Execute will consume it.
 

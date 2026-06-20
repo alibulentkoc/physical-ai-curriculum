@@ -36,6 +36,11 @@ Three pick cycles, one recap line each. Transient disturbance: `TRACKING_FAILURE
 Self-test, answered. *Question:* a teammate proposes making the orchestrator "smarter" by adding a small estimator that predicts whether a disturbance will persist, to skip doomed retries. Is this in scope for Module 9? *Answer:* no — that introduces *estimation theory*, which the integration lane excludes. The orchestrator already handles persistence correctly without prediction: it retries a bounded number of times and escalates if the fault persists. The bounded-retry design *is* the integration-appropriate answer to "will it persist?" — try a few times and find out, rather than estimate. Keeping recovery as coordination (re-invoke + budget) rather than prediction (estimate + decide) is the scope discipline Unit 7 models.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson28_unit7_recap_player.html" title="Unit 7 Recap: Recover interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson28_unit7_recap_player.html)
+
 *(Conceptual — the Installment-D flagship: the End-to-End Pick-Cycle Player.)*
 The recap demonstration is the full pick-cycle player: inject any fault, set a budget, and watch the orchestrator detect, route by owner, retry within budget, and either recover or escalate — the workflow loop closing on each attempt. It is all of Unit 7's competence in one interactive cycle.
 

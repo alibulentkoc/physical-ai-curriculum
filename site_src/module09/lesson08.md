@@ -35,6 +35,11 @@ End to end on the real model: perception yields six noisy detections including o
 Self-test, answered. *Question:* perception returns five detections, two of which are the same fruit; one real fruit is occluded this frame; everything visible is ripe and reachable. After the seam, how many committed targets are there, and how many fruit are "in play" overall? *Answer:* exactly **one** committed target (selection commits to one), drawn from **four** world-state entries (five detections minus one merged duplicate); the occluded fruit is simply not among the four this frame. The recap outcome is being able to reason this through cleanly.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson08_unit2_recap.html" title="Unit 2 Recap: Perceive → Understand interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson08_unit2_recap.html)
+
 *(Conceptual — runnable in the notebook.)*
 The recap demonstration is one consolidated run: build a world, perceive with a duplicate and a touch of noise, convert and select, print the committed target and the fallback order, then occlude the winner and re-select. It is Unit 2 compressed into a cell you can execute and trust.
 

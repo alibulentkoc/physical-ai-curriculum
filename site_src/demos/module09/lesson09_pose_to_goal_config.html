@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Target Pose to Goal Configuration — Lesson 3.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 190px;min-width:180px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drag the target; watch IK find the goal configuration.</b> A reachable point has two elbow solutions (one chosen); drag past the reach boundary and both vanish — IK returns None. The FK round-trip error stays at machine zero for reachable points.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <div class="readout" id="out"></div>
+    <div class="hint">Three outcomes: two solutions, one chosen, or none. The Understand→Plan seam must handle all three — picking a branch when there's a choice, and reporting failure when there isn't.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,BX=140,BY=150,L1=1,L2=1,SC=58;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var target=[1.2,0.6],grab=false,hinted=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function ik(x,y,up){var d2=x*x+y*y,c2=(d2-2)/2;if(c2<-1||c2>1)return null;var s2=(up?-1:1)*Math.sqrt(1-c2*c2);var t2=Math.atan2(s2,c2);var t1=Math.atan2(y,x)-Math.atan2(L2*s2,L1+L2*c2);return [t1,t2];}
+  function fk(q){var p1=[Math.cos(q[0]),Math.sin(q[0])];return {p1:p1,p2:[p1[0]+Math.cos(q[0]+q[1]),p1[1]+Math.sin(q[0]+q[1])]};}
+  function drawArm(q,col,w,chosen){var f=fk(q),a=sv([0,0]),b=sv(f.p1),c=sv(f.p2);svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:col,"stroke-width":w,"stroke-linecap":"round",opacity:chosen?1:0.4}));svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:col,"stroke-width":w,"stroke-linecap":"round",opacity:chosen?1:0.4}));if(chosen)svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:4,fill:"#fff",stroke:col,"stroke-width":2}));}
+  function render(){
+    var up=ik(target[0],target[1],true),down=ik(target[0],target[1],false);
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:(L1+L2)*SC,fill:"none",stroke:"#fca5a5","stroke-width":1.2,"stroke-dasharray":"4 3"}));
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:7,fill:"#475569"}));
+    if(down)drawArm(down,"#7c3aed",5,false);
+    if(up)drawArm(up,"#0d9488",6,true);
+    var t=sv(target);
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:16,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:7,fill:"none",stroke:up?"#ef4444":"#b91c1c","stroke-width":2,"stroke-dasharray":grab?"none":"3 3"}));
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:4,fill:up?"#ef4444":"#b91c1c"}));
+    if(!hinted){var hh=el("text",{x:t[0]+10,y:t[1]-9,"font-size":10,fill:"#0d9488","font-weight":"700"});hh.textContent="drag";svg.appendChild(hh);}
+    var err=0;if(up){var f=fk(up);err=Math.hypot(f.p2[0]-target[0],f.p2[1]-target[1]);}
+    out.innerHTML=up?('<div style="color:#15803d"><b>2 solutions</b> (1 chosen)</div>'+
+      '<div style="color:#0d9488;margin-top:4px">elbow-up: θ=('+Math.round(up[0]*180/Math.PI)+'°, '+Math.round(up[1]*180/Math.PI)+'°)</div>'+
+      '<div style="color:#7c3aed">elbow-down: θ₂='+Math.round(down[1]*180/Math.PI)+'°</div>'+
+      '<div style="color:#64748b;margin-top:4px">FK round-trip err: '+err.toExponential(1)+'</div>'):
+      '<div style="color:#b91c1c"><b>IK = None</b></div><div style="color:#64748b;margin-top:4px">target out of reach</div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grab){grab=false;return;}var m=_ev(e),t=sv(target);if(Math.hypot(m[0]-t[0],m[1]-t[1])<20){grab=true;hinted=true;render();}});
+  svg.addEventListener("pointermove",function(e){if(!grab)return;var m=_ev(e);target[0]=(m[0]-BX)/SC;target[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerup",function(){grab=false;render();});
+  svg.addEventListener("pointerleave",function(){grab=false;render();});
+  render();
+})();</script></body></html>

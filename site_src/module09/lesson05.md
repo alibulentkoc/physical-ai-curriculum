@@ -45,6 +45,11 @@ Step through $W$:
 Result: two clean world-state entries, F2 (0.91) and F1 (0.93), each annotated. The duplicate is gone, no real fruit lost — exactly the seam's job.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson05_perception_to_world_state.html" title="From Perception Output to World State interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson05_perception_to_world_state.html)
+
 *(Conceptual — runnable in the notebook; the installment's flagship Data-Flow Explorer also visualises this seam.)*
 Imagine a slider for dedupe tolerance $\tau$ and a noise dial. Turn noise up and watch detection positions jitter; raise $\tau$ and watch near-duplicates merge into single world-state entries — but push $\tau$ too high and *distinct* fruit start collapsing into one. The demonstration's lesson: the conversion has a tuning knob, and the seam owner must choose it deliberately.
 

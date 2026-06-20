@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 6 Recap and Installment C Milestone — Lesson 6.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .pipe{display:flex;gap:4px;margin-bottom:10px}
+  .pipe div{flex:1;text-align:center;font-size:9.5px;font-weight:700;padding:8px 2px;border-radius:7px;background:#ecfdf5;color:#15803d;border:1px solid #a7f3d0}
+  .pipe div.halt{background:#fee2e2;color:#b91c1c;border-color:#fca5a5;box-shadow:0 0 0 2px #fecaca}
+  .pipe div.warn{background:#fef3c7;color:#b45309;border-color:#fcd34d}
+  .pipe div.skip{background:#f1f5f9;color:#cbd5e1;border-color:var(--line)}
+  .pipe div.grey{background:#f8fafc;color:#cbd5e1;border-color:var(--line);border-style:dashed}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .triad{flex:1 1 280px;min-width:260px;background:#0f172a;border-radius:10px;padding:11px;font-family:ui-monospace,monospace;font-size:12px;color:#e2e8f0;line-height:1.8}
+  .triad .w{color:#fca5a5}.triad .s{color:#c4b5fd}.triad .o{color:#5eead4}
+  .panel{flex:1 1 160px;min-width:150px}
+  .panel button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px;text-align:left}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The system can see its own failures.</b> Inject any fault: the guarded pipeline halts or flags at the right seam, lights the event, and prints What / Where / Who. Recover stays greyed — that's Unit 7's job.</div>
+  <div class="pipe" id="pipe"></div>
+  <div class="stage">
+  <div class="triad" id="triad"></div>
+  <div class="panel">
+    <button data-f="occlude">occlude → NO_TARGET</button>
+    <button data-f="block">block → PLAN_INVALID</button>
+    <button data-f="kick">kick → TRACKING_FAILURE</button>
+    <button data-f="edge">edge → NEAR_SINGULAR</button>
+    <button data-f="clear" style="border-color:#0d9488;color:#0d9488">↺ nominal</button>
+    <div class="hint">This is Installment C's whole back-half competence in one panel: detection, localisation, and ownership — the prerequisites recovery will consume.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var stages=["Perceive","Understand","Plan","Execute","Track","Recover"];
+  var faults={
+    occlude:{at:1,what:"NO_TARGET",where:"Understand",who:"perception",sev:"halt"},
+    block:{at:2,what:"PLAN_INVALID",where:"Plan",who:"planner",sev:"halt"},
+    kick:{at:4,what:"TRACKING_FAILURE",where:"Track",who:"control",sev:"halt"},
+    edge:{at:4,what:"NEAR_SINGULAR",where:"Track",who:"path planning",sev:"warn"}
+  },cur=null;
+  function render(){
+    document.getElementById("pipe").innerHTML=stages.map(function(s,i){
+      var cls="";
+      if(i===5)cls="grey";
+      if(cur){var f=faults[cur];if(i===f.at)cls=f.sev==="halt"?"halt":"warn";else if(f.sev==="halt"&&i>f.at&&i<5)cls="skip";}
+      return '<div class="'+cls+'">'+s+'</div>';
+    }).join("");
+    var t=document.getElementById("triad");
+    if(!cur){t.innerHTML='<div style="color:#86efac">nominal — pipeline clean ✓</div><div style="color:#475569;margin-top:6px">inject a fault to see detection</div>';return;}
+    var f=faults[cur];
+    t.innerHTML='<div>What: <span class="w">'+f.what+'</span></div>'+
+      '<div>Where: <span class="s">'+f.where+'</span></div>'+
+      '<div>Who: <span class="o">'+f.who+'</span></div>'+
+      '<div style="margin-top:6px;color:'+(f.sev==="halt"?"#fca5a5":"#fcd34d")+'">'+(f.sev==="halt"?"pipeline HALTED at "+f.where:"flagged, passed (warning)")+'</div>'+
+      '<div style="color:#475569;margin-top:4px">Recover: greyed (Unit 7)</div>';
+  }
+  document.querySelectorAll("[data-f]").forEach(function(b){b.addEventListener("click",function(){var f=this.getAttribute("data-f");cur=f==="clear"?null:f;render();});});
+  render();
+})();</script></body></html>

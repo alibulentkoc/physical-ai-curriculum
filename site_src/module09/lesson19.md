@@ -37,6 +37,11 @@ A third run to read on your own, answered. Telemetry: verdict `failure, reason =
 Reasoning: the run failed on RMS (poor tracking *throughout*, though it may have settled), with moderate peak error and effort — but the standout signal is manipulability at 0.003, an order of magnitude below the healthy 0.086. That says the trajectory passed very near a singularity, where the velocity mapping is ill-conditioned and tracking naturally degrades. *Reading:* "Failed on tracking quality, most likely because the planned path grazed a near-singular configuration — a geometry/planning condition, not an external disturbance. Look at the configurations the plan traversed." Different signal moved, different place to look — the reading discipline localises it.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson19_reading_telemetry.html" title="Case Study: Reading Telemetry interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson19_reading_telemetry.html)
+
 *(Conceptual — runnable in the notebook and the flagship demo.)*
 Two runs on screen with their dashboards; a control to switch the degradation between "external disturbance" and "near-singular path." Watch which gauge moves in each case — effort/error for the disturbance, manipulability for the singularity — and practise reading the difference. The demonstration trains the eye to map a signal pattern to a cause.
 

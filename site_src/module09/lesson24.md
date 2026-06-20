@@ -37,6 +37,11 @@ The four hard faults, each detected and localised, in one breath. Occlude → `N
 Self-test, answered. *Question:* why could recovery not have been built in Unit 6, alongside detection? *Answer:* recovery must be *targeted*, and targeting requires a reliable, localised, owner-tagged failure to aim at — which detection provides. Building recovery first would mean responding to failures the system cannot yet name or place, producing untargeted fixes that loop (re-perceiving a blocked plan) or compound the failure. The Architect's sequence — what/where/who before how — is not pedantry; it is the dependency order. Unit 6 produces the localised, owned fault; Unit 7 consumes it. Detection is the prerequisite, not a parallel track.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson24_unit6_milestone.html" title="Unit 6 Recap and Installment C Milestone: The System Can See Its Own Failures interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson24_unit6_milestone.html)
+
 *(Conceptual — the Installment-C flagship: the Failure-Injection Sandbox.)*
 The recap demonstration is the full sandbox: inject any fault, watch the guarded pipeline halt or flag at the right seam, light the event, and print the What/Where/Who with its owner — then note the greyed "Recover" stage that Unit 7 will fill. It is all of Installment C's back-half competence in one interactive panel.
 

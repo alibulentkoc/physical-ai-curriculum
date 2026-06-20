@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handoff Contracts: ξ_d, q̇, and Real-Time Execution — Lesson 4.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin:7px 0;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>A violated contract costs accuracy — silently.</b> Drop the feed-forward derivatives from the handoff and tracking lags. Coarsen the timestep and it degrades further. No exception is raised; the error just grows.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 190"></svg>
+  <div class="panel">
+    <label class="tog"><input type="checkbox" id="ff" checked> include feed-forward (ξ_d, q̇_d)</label>
+    <label class="tog"><input type="checkbox" id="dt"> coarsen Δt</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">Contracts aren't bureaucracy — each field earns the next layer's performance. Drop a field and nothing crashes, but the robot quietly misses. Honoring the handoff is how the stack stays tight.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=190;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var w=2.2;
+  function qd(t){return 0.5+0.32*Math.sin(w*t);}
+  function vd(t){return 0.32*w*Math.cos(w*t);}
+  function ad(t){return -0.32*w*w*Math.sin(w*t);}
+  function run(useFF,coarse){var dt=coarse?0.05:0.012,T=5,q=0.5,v=0,b=2.5,tr=[],se=0,nn=0;for(var t=0;t<=T;t+=dt){var e=qd(t)-q;var uff=useFF?(ad(t)+b*vd(t)+0.2):0;var u=uff+18*e+3*(vd(t)-v);var a=u-0.2-b*v;v+=a*dt;q+=v*dt;tr.push([t,q]);se+=e*e;nn++;}return {tr:tr,rms:Math.sqrt(se/nn)};}
+  function render(){
+    var ff=document.getElementById("ff").checked,coarse=document.getElementById("dt").checked;
+    var r=run(ff,coarse),T=5;
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:20,y:14,width:265,height:150,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var dp=[];for(var i=0;i<=120;i++){var t=i/120*T;dp.push((20+t/T*265).toFixed(1)+","+(89-(qd(t)-0.5)/0.5*70).toFixed(1));}
+    svg.appendChild(el("polyline",{points:dp.join(" "),fill:"none",stroke:"#94a3b8","stroke-width":1.6,"stroke-dasharray":"5 3"}));
+    var col=(ff&&!coarse)?"#15803d":"#b91c1c";
+    var pp=r.tr.map(function(p){return (20+p[0]/T*265).toFixed(1)+","+(89-(p[1]-0.5)/0.5*70).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:col,"stroke-width":2.2}));
+    var l1=el("text",{x:200,y:28,"font-size":9,fill:"#94a3b8"});l1.textContent="reference";svg.appendChild(l1);
+    var l2=el("text",{x:200,y:41,"font-size":9,fill:col});l2.textContent="actual";svg.appendChild(l2);
+    out.innerHTML='<div>tracking RMS: <b style="color:'+col+'">'+r.rms.toFixed(3)+'</b></div>'+
+      '<div style="color:#64748b;margin-top:4px">'+(ff?"full contract":"feed-forward dropped")+' · '+(coarse?"coarse Δt":"fine Δt")+'</div>'+
+      '<div style="color:'+col+';margin-top:3px">'+((ff&&!coarse)?"tight tracking ✓":"degraded — contract violated")+'</div>';
+  }
+  ["ff","dt"].forEach(function(id){document.getElementById(id).addEventListener("change",render);});
+  render();
+})();</script></body></html>

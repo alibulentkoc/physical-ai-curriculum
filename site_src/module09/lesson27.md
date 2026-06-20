@@ -39,6 +39,11 @@ Two disturbance runs under a budget of three. **Transient kick** (joint 0, attem
 Choose a budget for `NO_TARGET` recovery (re-perceive) in a greenhouse where occlusions typically clear within one or two frames, and justify it. *Reasoning:* if a leaf briefly hides a fruit, one or two fresh perception frames usually reveal it, so a budget that allows ~2–3 re-perceives covers the common transient case. Setting it to 1 would give up too early (a single unlucky frame ends the pick); setting it to 50 would stall the robot on a *permanently* occluded fruit (e.g. hidden behind the stem) that will never appear, when the better action after a few tries is to skip it and harvest the next. So a small budget (≈3) balances *clearing transients* against *failing fast on permanents*. The exact number is an integration choice tuned to the environment — and the counter is what lets the orchestrator honour it. Note we did **not** make `NO_TARGET` non-retryable: re-perceiving is genuinely useful for transient occlusion; we simply bound it.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson27_retry_limits.html" title="Retry Limits and State Across Attempts interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson27_retry_limits.html)
+
 *(Conceptual — runnable in the notebook and the flagship player.)*
 A retry slider sets the budget; inject a persistent fault and watch the orchestrator retry exactly that many times before escalating, the attempt counter ticking up. Switch to a transient fault and watch it recover early, well under budget. The demonstration makes termination and the budget visible.
 

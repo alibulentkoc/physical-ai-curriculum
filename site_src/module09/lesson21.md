@@ -46,6 +46,11 @@ Classify three observations into the taxonomy.
 Note observation 2 is a *warning on a successful run* — the taxonomy's severity split lets the system flag fragility without calling a successful pick a failure. That separation is exactly why severity is part of the event, not an afterthought.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson21_failure_taxonomy.html" title="The Failure Taxonomy: Integration Events interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson21_failure_taxonomy.html)
+
 *(Conceptual — runnable in the notebook and the Installment-C flagship demo.)*
 An annunciator panel that lights the matching event as you inject each fault — occlude → `NO_TARGET`, block → `PLAN_INVALID`, kick → `TRACKING_FAILURE` (+`EXCESS_EFFORT`), edge → `NEAR_SINGULAR`. Failures glow red and halt; warnings glow amber and pass. The demonstration makes the taxonomy a tangible panel rather than a table.
 

@@ -33,6 +33,11 @@ The journey of F3's pose, narrated by its trace. **Decide:** Understand commits 
 Localise a fault from the motion-half trace. Suppose the trace reads: target pose ✓, $q_{\text{goal}}$ ✓ (FK confirms), reference validated ✓, but Execute's final tracking error is large (rms high, `reached = False`). Where is the fault? Reasoning: IK and planning checks passed, so the plan is sound and the goal reachable. A large execution error with a good plan points to **Execute** — for instance, a disturbance the feedback could not fully reject in time, gains too weak for the load, or (foreshadowing Unit 5) a genuine tracking failure. The fault is not in perception, IK, or the planner; it is in execution or its conditions. The trace localises it to the Execute stage — and *judging* whether that error is acceptable is the Track stage's job (Unit 5).
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module09/lesson15_goal_pose_journey.html" title="System Walkthrough: A Goal Pose's Journey to Joint Motion interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module09/lesson15_goal_pose_journey.html)
+
 *(Conceptual — runnable in the notebook and the flagship demo.)*
 A "run the journey" button that prints the five-stamp trace and plots the planned vs. actual joint trajectory, ending with "arrived: FK = target ✓". Inject a disturbance and watch the actual trajectory dip and rejoin, the final stamp still arriving (feedback recovers) — or, with a strong enough disturbance, *not* arriving, foreshadowing failure detection.
 

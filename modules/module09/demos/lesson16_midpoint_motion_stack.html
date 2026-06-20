@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 4 Recap and Midpoint: The Forward Path, Assembled — Lesson 4.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .stages{display:flex;gap:4px;margin-bottom:8px}
+  .stages div{flex:1;text-align:center;font-size:9px;font-weight:600;padding:5px 2px;border-radius:6px;background:#f1f5f9;color:#94a3b8}
+  .stages div.on{background:#0d9488;color:#fff}
+  .trace{background:#0f172a;border-radius:10px;padding:9px;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:#e2e8f0;line-height:1.7}
+  .trace .ok{color:#86efac}.trace .arr{color:#5eead4}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The whole forward half, in one click.</b> Perceive → Understand → Plan → Execute, ending "arrived ✓", with the planned vs actual trajectory animated as motion. This is the midpoint checkpoint in miniature.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 230"></svg>
+  <div class="panel">
+    <div class="stages" id="strip"></div>
+    <div class="trace" id="trace"></div>
+    <div class="hint">Half the system is now assembled and trustworthy: a pose in, coordinated joint motion out. The back half — Track, detect, Recover — closes the loop in the units ahead.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=230,BX=140,BY=150,L1=1,L2=1,SC=58,t=0;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  var qS=[0.5,1.4],qG=[1.3,0.3];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function S(x){return 10*x*x*x-15*x*x*x*x+6*x*x*x*x*x;}
+  function fk(q){var p1=[Math.cos(q[0]),Math.sin(q[0])];return {p1:p1,p2:[p1[0]+Math.cos(q[0]+q[1]),p1[1]+Math.sin(q[0]+q[1])]};}
+  var names=["Perceive","Understand","Plan","Execute"];
+  function render(){
+    t+=0.006;if(t>1.3)t=0;
+    var prog=Math.min(1,t),s=S(prog);
+    var q=[qS[0]+(qG[0]-qS[0])*s,qS[1]+(qG[1]-qS[1])*s],f=fk(q);
+    var stage=Math.min(3,Math.floor(prog*4.0));
+    svg.innerHTML="";
+    var cp=[];for(var i=0;i<=40;i++){var ss=S(i/40);var qq=[qS[0]+(qG[0]-qS[0])*ss,qS[1]+(qG[1]-qS[1])*ss];var sp=sv(fk(qq).p2);cp.push(sp[0].toFixed(1)+","+sp[1].toFixed(1));}
+    svg.appendChild(el("polyline",{points:cp.join(" "),fill:"none",stroke:"#fcd34d","stroke-width":2}));
+    var pg=sv(fk(qG).p2);svg.appendChild(el("circle",{cx:pg[0],cy:pg[1],r:6,fill:"#ef4444"}));
+    var a=sv([0,0]),b=sv(f.p1),c=sv(f.p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#0d9488"}));
+    document.getElementById("strip").innerHTML=names.map(function(nm,i){return '<div class="'+(i<=stage?"on":"")+'">'+nm+'</div>';}).join("");
+    var arrived=prog>=1;
+    document.getElementById("trace").innerHTML=names.slice(0,stage+1).map(function(nm){return '<div><span class="arr">'+nm.toLowerCase()+'</span> <span class="ok">✓</span></div>';}).join("")+(arrived?'<div class="ok">arrived ✓</div>':'');
+  }
+  function loop(){render();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>
