@@ -35,6 +35,11 @@ By the end of Unit 7 the harvester consults its twin before every pick: rehearse
 Connect the three lessons on one decision. A fruit may be blocked. **Pre-validate (7.1)**: rehearse 'attempt' in the twin → forecast skips the fruit → reject. **Choose (7.2)**: rehearse 'attempt' vs 'skip-and-continue', rank by score → 'skip-and-continue' wins → choose it. **Loop (7.3)**: this decision happened inside one cycle turn that also monitored for drift and re-synced if needed; next fruit, the cycle runs again. Three lessons, one fluid decision — and not a single learned parameter or optimized objective anywhere in it.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson28_unit7_recap.html" title="Unit 7 Recap: Adaptation and the Twin-in-the-Loop interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson28_unit7_recap.html)
+
 *(Conceptual — the capstone in 8.2 is the live demonstration of all of this.)*
 Walk one decision through pre-validate → choose → loop, then note that the capstone simply runs this for every fruit in a row, with monitor and predict active throughout.
 

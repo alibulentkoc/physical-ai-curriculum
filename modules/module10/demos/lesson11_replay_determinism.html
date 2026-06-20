@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replay and Reproduce: Determinism in the Twin — Lesson 3.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .runs{flex:1 1 300px;min-width:280px;display:flex;gap:10px}
+  .run{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px;font-family:ui-monospace,monospace;font-size:11px;line-height:1.7}
+  .run .h{font-weight:700;font-size:10px;color:#94a3b8;margin-bottom:5px}
+  .panel{flex:1 1 170px;min-width:160px}
+  label{font-size:12px;color:var(--muted);display:block;margin:7px 0 4px}
+  .seedrow{display:flex;gap:6px}
+  .seedrow input{flex:1;padding:6px;border-radius:8px;border:1px solid var(--line);font-size:12px;width:100%}
+  .tog{font-size:12px;display:flex;gap:7px;align-items:center;margin:8px 0;cursor:pointer}
+  .badge{text-align:center;font-weight:700;border-radius:8px;padding:7px;font-size:12px;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Same seed, same outcome — every time.</b> Run twice with one seed and the results are identical. Change the seed and the run varies. Hold the seed and inject one change, and you get a single, attributable difference.</div>
+  <div class="stage">
+  <div class="runs">
+    <div class="run"><div class="h">RUN A (seed <span id="sa">7</span>)</div><div id="rA"></div></div>
+    <div class="run"><div class="h">RUN B (seed <span id="sb">7</span>)</div><div id="rB"></div></div>
+  </div>
+  <div class="panel">
+    <label>seed A / seed B</label>
+    <div class="seedrow"><input id="seedA" type="number" value="7"><input id="seedB" type="number" value="7"></div>
+    <label class="tog"><input type="checkbox" id="inj"> inject one change in B</label>
+    <div class="badge" id="badge"></div>
+    <div class="hint">Determinism turns the twin into a microscope: change exactly one thing, hold all else, and the single difference is the effect of that change.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var names=["F1","F2","F3","F4","F5"];
+  function sim(seed,inj){var s=seed>>>0||1;function r(){s=(s*1103515245+12345)&0x7fffffff;return s/0x7fffffff;}
+    return names.map(function(n,i){var v=r();var att=v<0.2?2:1;var out=(v<0.1)?"skip":"pick";if(inj&&i===2)out="skip";return n+":"+out+(att>1?"×"+att:"");});}
+  function render(){
+    var sA=+document.getElementById("seedA").value,sB=+document.getElementById("seedB").value,inj=document.getElementById("inj").checked;
+    document.getElementById("sa").textContent=sA;document.getElementById("sb").textContent=sB;
+    var a=sim(sA,false),b=sim(sB,inj);
+    function fmt(arr,other){return arr.map(function(x,i){var diff=other&&x!==other[i];return '<div style="color:'+(diff?"#b91c1c":"#475569")+'">'+x+(diff?" ◄":"")+'</div>';}).join("");}
+    document.getElementById("rA").innerHTML=fmt(a,null);
+    document.getElementById("rB").innerHTML=fmt(b,a);
+    var ndiff=a.filter(function(x,i){return x!==b[i];}).length;
+    var bd=document.getElementById("badge");
+    if(sA===sB&&!inj){bd.style.background="#dcfce7";bd.style.color="#15803d";bd.textContent="identical ✓";}
+    else if(sA===sB&&inj){bd.style.background="#ede9fe";bd.style.color="#7c3aed";bd.textContent=ndiff+" attributable diff";}
+    else {bd.style.background="#fef3c7";bd.style.color="#b45309";bd.textContent="different seeds → "+ndiff+" diffs";}
+  }
+  ["seedA","seedB"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  document.getElementById("inj").addEventListener("change",render);
+  render();
+})();</script></body></html>

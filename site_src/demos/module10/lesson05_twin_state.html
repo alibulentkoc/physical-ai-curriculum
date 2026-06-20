@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Twin's State: Mirroring the World-State Model — Lesson 2.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 150px;min-width:140px;width:100%;max-width:170px;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .frames{flex:1 1 320px;min-width:300px;display:flex;gap:10px}
+  .frame{flex:1;border-radius:10px;padding:10px;font-family:ui-monospace,monospace;font-size:11px;line-height:1.8}
+  .frame.real{background:#f0fdfa;border:1px solid #99f6e4}.frame.twin{background:#faf5ff;border:1px solid #ddd6fe}
+  .frame .h{font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+  .frame .k{color:#94a3b8}.frame .v{font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5;flex-basis:100%}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The twin's state is a structured, copyable reflection.</b> Each field — q, tool, fruit, health, stage — updates as the real robot acts. The twin populates its state from the report, field for field.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 170 200"></svg>
+  <div class="frames">
+    <div class="frame real" id="real"></div>
+    <div class="frame twin" id="twin"></div>
+  </div>
+  <div class="hint">State, not pixels: the twin mirrors a dictionary of fields, which is what makes it queryable, loggable, and replayable — the foundation for everything the twin will do next.</div>
+</div></div>
+<script>(function(){
+  var W=170,H=200,t=0;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var stages=["Perceive","Understand","Plan","Execute","Track","Recover"];
+  function render(){
+    t+=0.008;var cyc=t%1,si=Math.floor(cyc*6),fruit=3-(Math.floor(cyc*3));if(fruit<0)fruit=0;
+    var q=[60+30*Math.sin(t*2),-70+20*Math.cos(t*2)],tool=cyc>0.5?"closed":"open",health=cyc<0.9?"OK":"warn";
+    svg.innerHTML="";
+    var a1=q[0]*Math.PI/180,a2=q[1]*Math.PI/180,cx=85,cy=120,L1=44,L2=36;
+    var e=[cx+L1*Math.cos(a1),cy-L1*Math.sin(a1)],tip=[e[0]+L2*Math.cos(a1+a2),e[1]-L2*Math.sin(a1+a2)];
+    svg.appendChild(el("line",{x1:cx,y1:cy,x2:e[0],y2:e[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:e[0],y1:e[1],x2:tip[0],y2:tip[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:cx,cy:cy,r:7,fill:"#0d9488"}));
+    svg.appendChild(el("circle",{cx:tip[0],cy:tip[1],r:tool==="closed"?4:6,fill:tool==="closed"?"#b91c1c":"none",stroke:"#b91c1c","stroke-width":2}));
+    var lab=el("text",{x:85,y:160,"font-size":10,fill:"#0d9488","text-anchor":"middle","font-weight":"700"});lab.textContent="REAL";svg.appendChild(lab);
+    var fields=[["q","("+q[0].toFixed(0)+"°, "+q[1].toFixed(0)+"°)","#475569"],["tool",tool,"#b91c1c"],["fruit",fruit+" left","#7c3aed"],["health",health,health==="OK"?"#15803d":"#d97706"],["stage",stages[si],"#0d9488"]];
+    function frame(title){return '<div class="h">'+title+'</div>'+fields.map(function(f){return '<div><span class="k">'+f[0]+':</span> <span class="v" style="color:'+f[2]+'">'+f[1]+'</span></div>';}).join("");}
+    document.getElementById("real").innerHTML=frame("real state");
+    document.getElementById("twin").innerHTML=frame("twin state ✓");
+  }
+  function loop(){render();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Whole Journey — One Tomato Through Ten Modules — Lesson 8.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 200px;min-width:180px;max-width:230px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .mods{flex:1 1 280px;min-width:260px}
+  .mod{display:flex;align-items:center;gap:9px;padding:6px 9px;border:1px solid var(--line);border-radius:8px;margin-bottom:5px;background:#fff;opacity:.35;transition:.25s;font-size:11.5px}
+  .mod.on{opacity:1;border-color:#0d9488;background:#f0fdfa;box-shadow:0 0 0 2px #ccfbf1}
+  .mod .n{width:20px;height:20px;border-radius:50%;background:#0f172a;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .mod .c{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;flex-basis:100%}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>One tomato, ten modules.</b> Watch the harvester pick a single fruit while each module lights as its contribution is used — vector, frame, detection, FK, IK, Jacobian, trajectory, control, integration, twin. Ten chapters resolve into one pipeline.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 200 230"></svg>
+  <div class="mods" id="mods"></div>
+  <div class="hint">Every layer you built is in this single pick: the math became motion, the motion became a system, and the system became a twin of itself.</div>
+</div></div>
+<script>(function(){
+  var W=200,H=230,BX=40,BY=170,L1=62,L2=52,t=0;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var mods=[["1","Spatial vectors","position as a vector"],["2","Frames","transform to base frame"],["3","Perception","detect the tomato"],["4","Forward kinematics","where the tip is"],["5","Inverse kinematics","joint angles to reach"],["6","Jacobian","velocity & manipulability"],["7","Trajectory","smooth path to fruit"],["8","Control","track the path"],["9","Integration","six-stage pick cycle"],["10","Digital twin","mirror, predict, adapt"]];
+  function fk(q){var p1=[Math.cos(q[0])*L1,Math.sin(q[0])*L1];return {p1:p1,p2:[p1[0]+Math.cos(q[0]+q[1])*L2,p1[1]+Math.sin(q[0]+q[1])*L2]};}
+  function render(){
+    t+=0.006;var cyc=t%1.2;var prog=Math.min(1,cyc/1.0);
+    var lit=Math.min(10,Math.floor(cyc/1.0*10)+1);if(cyc>1.0)lit=10;
+    // arm reaches from rest to the tomato
+    var qS=[1.2,-0.3],qG=[0.55,-1.0];var s=prog<1?(10*prog*prog*prog-15*Math.pow(prog,4)+6*Math.pow(prog,5)):1;
+    var q=[qS[0]+(qG[0]-qS[0])*s,qS[1]+(qG[1]-qS[1])*s],f=fk(q);
+    svg.innerHTML="";
+    function sv(p){return [BX+p[0],BY-p[1]];}
+    var tom=sv(fk(qG).p2);
+    svg.appendChild(el("circle",{cx:tom[0],cy:tom[1],r:9,fill:prog>=1?"#cbd5e1":"#ef4444"}));
+    if(prog>=1){var ck=el("text",{x:tom[0],y:tom[1]+3,"font-size":9,fill:"#15803d","text-anchor":"middle"});ck.textContent="✓";svg.appendChild(ck);}
+    var a=sv([0,0]),b=sv(f.p1),c=sv(f.p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#0d9488"}));
+    document.getElementById("mods").innerHTML=mods.map(function(m,i){return '<div class="mod'+(i<lit?" on":"")+'"><div class="n">'+m[0]+'</div><div><b>'+m[1]+'</b> — <span class="c">'+m[2]+'</span></div></div>';}).join("");
+  }
+  function loop(){render();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

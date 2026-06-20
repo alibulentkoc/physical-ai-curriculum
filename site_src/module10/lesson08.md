@@ -36,6 +36,11 @@ What the twin can do today. Point it at the deployed Module 9 harvester and it w
 Self-test, answered. *Question:* given Installment A, which of these can the twin do — (a) show the real robot's current arm configuration; (b) flag that it has drifted since the last sync; (c) reveal it differs from reality due to a hidden offset; (d) predict whether the next pick will succeed? *Answer:* (a) **yes** (mirroring reported state), (b) **yes** (divergence vs the report grows between syncs), (c) **yes** (given ground truth, the residual gap shows), but (d) **no** — predicting the next pick requires *running the system forward in the twin*, which is simulation (Installment B). Knowing that (d) is out of reach today, and *why*, is the milestone's key insight.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson08_unit2_milestone.html" title="Unit 2 Recap and Installment A Milestone interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson08_unit2_milestone.html)
+
 *(Conceptual — the Installment-A flagship: the Twin Mirror.)*
 The Twin Mirror as the capstone of Installment A: real robot and twin side by side, state mirrored, sync as heartbeat, the sawtooth of drift-and-reset, and the hidden-offset toggle exposing the residual gap. Everything Units 1–2 built, in one panel. What it does *not* yet show — the twin running ahead of reality — is Installment B.
 

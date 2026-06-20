@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prediction as Run-Ahead Simulation — Lesson 6.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .row button{appearance:none;border:1px solid #7c3aed;background:#7c3aed;color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Prediction is run-ahead simulation anchored to now.</b> Sync the twin to the mid-harvest state, then run it ahead to a forecast: the likely harvested/skipped outcome appears — reality untouched. Re-run and the forecast reproduces.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 170"></svg>
+  <div class="panel">
+    <div class="row"><button id="run">▶ sync & run ahead</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">The forecast is anchored to the present state, then the same system logic plays forward. Foresight, not fortune-telling — it's the twin executing the future.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=170,names=["F1","F2","F3","F4","F5"],ran=false,runs=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  // present: F1,F2 done; F3 in progress (now). forecast: F3 pick, F4 skip, F5 pick
+  var done=[2],forecast={2:"pick",3:"skip",4:"pick"};
+  function render(){
+    svg.innerHTML="";
+    var nowX=20+2.5/5*260;
+    svg.appendChild(el("rect",{x:20,y:60,width:nowX-20,height:50,fill:"#f0fdfa",stroke:"#99f6e4"}));
+    svg.appendChild(el("rect",{x:nowX,y:60,width:280-nowX,height:50,fill:ran?"#faf5ff":"#fff",stroke:ran?"#ddd6fe":"#e2e8f0","stroke-dasharray":ran?"none":"4 3"}));
+    var pl=el("text",{x:(20+nowX)/2,y:54,"font-size":9,fill:"#0d9488","text-anchor":"middle","font-weight":"700"});pl.textContent="past (real)";svg.appendChild(pl);
+    var fl=el("text",{x:(nowX+280)/2,y:54,"font-size":9,fill:"#7c3aed","text-anchor":"middle","font-weight":"700"});fl.textContent="forecast (twin run-ahead)";svg.appendChild(fl);
+    svg.appendChild(el("line",{x1:nowX,y1:48,x2:nowX,y2:122,stroke:"#0f172a","stroke-width":1.5,"stroke-dasharray":"3 2"}));
+    var nl=el("text",{x:nowX,y:134,"font-size":9,fill:"#0f172a","text-anchor":"middle"});nl.textContent="now";svg.appendChild(nl);
+    names.forEach(function(nm,i){var x=20+(i+0.5)/5*260;
+      var st=i<2?"picked":(ran&&forecast[i]?forecast[i]:"?");
+      var col=st==="picked"?"#0d9488":st==="pick"?"#7c3aed":st==="skip"?"#b91c1c":"#cbd5e1";
+      svg.appendChild(el("circle",{cx:x,cy:85,r:8,fill:col}));
+      var t=el("text",{x:x,y:88,"font-size":7.5,fill:"#fff","text-anchor":"middle","font-weight":"700"});t.textContent=nm;svg.appendChild(t);
+    });
+    if(ran){var hv=2+Object.keys(forecast).filter(function(k){return forecast[k]==="pick";}).length;
+      out.innerHTML='<div>forecast: <b style="color:#7c3aed">'+hv+'/5 harvested</b></div><div style="color:#b91c1c">F4 likely skipped</div><div style="color:#15803d;margin-top:4px">reality untouched · runs: '+runs+'</div><div style="color:#7c3aed">reproducible ✓</div>';}
+    else out.innerHTML='<div style="color:#64748b">click to forecast the rest of the harvest</div>';
+  }
+  document.getElementById("run").addEventListener("click",function(){ran=true;runs++;render();});
+  render();
+})();</script></body></html>

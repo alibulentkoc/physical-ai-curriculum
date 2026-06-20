@@ -33,6 +33,11 @@ What you can now build: a robot that represents its world mathematically, percei
 Read the arc once more, as a single climb. **M1-M2** gave you the language to represent the world. **M3** let the robot see. **M4-M6** let it reach — knowing where its arm is, solving where to put it, and shaping the motion. **M7-M8** let it move — planning a path and executing it reliably under feedback. **M9** made the pieces one system. **M10** wrapped that system in a twin that watches, forecasts, and steers it. Math at the bottom, a self-improving harvest at the top. Every step rested on the last, and none was wasted. That is the course — and the foundation you now stand on.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson32_course_close.html" title="Course Close — From Mathematics to a Digital Twin interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson32_course_close.html)
+
 *(Conceptual — a closing replay.)*
 Replay the journey one last time: the staircase from a vector to a twinned harvester, each module lighting as its stage is climbed, ending on the summit with the signpost to what comes next.
 

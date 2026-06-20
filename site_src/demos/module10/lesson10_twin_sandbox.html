@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Twin as a Sandbox: Risk-Free Experimentation — Lesson 3.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 290px;min-width:270px;width:100%;height:auto;background:#faf5ff;border:1px solid #ddd6fe;border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  label{font-size:12px;color:var(--muted);display:block;margin:7px 0 4px}
+  select{width:100%;padding:6px;border-radius:8px;border:1px solid var(--line);font-size:12px}
+  .row button{appearance:none;border:1px solid #7c3aed;background:#7c3aed;color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+  .real{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Experiment freely — nothing real is at risk.</b> Pick a fruit, inject an obstacle or a disturbance, and run the simulated harvest. That fruit skips or recovers while the rest harvest, and the real robot's state stays untouched.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 290 180"></svg>
+  <div class="panel">
+    <label>target fruit</label>
+    <select id="fruit"><option>F1</option><option>F2</option><option selected>F3</option><option>F4</option><option>F5</option></select>
+    <label>injection</label>
+    <select id="inj"><option value="none">none</option><option value="obstacle">obstacle (→ skip)</option><option value="disturb">disturbance (→ recover)</option></select>
+    <div class="row"><button id="run">▶ run sandbox</button></div>
+    <div class="real" id="real"></div>
+    <div class="hint">The same injection on the real robot could damage a fruit or the arm. In the sandbox it's free to try — and free to undo.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=290,H=180;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var names=["F1","F2","F3","F4","F5"],outcome=null;
+  function render(){
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:20,y1:130,x2:270,y2:130,stroke:"#ddd6fe","stroke-width":1.5}));
+    var tag=el("text",{x:145,y:18,"font-size":9.5,fill:"#7c3aed","text-anchor":"middle","font-weight":"700"});tag.textContent="TWIN SANDBOX";svg.appendChild(tag);
+    names.forEach(function(nm,i){var x=45+i*50;
+      var st=outcome?outcome[i]:"pending";
+      var col=st==="harvested"?"#cbd5e1":st==="recovered"?"#7c3aed":st==="skipped"?"#b91c1c":"#ef4444";
+      svg.appendChild(el("line",{x1:x,y1:80,x2:x,y2:130,stroke:"#c4b5fd","stroke-width":1}));
+      svg.appendChild(el("circle",{cx:x,cy:80,r:8,fill:col}));
+      var t=el("text",{x:x,y:100,"font-size":9,fill:"#475569","text-anchor":"middle"});t.textContent=nm;svg.appendChild(t);
+      if(outcome){var s=el("text",{x:x,y:150,"font-size":7.5,fill:col,"text-anchor":"middle"});s.textContent=st;svg.appendChild(s);}
+    });
+  }
+  function run(){
+    var tf=document.getElementById("fruit").selectedIndex,inj=document.getElementById("inj").value;
+    outcome=names.map(function(_,i){if(i===tf){return inj==="obstacle"?"skipped":inj==="disturb"?"recovered":"harvested";}return "harvested";});
+    render();
+    var msg=inj==="none"?"all harvested":inj==="obstacle"?(names[tf]+" skipped, rest harvested"):(names[tf]+" recovered, rest harvested");
+    document.getElementById("real").innerHTML='<div style="color:#7c3aed">sandbox: '+msg+'</div><div style="color:#15803d;margin-top:4px">real robot state: untouched ✓</div>';
+  }
+  document.getElementById("run").addEventListener("click",run);
+  document.getElementById("real").innerHTML='<div style="color:#64748b">configure & run</div>';
+  render();
+})();</script></body></html>

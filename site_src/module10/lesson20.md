@@ -35,6 +35,11 @@ What the twin can do after Unit 5: sync to the deployed harvester and watch it l
 Self-test, answered. *Question:* a monitor reports (state divergence: near zero) and (outcome divergence: F3 predicted-harvested / actually-skipped, effort high on F3). What's the diagnosis, and what can the monitor *not* tell you? *Answer:* The twin is not stale (state quiet), but reality behaved unexpectedly on F3 — an optimistic outcome divergence with a high-effort signature, diagnosing a likely obstruction or hard configuration at F3 (an unmodeled effect localised there). What the monitor cannot tell you is what will happen *next* — whether the rest of the harvest will complete, or whether a candidate change would help. Those are forward-looking questions, and answering them is Unit 6's job: run the same twin ahead.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson20_unit5_recap.html" title="Unit 5 Recap: Monitoring with the Twin interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson20_unit5_recap.html)
+
 *(Conceptual — previews Unit 6's Lookahead & What-If flagship.)*
 A recap pass through the monitor: in-sync (quiet), drift (state signal, re-syncable), surprising behaviour (outcome signal → diagnosis) — then end on the open question Unit 6 answers: *what is likely to happen next?* The demonstration bridges now to next.
 

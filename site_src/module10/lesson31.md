@@ -42,6 +42,11 @@ In the deployed greenhouse harvester, picking one tomato silently exercises all 
 Follow the tomato once, narrated. It hangs at a point — **M1** writes that point as a vector. **M2** moves it from the camera's view into the robot's world frame. **M3** detects it and estimates its 3D position. **M4** tells the system where the arm tip currently is; **M5** solves the joint angles to put the tip on the fruit; **M6** keeps the approach smooth and away from singularities. **M7** lays down the path to follow; **M8** drives the arm along it in real time, correcting as it goes. **M9** runs all of that as one harvest. And **M10** mirrors the run, foresees the obstacle that would have caused a miss, and adapts so the tomato lands in the basket. Ten modules, one fruit, one continuous story.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson31_whole_journey.html" title="The Whole Journey — One Tomato Through Ten Modules interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson31_whole_journey.html)
+
 *(Conceptual — replays the capstone with the M1-M10 trace overlaid.)*
 Watch the capstone harvest a single tomato while each module lights up as its contribution is used — vector, frame, detection, FK, IK, Jacobian, trajectory, control, integration, twin — so the ten chapters resolve into one pipeline.
 

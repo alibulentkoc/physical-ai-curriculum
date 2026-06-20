@@ -33,6 +33,11 @@ The assembled harvester runs a row like this: reality reports its state; the twi
 Walk the data across the boundary for one fruit. Reality emits a report → it **flows in** to `monitor` (and `sync` if drifted). The twin runs `simulate` to predict and `select_action` to choose — entirely on its own copy, reality untouched. The chosen action **flows out** and reality executes it, producing a new report. Count the crossings: exactly two (report in, action out). Everything else stayed on its own side of the dashed line. That tidy boundary is what makes the assembled system trustworthy: reality does the work, the twin only advises, and you can point to exactly where each happens.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson29_assembling_full_system.html" title="Assembling the Full Twin-in-the-Loop System interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson29_assembling_full_system.html)
+
 *(Conceptual — the capstone in 8.2 runs this assembled system on a full row.)*
 Trace one fruit through the assembled system, watching the report cross in and the action cross out, then note that the capstone simply repeats this down the row with a live dashboard.
 

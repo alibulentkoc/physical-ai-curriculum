@@ -35,6 +35,11 @@ Where the twin stands at the midpoint. Point it at the deployed harvester and it
 Self-test, answered. *Question:* at the midpoint, is a calibrated twin a perfect replica of reality, and if not, why is it still useful? *Answer:* No — calibration closes the gap only for the effects you've modeled, and reality always carries others, so a residual gap remains; the twin is faithful but intentionally imperfect. It is still useful because its imperfection is *understood and measured*: you know roughly where and how it diverges, so you can trust its predictions where the gap is small, distrust them where it's large, and keep calibrating as reality teaches you. A twin whose limits you know is far more useful than one you either trust blindly or discard for being imperfect. That balanced stance is the midpoint's central lesson.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson16_unit4_midpoint.html" title="Unit 4 Recap and Midpoint interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson16_unit4_midpoint.html)
+
 *(Conceptual — the Installment-B flagship: the Sim-to-Real Gap Explorer.)*
 The full first-half story in one panel: simulate a predicted harvest, see it diverge from reality under an unmodeled effect, measure the gap, and calibrate it down — then watch a new effect open a fresh gap. The demonstration is the midpoint in miniature: an honest, useful, imperfect twin.
 

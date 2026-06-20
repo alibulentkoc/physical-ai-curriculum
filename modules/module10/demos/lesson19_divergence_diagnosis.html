@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Divergence to Diagnosis — Lesson 5.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .board{flex:1 1 300px;min-width:280px}
+  .triad{display:flex;gap:8px;margin-bottom:10px}
+  .cell{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center}
+  .cell .t{font-size:9px;color:#94a3b8;text-transform:uppercase}
+  .cell .v{font-size:13px;font-weight:700;font-family:ui-monospace,monospace;margin-top:3px}
+  .diag{background:#0f172a;border-radius:10px;padding:12px;font-size:13px;color:#e2e8f0;line-height:1.5}
+  .panel{flex:1 1 170px;min-width:160px}
+  .panel button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px;font-size:11.5px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px;text-align:left}
+  .panel button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Divergence becomes diagnosis.</b> The monitor assembles which fruit diverged, in which direction, and which health signal fired into a plain-language cause. Change the underlying effect and the diagnosis changes with it.</div>
+  <div class="stage">
+  <div class="board">
+    <div class="triad" id="triad"></div>
+    <div class="diag" id="diag"></div>
+  </div>
+  <div class="panel">
+    <button data-e="heavy" class="on">heavy fruit</button>
+    <button data-e="slip">slippery gripper</button>
+    <button data-e="occlusion">partial occlusion</button>
+    <div class="hint">A raw "F2 diverged" is data; "F2 was too heavy to lift, EXCESS_EFFORT fired" is a diagnosis. The twin turns one into the other.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var effects={
+    heavy:{fruit:"F2",dir:"pick → skip",health:"EXCESS_EFFORT",cause:"F2 diverged: the twin predicted a successful pick, but reality skipped it. EXCESS_EFFORT fired — the fruit is heavier than modelled."},
+    slip:{fruit:"F4",dir:"1 → 2 attempts",health:"TRACKING_RETRY",cause:"F4 diverged: reality needed a second attempt the twin didn't predict. The gripper is slipping — friction is lower than modelled."},
+    occlusion:{fruit:"F3",dir:"pick → skip",health:"NO_TARGET",cause:"F3 diverged: reality reported no target where the twin expected one. NO_TARGET fired — the fruit is partially occluded."}
+  },cur="heavy";
+  function render(){
+    var e=effects[cur];
+    document.getElementById("triad").innerHTML=
+      '<div class="cell"><div class="t">which fruit</div><div class="v" style="color:#b91c1c">'+e.fruit+'</div></div>'+
+      '<div class="cell"><div class="t">direction</div><div class="v" style="color:#7c3aed">'+e.dir+'</div></div>'+
+      '<div class="cell"><div class="t">health signal</div><div class="v" style="color:#d97706">'+e.health+'</div></div>';
+    document.getElementById("diag").innerHTML='<div style="color:#5eead4;font-size:10px;text-transform:uppercase;margin-bottom:4px">diagnosis</div>'+e.cause;
+  }
+  document.querySelectorAll("[data-e]").forEach(function(b){b.addEventListener("click",function(){cur=this.getAttribute("data-e");document.querySelectorAll("[data-e]").forEach(function(o){o.classList.toggle("on",o===b);});render();});});
+  render();
+})();</script></body></html>

@@ -35,6 +35,11 @@ What the twin can do after Unit 6: sync to the deployed harvester and forecast t
 Self-test, answered. *Question:* monitoring and prediction use the same twin model — so what exactly distinguishes them, and what single property makes both possible? *Answer:* They differ in (i) the *question* — now vs next; (ii) the *direction of use* — monitoring *compares* the twin's state to reality, prediction *runs* the twin forward; and (iii) reality — monitoring reads reality's live report, prediction runs on a copy with reality untouched. The single property that makes both possible is that the twin **runs the existing Module 9 system** — comparing against it gives monitoring, running it forward gives prediction. One model, two uses; and both inherit the same limit (fidelity to reality), which is why calibrated confidence applies to forecasts and informed interpretation applies to monitor signals.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson24_unit6_recap.html" title="Unit 6 Recap: Prediction with the Twin interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson24_unit6_recap.html)
+
 *(Conceptual — recaps Lesson 6.2's Lookahead & What-If flagship.)*
 A recap pass: forecast the near future (run-ahead), compare a few candidate futures (what-if), and set trust by the monitored gap (calibrated confidence) — then end on the open question Unit 7 answers: *now that you can foresee it, what will you do about it?* The demonstration bridges prediction to adaptation.
 

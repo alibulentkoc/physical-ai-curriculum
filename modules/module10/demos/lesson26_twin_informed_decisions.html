@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twin-Informed Decisions: Choosing the Better Action — Lesson 7.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .board{flex:1 1 300px;min-width:280px}
+  .cand{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px;background:#fff}
+  .cand.top{border-color:#15803d;background:#f0fdf4;box-shadow:0 0 0 2px #bbf7d0}
+  .cand .nm{font-weight:700;font-size:12.5px;flex:1}
+  .cand .sc{font-family:ui-monospace,monospace;font-size:13px;font-weight:700}
+  .cand input{width:90px}
+  .crown{font-size:14px}
+  .panel{flex:1 1 160px;min-width:150px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Rehearse each option; let the twin rank them.</b> Three candidate actions, each scored by its twin rehearsal. The table picks the top one. Change a score and the choice changes — the decision is fully transparent.</div>
+  <div class="stage">
+  <div class="board" id="board"></div>
+  <div class="panel">
+    <div class="hint">No black box: every candidate's forecast score is on the table, and the winner is simply the best one. Adjust the sliders to see the decision re-rank live.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var cands=[{nm:"pick F3 direct",sc:62},{nm:"pick F3 from side",sc:78},{nm:"skip F3, go F4",sc:45}];
+  function render(){
+    var max=Math.max.apply(0,cands.map(function(c){return c.sc;}));
+    document.getElementById("board").innerHTML=cands.map(function(c,i){var top=c.sc===max;return '<div class="cand'+(top?" top":"")+'"><span class="crown">'+(top?"👑":"&nbsp;&nbsp;")+'</span><span class="nm">'+c.nm+'</span><input type="range" min="0" max="100" value="'+c.sc+'" data-i="'+i+'"><span class="sc" style="color:'+(top?"#15803d":"#475569")+'">'+c.sc+'</span></div>';}).join("");
+    document.querySelectorAll("input[data-i]").forEach(function(el){el.addEventListener("input",function(){cands[+this.getAttribute("data-i")].sc=+this.value;render();});});
+  }
+  render();
+})();</script></body></html>

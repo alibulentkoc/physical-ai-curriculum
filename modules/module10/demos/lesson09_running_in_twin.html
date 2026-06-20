@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running the System Inside the Twin — Lesson 3.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .twin{flex:1 1 300px;min-width:280px;background:#faf5ff;border:1px solid #ddd6fe;border-radius:12px;padding:12px}
+  .twin .h{font-size:11px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  td{padding:5px 6px;border-bottom:1px solid #ede9fe;font-variant-numeric:tabular-nums}
+  .pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:10.5px;font-weight:700}
+  .panel{flex:1 1 170px;min-width:160px}
+  .row button{appearance:none;border:1px solid #7c3aed;background:#7c3aed;color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px}
+  .real{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The twin runs, it doesn't just reflect.</b> Run a harvest inside the twin and the predicted outcome appears — harvested and skipped fruit, attempts per pick — while the real robot sits idle. Re-run and the same prediction reproduces.</div>
+  <div class="stage">
+  <div class="twin">
+    <div class="h">twin — simulated harvest</div>
+    <table id="tbl"></table>
+  </div>
+  <div class="panel">
+    <div class="row"><button id="run">▶ run in twin</button></div>
+    <div class="real" id="real"></div>
+    <div class="hint">Running inside the twin costs nothing real: no motors move, no fruit is risked. It's a sealed copy of the system, executed on demand.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var runs=0;
+  var result=[{n:"F1",out:"harvested",att:1},{n:"F2",out:"harvested",att:1},{n:"F3",out:"harvested",att:2},{n:"F4",out:"skipped",att:3},{n:"F5",out:"harvested",att:1}];
+  function render(ran){
+    if(!ran){document.getElementById("tbl").innerHTML='<tr><td style="color:#94a3b8">click "run in twin"</td></tr>';document.getElementById("real").innerHTML='<div style="color:#64748b">real robot: idle</div>';return;}
+    document.getElementById("tbl").innerHTML='<tr><td style="font-size:10px;color:#94a3b8">FRUIT</td><td style="font-size:10px;color:#94a3b8">OUTCOME</td><td style="font-size:10px;color:#94a3b8">ATT</td></tr>'+
+      result.map(function(r){var c=r.out==="harvested"?"#15803d":"#b91c1c",bg=r.out==="harvested"?"#dcfce7":"#fee2e2";return '<tr><td><b>'+r.n+'</b></td><td><span class="pill" style="background:'+bg+';color:'+c+'">'+r.out+'</span></td><td>'+r.att+'</td></tr>';}).join("");
+    document.getElementById("real").innerHTML='<div style="color:#15803d">real robot: idle (untouched) ✓</div><div style="color:#64748b;margin-top:4px">twin runs: '+runs+'</div><div style="color:#7c3aed;margin-top:2px">prediction reproduced ✓</div>';
+  }
+  document.getElementById("run").addEventListener("click",function(){runs++;render(true);});
+  render(false);
+})();</script></body></html>

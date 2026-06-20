@@ -37,6 +37,11 @@ Facing a fruit that may be blocked, the orchestrator weighs two actions: attempt
 Two candidate actions are pre-validated. Candidate *clear path* forecasts four fruit harvested, none skipped → score $(4, 0)$. Candidate *ignore the obstacle* forecasts three harvested, one skipped → score $(3, -1)$. Ranking by the stated score puts *clear path* on top, so it is chosen. Now suppose the score changed — say we valued attempting every fruit regardless of waste; the ranking could flip. That is the point: the **choice follows transparently from a rule you can read**, applied to forecasts the twin produced. Nothing was optimized over a continuous space and nothing was learned from past episodes — two rehearsals, one comparison, one pick.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson26_twin_informed_decisions.html" title="Twin-Informed Decisions: Choosing the Better Action interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson26_twin_informed_decisions.html)
+
 *(Conceptual — the Unit 8 capstone demo selects actions live.)*
 Line up two or three candidate actions, rehearse each in the twin, and watch the ranked table pick the top one. Change the score and watch the choice change — the decision is transparent.
 

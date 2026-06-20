@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Twin Concept: A Living Mirror — Lesson 1.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:300px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin:8px 0;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The twin is a living mirror — useful only while it tracks.</b> Move the real robot and the twin follows after a sync. Pause the sync and the twin falls out of step; resume and it catches up. The binding is what makes it a twin.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 340 200"></svg>
+  <div class="panel">
+    <label>real robot — joint 1</label><input type="range" id="t1" min="20" max="130" step="1" value="60">
+    <label>real robot — joint 2</label><input type="range" id="t2" min="-110" max="-20" step="1" value="-70">
+    <label class="tog"><input type="checkbox" id="sync" checked> sync live</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">A mirror that lags reality is worse than none — you'd trust a stale picture. Sync is the heartbeat; without it the twin is just an old snapshot.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=340,H=200,L1=46,L2=38;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var twin=[60,-70];
+  function arm(cx,cy,t1,t2,col,labelTxt,faded){
+    var a1=t1*Math.PI/180,a2=t2*Math.PI/180;
+    var e=[cx+L1*Math.cos(a1),cy-L1*Math.sin(a1)];
+    var tip=[e[0]+L2*Math.cos(a1+a2),e[1]-L2*Math.sin(a1+a2)];
+    var op=faded?0.4:1;
+    svg.appendChild(el("line",{x1:cx,y1:cy,x2:e[0],y2:e[1],stroke:col,"stroke-width":6,"stroke-linecap":"round",opacity:op}));
+    svg.appendChild(el("line",{x1:e[0],y1:e[1],x2:tip[0],y2:tip[1],stroke:col,"stroke-width":6,"stroke-linecap":"round",opacity:op}));
+    svg.appendChild(el("circle",{cx:cx,cy:cy,r:7,fill:col,opacity:op}));
+    svg.appendChild(el("circle",{cx:tip[0],cy:tip[1],r:5,fill:col,opacity:op}));
+    var t=el("text",{x:cx,y:cy+28,"font-size":11,fill:col,"text-anchor":"middle","font-weight":"700"});t.textContent=labelTxt;svg.appendChild(t);
+    return tip;
+  }
+  function render(){
+    var t1=+document.getElementById("t1").value,t2=+document.getElementById("t2").value,sync=document.getElementById("sync").checked;
+    if(sync)twin=[t1,t2];
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:170,y1:20,x2:170,y2:180,stroke:"#e2e8f0","stroke-width":1,"stroke-dasharray":"4 4"}));
+    arm(85,120,t1,t2,"#0d9488","REAL",false);
+    arm(255,120,twin[0],twin[1],"#7c3aed","TWIN",!sync);
+    // sync arrow
+    svg.appendChild(el("line",{x1:135,y1:50,x2:205,y2:50,stroke:sync?"#15803d":"#cbd5e1","stroke-width":2,"marker-end":"url(#a)","stroke-dasharray":sync?"none":"3 3"}));
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="'+(sync?"#15803d":"#cbd5e1")+'"/></marker>';svg.appendChild(defs);
+    var sl=el("text",{x:170,y:44,"font-size":9,fill:sync?"#15803d":"#94a3b8","text-anchor":"middle"});sl.textContent=sync?"sync":"paused";svg.appendChild(sl);
+    var drift=Math.abs(t1-twin[0])+Math.abs(t2-twin[1]);
+    out.innerHTML='<div>sync: <b style="color:'+(sync?"#15803d":"#b91c1c")+'">'+(sync?"live":"paused")+'</b></div>'+
+      '<div>drift: <b style="color:'+(drift<1?"#15803d":"#b91c1c")+'">'+drift.toFixed(0)+'°</b></div>'+
+      '<div style="color:#64748b;margin-top:4px">'+(sync?"twin mirrors the real robot":"twin frozen — move real to see drift")+'</div>';
+  }
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  document.getElementById("sync").addEventListener("change",render);
+  render();
+})();</script></body></html>

@@ -34,6 +34,11 @@ Reading both channels during a harvest. The monitor watches state divergence: it
 The state-divergence channel is quiet (near zero) but the outcome-divergence channel reports a fruit predicted-harvested / actually-skipped. What does this combination tell you? Reasoning: a quiet *state* channel means the twin's snapshot matches reality's *report* — the twin is not stale. Yet the *outcome* channel fires — reality's harvest behaved differently than the twin predicted. So the disagreement is **not** about a lagging snapshot; it is about an effect reality carries that the twin's model does not (an unmodeled obstacle, say) — a genuine behavioural surprise, not staleness. The correct response is to *investigate / calibrate*, not merely re-sync. Distinguishing these two channels is exactly what prevents the classic error of "refreshing the display" when the real problem is an unmodeled effect.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson18_divergence_signal.html" title="Divergence as a Signal interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson18_divergence_signal.html)
+
 *(Conceptual — previews Unit 6's Lookahead & What-If flagship.)*
 Two live signal traces: nudge reality's state and watch the state-divergence channel rise (re-sync clears it); add an unmodeled effect and watch the outcome-divergence channel spike on one fruit (re-sync does *not* clear it). The demonstration makes the two-signal distinction tangible.
 

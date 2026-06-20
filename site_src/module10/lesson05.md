@@ -33,6 +33,11 @@ Capturing the greenhouse state. Mid-harvest, the real robot's reported snapshot 
 Decide what belongs in the twin's state frame. Candidate items: (a) the joint configuration $q$ — **yes** (reported, essential). (b) The tool position — **yes** (reported, derived from $q$). (c) Each fruit's picked status — **yes** (reported; needed to mirror harvest progress). (d) The *exact* unmodeled friction in joint 1 that the robot cannot measure — **no** (not reported; including it would be fiction, not mirroring). (e) The health signals — **yes** (reported condition). The rule decides every case: *is it reported?* The twin's state is the union of reported quantities, transcribed faithfully — which also foreshadows the sim-to-real gap (Unit 4): the unreported truth in (d) is exactly what the twin cannot mirror.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson05_twin_state.html" title="The Twin's State: Mirroring the World-State Model interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson05_twin_state.html)
+
 *(Conceptual — the Installment-A flagship: the Twin Mirror.)*
 Inspect the live state frame beside the robot: each field (q, tool, fruit, health, stage) shown updating as the real robot acts. Toggle a field's source to see the twin's state populate from the report. The demonstration makes the twin's state concrete — a structured, copyable reflection of the reported world-state.
 

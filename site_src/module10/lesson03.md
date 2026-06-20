@@ -36,6 +36,11 @@ Reading the real system's reported state. Take the deployed Module 9 robot mid-h
 Decide, for three candidate twin features, whether each respects *wrap, do not redefine*. (a) "The twin reads the real robot's reported $q$ and fruit states." → **respects** it (mirroring an existing report). (b) "The twin runs `harvest_row` on its own world copy to simulate a harvest." → **respects** it (reusing the M9 orchestrator). (c) "The twin adds a smarter planner that picks fruit in a better order than M9." → **violates** it (that is a new robot behaviour, redefining the system — and out of scope; the twin only *tests and informs*, it does not replace M9's planning). The line is clean: the twin may *mirror* and *run* the M9 system, but never *replace* its layers.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson03_what_we_twin.html" title="What We Twin: the Module 9 System as the Physical Asset interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson03_what_we_twin.html)
+
 *(Conceptual — the Installment-A flagship: the Twin Mirror.)*
 The Twin Mirror, annotated with the four inputs: as the real robot harvests, watch the four ports update — orchestrator advancing the pick, world-state changing, health signals refreshing, all flowing through the interface into the twin. The demonstration shows the twin reading exactly Module 9's outputs and nothing more.
 

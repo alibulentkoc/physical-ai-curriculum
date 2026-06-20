@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitoring as Reality ↔ Twin Comparison — Lesson 5.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .row button{appearance:none;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px}
+  #nudge{border:1px solid #d97706;background:#fff;color:#b45309}
+  #sync{border:1px solid #15803d;background:#15803d;color:#fff}
+  .monitor{text-align:center;font-weight:700;border-radius:8px;padding:9px;font-size:13px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Monitoring is just Reality ↔ Twin comparison.</b> While reality matches the twin the monitor stays quiet. Nudge reality and divergence rises until the monitor raises a signal; re-sync and it falls quiet again.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 160"></svg>
+  <div class="panel">
+    <div class="row"><button id="nudge">nudge reality</button></div>
+    <div class="row"><button id="sync">re-sync twin</button></div>
+    <div class="monitor" id="mon"></div>
+    <div class="hint">No separate sensor needed — the divergence between a thing and its mirror is itself the alarm. The twin makes monitoring free.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=160,div=0,trace=[],THRESH=0.4;
+  var svg=document.getElementById("svg"),mon=document.getElementById("mon"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function step(){trace.push(div);if(trace.length>140)trace.shift();render();}
+  function render(){
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:20,y:14,width:265,height:130,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=144-THRESH/1*130;svg.appendChild(el("line",{x1:20,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var thl=el("text",{x:24,y:ty-3,"font-size":8,fill:"#b91c1c"});thl.textContent="alarm threshold";svg.appendChild(thl);
+    var pts=trace.map(function(d,i){return (20+i/139*265).toFixed(1)+","+(144-d/1*130).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:div>THRESH?"#b91c1c":"#0d9488","stroke-width":2}));
+    var lab=el("text",{x:24,y:26,"font-size":9,fill:"#64748b"});lab.textContent="reality ↔ twin divergence";svg.appendChild(lab);
+    var alarm=div>THRESH;mon.style.background=alarm?"#fee2e2":"#dcfce7";mon.style.color=alarm?"#b91c1c":"#15803d";
+    mon.innerHTML=alarm?"⚠ MONITOR: divergence signal":"✓ MONITOR: quiet";
+  }
+  document.getElementById("nudge").addEventListener("click",function(){div=Math.min(1,div+0.3);});
+  document.getElementById("sync").addEventListener("click",function(){div=0;});
+  function loop(){step();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

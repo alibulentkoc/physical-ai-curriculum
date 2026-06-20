@@ -33,6 +33,11 @@ Diagnosing a skipped fruit. The monitor fires an outcome divergence: F3 predicte
 Two harvests both show an outcome divergence on a fruit, but: case A's health signals on that pick read normal, while case B's show a large effort spike and low manipulability. How do the diagnoses differ? Reasoning: in both, the twin was wrong about that fruit — but the *character* differs. Case A (normal health, yet the fruit diverged) suggests the surprise was not in the *execution* effort — perhaps a perception or layout difference (the fruit wasn't where/what the twin thought). Case B (effort spike, low manipulability) points at an *execution-side* obstruction or a hard configuration on the approach. Same headline ("fruit diverged"), different diagnoses — because the health signals characterise *how* it diverged. This is why diagnosis combines the outcome gap with the health signals rather than reading either alone.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson19_divergence_diagnosis.html" title="From Divergence to Diagnosis interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson19_divergence_diagnosis.html)
+
 *(Conceptual — previews Unit 6's Lookahead & What-If flagship.)*
 A diagnosis panel: trigger an outcome divergence and watch the monitor assemble which-fruit, which-direction, and which-health-signal into a plain-language cause; change the underlying effect and watch the diagnosis change with it. The demonstration shows divergence becoming diagnosis.
 

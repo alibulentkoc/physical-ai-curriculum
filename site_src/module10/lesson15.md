@@ -33,6 +33,11 @@ Closing the F3 gap. The gap metric showed the twin predicted F3 harvested while 
 After calibration, the outcome gap reports `match = true`. Does this mean the twin now perfectly matches reality? Reasoning: it means the twin matches reality *for the effects you calibrated* — the obstacle you modeled is now reflected, so the predicted and actual harvests agree on the scenario you measured. It does **not** mean the twin is globally perfect: reality may carry *other* unmodeled effects that this scenario didn't exercise, and a different situation could open a new gap. So "match = true" is a local victory (this gap closed), not a permanent guarantee. The honest stance is that calibration narrows the gap effect-by-effect, and a residual always lurks — which is exactly why the twin stays *intentionally imperfect*.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson15_calibrating_twin.html" title="Calibrating the Twin: Shrinking the Gap interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson15_calibrating_twin.html)
+
 *(Conceptual — the Installment-B flagship: the Sim-to-Real Gap Explorer.)*
 The Explorer's calibrate control: with a gap open, click to tell the twin about the unmodeled effect and watch the predicted harvest snap into agreement with reality — the divergence metric drops to zero. Introduce a *new* effect and watch a fresh gap open, showing calibration as an ongoing loop, not a final fix.
 

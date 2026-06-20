@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synchronizing Twin ↔ Real — Lesson 2.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Sync is the twin's heartbeat.</b> Divergence climbs as the real robot acts, then snaps to zero at each sync. Slow the sync rate and the gap grows between refreshes; speed it up and the twin stays tight to reality.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 180"></svg>
+  <div class="panel">
+    <label>sync rate</label><input type="range" id="rate" min="1" max="10" step="1" value="5">
+    <div class="readout" id="out"></div>
+    <div class="hint">Frequency is the freshness dial. A faster heartbeat means a tighter mirror — at the cost of more communication. The right rate balances staleness against bandwidth.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=180,t=0,div=0,trace=[],maxgap=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var lastSync=0;
+  function step(){
+    var rate=+document.getElementById("rate").value,interval=1.1-rate*0.1; // higher rate -> shorter interval
+    div+=0.02; // real drifts at constant rate
+    t+=0.02;
+    if(t-lastSync>=interval){div=0;lastSync=t;}
+    trace.push(div);if(trace.length>150)trace.shift();
+    render(rate);
+  }
+  function render(rate){
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:20,y:14,width:265,height:150,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var mx=Math.max(0.15,Math.max.apply(0,trace));
+    var pts=trace.map(function(d,i){return (20+i/149*265).toFixed(1)+","+(160-d/mx*140).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:"#7c3aed","stroke-width":2}));
+    var lab=el("text",{x:24,y:26,"font-size":9.5,fill:"#7c3aed"});lab.textContent="divergence (twin vs real)";svg.appendChild(lab);
+    var tl=el("text",{x:20,y:176,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    var curMax=Math.max.apply(0,trace);
+    out.innerHTML='<div>current divergence: <b>'+div.toFixed(3)+'</b></div>'+
+      '<div>peak gap: <b style="color:'+(curMax<0.1?"#15803d":"#7c3aed")+'">'+curMax.toFixed(3)+'</b></div>'+
+      '<div style="color:#64748b;margin-top:4px">'+(rate>=7?"fast sync — tight mirror":rate<=3?"slow sync — large gaps":"moderate sync")+'</div>';
+  }
+  document.getElementById("rate").addEventListener("input",function(){});
+  function loop(){step();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

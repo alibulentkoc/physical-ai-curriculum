@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Close — From Mathematics to a Digital Twin — Lesson 8.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 360px;min-width:320px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 160px;min-width:150px}
+  .row button{appearance:none;border:1px solid #7c3aed;background:#7c3aed;color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%}
+  .sign{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:10px;font-size:12px;color:#5b21b6;margin-top:8px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>From a vector to a twinned harvester.</b> Replay the journey one last time: the staircase climbs from a single vector to a self-mirroring robot, each module a step. Ten steps to the summit.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 360 230"></svg>
+  <div class="panel">
+    <div class="row"><button id="climb">▶ climb the journey</button></div>
+    <div class="sign" id="sign" style="display:none">🚩 You've reached the summit. The next climb is yours: real hardware, real greenhouses, real robots.</div>
+    <div class="hint">From mathematics to a digital twin — every step rested on the one below it.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=360,H=230;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var labels=["vector","frames","perceive","FK","IK","Jacobian","trajectory","control","integrate","twin"];
+  var climbed=0,target=0;
+  function render(){
+    svg.innerHTML="";
+    var n=10,sw=30,sh=17,x0=18,y0=205;
+    for(var i=0;i<n;i++){
+      var x=x0+i*sw,y=y0-i*sh,on=i<climbed;
+      svg.appendChild(el("rect",{x:x,y:y-sh,width:sw,height:y0-(y-sh),fill:on?"#ccfbf1":"#fff",stroke:on?"#0d9488":"#e2e8f0","stroke-width":1}));
+      var lab=el("text",{x:x+sw/2,y:y-sh-4,"font-size":7.5,fill:on?"#0f766e":"#cbd5e1","text-anchor":"middle","font-weight":"700","transform":"rotate(-40 "+(x+sw/2)+" "+(y-sh-4)+")"});lab.textContent=labels[i];svg.appendChild(lab);
+      var nn=el("text",{x:x+sw/2,y:y-4,"font-size":8,fill:on?"#0d9488":"#cbd5e1","text-anchor":"middle","font-weight":"700"});nn.textContent=(i+1);svg.appendChild(nn);
+    }
+    // climber marker
+    if(climbed>0){var ci=Math.min(climbed,n)-1,cx=x0+ci*sw+sw/2,cy=y0-ci*sh-sh-2;svg.appendChild(el("circle",{cx:cx,cy:cy-6,r:6,fill:"#7c3aed"}));}
+    // summit flag
+    if(climbed>=n){var fx=x0+(n-1)*sw+sw/2,fy=y0-(n-1)*sh-sh;svg.appendChild(el("line",{x1:fx,y1:fy-8,x2:fx,y2:fy-26,stroke:"#b91c1c","stroke-width":1.5}));svg.appendChild(el("path",{d:"M"+fx+","+(fy-26)+" l14,5 l-14,5 z",fill:"#b91c1c"}));}
+    var base=el("text",{x:18,y:222,"font-size":9,fill:"#94a3b8"});base.textContent="mathematics";svg.appendChild(base);
+    var top=el("text",{x:342,y:30,"font-size":9,fill:"#7c3aed","text-anchor":"end","font-weight":"700"});top.textContent="digital twin";svg.appendChild(top);
+    document.getElementById("sign").style.display=climbed>=n?"block":"none";
+  }
+  function climb(){climbed=0;render();var iv=setInterval(function(){climbed++;render();if(climbed>=10)clearInterval(iv);},280);}
+  document.getElementById("climb").addEventListener("click",climb);
+  render();
+})();</script></body></html>

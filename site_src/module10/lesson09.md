@@ -33,6 +33,11 @@ Predicting a harvest. Build a twin of the deployed robot's greenhouse and call `
 Why run simulation on a *copy* of the twin's world rather than the twin's world directly? Reasoning: `harvest_row` mutates the world as it picks (fruit get marked, the arm moves). If the twin simulated on its live state, a single simulation would *consume* that state — the twin could not then simulate a second scenario from the same starting point, nor continue mirroring. Running on a fresh copy each time keeps the twin's own state intact, so it can simulate the same situation many times (different what-ifs) and keep syncing to reality in between. The copy is what makes simulation *repeatable* and *non-destructive* — the properties the sandbox (next lesson) depends on.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson09_running_in_twin.html" title="Running the System Inside the Twin interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson09_running_in_twin.html)
+
 *(Conceptual — previews the Installment-B flagship, the Sim-to-Real Gap Explorer.)*
 Run a harvest inside the twin and watch the predicted outcome appear — harvested and skipped fruit, attempts per pick — while the real robot sits idle. Re-run it and see the same prediction reproduced. The demonstration shows the twin *running*, not just reflecting, with reality untouched.
 

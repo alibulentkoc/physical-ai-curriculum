@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 2 Recap and Installment A Milestone — Lesson 2.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .tog{font-size:12px;display:flex;gap:7px;align-items:center;margin-bottom:8px;cursor:pointer}
+  .done div{font-size:11.5px;padding:5px 0;color:#15803d}
+  .next{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:9px;font-size:12px;color:#5b21b6;margin-top:8px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Installment A, in one panel.</b> Real robot and twin side by side, state mirrored, sync as heartbeat (the drift-and-reset sawtooth), and the hidden-offset toggle exposing the residual gap. What it does <i>not</i> yet show — the twin running ahead — is Installment B.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 190"></svg>
+  <div class="panel">
+    <label class="tog"><input type="checkbox" id="off"> hidden offset</label>
+    <div class="done">
+      <div>✓ paired real + twin mirror</div>
+      <div>✓ structured state sync</div>
+      <div>✓ sync heartbeat (sawtooth)</div>
+      <div>✓ sync error vs true gap</div>
+    </div>
+    <div class="next">Next — <b>Installment B</b>: the twin running <i>ahead</i> of reality, for prediction.</div>
+    <div class="hint" style="margin-top:6px">Everything Units 1–2 built, bound into one living mirror.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=190,t=0,div=0,trace=[],L1=38,L2=30;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var lastSync=0;
+  function arm(cx,cy,t1,t2,col,labelTxt,faded){var a1=t1*Math.PI/180,a2=t2*Math.PI/180,e=[cx+L1*Math.cos(a1),cy-L1*Math.sin(a1)],tip=[e[0]+L2*Math.cos(a1+a2),e[1]-L2*Math.sin(a1+a2)],op=faded?0.5:1;svg.appendChild(el("line",{x1:cx,y1:cy,x2:e[0],y2:e[1],stroke:col,"stroke-width":5,"stroke-linecap":"round",opacity:op}));svg.appendChild(el("line",{x1:e[0],y1:e[1],x2:tip[0],y2:tip[1],stroke:col,"stroke-width":5,"stroke-linecap":"round",opacity:op}));svg.appendChild(el("circle",{cx:cx,cy:cy,r:5,fill:col,opacity:op}));var l=el("text",{x:cx,y:cy+22,"font-size":9,fill:col,"text-anchor":"middle","font-weight":"700"});l.textContent=labelTxt;svg.appendChild(l);}
+  function render(){
+    t+=0.016;div+=0.025;if(t-lastSync>=0.6){div=0;lastSync=t;}trace.push(div);if(trace.length>120)trace.shift();
+    var off=document.getElementById("off").checked;
+    var real=[60+30*Math.sin(t),-65+18*Math.sin(t*1.4)];var twin=[real[0]+(off?12:0),real[1]];
+    svg.innerHTML="";
+    arm(70,70,real[0],real[1],"#0d9488","REAL",false);
+    arm(210,70,twin[0],twin[1],"#7c3aed","TWIN",false);
+    if(off){var ol=el("text",{x:210,y:30,"font-size":8.5,fill:"#b91c1c","text-anchor":"middle"});ol.textContent="true gap ≠ 0";svg.appendChild(ol);}
+    // mini sawtooth
+    svg.appendChild(el("rect",{x:20,y:120,width:260,height:55,fill:"#fff",stroke:"#e2e8f0"}));
+    var mx=Math.max(0.1,Math.max.apply(0,trace));
+    var pts=trace.map(function(d,i){return (20+i/119*260).toFixed(1)+","+(172-d/mx*48).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:"#7c3aed","stroke-width":1.6}));
+    var sl=el("text",{x:24,y:132,"font-size":8.5,fill:"#7c3aed"});sl.textContent="sync sawtooth";svg.appendChild(sl);
+  }
+  function loop(){render();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

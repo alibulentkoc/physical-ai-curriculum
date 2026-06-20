@@ -37,6 +37,11 @@ Syncing through a harvest. As the real robot works down a row, after each pick i
 A twin is synced to the robot's reported state, then the robot completes one more pick *without* a sync. What does `divergence` report, and what does a subsequent sync do? Reasoning: immediately after the first sync, the gap is zero. The robot then moves (new $q$, a newly picked fruit) while the twin holds the old frame — so `divergence` now shows a nonzero joint gap, a nonzero tool gap, and one fruit mismatch: the twin has *drifted* because it didn't refresh. Running `sync` against the new report rewrites the twin's state to match, and the gap returns to zero. The lesson: divergence grows whenever the real system advances past the last sync, and sync is what resets it — which is exactly why the mirror must be kept live.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson06_sync_sawtooth.html" title="Synchronizing Twin ↔ Real interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson06_sync_sawtooth.html)
+
 *(Conceptual — the Installment-A flagship: the Twin Mirror.)*
 The sawtooth made interactive: a divergence meter that climbs as the real robot acts and snaps to zero at each sync. Slow the sync rate and watch the gap grow larger between refreshes; speed it up and watch it stay tight. The demonstration shows sync as the twin's heartbeat and frequency as the freshness dial.
 

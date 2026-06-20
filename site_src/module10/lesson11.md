@@ -33,6 +33,11 @@ Replaying and comparing a harvest. Simulate a harvest in the twin with a fixed s
 You run two simulations of the same harvest with the same seed and get different harvested sets. What does this tell you, before you investigate the cause? Reasoning: with a fixed world and a fixed seed, Module 9's seeded execution is deterministic, so identical inputs *must* yield identical outcomes. A difference therefore means an input was *not* actually identical — something varied between the runs (a different seed, a mutated world, a stray injection, a leaked piece of state). The discrepancy is a signal to find the hidden variation, not evidence of inherent randomness. This diagnostic power — "if it differs, something changed" — is exactly what determinism buys, and it is why controlled comparisons are trustworthy.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson11_replay_determinism.html" title="Replay and Reproduce: Determinism in the Twin interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson11_replay_determinism.html)
+
 *(Conceptual — previews the Installment-B flagship, the Sim-to-Real Gap Explorer.)*
 Run a simulated harvest twice with the same seed and see identical outcomes; change the seed and watch the run vary; then hold the seed and inject one change and see a single, attributable difference. The demonstration makes determinism and controlled comparison concrete.
 

@@ -33,6 +33,11 @@ The greenhouse twin, conceptually. The real system is the Module 9 harvester: it
 Why is a twin more than "just a simulation"? Consider two artifacts. Artifact 1: a standalone physics simulation you run to study harvesting in general — useful, but disconnected from any particular robot; it models a *hypothetical*. Artifact 2: a virtual robot bound to *your* deployed robot, updated continuously from its reported state, so at any moment it reflects *that robot's actual situation*. Only Artifact 2 is a twin: it is paired (this robot), live (kept in step), and mirroring (the real state, not a hypothetical). The distinction matters because a twin's answers are about *the real robot right now* — "is this arm near a singularity *on this pick*?" — which a generic simulation cannot give. The next lesson sharpens twin vs. model vs. simulation precisely.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson01_twin_mirror.html" title="The Twin Concept: A Living Mirror of the Robot interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson01_twin_mirror.html)
+
 *(Conceptual — the Installment-A flagship: the Twin Mirror.)*
 Two greenhouse robots side by side: move the real one (change its configuration, pick a fruit) and watch the twin mirror it after a sync. Pause the sync and watch the twin fall out of step; resume and watch it catch up. The demonstration makes "paired, live, mirroring" tangible — the twin is only useful while it tracks the real system.
 

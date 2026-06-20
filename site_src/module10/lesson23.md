@@ -39,6 +39,11 @@ Trusting two forecasts differently. The twin forecasts the rest of a row will ha
 Two forecasts both say "F3 will be harvested." For forecast A, the monitor reports the twin has matched reality closely and F3's region is calibrated; for forecast B, the monitor reports a recent unexplained outcome divergence on F3. Which forecast do you trust more, and why? Reasoning: trust **A** more. A forecast is only as faithful as the twin in the relevant regime; A's regime shows a small, stable monitored gap with F3 calibrated, so the forecast rests on a faithful twin. B's regime shows a *live signal that the twin is currently wrong about F3* — exactly where this optimistic forecast ("F3 harvested") is riskiest. The monitored gap is the evidence that sets confidence; calibrated confidence means letting that evidence, not the forecast's apparent certainty, govern how much you act on it.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson23_limits_of_prediction.html" title="The Limits of Prediction interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson23_limits_of_prediction.html)
+
 *(Conceptual — extends Lesson 6.2's Lookahead & What-If flagship.)*
 Make a forecast, then vary the monitored gap: with a small gap the forecast shows a tight confidence band (trust); widen the gap and the band widens (doubt); flag an optimistic forecast for extra caution. The demonstration ties forecast trust to measured twin fidelity.
 

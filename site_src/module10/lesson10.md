@@ -33,6 +33,11 @@ Rehearsing a blocked fruit. Suppose you want to know how the harvester handles a
 You inject a blocking obstacle on a fruit in the twin's sandbox and simulate. Predict the outcome and confirm reality is unaffected. Reasoning: the obstacle makes that fruit's plan invalid, so the Module 9 harvester (running in the twin) skips it with a localised reason and harvests the remaining ripe reachable fruit — the predicted outcome is "all-but-one harvested, one skipped." Because `simulate` ran on a *copy* of the twin's world, the twin's own state and the real robot are unchanged: a fresh `simulate()` with no injection still predicts the clean harvest. The sandbox let you observe a failure response with zero real consequence — exactly its purpose.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson10_twin_sandbox.html" title="The Twin as a Sandbox: Risk-Free Experimentation interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson10_twin_sandbox.html)
+
 *(Conceptual — previews the Installment-B flagship, the Sim-to-Real Gap Explorer.)*
 A sandbox panel: pick a fruit, inject an obstacle or a disturbance, and run the simulated harvest — watch that fruit skip or recover while the rest harvest, and confirm the real robot's state is untouched. Toggle injections freely; nothing real is ever at risk. The demonstration makes the sandbox's safety and repeatability tangible.
 

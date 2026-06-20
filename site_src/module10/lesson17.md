@@ -33,6 +33,11 @@ Watching a harvest in progress. Sync the twin to the robot's reported state, the
 Right after a sync, the monitor reports zero divergence and stays quiet. A moment later, without re-syncing, the monitor reports a nonzero joint gap. What happened, and what does the monitor's silence-then-signal tell you? Reasoning: immediately after a sync, the twin's state equals reality's report, so the divergence is zero and the monitor is quiet ("in sync"). The later nonzero gap means **reality moved on while the twin held its last snapshot** — reality and the twin now disagree, which is the monitoring signal that *something is happening*. The monitor is not telling you *what* (that's diagnosis, 5.3) or what *will* happen (that's prediction, Unit 6); it is telling you, in the present tense, that reality has departed from the twin's expectation. Re-syncing would zero the gap again — but you'd lose the signal, so a monitor reads the divergence *before* re-syncing.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson17_monitoring_comparison.html" title="Monitoring as Reality ↔ Twin Comparison interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson17_monitoring_comparison.html)
+
 *(Conceptual — previews Unit 6's Lookahead & What-If flagship.)*
 Sync the twin and watch the monitor stay quiet while reality matches it; then let reality move and watch the divergence rise and the monitor raise a signal; re-sync and watch it fall quiet again. The demonstration makes "monitoring = Reality ↔ Twin comparison, divergence = signal" concrete.
 

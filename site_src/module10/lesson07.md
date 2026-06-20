@@ -33,6 +33,11 @@ The hidden-offset greenhouse. Let reality carry a small unmodeled joint offset (
 A twin reports `divergence` (vs the report) of all zeros — `synced = True`. A colleague concludes "the twin is exactly right about reality." Are they correct? Reasoning: not necessarily. `divergence` here measures the gap to the **reported** state, and that is zero — the sync is flawless. But if reality has an **unmodeled effect** it didn't report, the twin still differs from the **true** state, and *that* gap does not appear in a report-based divergence. To even detect it you must compare the twin against ground truth (which, in the real world, you usually can't directly — you infer it). So the right conclusion is: "the twin matches the report exactly; whether it matches reality depends on what the report omits." Confusing the two is the overconfidence Unit 4 exists to cure.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson07_sync_error.html" title="When the Mirror Drifts: Sync Error interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson07_sync_error.html)
+
 *(Conceptual — the Installment-A flagship: the Twin Mirror.)*
 Add a hidden-offset toggle to the mirror: with it off, the twin's true and reported states coincide and the residual gap is zero; with it on, sync still shows zero sync error, but a "true gap" readout reveals the twin differs from reality. The demonstration makes the two gaps visible at once — faithful to the report, still off from the truth.
 

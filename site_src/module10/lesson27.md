@@ -36,6 +36,11 @@ The deployed harvester runs the cycle once per fruit. It monitors: does reality 
 Trace one turn of the loop. (1) **Monitor**: reality matches the twin → no alert. (2) **Re-sync**: skipped, because there was no drift. (3) **Predict**: the run-ahead forecasts the remaining harvest. (4) **Adapt**: two candidate actions are pre-validated and the better one chosen. Now perturb reality so the arm drifts, and run the loop again: (1) **Monitor** now raises an alert; (2) **Re-sync** fires, re-mirroring the twin to the moved reality; (3) **Predict** and (4) **Adapt** now run from the *corrected* state, so the decision reflects where the robot really is. The same four stages, composed in the same order, handle both the quiet case and the drifted case — that robustness comes from putting re-sync between monitor and decide.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson27_twin_in_loop_cycle.html" title="The Twin-in-the-Loop Cycle interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson27_twin_in_loop_cycle.html)
+
 *(Conceptual — the Unit 8 capstone demo runs the full loop live.)*
 Step the cycle once with reality in sync (monitor quiet, predict, adapt), then perturb reality and step again (monitor alerts, re-sync fires, predict/adapt run from the corrected state). The loop is just the four operators composed in order.
 

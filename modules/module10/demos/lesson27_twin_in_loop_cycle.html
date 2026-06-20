@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Twin-in-the-Loop Cycle — Lesson 7.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 260px;min-width:240px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .row button{appearance:none;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px}
+  #step{border:1px solid #7c3aed;background:#7c3aed;color:#fff}
+  #perturb{border:1px solid #d97706;background:#fff;color:#b45309}
+  .status{background:#0f172a;border-radius:10px;padding:10px;font-family:ui-monospace,monospace;font-size:11px;color:#e2e8f0;line-height:1.7;min-height:70px}
+  .status .ok{color:#86efac}.status .a{color:#fcd34d}.status .s{color:#5eead4}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The loop is just four operators in order.</b> Step with reality in sync: monitor quiet, predict, adapt. Perturb reality and step again: the monitor alerts, re-sync fires, and predict/adapt run from the corrected state.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 240 240"></svg>
+  <div class="panel">
+    <div class="row"><button id="step">▶ step cycle</button></div>
+    <div class="row"><button id="perturb">perturb reality</button></div>
+    <div class="status" id="status"></div>
+    <div class="hint">Monitor → (Sync if needed) → Predict → Adapt, forever. The twin sits inside the control loop, correcting itself against reality on every pass.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=240,H=240,CX=120,CY=120,R=72;
+  var ops=["Monitor","Sync","Predict","Adapt"];
+  var svg=document.getElementById("svg"),status=document.getElementById("status"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var active=0,perturbed=false,lines=[];
+  function pos(i){var ang=-Math.PI/2+i/4*2*Math.PI;return [CX+R*Math.cos(ang),CY+R*Math.sin(ang)];}
+  function render(){
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:R,fill:"none",stroke:"#e2e8f0","stroke-width":1.5}));
+    for(var i=0;i<4;i++){var p=pos(i),on=i===active,isSync=i===1;
+      var dim=isSync&&!perturbed;
+      var fill=on?(isSync?"#d97706":"#7c3aed"):"#fff";
+      svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:26,fill:fill,stroke:isSync?"#d97706":"#7c3aed","stroke-width":on?2.5:1.4,opacity:dim?0.35:1}));
+      var t=el("text",{x:p[0],y:p[1]+3,"font-size":9,fill:on?"#fff":"#475569","text-anchor":"middle","font-weight":"700",opacity:dim?0.5:1});t.textContent=ops[i];svg.appendChild(t);
+    }
+    var c=el("text",{x:CX,y:CY+3,"font-size":9,fill:"#94a3b8","text-anchor":"middle"});c.textContent="twin-in-loop";svg.appendChild(c);
+    status.innerHTML=lines.join("")||'<span style="color:#475569">step the cycle</span>';
+  }
+  function step(){
+    // advance: skip Sync unless perturbed
+    do { active=(active+1)%4; } while(active===1 && !perturbed);
+    var msg;
+    if(active===0){msg=perturbed?'<div class="a">Monitor → divergence! ⚠</div>':'<div class="ok">Monitor → quiet ✓</div>';}
+    else if(active===1){msg='<div class="s">Sync → corrected from reality</div>';perturbed=false;}
+    else if(active===2){msg='<div>Predict → forecast from current state</div>';}
+    else {msg='<div>Adapt → choose & apply action</div>';}
+    lines.push(msg);if(lines.length>6)lines.shift();
+    render();
+  }
+  document.getElementById("step").addEventListener("click",step);
+  document.getElementById("perturb").addEventListener("click",function(){perturbed=true;lines.push('<div class="a">reality perturbed</div>');if(lines.length>6)lines.shift();render();});
+  render();
+})();</script></body></html>

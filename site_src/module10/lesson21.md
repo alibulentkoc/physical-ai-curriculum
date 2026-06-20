@@ -39,6 +39,11 @@ Forecasting a harvest. The robot is partway down a row. Sync the twin to its cur
 Why must a prediction be *anchored to the present* (synced to reality's current state) rather than run from the twin's initial state? Reasoning: a forecast is useful only if it's about the situation reality is *actually* in. Running the twin from a stale or initial state would forecast a *different* situation than the one unfolding — the prediction would answer "what happens from there?" when you asked "what happens next from *here*?" Syncing first anchors the run-ahead to the present real state, so the forecast is about the actual current harvest. This is the one thing that distinguishes prediction from a generic simulation: prediction is simulation *from now*. (It still inherits simulation's caveat — the forecast is only as faithful as the twin, per 6.3.)
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson21_run_ahead_prediction.html" title="Prediction as Run-Ahead Simulation interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson21_run_ahead_prediction.html)
+
 *(Conceptual — previews Lesson 6.2's Lookahead & What-If flagship.)*
 Sync the twin to a mid-harvest state and run it ahead to a forecast; see the likely harvested/skipped outcome appear, with reality untouched. Re-run to confirm the forecast is reproducible. The demonstration shows prediction as run-ahead simulation anchored to the present.
 

@@ -36,6 +36,11 @@ The greenhouse twin, in one breath: it is a virtual robot **paired** with the de
 Self-test, answered. *Question:* a colleague shows you a program that runs `harvest_row` on a randomly generated greenhouse to estimate average yield, and calls it "our digital twin." Is it? *Answer:* No — it is a **simulation**. It runs the Module 9 model forward, but it is **not paired** with any specific deployed robot and **not synchronized** to a real reported state; it describes a hypothetical greenhouse, not *this* robot now. To make it a twin, bind it to a specific real system and keep it in step (the Unit 2 mirror). Spotting this misclassification is the core Unit 1 competence.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson04_unit1_recap.html" title="Unit 1 Recap: The Twin Concept interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson04_unit1_recap.html)
+
 *(Conceptual — the Installment-A flagship: the Twin Mirror.)*
 The recap view of the Twin Mirror: real robot and twin side by side, the four M9 inputs flowing through the sync arrow, with the model/simulation/twin distinction annotated. Toggle the sync to recall the lesson that the *binding* is what makes it a twin.
 

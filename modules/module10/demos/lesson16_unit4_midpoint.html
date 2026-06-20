@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 4 Recap and Midpoint — Lesson 4.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .explorer{flex:1 1 300px;min-width:280px}
+  .rowlab{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;margin:6px 0 2px}
+  .fruits{display:flex;gap:6px}
+  .fr{flex:1;text-align:center;padding:8px 2px;border-radius:8px;font-size:10.5px;font-weight:700;border:1px solid var(--line)}
+  .cap{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;margin-top:10px;min-height:42px;line-height:1.4}
+  .metric{text-align:center;font-weight:700;border-radius:8px;padding:6px;font-size:12px;margin-top:8px}
+  .panel{flex:1 1 160px;min-width:150px}
+  .row button{appearance:none;border:1px solid #7c3aed;background:#7c3aed;color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%}
+  .sum{font-size:12px;color:#7c3aed;margin-top:8px;line-height:1.5;font-weight:600}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The first half, in one panel.</b> Simulate a predicted harvest, watch it diverge under an unmodeled effect, measure the gap, calibrate it down — then watch a new effect open a fresh gap. An honest, useful, imperfect twin.</div>
+  <div class="stage">
+  <div class="explorer">
+    <div class="rowlab">twin prediction</div><div class="fruits" id="pred"></div>
+    <div class="rowlab">reality</div><div class="fruits" id="real"></div>
+    <div class="metric" id="metric"></div>
+    <div class="cap" id="cap"></div>
+  </div>
+  <div class="panel">
+    <div class="row"><button id="next">▶ next step</button></div>
+    <div class="sum" id="sum"></div>
+    <div class="hint">Useful because it predicts; honest because it reports its own gap; imperfect because reality always has one more surprise.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var names=["F1","F2","F3","F4","F5"],step=0;
+  var states=[
+    {pred:["pick","pick","pick","pick","pick"],real:["pick","pick","pick","pick","pick"],cap:"1) Simulate — twin predicts all five fruit picked."},
+    {pred:["pick","pick","pick","pick","pick"],real:["pick","skip","pick","pick","pick"],cap:"2) Reality diverges — F2 is heavier than modelled and skips."},
+    {pred:["pick","pick","pick","pick","pick"],real:["pick","skip","pick","pick","pick"],cap:"3) Measure — divergence = 1, localised to F2."},
+    {pred:["pick","skip","pick","pick","pick"],real:["pick","skip","pick","pick","pick"],cap:"4) Calibrate — twin learns the heavy-fruit effect; gap closes."},
+    {pred:["pick","skip","pick","pick","pick"],real:["pick","skip","pick","pick","skip"],cap:"5) New effect — F5 now diverges; a fresh gap opens."}
+  ];
+  function render(){
+    var s=states[step];
+    function cells(arr,other){return arr.map(function(x,i){var diff=other&&x!==other[i];var col=diff?"#b91c1c":"#475569",bg=diff?"#fee2e2":"#f8fafc";return '<div class="fr" style="color:'+col+';background:'+bg+';border-color:'+(diff?"#fca5a5":"#e2e8f0")+'">'+names[i]+'<br><span style="font-weight:400">'+x+'</span></div>';}).join("");}
+    document.getElementById("pred").innerHTML=cells(s.pred,null);
+    document.getElementById("real").innerHTML=cells(s.real,s.pred);
+    var n=0;s.pred.forEach(function(x,i){if(x!==s.real[i])n++;});
+    var m=document.getElementById("metric");m.style.background=n?"#fee2e2":"#dcfce7";m.style.color=n?"#b91c1c":"#15803d";m.textContent="divergence = "+n;
+    document.getElementById("cap").textContent=s.cap;
+    document.getElementById("sum").textContent=step>=4?"honest · useful · imperfect":"";
+    document.getElementById("next").textContent=step>=states.length-1?"↺ restart":"▶ next step";
+  }
+  document.getElementById("next").addEventListener("click",function(){step=(step+1)%states.length;render();});
+  render();
+})();</script></body></html>

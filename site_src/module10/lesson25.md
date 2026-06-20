@@ -37,6 +37,11 @@ Before the arm reaches for a fruit it suspects is partly occluded, the orchestra
 A candidate pick is pre-validated two ways. First with no obstacle: the twin's run-ahead completes and skips nothing, so the acceptance test passes — **accept**. Then with a suspected obstacle injected on that fruit: the twin's run-ahead now shows the fruit skipped, so the test fails — **reject**. Same robot, same twin, two candidate conditions, two verdicts. Notice what did *not* happen: nothing was tuned, nothing was learned, no objective was maximized. The twin simply ran the existing harvester on each candidate and reported the outcome, and a one-line rule turned each outcome into accept or reject. That is the entire mechanism of pre-validation.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson25_pre_validating.html" title="Pre-Validating Actions in the Twin interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson25_pre_validating.html)
+
 *(Conceptual — the Unit 8 capstone demo shows pre-validation running live.)*
 Take a candidate pick, rehearse it in the twin with and without a suspected obstacle, and watch the verdict flip from accept to reject as the forecast changes. Pre-validation = forecast + a stated rule.
 

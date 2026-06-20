@@ -35,6 +35,11 @@ Scoring one gap. With an unmodeled obstacle on fruit F3, the twin predicts F3 ha
 The outcome gap reports `harvested_only_in_sim = [F3]`, `skipped_only_in_real = [F3]`, `attempt_diffs = {}`, `match = false`. Interpret it. Reasoning: the two outcomes agree on every fruit except F3. The twin **predicted F3 harvested**, but reality **skipped** F3 — the twin was *too optimistic* about F3 (it didn't model whatever stopped the real pick). There are no attempt-count disagreements, so the only divergence is F3's fate. The gap is small ($n_{\text{diffs}} = 2$, both pointing at one fruit) and *directional* (optimistic). This tells calibration exactly where to look: add the missing effect on F3. A precise metric thus converts the gap into an actionable target — which fruit, which direction, how much.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson14_divergence_metrics.html" title="Measuring the Gap: Divergence Metrics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson14_divergence_metrics.html)
+
 *(Conceptual — the Installment-B flagship: the Sim-to-Real Gap Explorer.)*
 The Gap Explorer's scoreboard: as you toggle unmodeled effects, watch the divergence metric update — which fruit diverged, in which direction, the running $n_{\text{diffs}}$, and the match flag. The demonstration shows the gap as a live, localisable number rather than a vague impression.
 

@@ -35,6 +35,11 @@ What the twin can do after Unit 3: take the deployed robot's greenhouse, build a
 Self-test, answered. *Question:* which of these does Unit 3 enable — (a) predict the harvest outcome without touching reality; (b) safely rehearse a blocked-fruit failure; (c) reproduce a harvest exactly; (d) guarantee the prediction matches what the real robot will do? *Answer:* (a) **yes** (simulation), (b) **yes** (sandbox), (c) **yes** (determinism), but (d) **no** — a simulated outcome is only as faithful as the twin's model, and reality carries effects the twin may not model. Recognizing that (d) is *not* guaranteed — and why — is precisely the doorway into Unit 4's sim-to-real gap.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module10/lesson12_unit3_recap.html" title="Unit 3 Recap: Simulating the System in the Twin interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module10/lesson12_unit3_recap.html)
+
 *(Conceptual — previews the Installment-B flagship, the Sim-to-Real Gap Explorer.)*
 A recap pass: run a predicted harvest (simulate), inject a fault (sandbox), re-run identically (determinism) — and end on the open question the next lesson answers: does this prediction match reality? The demonstration sets up the gap.
 

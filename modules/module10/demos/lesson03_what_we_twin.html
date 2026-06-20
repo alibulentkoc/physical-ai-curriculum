@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What We Twin: the Module 9 System — Lesson 1.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 330px;min-width:300px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 170px;min-width:160px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.6}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The twin reads exactly Module 9's outputs — nothing more.</b> As the real robot harvests, four ports update and flow through the interface into the twin: the orchestrator's stage, the world state, the health signals, and the joint configuration.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 330 220"></svg>
+  <div class="panel">
+    <div class="readout" id="out"></div>
+    <div class="hint">A twin is only as good as its interface. By binding to the same outputs Module 9 already produces, it needs no privileged access — it mirrors what the system genuinely knows about itself.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=330,H=220,t=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var stages=["Perceive","Understand","Plan","Execute","Track","Recover"];
+  function render(){
+    t+=0.01;var cyc=(t%1),stageIdx=Math.floor(cyc*6),worldN=3-Math.floor(cyc*3)%3,health=cyc<0.85;
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>';svg.appendChild(defs);
+    // real box
+    svg.appendChild(el("rect",{x:14,y:30,width:96,height:160,rx:10,fill:"#fff",stroke:"#0d9488","stroke-width":1.8}));
+    var rt=el("text",{x:62,y:24,"font-size":10,fill:"#0d9488","text-anchor":"middle","font-weight":"700"});rt.textContent="REAL (M9 system)";svg.appendChild(rt);
+    var ports=[["orchestrator",stages[stageIdx],"#0d9488"],["world-state",worldN+" fruit","#7c3aed"],["health",health?"OK":"warn",health?"#15803d":"#d97706"],["config","q(t)","#475569"]];
+    ports.forEach(function(p,i){var y=48+i*36;
+      svg.appendChild(el("rect",{x:22,y:y,width:80,height:28,rx:6,fill:"#f8fafc",stroke:"#e2e8f0"}));
+      var n=el("text",{x:26,y:y+12,"font-size":8.5,fill:"#94a3b8"});n.textContent=p[0];svg.appendChild(n);
+      var v=el("text",{x:26,y:y+23,"font-size":10,fill:p[2],"font-weight":"700"});v.textContent=p[1];svg.appendChild(v);
+      // flow arrow
+      var dot=(t*2+i*0.25)%1;svg.appendChild(el("circle",{cx:110+(220-110)*dot,cy:y+14,r:3,fill:p[2]}));
+      svg.appendChild(el("line",{x1:104,y1:y+14,x2:218,y2:y+14,stroke:"#e2e8f0","stroke-width":1}));
+    });
+    var il=el("text",{x:165,y:206,"font-size":9,fill:"#94a3b8","text-anchor":"middle"});il.textContent="sync interface →";svg.appendChild(il);
+    // twin box
+    svg.appendChild(el("rect",{x:220,y:30,width:96,height:160,rx:10,fill:"#faf5ff",stroke:"#7c3aed","stroke-width":1.8}));
+    var tt=el("text",{x:268,y:24,"font-size":10,fill:"#7c3aed","text-anchor":"middle","font-weight":"700"});tt.textContent="TWIN";svg.appendChild(tt);
+    ports.forEach(function(p,i){var y=48+i*36;svg.appendChild(el("rect",{x:228,y:y,width:80,height:28,rx:6,fill:"#fff",stroke:"#ede9fe"}));var v=el("text",{x:232,y:y+18,"font-size":10,fill:p[2],"font-weight":"700"});v.textContent=p[1];svg.appendChild(v);});
+    out.innerHTML='<div><b>four inputs mirrored:</b></div>'+ports.map(function(p){return '<div style="color:'+p[2]+'">• '+p[0]+': '+p[1]+'</div>';}).join("");
+  }
+  function loop(){render();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>
