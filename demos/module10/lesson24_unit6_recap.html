@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 6 Recap: Prediction with the Twin — Lesson 6.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .tiles{flex:1 1 300px;min-width:280px}
+  .tile{display:flex;gap:10px;align-items:flex-start;padding:9px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#fff;opacity:.4;transition:.2s}
+  .tile.on{opacity:1;border-color:#7c3aed}
+  .tile .n{width:22px;height:22px;border-radius:50%;background:#ede9fe;color:#7c3aed;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none}
+  .tile .t{font-size:12px;line-height:1.4}
+  .panel{flex:1 1 160px;min-width:150px}
+  .row button{appearance:none;border:1px solid #7c3aed;background:#7c3aed;color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%}
+  .q{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:10px;font-size:12px;color:#5b21b6;margin-top:8px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Unit 6 in three moves.</b> Forecast the near future (run-ahead), compare candidate futures (what-if), and set trust by the monitored gap (calibrated confidence) — then the open question: now that you can foresee it, what will you do?</div>
+  <div class="stage">
+  <div class="tiles" id="tiles"></div>
+  <div class="panel">
+    <div class="row"><button id="run">▶ run recap</button></div>
+    <div class="q" id="q" style="display:none">❓ Foresight is only half. Unit 7: <b>adaptation</b> — acting on the forecast.</div>
+    <div class="hint">Prediction without action is just a weather report. The next unit closes the loop.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var tiles=[["Run-ahead","forecast the rest of the harvest from now"],["What-if","compare candidate futures side by side"],["Calibrated confidence","trust set by the monitored gap"]],shown=0;
+  function render(){
+    document.getElementById("tiles").innerHTML=tiles.map(function(s,i){return '<div class="tile'+(i<shown?" on":"")+'"><div class="n">'+(i+1)+'</div><div class="t"><b>'+s[0]+'</b><br>'+s[1]+'</div></div>';}).join("");
+    document.getElementById("q").style.display=shown>=3?"block":"none";
+  }
+  document.getElementById("run").addEventListener("click",function(){shown=0;render();var iv=setInterval(function(){shown++;render();if(shown>=3)clearInterval(iv);},600);});
+  render();
+})();</script></body></html>

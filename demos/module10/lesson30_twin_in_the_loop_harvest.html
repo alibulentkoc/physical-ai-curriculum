@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Twin-in-the-Loop Harvest — Module 10 Capstone</title>
+<style>
+  :root{
+    --bg:#0b1220; --panel:#0f1a2e; --ink:#e6eefb; --mut:#8aa0c4; --line:#22324f;
+    --twin:#0d9488; --real:#3b82f6; --good:#22c55e; --bad:#ef4444; --warn:#f59e0b; --pred:#7c3aed;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Helvetica,Arial,sans-serif;padding:18px}
+  h1{font-size:19px;margin:0 0 2px}
+  p.sub{color:var(--mut);font-size:12px;margin:0 0 14px}
+  .controls{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:14px}
+  .controls h2{font-size:12px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:#13233c;color:var(--ink);padding:8px 12px;font-size:12px}
+  button:hover{border-color:#3a4f73}
+  button.on{background:var(--pred);border-color:var(--pred);color:#fff}
+  button.run{background:var(--pred);border-color:var(--pred);color:#fff;font-weight:700}
+  button.ghost{background:transparent}
+  label.lab{font-size:12px;color:var(--mut);margin-right:4px}
+  /* spine */
+  .spine{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+  .stage{flex:1;min-width:96px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 6px;text-align:center;opacity:.45;transition:all .25s}
+  .stage .nm{font-size:12px;font-weight:700}
+  .stage .q{font-size:10px;color:var(--mut)}
+  .stage.lit{opacity:1;border-color:var(--pred);box-shadow:0 0 0 1px var(--pred) inset}
+  /* harvest columns */
+  .wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.wrap{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .panel h2{font-size:13px;margin:0 0 2px}
+  .panel .tag{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+  .fruitrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .fruit{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid var(--line);background:#13233c;position:relative}
+  .fruit.ripe{border-color:var(--good)}
+  .fruit.unripe{border-color:var(--mut);color:var(--mut)}
+  .fruit.picked{background:rgba(34,197,94,.22);border-color:var(--good);color:#bbf7d0}
+  .fruit.skipped{background:rgba(239,68,68,.18);border-color:var(--bad);color:#fecaca}
+  .fruit.targeted{box-shadow:0 0 0 3px rgba(124,58,237,.55)}
+  .fruit .obs{position:absolute;top:-7px;right:-7px;font-size:12px}
+  .log{font-size:11.5px;line-height:1.55;color:var(--mut);max-height:150px;overflow:auto;border-top:1px solid var(--line);padding-top:8px}
+  .log b{color:var(--ink)}
+  .log .ok{color:#86efac}.log .no{color:#fca5a5}.log .wa{color:#fcd34d}
+  /* ledger */
+  .ledger{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  td.num{font-variant-numeric:tabular-nums;font-weight:700}
+  .verdict{margin-top:10px;font-size:13px;padding:9px 11px;border-radius:9px;background:rgba(34,197,94,.12);color:#bbf7d0;border:1px solid rgba(34,197,94,.4)}
+  .note{font-size:11px;color:var(--mut);margin-top:8px}
+</style>
+</head>
+<body>
+  <h1>Twin-in-the-Loop Harvest <span style="color:var(--mut);font-weight:400;font-size:13px">— Module 10 Capstone</span></h1>
+  <p class="sub">The real harvester and its twin run a row together. The twin pre-validates each pick; when it foresees a doomed pick it adapts. A blind plan runs alongside for comparison. Reproducible &middot; self-contained.</p>
+
+  <div class="controls">
+    <h2>Set up reality</h2>
+    <div class="row">
+      <span class="lab">Obstacle on:</span>
+      <button class="obsbtn on" data-obs="F2">F2</button>
+      <button class="obsbtn" data-obs="F1">F1</button>
+      <button class="obsbtn" data-obs="F3">F3</button>
+      <button class="obsbtn" data-obs="none">none</button>
+      <span style="flex:1"></span>
+      <button class="run" id="run">&#9654; Run twin-in-the-loop harvest</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="note">F0–F3 are ripe; F4 is unripe (never targeted). An obstacle makes its fruit unreachable — the blind plan still attempts it and wastes effort; the twin foresees it and adapts.</div>
+  </div>
+
+  <div class="spine" id="spine">
+    <div class="stage" data-s="mirror"><div class="nm">Mirror</div><div class="q">sync twin ↔ real</div></div>
+    <div class="stage" data-s="simulate"><div class="nm">Simulate</div><div class="q">run-ahead</div></div>
+    <div class="stage" data-s="monitor"><div class="nm">Monitor</div><div class="q">what now?</div></div>
+    <div class="stage" data-s="predict"><div class="nm">Predict</div><div class="q">what next?</div></div>
+    <div class="stage" data-s="adapt"><div class="nm">Adapt</div><div class="q">pre-validate + choose</div></div>
+  </div>
+
+  <div class="wrap">
+    <div class="panel">
+      <h2 style="color:#93c5fd">Blind plan</h2>
+      <div class="tag">attempts every ripe fruit in order</div>
+      <div class="fruitrow" id="blindRow"></div>
+      <div class="log" id="blindLog"></div>
+    </div>
+    <div class="panel">
+      <h2 style="color:#5eead4">Twin-in-the-loop</h2>
+      <div class="tag">pre-validate · predict failure · adapt</div>
+      <div class="fruitrow" id="loopRow"></div>
+      <div class="log" id="loopLog"></div>
+    </div>
+  </div>
+
+  <div class="ledger">
+    <table>
+      <thead><tr><th>Outcome</th><th>Harvested</th><th>Skipped</th><th>Wasted attempts</th><th>Score (harvested, −effort)</th></tr></thead>
+      <tbody>
+        <tr><td style="color:#93c5fd">Blind plan</td><td class="num" id="b_h">—</td><td class="num" id="b_s">—</td><td class="num" id="b_w">—</td><td class="num" id="b_sc">—</td></tr>
+        <tr><td style="color:#5eead4">Twin-in-the-loop</td><td class="num" id="l_h">—</td><td class="num" id="l_s">—</td><td class="num" id="l_w">—</td><td class="num" id="l_sc">—</td></tr>
+      </tbody>
+    </table>
+    <div class="verdict" id="verdict">Set an obstacle and run the harvest to compare.</div>
+    <div class="note">“Self-improving” = the twin-in-the-loop improved the real outcome — not that anything was learned. No machine learning, RL, adaptive control, or optimization.</div>
+  </div>
+
+<script>
+(function(){
+  // ---- reproducible row model (mirrors the Python twin semantics) ----
+  var RIPE = ["F0","F1","F2","F3"];           // F4 is unripe, never targeted
+  var ALL  = ["F0","F1","F2","F3","F4"];
+  var obstacle = "F2";
+
+  document.querySelectorAll(".obsbtn").forEach(function(b){
+    b.addEventListener("click",function(){
+      document.querySelectorAll(".obsbtn").forEach(function(x){x.classList.remove("on");});
+      b.classList.add("on"); obstacle=b.dataset.obs; reset();
+    });
+  });
+
+  function mkFruitEls(container){
+    container.innerHTML="";
+    var map={};
+    ALL.forEach(function(fid){
+      var d=document.createElement("div");
+      var ripe=RIPE.indexOf(fid)>=0;
+      d.className="fruit "+(ripe?"ripe":"unripe");
+      d.textContent=fid;
+      if(fid===obstacle && ripe){var o=document.createElement("span");o.className="obs";o.textContent="🚧";d.appendChild(o);}
+      container.appendChild(d); map[fid]=d;
+    });
+    return map;
+  }
+
+  function lite(stage){
+    document.querySelectorAll(".stage").forEach(function(s){
+      if(s.dataset.s===stage) s.classList.add("lit");
+    });
+  }
+  function clearSpine(){document.querySelectorAll(".stage").forEach(function(s){s.classList.remove("lit");});}
+
+  function effort(picks){return picks.reduce(function(a,p){return a+p.att;},0);}
+  function score(h,picks){return "("+h.length+", −"+effort(picks)+")";}
+
+  var blindRowEls, loopRowEls;
+  function reset(){
+    clearSpine();
+    blindRowEls=mkFruitEls(document.getElementById("blindRow"));
+    loopRowEls =mkFruitEls(document.getElementById("loopRow"));
+    document.getElementById("blindLog").innerHTML="";
+    document.getElementById("loopLog").innerHTML="";
+    ["b_h","b_s","b_w","b_sc","l_h","l_s","l_w","l_sc"].forEach(function(id){document.getElementById(id).textContent="—";});
+    document.getElementById("verdict").textContent="Set an obstacle and run the harvest to compare.";
+  }
+
+  function logLine(elId, html){var e=document.getElementById(elId);e.innerHTML+=html+"<br>";e.scrollTop=e.scrollHeight;}
+  function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+
+  async function run(){
+    reset();
+    var blocked = (obstacle!=="none") ? obstacle : null;
+
+    // ---------- BLIND: attempt every ripe fruit in order ----------
+    var bH=[], bS=[], bPicks=[];
+    for(var i=0;i<RIPE.length;i++){
+      var fid=RIPE[i];
+      blindRowEls[fid].classList.add("targeted");
+      await sleep(260);
+      if(fid===blocked){
+        // attempts once, hits the obstacle, wastes the attempt, then skips
+        bPicks.push({fid:fid,att:1});
+        bS.push(fid);
+        blindRowEls[fid].classList.remove("targeted");
+        blindRowEls[fid].classList.add("skipped");
+        logLine("blindLog","<b>"+fid+"</b>: reach → <span class='wa'>blocked, attempt wasted</span> → <span class='no'>skipped</span>");
+      }else{
+        bPicks.push({fid:fid,att:1});
+        bH.push(fid);
+        blindRowEls[fid].classList.remove("targeted");
+        blindRowEls[fid].classList.add("picked");
+        logLine("blindLog","<b>"+fid+"</b>: reach → <span class='ok'>picked</span>");
+      }
+    }
+
+    // ---------- TWIN-IN-THE-LOOP ----------
+    var lH=[], lS=[], lPicks=[];
+    clearSpine(); lite("mirror");
+    logLine("loopLog","<b>Mirror</b>: twin synced to reality");
+    await sleep(360); lite("simulate");
+    logLine("loopLog","<b>Simulate</b>: run-ahead ready");
+    await sleep(300);
+    for(var j=0;j<RIPE.length;j++){
+      var f=RIPE[j];
+      loopRowEls[f].classList.add("targeted");
+      lite("monitor");
+      await sleep(200);
+      lite("predict");
+      // PRE-VALIDATE in the twin: foresee whether this pick is doomed
+      var doomed = (f===blocked);
+      await sleep(230);
+      lite("adapt");
+      if(doomed){
+        // twin pre-validation rejects the pick -> adapt: de-target it (no wasted attempt)
+        loopRowEls[f].classList.remove("targeted");
+        loopRowEls[f].classList.add("skipped");
+        logLine("loopLog","<b>"+f+"</b>: pre-validate → <span class='no'>forecast: doomed</span> → <b>adapt</b>: de-target (no attempt wasted)");
+        // not counted as a wasted attempt; recorded as a deliberate skip
+        lS.push(f);
+      }else{
+        lPicks.push({fid:f,att:1});
+        lH.push(f);
+        loopRowEls[f].classList.remove("targeted");
+        loopRowEls[f].classList.add("picked");
+        logLine("loopLog","<b>"+f+"</b>: pre-validate → <span class='ok'>accept</span> → picked");
+      }
+      await sleep(180);
+    }
+
+    // ---------- ledger ----------
+    document.getElementById("b_h").textContent=bH.length;
+    document.getElementById("b_s").textContent=bS.length;
+    document.getElementById("b_w").textContent=effort(bPicks)- bH.length; // attempts beyond successful picks
+    document.getElementById("b_sc").textContent=score(bH,bPicks);
+    document.getElementById("l_h").textContent=lH.length;
+    document.getElementById("l_s").textContent=lS.length;
+    document.getElementById("l_w").textContent=effort(lPicks)- lH.length;
+    document.getElementById("l_sc").textContent=score(lH,lPicks);
+
+    var bWaste=effort(bPicks)-bH.length, lWaste=effort(lPicks)-lH.length;
+    var v=document.getElementById("verdict");
+    if(blocked){
+      v.innerHTML="Same fruit harvested ("+lH.length+"), but the twin-in-the-loop wasted <b>"+lWaste+
+        "</b> attempts vs the blind plan's <b>"+bWaste+"</b> — it foresaw "+blocked+
+        "'s doomed pick and adapted around it. The loop improved the outcome; nothing was learned.";
+    }else{
+      v.innerHTML="No obstacle: both plans harvest all "+lH.length+
+        " ripe fruit with no waste. The twin-in-the-loop never does worse than blind — here it simply matches it.";
+    }
+    clearSpine();
+  }
+
+  document.getElementById("run").addEventListener("click",run);
+  document.getElementById("reset").addEventListener("click",reset);
+  reset();
+})();
+</script>
+</body>
+</html>

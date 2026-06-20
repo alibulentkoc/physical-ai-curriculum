@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When the Mirror Drifts: Sync Error — Lesson 2.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 290px;min-width:270px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin-bottom:10px;cursor:pointer}
+  .gauge{margin:8px 0}.gauge .lab{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;font-variant-numeric:tabular-nums}
+  .bar{height:14px;border-radius:4px;background:#eef2f7;overflow:hidden}.bar i{display:block;height:100%;border-radius:4px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Two gaps, not one.</b> Sync error measures twin-vs-report; the true gap measures twin-vs-reality. With a hidden offset, the twin perfectly mirrors the report — sync error stays zero — yet it's still off from the truth.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 290 170"></svg>
+  <div class="panel">
+    <label class="tog"><input type="checkbox" id="off"> hidden sensor offset</label>
+    <div class="gauge"><div class="lab"><span>sync error (twin vs report)</span><span id="se"></span></div><div class="bar"><i id="seb"></i></div></div>
+    <div class="gauge"><div class="lab"><span>true gap (twin vs reality)</span><span id="tg"></span></div><div class="bar"><i id="tgb"></i></div></div>
+    <div class="hint">A twin can be perfectly synced and still wrong. Sync error only checks faithfulness to the report — closing the true gap needs calibration against ground truth, the subject of Unit 4.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=290,H=170;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var off=document.getElementById("off").checked,offset=off?0.6:0;
+    // positions on a number line: reality at 1.0; report = reality + offset; twin = report
+    var reality=1.0,report=reality+offset,twin=report;
+    var syncErr=Math.abs(twin-report),trueGap=Math.abs(twin-reality);
+    svg.innerHTML="";
+    function X(v){return 40+v*120;}
+    svg.appendChild(el("line",{x1:30,y1:90,x2:270,y2:90,stroke:"#cbd5e1","stroke-width":1.5}));
+    var pts=[["reality",reality,"#15803d",60],["report",report,"#7c3aed",120],["twin",twin,"#0d9488",40]];
+    pts.forEach(function(p){var x=X(p[1]);svg.appendChild(el("circle",{cx:x,cy:90,r:7,fill:p[2]}));var t=el("text",{x:x,y:p[3],"font-size":10,fill:p[2],"text-anchor":"middle","font-weight":"700"});t.textContent=p[0];svg.appendChild(t);});
+    if(off){var xr=X(reality),xt=X(twin);svg.appendChild(el("line",{x1:xr,y1:108,x2:xt,y2:108,stroke:"#b91c1c","stroke-width":2}));var gl=el("text",{x:(xr+xt)/2,y:124,"font-size":9,fill:"#b91c1c","text-anchor":"middle"});gl.textContent="true gap";svg.appendChild(gl);}
+    document.getElementById("se").textContent=syncErr.toFixed(2);
+    document.getElementById("tg").textContent=trueGap.toFixed(2);
+    document.getElementById("seb").style.width=(syncErr/1.2*100)+"%";document.getElementById("seb").style.background="#15803d";
+    document.getElementById("tgb").style.width=(trueGap/1.2*100)+"%";document.getElementById("tgb").style.background=trueGap>0.01?"#b91c1c":"#15803d";
+  }
+  document.getElementById("off").addEventListener("change",render);
+  render();
+})();</script></body></html>

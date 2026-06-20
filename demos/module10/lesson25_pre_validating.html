@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-Validating Actions in the Twin — Lesson 7.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:#faf5ff;border:1px solid #ddd6fe;border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin-bottom:8px;cursor:pointer}
+  .row button{appearance:none;border:1px solid #7c3aed;background:#7c3aed;color:#fff;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%}
+  .verdict{text-align:center;font-weight:700;border-radius:8px;padding:9px;font-size:13px;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Rehearse before you commit.</b> Take a candidate pick and run it in the twin with and without a suspected obstacle. The verdict flips from accept to reject as the forecast changes. Pre-validation = forecast + a stated rule.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 180"></svg>
+  <div class="panel">
+    <label class="tog"><input type="checkbox" id="obs"> suspected obstacle present</label>
+    <div class="row"><button id="run">▶ rehearse in twin</button></div>
+    <div class="verdict" id="verd" style="display:none"></div>
+    <div class="hint">The rule ("reject if collision predicted") is explicit and the forecast is the evidence. The robot never gambles with the real arm — it tries the move in the mirror first.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=180,L1=50,L2=42;
+  var svg=document.getElementById("svg"),verd=document.getElementById("verd"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(ran){
+    var obs=document.getElementById("obs").checked;
+    svg.innerHTML="";
+    var bx=70,by=130,a1=0.7,a2=-0.6,e=[bx+L1*Math.cos(a1),by-L1*Math.sin(a1)],tip=[e[0]+L2*Math.cos(a1+a2),by-L1*Math.sin(a1)-L2*Math.sin(a1+a2)];
+    var hit=obs;
+    svg.appendChild(el("line",{x1:bx,y1:by,x2:e[0],y2:e[1],stroke:"#7c3aed","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:e[0],y1:e[1],x2:tip[0],y2:tip[1],stroke:hit&&ran?"#b91c1c":"#7c3aed","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:bx,cy:by,r:7,fill:"#7c3aed"}));
+    // target fruit
+    svg.appendChild(el("circle",{cx:200,cy:70,r:9,fill:"#ef4444"}));
+    var fl=el("text",{x:200,y:55,"font-size":9,fill:"#b91c1c","text-anchor":"middle"});fl.textContent="target";svg.appendChild(fl);
+    if(obs){svg.appendChild(el("rect",{x:150,y:80,width:18,height:40,rx:3,fill:"#94a3b8"}));var ol=el("text",{x:159,y:135,"font-size":8,fill:"#64748b","text-anchor":"middle"});ol.textContent="obstacle";svg.appendChild(ol);}
+    var tag=el("text",{x:140,y:18,"font-size":9.5,fill:"#7c3aed","text-anchor":"middle","font-weight":"700"});tag.textContent="TWIN REHEARSAL";svg.appendChild(tag);
+    if(ran){
+      verd.style.display="block";
+      if(obs){verd.style.background="#fee2e2";verd.style.color="#b91c1c";verd.innerHTML="REJECT<div style=\"font-size:10px;font-weight:400\">forecast: collision with obstacle</div>";}
+      else {verd.style.background="#dcfce7";verd.style.color="#15803d";verd.innerHTML="ACCEPT<div style=\"font-size:10px;font-weight:400\">forecast: clean pick</div>";}
+    } else verd.style.display="none";
+  }
+  document.getElementById("run").addEventListener("click",function(){render(true);});
+  document.getElementById("obs").addEventListener("change",function(){render(false);});
+  render(false);
+})();</script></body></html>

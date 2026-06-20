@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calibrating the Twin: Shrinking the Gap — Lesson 4.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  .explorer{flex:1 1 300px;min-width:280px}
+  .rowlab{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;margin:6px 0 2px}
+  .fruits{display:flex;gap:6px}
+  .fr{flex:1;text-align:center;padding:8px 2px;border-radius:8px;font-size:10.5px;font-weight:700;border:1px solid var(--line)}
+  .metric{text-align:center;font-weight:700;border-radius:8px;padding:8px;font-size:13px;margin-top:10px}
+  .panel{flex:1 1 170px;min-width:160px}
+  .row button{appearance:none;border-radius:8px;padding:9px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px}
+  #cal{border:1px solid #15803d;background:#15803d;color:#fff}
+  #neweff{border:1px solid var(--line);background:#fff;color:#475569}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Calibration is an ongoing loop, not a final fix.</b> With a gap open, tell the twin about the unmodeled effect and the prediction snaps into agreement — divergence drops to zero. Introduce a new effect and a fresh gap opens.</div>
+  <div class="stage">
+  <div class="explorer">
+    <div class="rowlab">twin prediction</div><div class="fruits" id="pred"></div>
+    <div class="rowlab">reality</div><div class="fruits" id="real"></div>
+    <div class="metric" id="metric"></div>
+  </div>
+  <div class="panel">
+    <div class="row"><button id="cal">⚙ calibrate twin</button></div>
+    <div class="row"><button id="neweff">+ introduce new effect</button></div>
+    <div class="hint">Reality keeps changing — new fruit, wear, weather. A twin stays honest only by recalibrating against the gaps it keeps discovering.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var names=["F1","F2","F3","F4","F5"];
+  // effect on F2 (heavy -> skip). 'known' = twin calibrated to it.
+  var effects=[{fruit:1,real:"skip",known:false}],pending=null;
+  function compute(){
+    var real=names.map(function(){return "pick";}),pred=names.map(function(){return "pick";});
+    effects.forEach(function(e){real[e.fruit]=e.real;if(e.known)pred[e.fruit]=e.real;});
+    return {pred:pred,real:real};
+  }
+  function render(){
+    var g=compute();
+    function cells(arr,other){return arr.map(function(x,i){var diff=other&&x!==other[i];var col=diff?"#b91c1c":"#475569",bg=diff?"#fee2e2":"#f8fafc";return '<div class="fr" style="color:'+col+';background:'+bg+';border-color:'+(diff?"#fca5a5":"#e2e8f0")+'">'+names[i]+'<br><span style="font-weight:400">'+x+'</span></div>';}).join("");}
+    document.getElementById("pred").innerHTML=cells(g.pred,null);
+    document.getElementById("real").innerHTML=cells(g.real,g.pred);
+    var n=0;g.pred.forEach(function(x,i){if(x!==g.real[i])n++;});
+    var m=document.getElementById("metric");
+    m.style.background=n?"#fee2e2":"#dcfce7";m.style.color=n?"#b91c1c":"#15803d";
+    m.innerHTML=(n?"divergence = "+n+" (gap open)":"divergence = 0 (calibrated ✓)");
+  }
+  document.getElementById("cal").addEventListener("click",function(){effects.forEach(function(e){e.known=true;});render();});
+  document.getElementById("neweff").addEventListener("click",function(){
+    var avail=[{fruit:2,real:"skip"},{fruit:3,real:"pick×2"},{fruit:4,real:"skip"}];
+    var add=avail.find(function(a){return !effects.some(function(e){return e.fruit===a.fruit;});});
+    if(add){effects.push({fruit:add.fruit,real:add.real,known:false});render();}
+  });
+  render();
+})();</script></body></html>
