@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latency and Control Rate: How Communication Destabilises the Loop — Lesson 6.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .verdict{text-align:center;font-weight:700;border-radius:8px;padding:8px;font-size:13px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Same gains, more communication delay.</b> Latency means the controller acts on stale measurements. As the delay grows, the loop slides from stable to oscillating to diverging — the gains never changed; only the timing did.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 220"></svg>
+  <div class="panel">
+    <label>feedback latency</label><input type="range" id="d" min="0" max="20" step="1" value="3">
+    <div class="verdict" id="out"></div>
+    <div class="hint">Delay eats stability margin. A loop that's rock-solid on a fast bus can shake itself apart over a slow link — which is why the inner control loop must run where latency is tightly bounded.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=220,KP=20,KD=1.5,B=0.8,LOAD=0.3;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sim(D){var dt=0.01,T=5,q=0,v=0,ref=1,tr=[],qbuf=[],vbuf=[];for(var k=0;k<=D;k++){qbuf.push(0);vbuf.push(0);}
+    for(var t=0;t<=T;t+=dt){var qd=qbuf[0],vd=vbuf[0];var u=KP*(ref-qd)+KD*(-vd);var a=u-LOAD-B*v;v+=a*dt;q+=v*dt;qbuf.push(q);qbuf.shift();vbuf.push(v);vbuf.shift();tr.push([t,Math.max(-1.5,Math.min(3,q))]);}return tr;}
+  function classify(tr){var h=Math.floor(tr.length/2);var s1=tr.slice(0,h).map(function(p){return p[1];}),s2=tr.slice(h).map(function(p){return p[1];});var a1=Math.max.apply(0,s1)-Math.min.apply(0,s1),a2=Math.max.apply(0,s2)-Math.min.apply(0,s2);
+    if(a2>a1*1.1||Math.abs(tr[tr.length-1][1])>=2.9)return ["UNSTABLE — diverging","#b91c1c"];
+    if(a2<0.5*a1)return ["STABLE — settles","#15803d"];return ["MARGINAL — ringing","#d97706"];}
+  function render(){
+    var D=+document.getElementById("d").value,tr=sim(D),T=5,c=classify(tr);
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:160,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=174-1/3*160;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var rl=el("text",{x:248,y:ty-3,"font-size":8,fill:"#b91c1c"});rl.textContent="target";svg.appendChild(rl);
+    var pp=tr.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(174-(p[1]+1.5)/4.5*160).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:c[1],"stroke-width":2.2}));
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    var tl=el("text",{x:30,y:190,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.style.background=c[1]+"22";out.style.color=c[1];out.innerHTML=c[0]+'<div style="font-size:10px;font-weight:400;margin-top:2px">latency '+(D*10)+' ms</div>';
+  }
+  document.getElementById("d").addEventListener("input",render);
+  render();
+})();</script></body></html>

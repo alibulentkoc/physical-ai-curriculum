@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Disturbances, Load, and the Complete Tracker — Lesson 4.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .row button{appearance:none;border:1px solid var(--bad);background:var(--bad);color:#fff;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;width:100%;margin-top:4px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The disturbance test.</b> Feedforward anticipates the planned move but is blind to surprises. Hit the joint with a disturbance: feedforward-only stays knocked off; the complete tracker (FF + FB) senses the error and recovers.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 180"></svg>
+  <div class="panel">
+    <div class="seg"><button id="ff" class="on">feedforward only</button><button id="both">FF + FB</button></div>
+    <div class="row"><button id="kick">⚡ disturbance</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Only feedback closes the loop on the unexpected. Feedforward handles the known plan; feedback handles everything the plan didn't include — which is why real trackers always keep both.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=180,mode="ff",q=0.5,v=0,t=0,trD=[],trA=[];
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var w=1.4;
+  function qd(tt){return 0.5+0.3*Math.sin(w*tt);}
+  function vd(tt){return 0.3*w*Math.cos(w*tt);}
+  function ad(tt){return -0.3*w*w*Math.sin(w*tt);}
+  function step(){
+    var dt=0.02,b=2.5,LOAD=0.2;
+    var e=qd(t)-q;
+    var uff=ad(t)+b*vd(t)+LOAD;
+    var ufb=mode==="both"?(20*e+4*(vd(t)-v)):0;
+    var a=(uff+ufb-LOAD-b*v);v+=a*dt;q+=v*dt;t+=dt;
+    trD.push([t,qd(t)]);trA.push([t,q]);if(trD.length>150){trD.shift();trA.shift();}
+    render();
+  }
+  function render(){
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:20,y:14,width:265,height:140,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    function pl(tr,col,wd,dash){if(tr.length<2)return;var t0=tr[0][0],span=tr[tr.length-1][0]-t0||1;var pts=tr.map(function(p){return (20+(p[0]-t0)/span*265).toFixed(1)+","+(84-(p[1]-0.5)/0.6*70).toFixed(1);});svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":wd,"stroke-dasharray":dash||"none"}));}
+    pl(trD,"#94a3b8",1.6,"5 3");pl(trA,mode==="both"?"#15803d":"#b91c1c",2.4);
+    var err=Math.abs(qd(t)-q);
+    out.innerHTML='<div><b>'+(mode==="both"?"FF + FB":"Feedforward only")+'</b></div>'+
+      '<div style="margin-top:4px">error: '+err.toFixed(3)+'</div>'+
+      '<div style="color:'+(mode==="both"?"#15803d":"#b91c1c")+';margin-top:3px">'+(mode==="both"?"recovers from kicks":"no recovery from kicks")+'</div>';
+  }
+  document.getElementById("kick").addEventListener("click",function(){q-=0.35;v=0;});
+  document.getElementById("ff").addEventListener("click",function(){mode="ff";this.classList.add("on");document.getElementById("both").classList.remove("on");});
+  document.getElementById("both").addEventListener("click",function(){mode="both";this.classList.add("on");document.getElementById("ff").classList.remove("on");});
+  function loop(){step();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

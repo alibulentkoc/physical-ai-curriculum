@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Command Pipeline and the Feasibility Envelope — Lesson 5.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;margin:7px 0 4px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The requested command must pass the envelope.</b> Deadband zeroes tiny commands, the rate limit caps how fast it can change, and saturation clips the magnitude. The delivered effort (teal) is the requested one (grey) reshaped to what the actuator can actually do.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 210"></svg>
+  <div class="panel">
+    <label>saturation u_max <span id="vu"></span></label><input type="range" id="um" min="1" max="4" step="0.2" value="2.2">
+    <label>rate limit r_max <span id="vr"></span></label><input type="range" id="rm" min="0.02" max="0.3" step="0.01" value="0.08">
+    <label>deadband <span id="vd"></span></label><input type="range" id="db" min="0" max="0.6" step="0.05" value="0.2">
+    <div class="readout" id="out"></div>
+    <div class="hint">The envelope is the actuator's honest contract. Knowing it lets the planner avoid asking for motion the hardware can't deliver — staying inside feasibility instead of fighting saturation.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=210;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function reqAt(t){return 3*Math.sin(t*3)+1.2*Math.sin(t*11); } // a demanding request
+  function render(){
+    var um=+document.getElementById("um").value,rm=+document.getElementById("rm").value,db=+document.getElementById("db").value,T=6;
+    document.getElementById("vu").textContent=um.toFixed(1);document.getElementById("vr").textContent=rm.toFixed(2);document.getElementById("vd").textContent=db.toFixed(2);
+    var dt=0.02,prev=0,req=[],del=[],clip=0,n=0;
+    for(var t=0;t<=T;t+=dt){var r=reqAt(t);var u=r;
+      if(Math.abs(u)<db)u=0;                          // deadband
+      u=Math.max(-um,Math.min(um,u));                 // saturation
+      u=Math.max(prev-rm,Math.min(prev+rm,u));        // rate limit
+      prev=u;req.push([t,r]);del.push([t,u]);if(Math.abs(u-r)>0.05)clip++;n++;}
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:20,y:14,width:265,height:160,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var zy=94;svg.appendChild(el("line",{x1:20,y1:zy,x2:285,y2:zy,stroke:"#e2e8f0","stroke-width":1}));
+    // saturation band
+    svg.appendChild(el("line",{x1:20,y1:zy-um/4.5*78,x2:285,y2:zy-um/4.5*78,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"3 2"}));
+    svg.appendChild(el("line",{x1:20,y1:zy+um/4.5*78,x2:285,y2:zy+um/4.5*78,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"3 2"}));
+    function pl(tr,col,w,dash){var pts=tr.map(function(p){return (20+p[0]/T*265).toFixed(1)+","+(zy-p[1]/4.5*78).toFixed(1);});svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":w,"stroke-dasharray":dash||"none"}));}
+    pl(req,"#cbd5e1",1.6,"4 3");pl(del,"#0d9488",2.2);
+    var l1=el("text",{x:210,y:26,"font-size":9,fill:"#94a3b8"});l1.textContent="requested";svg.appendChild(l1);
+    var l2=el("text",{x:210,y:39,"font-size":9,fill:"#0d9488"});l2.textContent="delivered";svg.appendChild(l2);
+    var ul=el("text",{x:24,y:zy-um/4.5*78-3,"font-size":7.5,fill:"#b91c1c"});ul.textContent="u_max";svg.appendChild(ul);
+    out.innerHTML='<div>reshaped: <b>'+(clip/n*100).toFixed(0)+'%</b> of samples</div>'+
+      '<div style="color:#64748b;margin-top:4px">deadband · rate · saturation applied in order</div>';
+  }
+  ["um","rm","db"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

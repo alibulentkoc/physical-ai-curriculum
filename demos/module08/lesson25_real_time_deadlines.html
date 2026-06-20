@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Real-Time Means: Deadlines, Determinism, Worst-Case — Lesson 7.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .verdict{text-align:center;font-weight:700;border-radius:8px;padding:8px;font-size:13px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Each cycle must finish before its deadline.</b> The control loop runs every period; the work (blue) must fit inside it. Real-time isn't about being fast on average — it's about the <i>worst-case</i> always fitting.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 180"></svg>
+  <div class="panel">
+    <label>compute time per cycle</label><input type="range" id="c" min="20" max="130" step="5" value="55">
+    <div class="verdict" id="out"></div>
+    <div class="hint">A loop that meets its deadline 999 times then misses once has still failed — that one late command can destabilise the joint. Determinism, not average speed, is the real-time guarantee.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=180,P=80;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var c=+document.getElementById("c").value,cpct=c/100; // c as % of period
+    var miss=cpct>1;
+    svg.innerHTML="";
+    var y=50,x0=20,scale=0.6; // px per ms; period P=80ms -> 48px
+    var pw=P*scale;
+    // draw 4 cycles
+    var worst=2; // cycle index with worst-case (longer)
+    for(var i=0;i<4;i++){
+      var cx=x0+i*pw;
+      // period slot
+      svg.appendChild(el("rect",{x:cx,y:y,width:pw,height:34,fill:"none",stroke:"#cbd5e1","stroke-width":1}));
+      // deadline line
+      svg.appendChild(el("line",{x1:cx+pw,y1:y-6,x2:cx+pw,y2:y+40,stroke:"#b91c1c","stroke-width":1.4}));
+      // compute bar (worst cycle slightly longer)
+      var cc=cpct*(i===worst?1.18:1);var cw=P*cc*scale;var over=cc>1;
+      svg.appendChild(el("rect",{x:cx+2,y:y+5,width:Math.min(cw,pw*2),height:24,rx:3,fill:over?"#fca5a5":"#7dd3fc",stroke:over?"#b91c1c":"#0284c7","stroke-width":1}));
+      if(over){var xl=el("text",{x:cx+pw+2,y:y+20,"font-size":9,fill:"#b91c1c","font-weight":"700"});xl.textContent="miss!";svg.appendChild(xl);}
+    }
+    var dl=el("text",{x:x0,y:y-12,"font-size":9,fill:"#b91c1c"});dl.textContent="↓ deadlines (end of each period)";svg.appendChild(dl);
+    var cl=el("text",{x:x0,y:y+58,"font-size":9.5,fill:"#0284c7"});cl.textContent="compute (worst-case shown longer in cycle 3)";svg.appendChild(cl);
+    var tl=el("text",{x:x0,y:y+74,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    var worstFit=cpct*1.18<=1;
+    out.style.background=worstFit?"#dcfce7":"#fee2e2";out.style.color=worstFit?"#15803d":"#b91c1c";
+    out.innerHTML=(worstFit?"✓ REAL-TIME — worst-case fits":"✗ DEADLINE MISS — worst-case overruns")+'<div style="font-size:10px;font-weight:400;margin-top:2px">compute '+c+'% of period</div>';
+  }
+  document.getElementById("c").addEventListener("input",render);
+  render();
+})();</script></body></html>

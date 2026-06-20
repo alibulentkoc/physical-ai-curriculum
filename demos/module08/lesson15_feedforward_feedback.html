@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedforward + Feedback Together — Lesson 4.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+  .seg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer;text-align:left}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .rms{font-size:11.5px;margin:5px 0}.rms .lab{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+  .bar{height:11px;border-radius:3px;margin-top:2px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Head-to-head on the same reference.</b> Feedback alone lags; feedforward alone tracks well but model mismatch leaves a residual; together they give the lowest following error — predict the bulk, correct the rest.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 180"></svg>
+  <div class="panel">
+    <div class="seg"><button id="m0" class="on">feedback only</button><button id="m1">feedforward only</button><button id="m2">FF + FB</button></div>
+    <div id="rms"></div>
+    <div class="hint">Neither is enough alone on a real plant: feedback can't see the future, feedforward can't see its own errors. The combination is the standard high-performance tracker.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=180,mode=0;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var w=2.0;
+  function qd(t){return 0.5+0.35*Math.sin(w*t);}
+  function vd(t){return 0.35*w*Math.cos(w*t);}
+  function ad(t){return -0.35*w*w*Math.sin(w*t);}
+  function run(m){ // returns {tr, rms}; plant has mismatch vs model
+    var dt=0.01,T=6,q=0.5,v=0,b=2.5,mp=1.25,LOAD=0.2,bm=2.5,mm=1,tr=[],se=0,n=0;
+    for(var t=0;t<=T;t+=dt){var e=qd(t)-q;
+      var uff=(m>=1)?(mm*ad(t)+bm*vd(t)+LOAD):0;
+      var ufb=(m===0||m===2)?(18*e+3*(vd(t)-v)):0;
+      var u=uff+ufb;var a=(u-LOAD-b*v)/mp;v+=a*dt;q+=v*dt;tr.push([t,q]);se+=e*e;n++;}
+    return {tr:tr,rms:Math.sqrt(se/n)};
+  }
+  function render(){
+    var runs=[run(0),run(1),run(2)],T=6;
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:20,y:14,width:265,height:140,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var dp=[];for(var i=0;i<=120;i++){var t=i/120*T;dp.push((20+t/T*265).toFixed(1)+","+(84-(qd(t)-0.5)/0.55*70).toFixed(1));}
+    svg.appendChild(el("polyline",{points:dp.join(" "),fill:"none",stroke:"#94a3b8","stroke-width":1.6,"stroke-dasharray":"5 3"}));
+    var cols=["#0d9488","#7c3aed","#15803d"];
+    var pp=runs[mode].tr.map(function(p){return (20+p[0]/T*265).toFixed(1)+","+(84-(p[1]-0.5)/0.55*70).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:cols[mode],"stroke-width":2.2}));
+    var names=["feedback only","feedforward only","FF + FB"],maxR=Math.max(runs[0].rms,runs[1].rms,runs[2].rms);
+    document.getElementById("rms").innerHTML=runs.map(function(r,i){return '<div class="rms"><div class="lab"><span>'+names[i]+'</span><span>RMS '+r.rms.toFixed(3)+'</span></div><div class="bar" style="width:'+(r.rms/maxR*100)+'%;background:'+cols[i]+';opacity:'+(i===mode?1:0.4)+'"></div></div>';}).join("");
+  }
+  ["m0","m1","m2"].forEach(function(id,i){document.getElementById(id).addEventListener("click",function(){mode=i;["m0","m1","m2"].forEach(function(o){document.getElementById(o).classList.toggle("on",o===id);});render();});});
+  render();
+})();</script></body></html>

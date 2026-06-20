@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When Correction Goes Wrong: From Too Weak to Runaway — Lesson 3.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .verdict{text-align:center;font-weight:700;border-radius:8px;padding:8px;font-size:13px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Walk the spectrum of corrective strength.</b> Too weak and it crawls (big offset). Just right and it snaps cleanly to target. Too strong and it overshoots and rings. Stronger still and it diverges — runaway.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 220"></svg>
+  <div class="panel">
+    <label>corrective strength Kp</label><input type="range" id="kp" min="2" max="90" step="1" value="10">
+    <div class="verdict" id="out"></div>
+    <div class="hint">More gain isn't more control. Past a point the loop overcorrects faster than the joint can respond, and each correction is bigger than the last — the signature of instability.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=220,LOAD=0.4;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sim(Kp){var dt=0.004,T=4,q=0,v=0,u=0,b=4,tau=0.10,ref=1,tr=[];for(var t=0;t<=T;t+=dt){var e=ref-q;u+=(Kp*e-u)*dt/tau;var a=u-LOAD-b*v;v+=a*dt;q+=v*dt;tr.push([t,Math.max(-1,Math.min(2.4,q))]);}return tr;}
+  function classify(Kp,tr){var ref=1,mx=0;tr.forEach(function(p){mx=Math.max(mx,p[1]);});var qf=tr[tr.length-1][1];var diverge=Math.abs(tr[tr.length-1][1])>=2.3||Math.abs(tr[tr.length-1][1]-tr[tr.length-20][1])>0.25;
+    if(diverge)return ["runaway (unstable)","#b91c1c"];
+    var ov=mx>ref?(mx-ref)/ref*100:0;
+    if(ov>25)return ["ringing — too strong","#d97706"];
+    if(1-qf>0.08)return ["sluggish — too weak","#7c3aed"];
+    return ["clean — well tuned","#15803d"];
+  }
+  function render(){
+    var kp=+document.getElementById("kp").value,tr=sim(kp),T=4,c=classify(kp,tr);
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:160,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=174-1/2.4*160;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var rl=el("text",{x:248,y:ty-3,"font-size":8,fill:"#b91c1c"});rl.textContent="target";svg.appendChild(rl);
+    var pp=tr.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(174-p[1]/2.4*160).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:c[1],"stroke-width":2.2}));
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    var tl=el("text",{x:30,y:190,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.style.background=c[1]+"22";out.style.color=c[1];out.textContent=c[0];
+  }
+  document.getElementById("kp").addEventListener("input",render);
+  render();
+})();</script></body></html>

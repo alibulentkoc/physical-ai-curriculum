@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The PID Controller — Lesson 2.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;margin:6px 0 3px} input[type=range]{width:100%}
+  .seg{display:flex;gap:6px;margin-bottom:6px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:11.5px;line-height:1.6;font-variant-numeric:tabular-nums;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Assemble the full controller: u = Kp·e + Ki·∫e + Kd·ė.</b> P reacts, I erases offset, D damps overshoot. Try the presets, then tune by hand.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 200"></svg>
+  <div class="panel">
+    <div class="seg"><button id="pP">P</button><button id="pPI">PI</button><button id="pPID" class="on">PID</button></div>
+    <label>Kp <span id="vp"></span></label><input type="range" id="kp" min="2" max="30" step="1" value="14">
+    <label>Ki <span id="vi"></span></label><input type="range" id="ki" min="0" max="12" step="0.5" value="6">
+    <label>Kd <span id="vd"></span></label><input type="range" id="kd" min="0" max="6" step="0.25" value="3">
+    <div class="readout" id="out"></div>
+  </div>
+</div>
+  <div class="hint" style="max-width:680px;margin:6px auto 0;padding:0 8px">No term alone is enough: P is fast but offset-prone, I erases offset but adds lag and overshoot, D tames the overshoot. Tuned together they give a fast, accurate, well-damped tracker.</div>
+</div>
+<script>(function(){
+  var W=300,H=200,LOAD=0.4;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sim(Kp,Ki,Kd){var dt=0.004,T=5,q=0,v=0,I=0,u=0,ep=1,b=4,tau=0.06,ref=1,tr=[];for(var t=0;t<=T;t+=dt){var e=ref-q;I+=e*dt;var de=(e-ep)/dt;ep=e;u+=((Kp*e+Ki*I+Kd*de)-u)*dt/tau;var a=u-LOAD-b*v;v+=a*dt;q+=v*dt;tr.push([t,Math.max(-0.5,Math.min(2,q))]);}return tr;}
+  function metrics(tr){var ref=1,qf=tr[tr.length-1][1],off=ref-qf,mx=0;tr.forEach(function(p){mx=Math.max(mx,p[1]);});var ov=mx>ref?(mx-ref)/ref*100:0;var st=0;for(var i=0;i<tr.length;i++){if(Math.abs(tr[i][1]-ref)>0.03)st=tr[i][0];}return {off:off,ov:ov,st:st};}
+  function render(){
+    var kp=+document.getElementById("kp").value,ki=+document.getElementById("ki").value,kd=+document.getElementById("kd").value,T=5;
+    document.getElementById("vp").textContent=kp;document.getElementById("vi").textContent=ki.toFixed(1);document.getElementById("vd").textContent=kd.toFixed(2);
+    var tr=sim(kp,ki,kd),m=metrics(tr);
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:150,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=164-1/1.5*150;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var pp=tr.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(164-p[1]/1.5*150).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:"#0d9488","stroke-width":2.2}));
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    var tl=el("text",{x:30,y:180,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.innerHTML='<div>offset: <b>'+m.off.toFixed(3)+'</b></div>'+
+      '<div>overshoot: <b>'+m.ov.toFixed(0)+'%</b></div>'+
+      '<div>settling: <b>'+m.st.toFixed(2)+'s</b></div>';
+  }
+  function preset(kp,ki,kd,id){document.getElementById("kp").value=kp;document.getElementById("ki").value=ki;document.getElementById("kd").value=kd;["pP","pPI","pPID"].forEach(function(o){document.getElementById(o).classList.toggle("on",o===id);});render();}
+  document.getElementById("pP").addEventListener("click",function(){preset(14,0,0,"pP");});
+  document.getElementById("pPI").addEventListener("click",function(){preset(14,6,0,"pPI");});
+  document.getElementById("pPID").addEventListener("click",function(){preset(14,6,3,"pPID");});
+  ["kp","ki","kd"].forEach(function(id){document.getElementById(id).addEventListener("input",function(){["pP","pPI","pPID"].forEach(function(o){document.getElementById(o).classList.remove("on");});render();});});
+  render();
+})();</script></body></html>

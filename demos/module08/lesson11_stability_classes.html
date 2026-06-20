@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stable, Marginal, Unstable — Lesson 3.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+  .seg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer;text-align:left}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .verdict{text-align:center;font-weight:700;border-radius:8px;padding:8px;font-size:13px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Classify by the envelope.</b> A stable loop's oscillations decay; a marginal one sustains them at constant amplitude; an unstable one grows them without bound. The envelope (faint dashed) tells you which.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 200"></svg>
+  <div class="panel">
+    <div class="seg">
+      <button id="s0" class="on">Kp = 10 (gentle)</button>
+      <button id="s1">Kp = 55 (the edge)</button>
+      <button id="s2">Kp = 68 (too hot)</button>
+    </div>
+    <div class="verdict" id="out"></div>
+    <div class="hint">The edge between settling and growing is the stability boundary. Good tuning lives comfortably inside it — never relying on running right at the limit.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=200,LOAD=0.4,Kp=10;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sim(kp){var dt=0.004,T=4.5,q=0,v=0,u=0,b=4,tau=0.10,ref=1,tr=[];for(var t=0;t<=T;t+=dt){var e=ref-q;u+=(kp*e-u)*dt/tau;var a=u-LOAD-b*v;v+=a*dt;q+=v*dt;tr.push([t,Math.max(-1.4,Math.min(2.6,q))]);}return tr;}
+  function classify(tr){var h=Math.floor(tr.length/2);var seg1=tr.slice(0,h).map(function(p){return p[1];}),seg2=tr.slice(h).map(function(p){return p[1];});var a1=Math.max.apply(0,seg1)-Math.min.apply(0,seg1),a2=Math.max.apply(0,seg2)-Math.min.apply(0,seg2);
+    if(a2>a1*1.1||Math.abs(tr[tr.length-1][1])>=2.5)return ["UNSTABLE — growing","#b91c1c"];
+    if(a2<a1*0.55)return ["STABLE — decaying","#15803d"];
+    return ["MARGINAL — sustained","#d97706"];}
+  function render(){
+    var tr=sim(Kp),T=4.5,c=classify(tr);
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:150,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=164-1/2.6*150;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var pp=tr.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(164-(p[1]+1.4)/4*150).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:c[1],"stroke-width":2.2}));
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    var tl=el("text",{x:30,y:180,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.style.background=c[1]+"22";out.style.color=c[1];out.textContent=c[0];
+  }
+  [["s0",10],["s1",55],["s2",68]].forEach(function(d){document.getElementById(d[0]).addEventListener("click",function(){Kp=d[1];["s0","s1","s2"].forEach(function(o){document.getElementById(o).classList.toggle("on",o===d[0]);});render();});});
+  render();
+})();</script></body></html>
