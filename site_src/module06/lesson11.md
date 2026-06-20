@@ -60,6 +60,11 @@ rotating the tool-frame twist back by $R^{n}_{0}$ recovers the base-frame twist 
 That invariance is the proof the conversion is right.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson11_base_vs_tool_frame.html" title="Base-Frame vs Tool-Frame Jacobian interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson11_base_vs_tool_frame.html)
+
 *(Guided prediction; flagship demos at L17/L21.)*
 
 **Predict, then check.**

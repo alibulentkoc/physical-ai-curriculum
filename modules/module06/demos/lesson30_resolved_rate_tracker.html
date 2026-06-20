@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capstone II — The Resolved-Rate Tracker — Lesson 8.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Pick a commanded path — the tracker follows it.</b> A setpoint moves at constant speed; the resolved-rate loop converts the error to joint rates each tick. The tool traces the command (yellow trail).</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 280"></svg>
+  <div class="panel">
+    <div class="seg"><button id="pLine" class="on">line</button><button id="pCircle">circle</button><button id="pDiag">diagonal</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">A constant commanded velocity yields a straight tool path; a circular command yields a circle. The velocity layer turns a Cartesian trajectory into coordinated joint motion automatically.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=280,BX=150,BY=150,L1=1,L2=1,SC=58,path="line",t=0,trail=[];
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var th=[0.6,0.9];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function fk(q){var p1=[L1*Math.cos(q[0]),L1*Math.sin(q[0])];return [p1[0]+L2*Math.cos(q[0]+q[1]),p1[1]+L2*Math.sin(q[0]+q[1])];}
+  function setpoint(tt){
+    if(path==="circle")return [0.55+0.55*Math.cos(tt),0.55*Math.sin(tt)];
+    if(path==="diag"){var u=(Math.sin(tt)+1)/2;return [0.2+u*1.0, -0.4+u*1.1];}
+    var u2=(Math.sin(tt)+1)/2;return [0.1+u2*1.4, 0.6]; // line
+  }
+  function step(){
+    t+=0.03;var sp=setpoint(t);
+    var s1=Math.sin(th[0]),c1=Math.cos(th[0]),s12=Math.sin(th[0]+th[1]),c12=Math.cos(th[0]+th[1]);
+    var p=fk(th),e=[(sp[0]-p[0])*0.3,(sp[1]-p[1])*0.3];
+    var J=[[-L1*s1-L2*s12,-L2*s12],[L1*c1+L2*c12,L2*c12]];
+    var JJt=[[J[0][0]*J[0][0]+J[0][1]*J[0][1],J[0][0]*J[1][0]+J[0][1]*J[1][1]],[J[1][0]*J[0][0]+J[1][1]*J[0][1],J[1][0]*J[1][0]+J[1][1]*J[1][1]]];
+    var l2=0.01,A=[[JJt[0][0]+l2,JJt[0][1]],[JJt[1][0],JJt[1][1]+l2]];
+    var dA=A[0][0]*A[1][1]-A[0][1]*A[1][0],Ai=[[A[1][1]/dA,-A[0][1]/dA],[-A[1][0]/dA,A[0][0]/dA]];
+    var wv=[Ai[0][0]*e[0]+Ai[0][1]*e[1],Ai[1][0]*e[0]+Ai[1][1]*e[1]];
+    th[0]+=J[0][0]*wv[0]+J[1][0]*wv[1];th[1]+=J[0][1]*wv[0]+J[1][1]*wv[1];
+    trail.push(fk(th));if(trail.length>90)trail.shift();
+    render(sp);
+  }
+  function render(sp){
+    var p=fk(th),p1=[L1*Math.cos(th[0]),L1*Math.sin(th[0])],err=Math.hypot(sp[0]-p[0],sp[1]-p[1]);
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:(L1+L2)*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    if(trail.length>1){var pts=trail.map(function(q){var s=sv(q);return s[0].toFixed(1)+","+s[1].toFixed(1);});svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:"#fcd34d","stroke-width":2}));}
+    var a=sv([0,0]),b=sv(p1),c=sv(p),s=sv(sp);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:8,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#0d9488"}));
+    svg.appendChild(el("circle",{cx:s[0],cy:s[1],r:5,fill:"none",stroke:"#ef4444","stroke-width":2}));
+    out.innerHTML='<div class="ln"><span>commanded path</span><span>'+path+'</span></div>'+
+      '<div class="ln"><span>tracking error</span><span style="color:'+(err<0.05?"#15803d":"#0f172a")+';font-weight:700">'+err.toFixed(3)+'</span></div>';
+  }
+  function loop(){step();requestAnimationFrame(loop);}
+  function setP(p,id){path=p;trail=[];["pLine","pCircle","pDiag"].forEach(function(o){document.getElementById(o).classList.toggle("on",o===id);});}
+  document.getElementById("pLine").addEventListener("click",function(){setP("line","pLine");});
+  document.getElementById("pCircle").addEventListener("click",function(){setP("circle","pCircle");});
+  document.getElementById("pDiag").addEventListener("click",function(){setP("diag","pDiag");});
+  loop();
+})();</script></body></html>

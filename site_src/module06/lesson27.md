@@ -62,6 +62,11 @@ small tracking error in that direction. The notebook compares the two across a s
 the singularity and confirms DLS stays bounded throughout.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson27_singularity_robust_dls.html" title="Singularity-Robust Resolved Rates: Damped Least Squares in Action interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson27_singularity_robust_dls.html)
+
 *(The capstone tracker at L31 toggles damping on/off near a singularity. Guided prediction
 here.)*
 

@@ -64,6 +64,11 @@ a boundary singularity. The notebook maps the locus, confirms the reach values a
 singular angles, and shows there is no interior singular set.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson20_singularity_loci.html" title="Singularity Loci and Workspace Boundaries; from M5 Recognition to Full Theory interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson20_singularity_loci.html)
+
 *(The L17 Ellipsoid Collapse demo lets you sweep $\theta_2$ and watch the ellipse collapse
 exactly at $\theta_2=0,\pi$ — the locus, felt directly. Guided prediction here.)*
 

@@ -70,6 +70,11 @@ the task is met, the null-space term produces no tool motion, and the pseudoinve
 least-effort solution.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson26_redundancy_null_space.html" title="Redundancy Resolution: The Pseudoinverse and Null-Space Motion interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson26_redundancy_null_space.html)
+
 *(The capstone tracker at L29–L31 uses redundancy resolution. Guided prediction here.)*
 
 **Predict, then check.**

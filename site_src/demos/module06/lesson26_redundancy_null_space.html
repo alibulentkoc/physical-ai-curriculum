@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redundancy Resolution: Null-Space Motion — Lesson 7.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .ok{color:#15803d;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Move the null-space slider; keep the tip command fixed.</b> θ̇ = J⁺ẋ + (I−J⁺J)z. The null-space term reshapes the arm (self-motion) but adds <b>zero</b> tip velocity — the green command arrow never changes.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 260"></svg>
+  <div class="panel">
+    <label>null-space motion z</label><input type="range" id="z" min="-40" max="110" step="1" value="35">
+    <div class="readout" id="out"></div>
+    <div class="hint">Redundancy = freedom to pursue a second goal (avoid limits, dodge obstacles, stay dexterous) without disturbing the primary task. The pseudoinverse handles the task; the null space handles the rest.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=260,BX=150,BY=170,L1=0.8,L2=0.7,L3=0.5,SC=88;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var target=[0.55,0.35], cmd=[0.35,0.3];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function ik2(x,y){var d2=x*x+y*y,c2=(d2-L1*L1-L2*L2)/(2*L1*L2);if(c2<-1||c2>1)return null;c2=Math.max(-1,Math.min(1,c2));var s2=-Math.sqrt(1-c2*c2);var th2=Math.atan2(s2,c2);var th1=Math.atan2(y,x)-Math.atan2(L2*s2,L1+L2*c2);return [th1,th2];}
+  function render(){
+    var phi=+document.getElementById("z").value*Math.PI/180;
+    var wx=target[0]-L3*Math.cos(phi),wy=target[1]-L3*Math.sin(phi);
+    var s=ik2(wx,wy);
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="v" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:8,fill:"#475569"}));
+    if(s){var t1=s[0],t2=s[1];
+      var p1=[L1*Math.cos(t1),L1*Math.sin(t1)];
+      var p2=[p1[0]+L2*Math.cos(t1+t2),p1[1]+L2*Math.sin(t1+t2)];
+      var p3=[p2[0]+L3*Math.cos(phi),p2[1]+L3*Math.sin(phi)];
+      var a=sv([0,0]),b=sv(p1),c=sv(p2),d=sv(p3),cols=["#475569","#64748b","#94a3b8"];
+      svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:cols[0],"stroke-width":6,"stroke-linecap":"round"}));
+      svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:cols[1],"stroke-width":6,"stroke-linecap":"round"}));
+      svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:d[0],y2:d[1],stroke:cols[2],"stroke-width":6,"stroke-linecap":"round"}));
+      svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:4,fill:"#fff",stroke:"#475569","stroke-width":2}));
+      svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:"#fff",stroke:"#475569","stroke-width":2}));
+      // fixed command arrow at tip
+      var t=sv(target),ce=sv([target[0]+0.28,target[1]+0.16]);
+      svg.appendChild(el("line",{x1:t[0],y1:t[1],x2:ce[0],y2:ce[1],stroke:"#0d9488","stroke-width":3,"marker-end":"url(#v)"}));
+    }
+    var t=sv(target);
+    svg.appendChild(el("circle",{cx:t[0],cy:t[1],r:6,fill:"#ef4444"}));
+    var tl=el("text",{x:t[0]-8,y:t[1]-10,"font-size":9,fill:"#ef4444"});tl.textContent="tip fixed";svg.appendChild(tl);
+    out.innerHTML='<div class="ln"><span>primary task ẋ</span><span>fixed command</span></div>'+
+      '<div class="ln"><span>null-space term</span><span>(I−J⁺J)z</span></div>'+
+      '<div class="ln"><span class="ok">tip velocity change</span><span class="ok">0 ✓</span></div>';
+  }
+  document.getElementById("z").addEventListener("input",render);
+  render();
+})();</script></body></html>

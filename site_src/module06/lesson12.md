@@ -66,6 +66,11 @@ arm to a rank-deficient configuration and you find $J$ loses rank while $B$, at 
 orientation, stays invertible. The two failures are genuinely independent.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson12_representation_vs_kinematic_sing.html" title="Representation Singularities vs Kinematic Singularities interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson12_representation_vs_kinematic_sing.html)
+
 *(The kinematic-singularity story gets its flagship interactive demo at L17 — the
 manipulability ellipsoid collapsing. Guided prediction here.)*
 

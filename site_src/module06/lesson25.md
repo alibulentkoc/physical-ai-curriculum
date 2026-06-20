@@ -64,6 +64,11 @@ inverse is verified by the round trip. The notebook does this and confirms
 $J\dot{\mathbf{q}}=\boldsymbol{\xi}_d$ to machine precision.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson25_inverse_velocity_kinematics.html" title="Inverse Velocity Kinematics: From Desired Twist to Joint Rates interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson25_inverse_velocity_kinematics.html)
+
 *(The capstone Analyzer/Tracker demo at L29 brings inverse velocity kinematics to life.
 Guided prediction here.)*
 

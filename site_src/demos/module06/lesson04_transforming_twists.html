@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transforming Twists Between Frames — Lesson 1.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .va{color:#475569;font-weight:700}.vb{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab point B; set v_A and ω.</b> Same rigid body, different reference point: v_B = v_A + ω×(B−A). The angular velocity ω is shared; only the linear part shifts with the point.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 260"></svg>
+  <div class="panel">
+    <label>v_A x</label><input type="range" id="vx" min="-1.5" max="1.5" step="0.1" value="0.6">
+    <label>v_A y</label><input type="range" id="vy" min="-1.5" max="1.5" step="0.1" value="0"></label>
+    <label>ω</label><input type="range" id="w" min="-3" max="3" step="0.1" value="2.0">
+    <div class="readout" id="out"></div>
+    <div class="hint">This is the heart of transforming a twist between frames: ω is frame-independent, but the linear velocity you read off depends on which point you reference.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=260,CX=110,CY=140,SC=90;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var A=[0,0], B=[0.9,0.4], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [CX+p[0]*SC, CY-p[1]*SC];}
+  function render(){
+    var vx=+document.getElementById("vx").value,vy=+document.getElementById("vy").value,w=+document.getElementById("w").value;
+    var dx=B[0]-A[0],dy=B[1]-A[1];
+    var vB=[vx-w*dy, vy+w*dx];
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#475569"/></marker><marker id="b" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    var a=sv(A),b=sv(B);
+    // rigid link
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#cbd5e1","stroke-width":2.5}));
+    // v_A
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:a[0]+vx*SC*0.5,y2:a[1]-vy*SC*0.5,stroke:"#475569","stroke-width":2.6,"marker-end":"url(#a)"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:6,fill:"#475569"}));
+    var al=el("text",{x:a[0]-14,y:a[1]+15,"font-size":10,fill:"#475569"});al.textContent="A";svg.appendChild(al);
+    // v_B
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:b[0]+vB[0]*SC*0.5,y2:b[1]-vB[1]*SC*0.5,stroke:"#0d9488","stroke-width":2.6,"marker-end":"url(#b)"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:11,fill:"none",stroke:"#7c3aed","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:6,fill:"#7c3aed"}));
+    var bl=el("text",{x:b[0]+10,y:b[1]+14,"font-size":10,fill:"#0d9488"});bl.textContent="B";svg.appendChild(bl);
+    if(!hinted){var hh=el("text",{x:b[0]+10,y:b[1]-12,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab B";svg.appendChild(hh);}
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span class="va">v_A</span><span class="va">('+f(vx)+', '+f(vy)+')</span></div>'+
+      '<div class="ln"><span>ω (shared)</span><span>'+f(w)+'</span></div>'+
+      '<div class="ln"><span class="vb">v_B = v_A+ω×(B−A)</span><span class="vb">('+f(vB[0])+', '+f(vB[1])+')</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),b=sv(B);if(Math.hypot(m[0]-b[0],m[1]-b[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);B[0]=(m[0]-CX)/SC;B[1]=(CY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  ["vx","vy","w"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

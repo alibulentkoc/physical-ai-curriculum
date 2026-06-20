@@ -56,6 +56,11 @@ $J\dot{\mathbf{q}}$ equals the command at each full-rank pose. The notebook impl
 tracker as a reusable function and verifies both the velocity match and the bounded drift.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson30_resolved_rate_tracker.html" title="Capstone II — The Resolved-Rate Tracker interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson30_resolved_rate_tracker.html)
+
 *(The L29 flagship demo is this tracker live; set a command and press Play. Guided prediction
 here.)*
 

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numerical Validation: Geometric J vs Finite Differences — Lesson 2.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .geo{color:#0d9488;font-weight:700}.fd{color:#b91c1c;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Pick a joint, shrink Δ.</b> The geometric column (teal) is the exact z×r; the finite-difference estimate (red dashed) perturbs θ by Δ and measures Δp/Δ. As Δ → 0 they coincide — validating the formula.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <div class="seg"><button id="j1" class="on">joint 1</button><button id="j2">joint 2</button></div>
+    <label>perturbation Δ</label><input type="range" id="dl" min="0.01" max="0.8" step="0.01" value="0.5">
+    <div class="readout" id="out"></div>
+    <div class="hint">Finite differences are how you sanity-check a hand-derived Jacobian in code: perturb one joint, divide by the step. Agreement to small Δ is strong evidence the analytic J is right.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,BX=120,BY=160,L1=1,L2=1,SC=55,joint=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var t1=0.5,t2=1.2;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function fk(a,b){var p1=[L1*Math.cos(a),L1*Math.sin(a)];return {p1:p1,p2:[p1[0]+L2*Math.cos(a+b),p1[1]+L2*Math.sin(a+b)]};}
+  function render(){
+    var D=+document.getElementById("dl").value;
+    var k=fk(t1,t2),p0=[0,0],p1=k.p1,p2=k.p2;
+    var pj=joint===0?p0:p1;
+    var geo=[-(p2[1]-pj[1]), p2[0]-pj[0]];
+    var k2=joint===0?fk(t1+D,t2):fk(t1,t2+D);
+    var fd=[(k2.p2[0]-p2[0])/D,(k2.p2[1]-p2[1])/D];
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="g" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker><marker id="r" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b91c1c"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:15,y1:BY,x2:W-15,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    // perturbed ghost
+    var ga=sv([0,0]),gb=sv(k2.p1),gc=sv(k2.p2);
+    svg.appendChild(el("line",{x1:ga[0],y1:ga[1],x2:gb[0],y2:gb[1],stroke:"#e2e8f0","stroke-width":4,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:gb[0],y1:gb[1],x2:gc[0],y2:gc[1],stroke:"#e2e8f0","stroke-width":4,"stroke-linecap":"round"}));
+    var a=sv(p0),b=sv(p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#94a3b8","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    var sc=0.4;
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:c[0]+fd[0]*SC*sc,y2:c[1]-fd[1]*SC*sc,stroke:"#b91c1c","stroke-width":3,"stroke-dasharray":"5 3","marker-end":"url(#r)"}));
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:c[0]+geo[0]*SC*sc,y2:c[1]-geo[1]*SC*sc,stroke:"#0d9488","stroke-width":2.4,"marker-end":"url(#g)"}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:"#ef4444"}));
+    var err=Math.hypot(geo[0]-fd[0],geo[1]-fd[1]);
+    var f=function(v){return (Math.round(v*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span class="geo">geometric z×r</span><span class="geo">('+f(geo[0])+', '+f(geo[1])+')</span></div>'+
+      '<div class="ln"><span class="fd">finite diff Δp/Δ</span><span class="fd">('+f(fd[0])+', '+f(fd[1])+')</span></div>'+
+      '<div class="ln"><span>error</span><span>'+err.toFixed(4)+'</span></div>';
+  }
+  document.getElementById("j1").addEventListener("click",function(){joint=0;this.classList.add("on");document.getElementById("j2").classList.remove("on");render();});
+  document.getElementById("j2").addEventListener("click",function(){joint=1;this.classList.add("on");document.getElementById("j1").classList.remove("on");render();});
+  document.getElementById("dl").addEventListener("input",render);
+  render();
+})();</script></body></html>

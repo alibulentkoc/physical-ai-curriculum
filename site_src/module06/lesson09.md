@@ -73,6 +73,11 @@ $J_v=J_p$ and sets up the $B(\boldsymbol{\phi})$ bridge that reconciles the orie
 rows in Lesson 3.2.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson09_analytic_jacobian.html" title="The Analytic Jacobian: Differentiating Forward Kinematics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson09_analytic_jacobian.html)
+
 *(The flagship Installment B/C demos are the manipulability-ellipsoid and SVD demos at
 L17/L21. Guided prediction here.)*
 

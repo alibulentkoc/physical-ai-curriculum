@@ -81,6 +81,11 @@ recovers the axis-and-rate arrow. The math simply re-describes what the wrist is
 visibly doing.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson02_angular_velocity_skew.html" title="Angular Velocity and the Skew Operator interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson02_angular_velocity_skew.html)
+
 *(No embedded applet here — the Installment A demo is the Jacobian Column Explorer in
 Lesson 2.3. Use this guided prediction.)*
 

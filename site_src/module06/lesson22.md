@@ -61,6 +61,11 @@ conditioning: exactly the blind spot, now quantified. The notebook computes both
 confirms $\kappa\to\infty$ as the arm straightens.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson22_condition_number.html" title="Singular Values and the Condition Number interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson22_condition_number.html)
+
 *(The L21 SVD Bars demo shows $\kappa=\sigma_{\max}/\sigma_{\min}$ live. Guided prediction
 here.)*
 

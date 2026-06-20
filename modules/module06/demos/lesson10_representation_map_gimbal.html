@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Representation Map B(φ) — Lesson 3.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .barwrap{background:#f1f5f9;border-radius:4px;overflow:hidden;height:14px;margin-top:4px}.bar{height:14px;background:#0d9488}
+  .lock{background:#fee2e2;color:#b91c1c;border-radius:8px;padding:5px;text-align:center;font-weight:700;font-size:11.5px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Tilt the middle gimbal (pitch).</b> The map ω = B(φ)·φ̇ relates Euler-angle rates to true angular velocity. As pitch → ±90°, two gimbal axes align, |det B| → 0, and one rotation direction becomes unreachable — gimbal lock.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 240"></svg>
+  <div class="panel">
+    <label>pitch angle β</label><input type="range" id="b" min="-90" max="90" step="1" value="35">
+    <div class="readout" id="out"></div>
+    <div class="hint">This is a <b>representation</b> singularity — a flaw of the Euler parameterization, not the robot's geometry. The body can still spin freely; the angle coordinates just can't describe it there.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=240,CX=140,CY=120;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var beta=+document.getElementById("b").value*Math.PI/180;
+    var detB=Math.cos(beta), lock=Math.abs(detB)<0.12;
+    svg.innerHTML="";
+    // outer ring (fixed, vertical)
+    svg.appendChild(el("ellipse",{cx:CX,cy:CY,rx:90,ry:90,fill:"none",stroke:"#94a3b8","stroke-width":3}));
+    // middle ring (tilts: squash horizontal by |cos beta|... show pitch by squashing rx)
+    var rx=Math.max(4,90*Math.abs(Math.cos(beta)));
+    svg.appendChild(el("ellipse",{cx:CX,cy:CY,rx:rx,ry:70,fill:"none",stroke:"#0d9488","stroke-width":3}));
+    // inner ring (tilts with the middle)
+    var rx2=Math.max(3,50*Math.abs(Math.cos(beta)));
+    svg.appendChild(el("ellipse",{cx:CX,cy:CY,rx:rx2,ry:50,fill:"none",stroke:"#7c3aed","stroke-width":3}));
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:4,fill:"#475569"}));
+    if(lock){var ll=el("text",{x:CX,y:CY-100,"font-size":11,fill:"#b91c1c","font-weight":"700","text-anchor":"middle"});ll.textContent="axes aligned";svg.appendChild(ll);}
+    out.innerHTML='<div class="ln"><span>pitch β</span><span>'+Math.round(beta*180/Math.PI)+'°</span></div>'+
+      '<div class="ln"><span>|det B| = |cos β|</span><span>'+Math.abs(detB).toFixed(3)+'</span></div>'+
+      '<div class="barwrap"><div class="bar" style="width:'+Math.round(Math.abs(detB)*100)+'%;background:'+(lock?"#ef4444":"#0d9488")+'"></div></div>'+
+      (lock?'<div class="lock">⚠ gimbal lock — one DOF lost in φ̇</div>':'');
+  }
+  document.getElementById("b").addEventListener("input",render);
+  render();
+})();</script></body></html>

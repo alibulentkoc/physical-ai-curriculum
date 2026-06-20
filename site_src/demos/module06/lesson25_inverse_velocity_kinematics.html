@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inverse Velocity Kinematics — Lesson 7.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the command arrow and aim it.</b> Inverse velocity kinematics solves J·θ̇ = ẋ for the joint rates that produce your desired tip velocity: θ̇ = J⁻¹·ẋ.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="170" step="1" value="40">
+    <label>θ₂</label><input type="range" id="t2" min="-150" max="150" step="1" value="80">
+    <div class="readout" id="out"></div>
+    <div class="hint">Where the velocity Jacobian was used forward (rates → motion), here it runs backward. Near a singularity J⁻¹ grows large — the joint rates needed for some directions explode.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,BX=110,BY=160,L1=1,L2=1,SC=52;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var cmd=[0.7,0.6], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function pose(){var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180;var s1=Math.sin(t1),c1=Math.cos(t1),s12=Math.sin(t1+t2),c12=Math.cos(t1+t2);return {t1:t1,t2:t2,p1:[L1*c1,L1*s1],p2:[L1*c1+L2*c12,L1*s1+L2*s12],J:[[-L1*s1-L2*s12,-L2*s12],[L1*c1+L2*c12,L2*c12]]};}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var P=pose(),p2=P.p2,J=P.J;
+    var xd=[cmd[0]-p2[0], cmd[1]-p2[1]];
+    var det=J[0][0]*J[1][1]-J[0][1]*J[1][0];
+    var di=Math.abs(det)<1e-4?(det<0?-1:1)*1e-4:det;
+    var Ji=[[J[1][1]/di,-J[0][1]/di],[-J[1][0]/di,J[0][0]/di]];
+    var dth=[Ji[0][0]*xd[0]+Ji[0][1]*xd[1], Ji[1][0]*xd[0]+Ji[1][1]*xd[1]];
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="v" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:12,y1:BY,x2:W-12,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var a=sv([0,0]),b=sv(P.p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#94a3b8","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    var cm=sv(cmd);
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:cm[0],y2:cm[1],stroke:"#0d9488","stroke-width":3,"marker-end":"url(#v)"}));
+    svg.appendChild(el("circle",{cx:cm[0],cy:cm[1],r:18,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:cm[0],cy:cm[1],r:9,fill:"none",stroke:"#7c3aed","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:cm[0],cy:cm[1],r:5,fill:"#7c3aed"}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:"#ef4444"}));
+    if(!hinted){var hh=el("text",{x:cm[0]+10,y:cm[1]-9,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="aim ẋ";svg.appendChild(hh);}
+    var f=function(v){return (Math.round(v*100)/100).toFixed(2);};
+    out.innerHTML='<div class="ln"><span>desired ẋ</span><span>('+f(xd[0])+', '+f(xd[1])+')</span></div>'+
+      '<div class="ln"><span>θ̇ = J⁻¹ẋ</span><span style="color:#0d9488;font-weight:700">('+f(dth[0])+', '+f(dth[1])+')</span></div>'+
+      '<div class="ln"><span>|det J|</span><span>'+Math.abs(det).toFixed(3)+'</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),cm=sv(cmd);if(Math.hypot(m[0]-cm[0],m[1]-cm[1])<22){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);cmd[0]=(m[0]-BX)/SC;cmd[1]=(BY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

@@ -66,6 +66,11 @@ near $3.2$ — bounded, at the cost of small tracking error. The notebook confir
 forms agree and that the damped gain $\sigma/(\sigma^2+\lambda^2)$ stays below $1/(2\lambda)$.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson24_pseudoinverse_dls_svd.html" title="Pseudoinverse and Damped Least Squares via the SVD interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson24_pseudoinverse_dls_svd.html)
+
 *(The L21 SVD Bars demo shows $\sigma_{\min}$ shrinking; the gain $1/\sigma$ vs
 $\sigma/(\sigma^2+\lambda^2)$ is the story. Guided prediction here.)*
 

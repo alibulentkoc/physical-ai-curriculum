@@ -62,6 +62,11 @@ impossible (radial) tool direction, and $J^\top$ annihilates it. Two arms, two o
 subspaces, both read straight off the SVD.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson23_four_subspaces.html" title="The Four Fundamental Subspaces of the Jacobian interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson23_four_subspaces.html)
+
 *(The L21 SVD Bars demo distinguishes zero- from nonzero-gain directions. Guided
 prediction here.)*
 

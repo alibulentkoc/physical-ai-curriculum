@@ -68,6 +68,11 @@ direction. As the arm approaches straight, the collapsing velocity axis ($\sigma
 becomes a diverging force axis ($1/\sigma\to\infty$).
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson16_force_velocity_duality.html" title="Force and Velocity Duality: τ = JᵀF and the Force Ellipsoid interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson16_force_velocity_duality.html)
+
 *(The L17 flagship demo toggles the dual force ellipsoid alongside the velocity ellipsoid.
 Guided prediction here.)*
 

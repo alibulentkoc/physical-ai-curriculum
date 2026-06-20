@@ -84,6 +84,11 @@ fed to Newton's method — there a step generator, here the statement of how the
 moves.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson05_forward_velocity_jacobian.html" title="Forward Velocity Kinematics: Defining the Jacobian interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson05_forward_velocity_jacobian.html)
+
 *(The Installment A interactive demo — the **Jacobian Column Explorer**, Lesson 2.3 —
 lets you drag this arm and watch each column-push redraw live. Guided prediction for
 now.)*

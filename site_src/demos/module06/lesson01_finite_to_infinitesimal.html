@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Finite to Infinitesimal — Lesson 1.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .fin{color:#b91c1c;font-weight:700}.inf{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the point; shrink the angle θ.</b> The exact rotation moves it along an arc (<span class="fin">red chord</span>); the infinitesimal model moves it along the tangent θ×r (<span class="inf">teal</span>). As θ → 0 they merge — that's why differential rotation is a vector.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 270"></svg>
+  <div class="panel">
+    <label>rotation angle θ</label><input type="range" id="th" min="2" max="90" step="1" value="45">
+    <div class="readout" id="out"></div>
+    <div class="hint">A finite rotation is curved and order-dependent; the first-order piece θ×r is straight and additive. Velocity kinematics lives entirely in that linear approximation.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=270,CX=150,CY=150,SC=150;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var P=[0.6,0.25], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [CX+p[0]*SC, CY-p[1]*SC];}
+  function render(){
+    var th=+document.getElementById("th").value*Math.PI/180, r=Math.hypot(P[0],P[1]);
+    var c=Math.cos(th),s=Math.sin(th);
+    var Pf=[c*P[0]-s*P[1], s*P[0]+c*P[1]];      // finite rotated
+    var Pi=[P[0]-th*P[1], P[1]+th*P[0]];        // infinitesimal: P + theta*(-Py,Px)
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="r" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b91c1c"/></marker><marker id="g" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:r*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:6,fill:"#475569"}));
+    var p=sv(P),pf=sv(Pf),pi=sv(Pi);
+    svg.appendChild(el("line",{x1:CX,y1:CY,x2:p[0],y2:p[1],stroke:"#cbd5e1","stroke-width":1.5}));
+    // arc (finite path)
+    var arc="M "+p[0]+" "+p[1]+" A "+(r*SC)+" "+(r*SC)+" 0 0 1 "+pf[0]+" "+pf[1];
+    svg.appendChild(el("path",{d:arc,fill:"none",stroke:"#fca5a5","stroke-width":1.3,"stroke-dasharray":"3 2"}));
+    // finite chord
+    svg.appendChild(el("line",{x1:p[0],y1:p[1],x2:pf[0],y2:pf[1],stroke:"#b91c1c","stroke-width":2.4,"marker-end":"url(#r)"}));
+    // infinitesimal tangent
+    svg.appendChild(el("line",{x1:p[0],y1:p[1],x2:pi[0],y2:pi[1],stroke:"#0d9488","stroke-width":2.4,"marker-end":"url(#g)"}));
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:11,fill:"none",stroke:"#7c3aed","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:6,fill:"#7c3aed"}));
+    if(!hinted){var hh=el("text",{x:p[0]+12,y:p[1]-10,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab r";svg.appendChild(hh);}
+    var gap=Math.hypot(Pf[0]-Pi[0],Pf[1]-Pi[1]);
+    out.innerHTML='<div class="ln"><span>θ</span><span>'+Math.round(th*180/Math.PI)+'°</span></div>'+
+      '<div class="ln"><span class="fin">finite (arc)</span><span class="fin">exact</span></div>'+
+      '<div class="ln"><span class="inf">θ×r (tangent)</span><span class="inf">linear</span></div>'+
+      '<div class="ln"><span>gap between them</span><span>'+gap.toFixed(3)+'</span></div>';
+  }
+  function _ev(e){var r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),p=sv(P);if(Math.hypot(m[0]-p[0],m[1]-p[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);P[0]=(m[0]-CX)/SC;P[1]=(CY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  document.getElementById("th").addEventListener("input",render);
+  render();
+})();</script></body></html>

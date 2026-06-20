@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Four Fundamental Subspaces of the Jacobian — Lesson 6.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .seg{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+  .seg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer;text-align:left}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Pick an arm.</b> J maps joint-rate space (left) to task space (right). Each splits in two: <b>row space → column space</b> (the useful part), <b>null space → 0</b> (self-motion), and the <b>left null space</b> (task directions no joint rate can reach).</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <div class="seg">
+      <button id="b1" class="on">2R, full rank</button>
+      <button id="b2">2R, singular (straight)</button>
+      <button id="b3">3R, redundant</button>
+    </div>
+    <div class="hint">The pseudoinverse maps column space back to row space, kills the left null space, and adds nothing in the null space — which is why null-space motion is "free" for the task.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var cfgs={b1:{n:2,m:2,r:2,name:"2R full rank"},b2:{n:2,m:2,r:1,name:"2R singular"},b3:{n:3,m:2,r:2,name:"3R redundant"}};
+  var cur="b1";
+  function bar(x,y,total,parts){ // parts: [{dim,col,label}]
+    var H=150,unit=H/total,yy=y;
+    parts.forEach(function(p){var h=p.dim*unit;if(p.dim>0){svg.appendChild(el("rect",{x:x,y:yy,width:60,height:h-3,rx:5,fill:p.col,opacity:0.85}));var t=el("text",{x:x+30,y:yy+h/2+3,"font-size":9.5,fill:"#fff","text-anchor":"middle","font-weight":"700"});t.textContent=p.label+" "+p.dim;svg.appendChild(t);}yy+=h;});
+  }
+  function render(){
+    var c=cfgs[cur],r=c.r;svg.innerHTML="";
+    var inNull=c.n-r, outLeftNull=c.m-r;
+    var it=el("text",{x:60,y:24,"font-size":10,fill:"#475569","text-anchor":"middle","font-weight":"700"});it.textContent="joint-rate space (Rⁿ, n="+c.n+")";svg.appendChild(it);
+    var ot=el("text",{x:240,y:24,"font-size":10,fill:"#475569","text-anchor":"middle","font-weight":"700"});ot.textContent="task space (Rᵐ, m="+c.m+")";svg.appendChild(ot);
+    bar(30,40,c.n,[{dim:r,col:"#0d9488",label:"row sp"},{dim:inNull,col:"#7c3aed",label:"null sp"}]);
+    bar(210,40,c.m,[{dim:r,col:"#0d9488",label:"col sp"},{dim:outLeftNull,col:"#b91c1c",label:"L-null"}]);
+    // arrows
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("line",{x1:92,y1:75,x2:208,y2:75,stroke:"#0d9488","stroke-width":2,"marker-end":"url(#a)"}));
+    var al=el("text",{x:150,y:68,"font-size":9,fill:"#0d9488","text-anchor":"middle"});al.textContent="J (onto)";svg.appendChild(al);
+    if(inNull>0){var ny=40+ (r/c.n)*150 + (inNull/c.n)*75;svg.appendChild(el("line",{x1:92,y1:ny,x2:140,y2:200,stroke:"#7c3aed","stroke-width":1.6,"stroke-dasharray":"4 3"}));var z=el("text",{x:150,y:205,"font-size":9,fill:"#7c3aed"});z.textContent="→ 0 (self-motion)";svg.appendChild(z);}
+    if(outLeftNull>0){var lt=el("text",{x:240,y:210,"font-size":9,fill:"#b91c1c","text-anchor":"middle"});lt.textContent="unreachable directions";svg.appendChild(lt);}
+  }
+  ["b1","b2","b3"].forEach(function(id){document.getElementById(id).addEventListener("click",function(){cur=id;["b1","b2","b3"].forEach(function(o){document.getElementById(o).classList.toggle("on",o===id);});render();});});
+  render();
+})();</script></body></html>

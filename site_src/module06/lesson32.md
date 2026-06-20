@@ -85,6 +85,11 @@ it in the ellipsoid, then reach for the matrices that explain it. The velocity l
 that understanding becomes a usable component.
 
 ## 8. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson32_velocity_layer_for_m7.html" title="Capstone IV — The Velocity Layer for Module 7 interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson32_velocity_layer_for_m7.html)
+
 *(The L29 flagship demo is the velocity layer in action — analyzer + tracker behind one Play
 button. Use it to review the whole module: command motion, watch capability, hit a singularity,
 see damping keep it safe.)*

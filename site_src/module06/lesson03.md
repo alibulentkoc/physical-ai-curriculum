@@ -73,6 +73,11 @@ lever-arm term cancel. (This is the instantaneous center of rotation, a recurrin
 theme once we discuss singular and degenerate motions.)
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson03_the_twist.html" title="The Twist: Linear and Angular Velocity Together interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson03_the_twist.html)
+
 *(Embedded demo arrives in Lesson 2.3. Guided prediction here.)*
 
 **Predict, then check.** Body with $\mathbf{v}_O=(1,0,0)$, $\boldsymbol{\omega}=(0,0,2)$.

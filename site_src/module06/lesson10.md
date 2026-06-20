@@ -72,6 +72,11 @@ precision, and equivalently $J_\omega=B(\boldsymbol{\phi})J_\phi$. Then push pit
 toward $90^\circ$ and watch $\det B \to 0$.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson10_representation_map_gimbal.html" title="The Representation Map B(φ): Linking ω to Angle Rates interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson10_representation_map_gimbal.html)
+
 *(Guided prediction; flagship demos at L17/L21.)*
 
 **Predict, then check.**

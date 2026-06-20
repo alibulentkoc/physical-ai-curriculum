@@ -64,6 +64,11 @@ The notebook confirms $w=\sqrt{\det(J_vJ_v^\top)}=\sigma_1\sigma_2=|\det J_v|$ a
 vanishes at the straight pose.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson15_yoshikawa_measure.html" title="Putting a Number on It: The Yoshikawa Manipulability Measure interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson15_yoshikawa_measure.html)
+
 *(The ellipsoid's dynamic behavior is the L17 flagship demo. Guided prediction here.)*
 
 **Predict, then check.**

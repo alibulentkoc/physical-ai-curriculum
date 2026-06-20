@@ -72,6 +72,11 @@ shows $\lVert\dot{\mathbf{q}}\rVert = 1/\sigma_{\min}$ exactly, reaching tens of
 direction asked.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module06/lesson18_boundary_internal_blowup.html" title="Boundary vs Internal Singularities, and Joint-Rate Blow-Up interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module06/lesson18_boundary_internal_blowup.html)
+
 *(The L17 Ellipsoid Collapse demo shows the shrinking axis; reading $1/\sigma_{\min}$ off
 it gives the blow-up. Guided prediction here.)*
 
