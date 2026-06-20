@@ -1,0 +1,130 @@
+<div id="lex-root">
+<style>
+  #lex-root{--bg:#0f172a;--panel:#13203a;--ink:#e2e8f0;--muted:#94a3b8;--grid:#1e293b;
+    --vel:#38bdf8;--acc:#a78bfa;--ok:#34d399;--bad:#f87171;--limit:#64748b;--accent:#0d9488;--warn:#fbbf24;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+    background:var(--bg);border-radius:12px;padding:16px;max-width:780px;box-sizing:border-box}
+  #lex-root *{box-sizing:border-box}
+  #lex-root h3{margin:0 0 2px;font-size:16px;font-weight:650}
+  #lex-root .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px;line-height:1.5}
+  #lex-wrap{display:flex;gap:16px;flex-wrap:wrap}
+  #lex-canvas{background:var(--panel);border-radius:10px;flex:1 1 440px;min-width:300px;touch-action:none}
+  #lex-side{flex:1 1 230px;min-width:215px;display:flex;flex-direction:column;gap:12px}
+  #lex-root .ctl{display:flex;align-items:center;gap:8px;font-size:13px}
+  #lex-root .ctl label{width:120px;color:var(--muted)}
+  #lex-root input[type=range]{flex:1}
+  #lex-root .val{width:64px;text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #lex-root input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  #lex-root .readout{background:var(--panel);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.7;
+    font-family:ui-monospace,Menlo,Consolas,monospace}
+  #lex-root .verdict{font-weight:700;font-size:13.5px}
+  #lex-root .legend{font-size:12px;color:var(--muted);line-height:1.7}
+  #lex-root .swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:baseline}
+  #lex-note{font-size:12px;color:var(--warn);min-height:17px;font-weight:600}
+</style>
+
+  <h3>Velocity &amp; Acceleration Limit Explorer</h3>
+  <div class="sub">One rest-to-rest joint move, timed by a quintic. The two bars are the move's
+  <b>peak speed</b> and <b>peak acceleration</b>; the dashed lines are the hardware <b>limits</b>.
+  Drag the duration and the displacement — when a bar crosses its limit the move is
+  <b>infeasible</b> (the bar turns red). Shrinking the duration grows the peaks (speed ∝ 1/T, acceleration ∝ 1/T²).</div>
+
+  <div id="lex-wrap">
+    <canvas id="lex-canvas" width="460" height="360" role="img"
+      aria-label="Bar chart of peak speed and peak acceleration against their limit lines for the current move"></canvas>
+    <div id="lex-side">
+      <div class="ctl"><label for="lex-T">Duration T (s)</label>
+        <input id="lex-T" type="range" min="0.4" max="3.0" step="0.05" value="1.5"
+          aria-label="Move duration in seconds"><span class="val" id="lex-Tv"></span></div>
+      <div class="ctl"><label for="lex-D">Displacement Δq (rad)</label>
+        <input id="lex-D" type="range" min="0.2" max="2.5" step="0.05" value="1.2"
+          aria-label="Joint displacement in radians"><span class="val" id="lex-Dv"></span></div>
+      <div class="readout" id="lex-readout" aria-live="polite"></div>
+      <div class="legend">
+        <span class="swatch" style="background:var(--vel)"></span>peak speed &nbsp;
+        <span class="swatch" style="background:var(--acc)"></span>peak acceleration<br>
+        limits: v ≤ 1.0 rad/s, a ≤ 2.0 rad/s² (dashed).
+      </div>
+      <div id="lex-note"></div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var VLIM=1.0, ALIM=2.0;          // hardware limits (given numbers, not dynamics)
+  var T=1.5, D=1.2;
+  var cv=document.getElementById('lex-canvas'), ctx=cv.getContext('2d');
+  var sT=document.getElementById('lex-T'), sD=document.getElementById('lex-D');
+  var vT=document.getElementById('lex-Tv'), vD=document.getElementById('lex-Dv');
+  var rd=document.getElementById('lex-readout'), note=document.getElementById('lex-note');
+  var css=getComputedStyle(document.getElementById('lex-root'));
+  function c(n){return css.getPropertyValue(n).trim();}
+
+  function peaks(D,T){ return { v:15*D/(8*T), a:(10/Math.sqrt(3))*D/(T*T) }; }
+
+  function draw(){
+    var p=peaks(D,T);
+    var W=cv.width,H=cv.height;
+    ctx.clearRect(0,0,W,H);
+    // layout: two bar groups (speed, accel), each with its own scale so the limit line sits mid-height
+    var pad=46, top=54, bh=H-top-58;
+    var groups=[
+      {label:'peak speed', val:p.v, lim:VLIM, col:c('--vel'), unit:'rad/s', x:W*0.30},
+      {label:'peak accel', val:p.a, lim:ALIM, col:c('--acc'), unit:'rad/s²', x:W*0.70}
+    ];
+    ctx.textAlign='center';
+    ctx.fillStyle=c('--ink'); ctx.font='600 14px system-ui';
+    ctx.fillText('Peaks vs limits', W/2, 26);
+    groups.forEach(function(g){
+      // scale so the limit is at 55% of bar height (headroom to show overshoot)
+      var scale=(bh*0.55)/g.lim;
+      var barH=Math.min(g.val*scale, bh);
+      var over=g.val>g.lim+1e-9;
+      var bw=64, x=g.x-bw/2, baseY=top+bh;
+      // bar
+      ctx.fillStyle=over?c('--bad'):g.col;
+      ctx.fillRect(x, baseY-barH, bw, barH);
+      // limit line
+      var limY=baseY-g.lim*scale;
+      ctx.strokeStyle=c('--limit'); ctx.setLineDash([6,4]); ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(x-26,limY); ctx.lineTo(x+bw+26,limY); ctx.stroke();
+      ctx.setLineDash([]);
+      // labels
+      ctx.fillStyle=c('--muted'); ctx.font='12px system-ui';
+      ctx.fillText('limit '+g.lim.toFixed(1), g.x, limY-6);
+      ctx.fillStyle=c('--ink'); ctx.font='600 12.5px system-ui';
+      ctx.fillText(g.label, g.x, baseY+18);
+      ctx.fillStyle=over?c('--bad'):g.col; ctx.font='700 13px ui-monospace,monospace';
+      ctx.fillText(g.val.toFixed(2)+' '+g.unit, g.x, baseY-barH-9);
+    });
+    // baseline
+    ctx.strokeStyle=c('--grid'); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad,top+bh); ctx.lineTo(W-pad,top+bh); ctx.stroke();
+  }
+
+  function update(){
+    T=parseFloat(sT.value); D=parseFloat(sD.value);
+    vT.textContent=T.toFixed(2); vD.textContent=D.toFixed(2);
+    var p=peaks(D,T);
+    var vOver=p.v>VLIM+1e-9, aOver=p.a>ALIM+1e-9;
+    var feasible=!vOver&&!aOver;
+    // which limit binds the minimum feasible duration
+    var Tv=15*D/(8*VLIM), Ta=Math.sqrt((10/Math.sqrt(3))*D/ALIM);
+    var Tmin=Math.max(Tv,Ta), bind=(Tv>=Ta)?'velocity':'acceleration';
+    var verdict=feasible
+      ? '<span class="verdict" style="color:'+c('--ok')+'">✓ FEASIBLE</span>'
+      : '<span class="verdict" style="color:'+c('--bad')+'">✗ INFEASIBLE</span>';
+    rd.innerHTML=verdict+'<br>'
+      +'peak speed = '+p.v.toFixed(2)+' / '+VLIM.toFixed(1)+' rad/s '+(vOver?'✗':'✓')+'<br>'
+      +'peak accel = '+p.a.toFixed(2)+' / '+ALIM.toFixed(1)+' rad/s² '+(aOver?'✗':'✓')+'<br>'
+      +'min feasible T = '+Tmin.toFixed(2)+' s ('+bind+'-bound)';
+    note.textContent = feasible ? '' :
+      ('Too fast: slow down to T ≥ '+Tmin.toFixed(2)+' s ('+bind+' limit binds).');
+    draw();
+  }
+  sT.addEventListener('input',update);
+  sD.addEventListener('input',update);
+  update();
+})();
+</script>
+</div>

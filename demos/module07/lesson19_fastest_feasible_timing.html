@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Fastest Feasible Timing — Lesson 5.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The fastest move saturates the limits.</b> A trapezoidal profile accelerates at the limit, cruises at the velocity limit, then decelerates — touching both ceilings. Adjust the limits and watch the profile re-fit.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 240"></svg>
+  <div class="panel">
+    <label>velocity limit</label><input type="range" id="vl" min="0.5" max="2" step="0.1" value="1.2">
+    <label>acceleration limit</label><input type="range" id="al" min="1" max="8" step="0.5" value="4">
+    <div class="readout" id="out"></div>
+    <div class="hint">When the distance is too short to reach the velocity limit, the profile becomes triangular — accel straight into decel. Either way, the limits are saturated; that's what "fastest feasible" means.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=240,D=1.0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var vl=+document.getElementById("vl").value, al=+document.getElementById("al").value;
+    var dacc=vl*vl/(2*al), tri=2*dacc>D;
+    var ta,tc,T,vpeak;
+    if(tri){vpeak=Math.sqrt(D*al);ta=vpeak/al;tc=0;T=2*ta;}
+    else {vpeak=vl;ta=vl/al;var dcr=D-2*dacc;tc=dcr/vl;T=2*ta+tc;}
+    function v(t){if(t<ta)return al*t;if(t<ta+tc)return vpeak;return Math.max(0,vpeak-al*(t-ta-tc));}
+    function a(t){if(t<ta)return al;if(t<ta+tc)return 0;return -al;}
+    svg.innerHTML="";
+    function plot(y0,h,fn,lim,rng,col,label,signed){
+      svg.appendChild(el("rect",{x:30,y:y0,width:255,height:h,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+      var zy=signed?y0+h/2:y0+h,span=signed?h/2:h;
+      if(signed)svg.appendChild(el("line",{x1:30,y1:zy,x2:285,y2:zy,stroke:"#e2e8f0","stroke-width":1}));
+      var ly=zy-lim/rng*span;svg.appendChild(el("line",{x1:30,y1:ly,x2:285,y2:ly,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+      if(signed)svg.appendChild(el("line",{x1:30,y1:zy+lim/rng*span,x2:285,y2:zy+lim/rng*span,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+      var pts=[];for(var i=0;i<=80;i++){var t=i/80*T;var val=fn(t);var px=30+t/T*255;var py=zy-val/rng*span;pts.push(px.toFixed(1)+","+py.toFixed(1));}
+      svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":2}));
+      var lab=el("text",{x:34,y:y0+11,"font-size":9.5,fill:col,"font-weight":"700"});lab.textContent=label;svg.appendChild(lab);
+    }
+    plot(14,95,v,vl,vl*1.4,"#0d9488","velocity (saturates v-limit"+(tri?"? triangular":")"),false);
+    plot(124,95,a,al,al*1.3,"#7c3aed","acceleration (saturates a-limit)",true);
+    var tl=el("text",{x:30,y:232,"font-size":10,fill:"#94a3b8"});tl.textContent="time → (T="+T.toFixed(2)+"s)";svg.appendChild(tl);
+    out.innerHTML='<div>'+(tri?'<b>triangular</b> (never reaches v-limit)':'<b>trapezoidal</b>')+'</div>'+
+      '<div style="margin-top:4px">peak v = '+vpeak.toFixed(2)+'</div>'+
+      '<div>total time T = '+T.toFixed(2)+'s</div>';
+  }
+  ["vl","al"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

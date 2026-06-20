@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orientation Interpolation: SLERP — Lesson 4.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 260px;min-width:240px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .slerp{color:#0d9488;font-weight:700}.lerp{color:#b91c1c;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>SLERP vs naive LERP.</b> <span class="slerp">SLERP</span> rotates along the arc at constant rate, staying unit-length. <span class="lerp">Linear blend</span> of the two orientations cuts the chord — it shrinks below unit length and turns unevenly.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 260 240"></svg>
+  <div class="panel">
+    <label>orientation B</label><input type="range" id="b" min="-170" max="170" step="5" value="120">
+    <div class="readout" id="out"></div>
+    <div class="hint">For unit quaternions SLERP is the only interpolation that's both shortest-arc and constant-rate. The shrinking LERP vector would, after re-normalizing, still rotate unevenly — fast in the middle, slow at the ends.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=260,H=240,CX=130,CY=120,R=80,t=0,aA=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var aB=+document.getElementById("b").value*Math.PI/180;
+    var dA=aB-aA;while(dA>Math.PI)dA-=2*Math.PI;while(dA<-Math.PI)dA+=2*Math.PI; // shortest
+    var aS=aA+t*dA; // slerp angle
+    var sP=[Math.cos(aS),Math.sin(aS)];
+    var lP=[(1-t)*Math.cos(aA)+t*Math.cos(aB),(1-t)*Math.sin(aA)+t*Math.sin(aB)]; // lerp (un-normalized)
+    var lmag=Math.hypot(lP[0],lP[1]);
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="s" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker><marker id="l" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b91c1c"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:R,fill:"none",stroke:"#e2e8f0","stroke-width":1.4,"stroke-dasharray":"4 4"}));
+    // A and B markers
+    svg.appendChild(el("line",{x1:CX,y1:CY,x2:CX+R*Math.cos(aA),y2:CY-R*Math.sin(aA),stroke:"#94a3b8","stroke-width":2}));
+    var la=el("text",{x:CX+R*Math.cos(aA)+4,y:CY-R*Math.sin(aA),"font-size":10,fill:"#94a3b8"});la.textContent="A";svg.appendChild(la);
+    svg.appendChild(el("line",{x1:CX,y1:CY,x2:CX+R*Math.cos(aB),y2:CY-R*Math.sin(aB),stroke:"#94a3b8","stroke-width":2}));
+    var lb=el("text",{x:CX+R*Math.cos(aB)+4,y:CY-R*Math.sin(aB),"font-size":10,fill:"#94a3b8"});lb.textContent="B";svg.appendChild(lb);
+    // slerp arc
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:4,fill:"#475569"}));
+    svg.appendChild(el("line",{x1:CX,y1:CY,x2:CX+R*sP[0],y2:CY-R*sP[1],stroke:"#0d9488","stroke-width":3,"marker-end":"url(#s)"}));
+    // lerp vector
+    svg.appendChild(el("line",{x1:CX,y1:CY,x2:CX+R*lP[0],y2:CY-R*lP[1],stroke:"#b91c1c","stroke-width":2.4,"stroke-dasharray":"4 3","marker-end":"url(#l)"}));
+    out.innerHTML='<div class="slerp">SLERP |·| = 1.00 (on circle)</div>'+
+      '<div class="lerp">LERP |·| = '+lmag.toFixed(2)+(lmag<0.98?' (shrunk!)':'')+'</div>'+
+      '<div style="color:#64748b;margin-top:4px">turn angle = '+Math.round(Math.abs(dA)*180/Math.PI)+'° (short way)</div>';
+  }
+  function loop(){t+=0.006;if(t>1)t=0;render();requestAnimationFrame(loop);}
+  document.getElementById("b").addEventListener("input",render);
+  loop();
+})();</script></body></html>

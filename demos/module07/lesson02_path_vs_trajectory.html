@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Path vs Trajectory: Geometry versus Timing — Lesson 1.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Same path q(s) = 20° + 60°s, two clocks.</b> The geometry (where the joint goes) is identical; the <i>timing</i> s(t) differs. Constant-rate moves uniformly; eased starts and ends gently. Watch q(t).</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 270"></svg>
+  <div class="panel">
+    <div class="seg"><button id="const" class="on">constant s=t/T</button><button id="ease">eased</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">A <b>path</b> is a curve in space; a <b>trajectory</b> is that path plus a schedule. Re-timing the same path changes velocities and accelerations completely — which is where smoothness and feasibility live.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=270,mode="const",t=0,T=1;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var BX=70,BY=95,L=70;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sfn(tau,m){return m==="const"?tau:(3*tau*tau-2*tau*tau*tau);}
+  function render(){
+    var s=sfn(t,mode),q=(20+60*s)*Math.PI/180;
+    svg.innerHTML="";
+    // one-joint arm
+    var tip=[BX+L*Math.cos(q),BY-L*Math.sin(q)];
+    svg.appendChild(el("path",{d:"M "+(BX+L)+" "+BY+" A "+L+" "+L+" 0 0 0 "+(BX+L*Math.cos(80*Math.PI/180))+" "+(BY-L*Math.sin(80*Math.PI/180)),fill:"none",stroke:"#e2e8f0","stroke-width":2}));
+    svg.appendChild(el("line",{x1:BX,y1:BY,x2:tip[0],y2:tip[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:tip[0],cy:tip[1],r:5,fill:"#0d9488"}));
+    // q(t) plot for both laws
+    var x0=20,y0=150,w=260,h=90;
+    svg.appendChild(el("rect",{x:x0,y:y0,width:w,height:h,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    function curve(m,col,dash){var pts=[];for(var i=0;i<=60;i++){var tau=i/60;var qq=20+60*sfn(tau,m);var x=x0+tau*w;var y=y0+h-(qq-20)/60*h;pts.push(x.toFixed(1)+","+y.toFixed(1));}svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":m===mode?2.4:1.4,"stroke-dasharray":dash||"none",opacity:m===mode?1:0.4}));}
+    curve("const",mode==="const"?"#0d9488":"#cbd5e1");
+    curve("ease",mode==="ease"?"#0d9488":"#cbd5e1");
+    var qq=20+60*s,mx=x0+t*w,my=y0+h-(qq-20)/60*h;
+    svg.appendChild(el("circle",{cx:mx,cy:my,r:4,fill:"#ef4444"}));
+    var lab=el("text",{x:x0+4,y:y0+12,"font-size":10,fill:"#64748b"});lab.textContent="q(t)  — same endpoints, different curve";svg.appendChild(lab);
+    var tl=el("text",{x:x0,y:y0+h+14,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.innerHTML='<div><b>'+(mode==="const"?"Constant rate":"Eased (cubic)")+'</b></div>'+
+      '<div style="margin-top:4px">q = '+(qq).toFixed(0)+'°</div>'+
+      '<div style="color:#64748b;margin-top:4px">'+(mode==="const"?"uniform speed; abrupt at the ends":"zero speed at both ends; smooth")+'</div>';
+  }
+  function loop(){t+=0.007;if(t>1)t=0;render();requestAnimationFrame(loop);}
+  document.getElementById("const").addEventListener("click",function(){mode="const";this.classList.add("on");document.getElementById("ease").classList.remove("on");});
+  document.getElementById("ease").addEventListener("click",function(){mode="ease";this.classList.add("on");document.getElementById("const").classList.remove("on");});
+  loop();
+})();</script></body></html>

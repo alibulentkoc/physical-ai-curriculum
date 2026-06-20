@@ -1,0 +1,306 @@
+<div id="tsd-root">
+<style>
+  #tsd-root{--bg:#0f172a;--panel:#13203a;--ink:#e2e8f0;--muted:#94a3b8;--grid:#1e293b;
+    --plan:#0ea5e9;--param:#0d9488;--valid:#10b981;--exec:#8b5cf6;--obs:#fb7185;--arm:#e2e8f0;
+    --ok:#34d399;--bad:#f87171;--limit:#64748b;--accent:#0d9488;--warn:#fbbf24;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+    background:var(--bg);border-radius:12px;padding:16px;max-width:840px;box-sizing:border-box}
+  #tsd-root *{box-sizing:border-box}
+  #tsd-root h3{margin:0 0 2px;font-size:16px;font-weight:650}
+  #tsd-root .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px;line-height:1.5}
+  #tsd-wrap{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
+  #tsd-root canvas{background:var(--panel);border-radius:10px;touch-action:none}
+  #tsd-side{flex:1 1 220px;min-width:210px;display:flex;flex-direction:column;gap:10px}
+  #tsd-stages{display:flex;gap:6px;flex-wrap:wrap}
+  #tsd-root .stage{flex:1 1 0;min-width:64px;text-align:center;font-size:11px;padding:6px 4px;border-radius:7px;
+    background:#1e293b;border:1px solid #334155;color:var(--muted)}
+  #tsd-root .stage.active{color:var(--ink);font-weight:650}
+  #tsd-root .stage.done{border-color:currentColor}
+  #tsd-root .btns{display:flex;gap:6px;flex-wrap:wrap}
+  #tsd-root button{background:#1e293b;color:var(--ink);border:1px solid #334155;border-radius:7px;
+    padding:7px 10px;font-size:12px;cursor:pointer}
+  #tsd-root button:hover:not(:disabled){border-color:#64748b}
+  #tsd-root button:disabled{opacity:.4;cursor:not-allowed}
+  #tsd-root button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  #tsd-root .primary{background:var(--accent);border-color:var(--accent);font-weight:650}
+  #tsd-root .readout{background:var(--panel);border-radius:8px;padding:9px 11px;font-size:12px;line-height:1.6;
+    font-family:ui-monospace,Menlo,Consolas,monospace;min-height:96px}
+  #tsd-root .chk{display:flex;justify-content:space-between;font-size:11.5px}
+  #tsd-root .cap{font-size:11px;color:var(--muted);text-align:center;margin-top:3px}
+  #tsd-root .verdict{font-weight:700}
+</style>
+
+  <h3>Trajectory Studio — Plan → Parameterize → Validate → Execute</h3>
+  <div class="sub">The whole Module 7 workflow on the greenhouse arm. Drag the <b>obstacle</b>, the
+  <b>start</b> (green) or <b>goal</b> (black) tool point. Then run the pipeline:
+  <b>Plan</b> routes around the obstacle (RRT), <b>Parameterize</b> times it within the limits,
+  <b>Validate</b> runs the checklist, and <b>Execute</b> plays the validated reference and shows the
+  reference signal (q_d, q̇_d, q̈_d) that hands off to Module 8. <b>Module 7 produces the reference;
+  it does no feedback control.</b></div>
+
+  <div id="tsd-wrap">
+    <div>
+      <canvas id="tsd-work" width="340" height="300" role="img"
+        aria-label="Workspace: greenhouse two-link arm, draggable obstacle, start and goal tool points, and the planned path"></canvas>
+      <div class="cap">workspace — drag obstacle / start / goal</div>
+    </div>
+    <div>
+      <canvas id="tsd-sig" width="300" height="300" role="img"
+        aria-label="Reference signal: desired joint position, velocity, and acceleration over time, with limit lines"></canvas>
+      <div class="cap">reference signal q_d, q̇_d, q̈_d (Module 8 handoff)</div>
+    </div>
+    <div id="tsd-side">
+      <div id="tsd-stages">
+        <div class="stage" id="tsd-st-plan" style="color:var(--plan)">1 · Plan</div>
+        <div class="stage" id="tsd-st-param" style="color:var(--param)">2 · Param</div>
+        <div class="stage" id="tsd-st-valid" style="color:var(--valid)">3 · Validate</div>
+        <div class="stage" id="tsd-st-exec" style="color:var(--exec)">4 · Execute</div>
+      </div>
+      <div class="btns">
+        <button id="tsd-run" class="primary">▶ Run pipeline</button>
+        <button id="tsd-reset">Reset</button>
+      </div>
+      <div class="readout" id="tsd-readout" aria-live="polite">Set up the scene, then Run the pipeline.</div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var L1=0.4,L2=0.3,REACH=L1+L2;
+  var obs={x:0.5,y:0.05,r:0.06};
+  var startTool={x:0.45,y:0.25}, goalTool={x:0.45,y:-0.25};
+  var VLIM=2.0, ALIM=4.0;
+  var work=document.getElementById('tsd-work'), wx=work.getContext('2d');
+  var sig=document.getElementById('tsd-sig'), sg=sig.getContext('2d');
+  var rd=document.getElementById('tsd-readout');
+  var css=getComputedStyle(document.getElementById('tsd-root'));
+  function c(n){return css.getPropertyValue(n).trim();}
+  var state={path:null, way:null, segT:null, ref:null, Ttot:0, valid:null, anim:null, phase:0};
+
+  // ---------- geometry ----------
+  function ik(x,y,elbow){
+    var r2=x*x+y*y, c2=(r2-L1*L1-L2*L2)/(2*L1*L2);
+    if(c2<-1||c2>1) return null;
+    var s2=(elbow==='up'?1:-1)*Math.sqrt(Math.max(0,1-c2*c2));
+    var q2=Math.atan2(s2,c2);
+    var q1=Math.atan2(y,x)-Math.atan2(L2*Math.sin(q2),L1+L2*Math.cos(q2));
+    return [q1,q2];
+  }
+  function armPts(q){
+    var ex=L1*Math.cos(q[0]), ey=L1*Math.sin(q[0]);
+    var tx=ex+L2*Math.cos(q[0]+q[1]), ty=ey+L2*Math.sin(q[0]+q[1]);
+    return [[0,0],[ex,ey],[tx,ty]];
+  }
+  function segDist(ax,ay,bx,by,px,py){
+    var vx=bx-ax,vy=by-ay,L=vx*vx+vy*vy;
+    if(L<1e-12) return Math.hypot(px-ax,py-ay);
+    var u=Math.max(0,Math.min(1,((px-ax)*vx+(py-ay)*vy)/L));
+    return Math.hypot(px-(ax+u*vx),py-(ay+u*vy));
+  }
+  function hits(q){var p=armPts(q);
+    return segDist(p[0][0],p[0][1],p[1][0],p[1][1],obs.x,obs.y)<=obs.r ||
+           segDist(p[1][0],p[1][1],p[2][0],p[2][1],obs.x,obs.y)<=obs.r;}
+  function edgeFree(a,b){var n=Math.max(2,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/0.05));
+    for(var i=0;i<=n;i++){var u=i/n; if(hits([a[0]+u*(b[0]-a[0]),a[1]+u*(b[1]-a[1])])) return false;}
+    return true;}
+  function pathFree(p){for(var k=0;k<p.length-1;k++) if(!edgeFree(p[k],p[k+1])) return false; return true;}
+
+  // ---------- RRT ----------
+  function rrt(qs,qg){
+    var nodes=[qs],par=[-1],step=0.2;
+    for(var it=0;it<5000;it++){
+      var qr = (Math.random()<0.15)?qg:[-Math.PI+2*Math.PI*Math.random(),-Math.PI+2*Math.PI*Math.random()];
+      var bi=0,bd=1e9;
+      for(var i=0;i<nodes.length;i++){var d=Math.hypot(qr[0]-nodes[i][0],qr[1]-nodes[i][1]); if(d<bd){bd=d;bi=i;}}
+      var qn=nodes[bi],v=[qr[0]-qn[0],qr[1]-qn[1]],nv=Math.hypot(v[0],v[1]);
+      if(nv<1e-9) continue;
+      var qnew=[qn[0]+Math.min(step,nv)*v[0]/nv, qn[1]+Math.min(step,nv)*v[1]/nv];
+      if(!edgeFree(qn,qnew)) continue;
+      nodes.push(qnew); par.push(bi);
+      if(Math.hypot(qnew[0]-qg[0],qnew[1]-qg[1])<0.25 && edgeFree(qnew,qg)){
+        nodes.push(qg); par.push(nodes.length-2);
+        var path=[],k=nodes.length-1; while(k!==-1){path.push(nodes[k]); k=par[k];}
+        return path.reverse();
+      }
+    }
+    return null;
+  }
+  function smooth(path){
+    var p=path.slice();
+    for(var it=0;it<300;it++){
+      if(p.length<=2) break;
+      var i=Math.floor(Math.random()*(p.length-1)), j=i+2+Math.floor(Math.random()*(p.length-i-1));
+      if(j>=p.length||j-i<2) continue;
+      if(edgeFree(p[i],p[j])) p=p.slice(0,i+1).concat(p.slice(j));
+    }
+    return p;
+  }
+  // ---------- timing: rest-to-rest quintic per segment ----------
+  function feasDur(a,b){var T=0.001;
+    for(var j=0;j<2;j++){var dq=Math.abs(b[j]-a[j]);
+      var Tv=15*dq/(8*VLIM), Ta=Math.sqrt((10/Math.sqrt(3))*dq/ALIM); T=Math.max(T,Tv,Ta);}
+    return T;}
+  function quintic(q0,qf,T,t){var s=t/T, S=10*s*s*s-15*s*s*s*s+6*s*s*s*s*s;
+    var Sd=(30*s*s-60*s*s*s+30*s*s*s*s)/T, Sdd=(60*s-180*s*s+120*s*s*s)/(T*T);
+    return [q0+(qf-q0)*S,(qf-q0)*Sd,(qf-q0)*Sdd];}
+  function buildRef(way,segT){
+    var starts=[0]; for(var k=0;k<segT.length;k++) starts.push(starts[k]+segT[k]);
+    var Ttot=starts[starts.length-1];
+    function ref(t){t=Math.max(0,Math.min(t,Ttot));
+      var k=0; while(k<segT.length-1 && t>=starts[k+1]) k++;
+      var tau=t-starts[k], q=[],qd=[],qdd=[];
+      for(var j=0;j<2;j++){var r=quintic(way[k][j],way[k+1][j],segT[k],tau); q.push(r[0]);qd.push(r[1]);qdd.push(r[2]);}
+      return [q,qd,qdd];}
+    return [ref,Ttot];
+  }
+
+  // ---------- canvas mapping ----------
+  var W=work.width,H=work.height, ox=W*0.5, oy=H*0.55, sc=(Math.min(W,H)*0.42)/REACH;
+  function wp(x,y){return [ox+x*sc, oy-y*sc];}
+  function winv(px,py){return [(px-ox)/sc,(oy-py)/sc];}
+
+  function drawWork(curQ){
+    wx.clearRect(0,0,W,H);
+    wx.strokeStyle=c('--grid'); wx.lineWidth=1;
+    wx.beginPath(); wx.arc(ox,oy,REACH*sc,0,2*Math.PI); wx.stroke();
+    wx.beginPath(); wx.moveTo(0,oy);wx.lineTo(W,oy);wx.moveTo(ox,0);wx.lineTo(ox,H); wx.stroke();
+    // obstacle
+    var o=wp(obs.x,obs.y);
+    wx.fillStyle=c('--obs'); wx.beginPath(); wx.arc(o[0],o[1],obs.r*sc,0,2*Math.PI); wx.fill();
+    // planned path (tool trace) if present
+    if(state.way){
+      wx.strokeStyle=c('--plan'); wx.lineWidth=2; wx.beginPath();
+      for(var k=0;k<state.way.length;k++){var t=armPts(state.way[k])[2],pp=wp(t[0],t[1]); if(k===0)wx.moveTo(pp[0],pp[1]);else wx.lineTo(pp[0],pp[1]);}
+      wx.stroke();
+    }
+    // start/goal markers
+    var s=wp(startTool.x,startTool.y), g=wp(goalTool.x,goalTool.y);
+    wx.fillStyle=c('--ok'); wx.beginPath(); wx.arc(s[0],s[1],6,0,2*Math.PI); wx.fill();
+    wx.fillStyle=c('--ink'); wx.beginPath(); wx.arc(g[0],g[1],6,0,2*Math.PI); wx.fill();
+    // arm at current configuration
+    var q = curQ || ik(startTool.x,startTool.y,'up');
+    if(q){var p=armPts(q), b=wp(p[0][0],p[0][1]),e=wp(p[1][0],p[1][1]),t=wp(p[2][0],p[2][1]);
+      var col=hits(q)?c('--bad'):c('--arm');
+      wx.strokeStyle=col; wx.lineWidth=5; wx.lineCap='round';
+      wx.beginPath(); wx.moveTo(b[0],b[1]); wx.lineTo(e[0],e[1]); wx.lineTo(t[0],t[1]); wx.stroke();
+      wx.fillStyle=col; wx.beginPath(); wx.arc(t[0],t[1],4,0,2*Math.PI); wx.fill();
+    }
+  }
+
+  function drawSig(){
+    sg.clearRect(0,0,sig.width,sig.height);
+    sg.fillStyle=c('--panel'); sg.fillRect(0,0,sig.width,sig.height);
+    if(!state.ref){ sg.fillStyle=c('--muted'); sg.font='12px system-ui'; sg.textAlign='center';
+      sg.fillText('reference appears after Parameterize', sig.width/2, sig.height/2); return; }
+    var SW=sig.width, SH=sig.height, n=120, Tt=state.Ttot;
+    var rows=[{lab:'q̇_d (joint speed)',col:c('--param'),idx:1,lim:VLIM,sc:1},
+              {lab:'q̈_d (joint accel)',col:c('--exec'),idx:2,lim:ALIM,sc:1}];
+    var ph=SH/2;
+    rows.forEach(function(r,ri){
+      var y0=ri*ph, mid=y0+ph*0.62, amp=ph*0.42;
+      sg.strokeStyle=c('--grid'); sg.beginPath(); sg.moveTo(8,mid); sg.lineTo(SW-8,mid); sg.stroke();
+      // limit lines
+      sg.strokeStyle=c('--limit'); sg.setLineDash([4,3]);
+      sg.beginPath(); sg.moveTo(8,mid-amp); sg.lineTo(SW-8,mid-amp); sg.stroke();
+      sg.beginPath(); sg.moveTo(8,mid+amp); sg.lineTo(SW-8,mid+amp); sg.stroke(); sg.setLineDash([]);
+      // curve (max over joints, scaled to limit)
+      sg.strokeStyle=r.col; sg.lineWidth=2; sg.beginPath();
+      for(var i=0;i<=n;i++){var t=Tt*i/n, v=state.ref(t)[r.idx];
+        var val=Math.max(Math.abs(v[0]),Math.abs(v[1]));
+        var x=8+(SW-16)*i/n, yy=mid-amp*Math.min(val/r.lim,1.1);
+        if(i===0)sg.moveTo(x,yy);else sg.lineTo(x,yy);}
+      sg.stroke();
+      sg.fillStyle=c('--muted'); sg.font='11px system-ui'; sg.textAlign='left';
+      sg.fillText(r.lab, 10, y0+14);
+      sg.fillStyle=c('--limit'); sg.fillText('limit', SW-34, mid-amp-3);
+    });
+    // execute phase marker
+    if(state.phase>0){var x=8+(SW-16)*state.phase; sg.strokeStyle=c('--valid'); sg.lineWidth=1.5;
+      sg.beginPath(); sg.moveTo(x,4); sg.lineTo(x,SH-4); sg.stroke();}
+  }
+
+  function setStage(id,cls){var e=document.getElementById('tsd-st-'+id); e.className='stage '+(cls||'');}
+  function resetStages(){['plan','param','valid','exec'].forEach(function(s){setStage(s,'');});}
+
+  // ---------- pipeline ----------
+  var btnRun=document.getElementById('tsd-run'), btnReset=document.getElementById('tsd-reset');
+  function runPipeline(){
+    if(state.anim){cancelAnimationFrame(state.anim);state.anim=null;}
+    state={path:null,way:null,segT:null,ref:null,Ttot:0,valid:null,anim:null,phase:0};
+    resetStages(); drawSig(); drawWork();
+    var qs=ik(startTool.x,startTool.y,'up'), qg=ik(goalTool.x,goalTool.y,'up');
+    // PLAN
+    setStage('plan','active');
+    if(!qs||!qg||hits(qs)||hits(qg)){
+      rd.innerHTML='<span class="verdict" style="color:'+c('--bad')+'">PLAN failed</span><br>start or goal is unreachable or in collision. Move them clear of the obstacle.';
+      setStage('plan','done'); return;
+    }
+    var path=rrt(qs,qg);
+    if(!path){ rd.innerHTML='<span class="verdict" style="color:'+c('--bad')+'">PLAN failed</span><br>no collision-free path found (obstacle may enclose the goal). Move the obstacle.'; setStage('plan','done'); return; }
+    var way=smooth(path);
+    state.path=path; state.way=way; setStage('plan','done'); drawWork();
+    // PARAMETERIZE
+    setStage('param','active');
+    var segT=[]; for(var k=0;k<way.length-1;k++) segT.push(feasDur(way[k],way[k+1]));
+    var br=buildRef(way,segT); state.ref=br[0]; state.Ttot=br[1]; state.segT=segT;
+    setStage('param','done'); drawSig();
+    // VALIDATE
+    setStage('valid','active');
+    var n=150, okVel=true, okAcc=true, okCol=true, okReach=true, peakV=0, peakA=0;
+    for(var i=0;i<=n;i++){var t=state.Ttot*i/n, rr=state.ref(t), q=rr[0],qd=rr[1],qdd=rr[2];
+      peakV=Math.max(peakV,Math.abs(qd[0]),Math.abs(qd[1])); peakA=Math.max(peakA,Math.abs(qdd[0]),Math.abs(qdd[1]));
+      if(Math.max(Math.abs(qd[0]),Math.abs(qd[1]))>VLIM+1e-6) okVel=false;
+      if(Math.max(Math.abs(qdd[0]),Math.abs(qdd[1]))>ALIM+1e-6) okAcc=false;
+      if(hits(q)) okCol=false;
+      var tp=armPts(q)[2], rr2=Math.hypot(tp[0],tp[1]); if(rr2<L1-L2-1e-6||rr2>L1+L2+1e-6) okReach=false;}
+    var valid=okVel&&okAcc&&okCol&&okReach;
+    state.valid=valid;
+    function chk(ok,lab){return '<div class="chk"><span>'+lab+'</span><span style="color:'+(ok?c('--ok'):c('--bad'))+'">'+(ok?'✓':'✗')+'</span></div>';}
+    rd.innerHTML=chk(true,'endpoints / rest')+chk(okVel,'within velocity ('+peakV.toFixed(2)+'≤'+VLIM+')')
+      +chk(okAcc,'within acceleration ('+peakA.toFixed(2)+'≤'+ALIM+')')+chk(okCol,'collision-free')+chk(okReach,'reachable')
+      +'<div class="verdict" style="color:'+(valid?c('--ok'):c('--bad'))+';margin-top:4px">'+(valid?'VALID — cleared to execute':'INVALID — re-plan / re-time')+'</div>';
+    setStage('valid','done');
+    if(!valid){ return; }
+    // EXECUTE (open-loop playback of the validated reference)
+    setStage('exec','active');
+    var t0=performance.now(), dur=Math.min(state.Ttot,3.0);
+    function step(now){
+      var ph=Math.min((now-t0)/1000/dur,1); state.phase=ph;
+      var t=ph*state.Ttot, q=state.ref(t)[0];
+      drawWork(q); drawSig();
+      if(ph<1){ state.anim=requestAnimationFrame(step); }
+      else { setStage('exec','done');
+        rd.innerHTML+='<div style="color:'+c('--exec')+';margin-top:3px">Executed (open-loop). Reference (q_d,q̇_d,q̈_d) handed to Module 8. T='+state.Ttot.toFixed(2)+'s</div>'; }
+    }
+    state.anim=requestAnimationFrame(step);
+  }
+  btnRun.addEventListener('click',runPipeline);
+  btnReset.addEventListener('click',function(){
+    if(state.anim){cancelAnimationFrame(state.anim);state.anim=null;}
+    state={path:null,way:null,segT:null,ref:null,Ttot:0,valid:null,anim:null,phase:0};
+    resetStages(); rd.textContent='Set up the scene, then Run the pipeline.'; drawWork(); drawSig();
+  });
+
+  // ---------- dragging ----------
+  var drag=null;
+  function pos(ev){var r=work.getBoundingClientRect(),t=ev.touches?ev.touches[0]:ev; return winv(t.clientX-r.left,t.clientY-r.top);}
+  function near(m,p){return Math.hypot(m[0]-p.x,m[1]-p.y);}
+  function start(ev){var m=pos(ev);
+    if(near(m,obs)<obs.r+0.05) drag='obs';
+    else if(near(m,startTool)<0.06) drag='start';
+    else if(near(m,goalTool)<0.06) drag='goal';
+    if(drag) ev.preventDefault();}
+  function move(ev){ if(!drag)return; var m=pos(ev);
+    var rr=Math.hypot(m[0],m[1]);
+    if(drag==='obs'){ if(rr>REACH+0.05){m[0]*=(REACH+0.05)/rr;m[1]*=(REACH+0.05)/rr;} obs.x=m[0];obs.y=m[1]; }
+    else { if(rr>REACH-0.02){m[0]*=(REACH-0.02)/rr;m[1]*=(REACH-0.02)/rr;} if(rr<L1-L2+0.02){var f=(L1-L2+0.02)/Math.max(rr,1e-6);m[0]*=f;m[1]*=f;}
+      if(drag==='start'){startTool.x=m[0];startTool.y=m[1];} else {goalTool.x=m[0];goalTool.y=m[1];} }
+    state.way=null; state.ref=null; resetStages(); drawWork(); drawSig(); ev.preventDefault();}
+  function end(){drag=null;}
+  work.addEventListener('mousedown',start); work.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
+  work.addEventListener('touchstart',start,{passive:false}); work.addEventListener('touchmove',move,{passive:false}); work.addEventListener('touchend',end);
+
+  drawWork(); drawSig();
+})();
+</script>
+</div>

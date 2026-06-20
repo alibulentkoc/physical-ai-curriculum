@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trapezoidal vs S-Curve Velocity Profiles — Lesson 2.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Round the corners.</b> The trapezoidal profile is fast but its acceleration jumps (the velocity corners are sharp). The S-curve rounds those corners, so acceleration ramps smoothly and jerk stays finite.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <div class="seg"><button id="trap" class="on">trapezoidal</button><button id="scurve">S-curve</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">The S-curve trades a little peak speed for a gentler ride. The sharp accel steps in the trapezoid are exactly the jerk spikes that shake the arm and blur a camera mounted on it.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,mode="trap",tau=0,ta=0.3,vmax=1;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function vel(t,m){
+    if(t<ta){var u=t/ta;return m==="trap"?u*vmax:(3*u*u-2*u*u*u)*vmax;}
+    if(t>1-ta){var u2=(1-t)/ta;return m==="trap"?u2*vmax:(3*u2*u2-2*u2*u2*u2)*vmax;}
+    return vmax;
+  }
+  function acc(t,m){
+    if(t<ta){var u=t/ta;return m==="trap"?vmax/ta:(6*u-6*u*u)*vmax/ta;}
+    if(t>1-ta){var u2=(1-t)/ta;return m==="trap"?-vmax/ta:-(6*u2-6*u2*u2)*vmax/ta;}
+    return 0;
+  }
+  function plot(y0,h,fn,col,label,rng,zeroMid){
+    svg.appendChild(el("rect",{x:30,y:y0,width:255,height:h,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var zy=zeroMid?y0+h/2:y0+h,span=zeroMid?h/2:h;
+    if(zeroMid)svg.appendChild(el("line",{x1:30,y1:zy,x2:285,y2:zy,stroke:"#e2e8f0","stroke-width":1}));
+    var pts=[];for(var i=0;i<=80;i++){var t=i/80;var v=fn(t,mode);var px=30+t*255;var py=zy-v/rng*span;pts.push(px.toFixed(1)+","+py.toFixed(1));}
+    svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":2}));
+    var cv=fn(tau,mode),mx=30+tau*255,my=zy-cv/rng*span;
+    svg.appendChild(el("circle",{cx:mx,cy:my,r:3,fill:"#ef4444"}));
+    var lab=el("text",{x:34,y:y0+11,"font-size":9.5,fill:col,"font-weight":"700"});lab.textContent=label;svg.appendChild(lab);
+  }
+  function render(){
+    svg.innerHTML="";
+    plot(14,100,vel,"#0d9488","velocity v(t)",1.15,false);
+    plot(128,100,acc,"#7c3aed","acceleration a(t)",vmax/ta*1.3,true);
+    var tl=el("text",{x:30,y:240,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.innerHTML='<div><b>'+(mode==="trap"?"Trapezoidal":"S-curve")+'</b></div>'+
+      (mode==="trap"?'<div style="color:#b91c1c;margin-top:4px">acceleration steps → jerk spikes at the corners</div>':'<div style="color:#15803d;margin-top:4px">acceleration ramps smoothly → bounded jerk</div>');
+  }
+  function loop(){tau+=0.006;if(tau>1)tau=0;render();requestAnimationFrame(loop);}
+  document.getElementById("trap").addEventListener("click",function(){mode="trap";this.classList.add("on");document.getElementById("scurve").classList.remove("on");});
+  document.getElementById("scurve").addEventListener("click",function(){mode="scurve";this.classList.add("on");document.getElementById("trap").classList.remove("on");});
+  loop();
+})();</script></body></html>

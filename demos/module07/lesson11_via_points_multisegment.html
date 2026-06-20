@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Via-Points and Multi-Segment Joint Trajectories — Lesson 3.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Stutter vs glide through a via-point.</b> Stop-at-each brings the speed to zero at the via (jerky pauses); gliding keeps a non-zero velocity through it for one smooth motion.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <div class="seg"><button id="stop" class="on">stop at each</button><button id="glide">glide</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">A via-point is a waypoint the path should pass near, not necessarily halt at. Gliding keeps cycle time low and motion smooth; stopping is only needed when the task truly requires it.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,mode="stop",tau=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var P=[[40,180],[140,70],[240,180]]; // start, via, goal (screen coords)
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function quintic(x){return 10*x*x*x-15*x*x*x*x+6*x*x*x*x*x;}
+  function posAt(t){
+    if(mode==="stop"){ // two quintic segments, stop at via
+      if(t<0.5){var u=quintic(t/0.5);return [P[0][0]+(P[1][0]-P[0][0])*u, P[0][1]+(P[1][1]-P[0][1])*u];}
+      var u2=quintic((t-0.5)/0.5);return [P[1][0]+(P[2][0]-P[1][0])*u2, P[1][1]+(P[2][1]-P[1][1])*u2];
+    }
+    // glide: quadratic bezier through via (approx, nonzero vel at via)
+    var u=quintic(t),mt=1-u;
+    return [mt*mt*P[0][0]+2*mt*u*P[1][0]+u*u*P[2][0], mt*mt*P[0][1]+2*mt*u*P[1][1]+u*u*P[2][1]];
+  }
+  function speedAt(t){var d=0.005,a=posAt(Math.max(0,t-d)),b=posAt(Math.min(1,t+d));return Math.hypot(b[0]-a[0],b[1]-a[1])/(2*d);}
+  function render(){
+    svg.innerHTML="";
+    // full path
+    var pp=[];for(var i=0;i<=80;i++){var q=posAt(i/80);pp.push(q[0].toFixed(1)+","+q[1].toFixed(1));}
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:"#fcd34d","stroke-width":2}));
+    P.forEach(function(p,i){svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:5,fill:i===1?"#7c3aed":"#94a3b8"}));});
+    var vl=el("text",{x:P[1][0]-8,y:P[1][1]-10,"font-size":9,fill:"#7c3aed"});vl.textContent="via";svg.appendChild(vl);
+    var c=posAt(tau);svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:7,fill:"#0d9488"}));
+    // speed plot
+    svg.appendChild(el("rect",{x:30,y:200,width:220,height:42,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var sp=[];var maxv=0;for(var j=0;j<=80;j++){maxv=Math.max(maxv,speedAt(j/80));}
+    for(var k=0;k<=80;k++){var t=k/80;var v=speedAt(t);sp.push((30+t*220).toFixed(1)+","+(242-v/maxv*38).toFixed(1));}
+    svg.appendChild(el("polyline",{points:sp.join(" "),fill:"none",stroke:"#0d9488","stroke-width":1.8}));
+    var mvx=30+tau*220,mvy=242-speedAt(tau)/maxv*38;svg.appendChild(el("circle",{cx:mvx,cy:mvy,r:3,fill:"#ef4444"}));
+    var sl=el("text",{x:34,y:212,"font-size":9,fill:"#64748b"});sl.textContent="speed |v| vs time";svg.appendChild(sl);
+    out.innerHTML='<div><b>'+(mode==="stop"?"Stop at each":"Glide")+'</b></div>'+
+      (mode==="stop"?'<div style="color:#b91c1c;margin-top:4px">speed dips to 0 at the via — a pause</div>':'<div style="color:#15803d;margin-top:4px">speed stays up through the via — smooth</div>');
+  }
+  function loop(){tau+=0.005;if(tau>1)tau=0;render();requestAnimationFrame(loop);}
+  document.getElementById("stop").addEventListener("click",function(){mode="stop";this.classList.add("on");document.getElementById("glide").classList.remove("on");});
+  document.getElementById("glide").addEventListener("click",function(){mode="glide";this.classList.add("on");document.getElementById("stop").classList.remove("on");});
+  loop();
+})();</script></body></html>

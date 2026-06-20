@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Makes a Trajectory Good? Quality Metrics — Lesson 7.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .metric{margin:7px 0;font-size:11.5px}
+  .metric .lab{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+  .pair{display:flex;gap:4px;height:13px;margin-top:2px}
+  .qu{background:#0d9488;border-radius:3px}.tr{background:#7c3aed;border-radius:3px}
+  .win{font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Two feasible trajectories, same goal.</b> A <span style="color:#0d9488">smooth quintic</span> vs a <span style="color:#7c3aed">faster trapezoid</span>. No single winner — lower time trades against higher jerk. The "best" depends on what the task values.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 200"></svg>
+  <div class="panel" id="panel"></div>
+</div>
+  <div class="hint" style="max-width:680px;margin:6px auto 0;padding:0 8px">Quality metrics turn "good" into numbers: duration, peak jerk, smoothness (RMS jerk), effort. A scheduler ranks candidates by a weighted blend matched to the job — speed for transit, smoothness for delicate fruit.</div>
+</div>
+<script>(function(){
+  var W=280,H=200;
+  var svg=document.getElementById("svg"),panel=document.getElementById("panel"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  // quintic: T=1.4; trapezoid: T=1.0 with sharp accel
+  function quinticV(t){var x=t/1.4;return (30*x*x-60*x*x*x+30*x*x*x*x)/1.4;}
+  function trapV(t){var T=1.0,ta=0.25;if(t<ta)return t/ta*1.5;if(t<T-ta)return 1.5;if(t<T)return (T-t)/ta*1.5;return 0;}
+  function render(){
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:230,height:150,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    function curve(fn,Tmax,col){var pts=[];for(var i=0;i<=70;i++){var t=i/70*Tmax;var v=fn(t);pts.push((30+t/1.4*230).toFixed(1)+","+(164-v/2.5*150).toFixed(1));}svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":2.2}));}
+    curve(quinticV,1.4,"#0d9488");curve(trapV,1.0,"#7c3aed");
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="velocity v(t)";svg.appendChild(lab);
+    var l1=el("text",{x:200,y:30,"font-size":9,fill:"#0d9488"});l1.textContent="quintic";svg.appendChild(l1);
+    var l2=el("text",{x:200,y:43,"font-size":9,fill:"#7c3aed"});l2.textContent="trapezoid";svg.appendChild(l2);
+    var tl=el("text",{x:30,y:182,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    // metrics: [label, quintic, trap, lowerBetter]
+    var M=[["duration (s)",1.40,1.00,true],["peak jerk",80,250,true],["smoothness (RMS jerk)",46,120,true],["peak velocity",1.07,1.50,false]];
+    panel.innerHTML=M.map(function(m){
+      var max=Math.max(m[1],m[2]);var qw=m[1]/max*100,tw=m[2]/max*100;
+      var quWin=m[3]?m[1]<m[2]:m[1]>m[2];
+      return '<div class="metric"><div class="lab"><span>'+m[0]+'</span><span><span class="'+(quWin?"win":"")+'" style="color:#0d9488">'+m[1]+'</span> / <span class="'+(!quWin?"win":"")+'" style="color:#7c3aed">'+m[2]+'</span></span></div>'+
+        '<div class="pair"><div class="qu" style="width:'+(qw*0.5)+'%"></div><div class="tr" style="width:'+(tw*0.5)+'%"></div></div></div>';
+    }).join("")+'<div style="font-size:11px;color:#64748b;margin-top:6px">quintic wins smoothness; trapezoid wins time.</div>';
+  }
+  render();
+})();</script></body></html>

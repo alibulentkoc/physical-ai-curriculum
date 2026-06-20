@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feasibility Across the Whole Trajectory — Lesson 5.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 250px;min-width:240px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .gate{display:flex;align-items:center;gap:8px;padding:6px 9px;border:1px solid var(--line);border-radius:8px;margin:5px 0;font-size:12px;background:#fff}
+  .dot{width:10px;height:10px;border-radius:50%;flex:none}.pass{background:#22c55e}.fail{background:#ef4444}
+  .reason{font-size:11px;color:#b91c1c;margin-left:auto;font-weight:600}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Run the gauntlet.</b> A trajectory is feasible only if it passes <i>every</i> check at <i>every</i> sample: reachable endpoints, velocity limit, acceleration limit, and staying inside the workspace. Push the sliders to trip them.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 250 230"></svg>
+  <div class="panel">
+    <label>move speed</label><input type="range" id="spd" min="0.4" max="2.5" step="0.05" value="1.0">
+    <label>goal distance</label><input type="range" id="dist" min="0.8" max="2.3" step="0.05" value="1.4">
+    <div id="gates"></div>
+    <div class="hint">Dense sampling is the honest test: a profile can satisfy limits on average yet violate them at one instant. Every gate must hold pointwise across the whole motion.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=250,H=230,BX=125,BY=140,SC=44,REACH=2.0,INNER=0.05;
+  var svg=document.getElementById("svg"),gates=document.getElementById("gates"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function render(){
+    var spd=+document.getElementById("spd").value, dist=+document.getElementById("dist").value;
+    var ps=[0.6,0.5], pg=[dist*Math.cos(0.5), dist*Math.sin(0.5)];
+    var rs=Math.hypot(ps[0],ps[1]), rg=Math.hypot(pg[0],pg[1]);
+    var reachable = rg<=REACH && rs<=REACH;
+    var vpeak=1.5*spd, apeak=6*spd*spd, VLIM=2.2, ALIM=9;
+    var velOK=vpeak<=VLIM, accOK=apeak<=ALIM;
+    // workspace: check max radius along straight path
+    var maxr=0;for(var i=0;i<=20;i++){var f=i/20;var p=[ps[0]+(pg[0]-ps[0])*f,ps[1]+(pg[1]-ps[1])*f];maxr=Math.max(maxr,Math.hypot(p[0],p[1]));}
+    var wsOK=maxr<=REACH;
+    var G=[["Reachable endpoints",reachable,reachable?"":"goal out of reach"],
+           ["Velocity limit",velOK,velOK?"":"v "+vpeak.toFixed(1)+">"+VLIM],
+           ["Acceleration limit",accOK,accOK?"":"a "+apeak.toFixed(1)+">"+ALIM],
+           ["Inside workspace",wsOK,wsOK?"":"path exits workspace"]];
+    gates.innerHTML=G.map(function(g){return '<div class="gate"><span class="dot '+(g[1]?"pass":"fail")+'"></span><span>'+g[0]+'</span>'+(!g[1]&&g[2]?'<span class="reason">'+g[2]+'</span>':'')+'</div>';}).join("");
+    var allOK=G.every(function(g){return g[1];});
+    svg.innerHTML="";
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:REACH*SC,fill:"none",stroke:"#fca5a5","stroke-width":1.4,"stroke-dasharray":"4 3"}));
+    var a=sv(ps),b=sv(pg);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:wsOK&&reachable?"#0d9488":"#b91c1c","stroke-width":2.4}));
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:6,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:4,fill:"#94a3b8"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:reachable?"#0d9488":"#b91c1c"}));
+    var st=el("text",{x:BX,y:H-8,"font-size":11,fill:allOK?"#15803d":"#b91c1c","text-anchor":"middle","font-weight":"700"});st.textContent=allOK?"✓ feasible":"✗ infeasible";svg.appendChild(st);
+  }
+  ["spd","dist"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>
