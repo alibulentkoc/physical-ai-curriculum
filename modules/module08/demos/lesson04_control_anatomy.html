@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anatomy of a Control System — Lesson 1.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Name the blocks; change one at a time.</b> Reference sets the goal, the controller computes the correction, the plant is the joint, and feedback returns the measured position. Each slider moves a different block.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>reference target</label><input type="range" id="ref" min="0.4" max="1.4" step="0.05" value="1.0">
+    <label>plant load</label><input type="range" id="load" min="0" max="1.2" step="0.05" value="0.2">
+    <label>controller gain</label><input type="range" id="gain" min="3" max="30" step="1" value="12">
+    <div class="readout" id="out"></div>
+  </div>
+</div>
+  <div class="hint" style="max-width:680px;margin:6px auto 0;padding:0 8px">Reference governs <i>where</i> it goes; gain governs <i>how hard</i> it corrects; load governs <i>how much</i> it must fight. The feedback path is what ties them together into a loop.</div>
+</div>
+<script>(function(){
+  var W=300,H=250;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var ref=+document.getElementById("ref").value,load=+document.getElementById("load").value,gain=+document.getElementById("gain").value;
+    // sim
+    var dt=0.01,T=3,q=0,v=0,b=3,qs=[];
+    for(var t=0;t<=T;t+=dt){var u=gain*(ref-q)-b*v;var a=u-load;v+=a*dt;q+=v*dt;qs.push([t,q]);}
+    var ss=ref-qs[qs.length-1][1];
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>';svg.appendChild(defs);
+    // block diagram
+    var blocks=[["Reference","#0d9488",18,40],["Controller","#7c3aed",110,40],["Plant","#b91c1c",205,40]];
+    blocks.forEach(function(bl){svg.appendChild(el("rect",{x:bl[2],y:bl[3],width:70,height:34,rx:7,fill:"#fff",stroke:bl[1],"stroke-width":1.6}));var t=el("text",{x:bl[2]+35,y:bl[3]+21,"font-size":10,fill:bl[1],"text-anchor":"middle","font-weight":"700"});t.textContent=bl[0];svg.appendChild(t);});
+    // sum junction
+    svg.appendChild(el("circle",{cx:92,cy:57,r:7,fill:"#fff",stroke:"#475569","stroke-width":1.4}));
+    var pt=el("text",{x:92,y:60,"font-size":9,fill:"#475569","text-anchor":"middle"});pt.textContent="−";svg.appendChild(pt);
+    svg.appendChild(el("line",{x1:88,y1:57,x2:110,y2:57,stroke:"#94a3b8","stroke-width":1.4,"marker-end":"url(#a)"}));
+    svg.appendChild(el("line",{x1:180,y1:57,x2:205,y2:57,stroke:"#94a3b8","stroke-width":1.4,"marker-end":"url(#a)"}));
+    svg.appendChild(el("line",{x1:275,y1:57,x2:290,y2:57,stroke:"#94a3b8","stroke-width":1.4}));
+    // feedback path
+    svg.appendChild(el("path",{d:"M 290 57 L 290 95 L 92 95 L 92 64",fill:"none",stroke:"#94a3b8","stroke-width":1.4,"marker-end":"url(#a)"}));
+    var fl=el("text",{x:150,y:107,"font-size":9,fill:"#94a3b8","text-anchor":"middle"});fl.textContent="feedback (measured q)";svg.appendChild(fl);
+    // response plot
+    svg.appendChild(el("rect",{x:30,y:120,width:255,height:100,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=220-ref/1.5*100;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var pp=qs.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(220-p[1]/1.5*100).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:"#0d9488","stroke-width":2}));
+    var lab=el("text",{x:34,y:132,"font-size":9,fill:"#64748b"});lab.textContent="response";svg.appendChild(lab);
+    out.innerHTML='<div>target '+ref.toFixed(2)+' · load '+load.toFixed(2)+' · gain '+gain+'</div>'+
+      '<div style="color:#7c3aed;margin-top:4px">steady error ≈ '+ss.toFixed(3)+'</div>';
+  }
+  ["ref","load","gain"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tuning a Controller: A Practical Workflow — Lesson 3.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin:8px 0;cursor:pointer}
+  .step{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Tune it yourself.</b> Raise Kp until the response just starts to oscillate (the edge), then back off a little. Add integral last to erase the residual offset. Watch offset shrink and overshoot appear as you go.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 200"></svg>
+  <div class="panel">
+    <label>proportional gain Kp</label><input type="range" id="kp" min="4" max="50" step="1" value="8">
+    <label class="tog"><input type="checkbox" id="ki"> add integral (final step)</label>
+    <div class="step" id="out"></div>
+    <div class="hint">Workflow: P first for speed, find the oscillation edge, back off for margin, then integral for accuracy. Derivative can be added to damp any remaining overshoot.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=200,LOAD=0.4;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sim(Kp,Ki){var dt=0.004,T=5,q=0,v=0,u=0,I=0,b=4,tau=0.06,ref=1,tr=[];for(var t=0;t<=T;t+=dt){var e=ref-q;I+=e*dt;u+=((Kp*e+Ki*I)-u)*dt/tau;var a=u-LOAD-b*v;v+=a*dt;q+=v*dt;tr.push([t,Math.max(-0.3,Math.min(2,q))]);}return tr;}
+  function render(){
+    var kp=+document.getElementById("kp").value,ki=document.getElementById("ki").checked?5:0,tr=sim(kp,ki),T=5,ref=1;
+    var peak=0;tr.forEach(function(p){peak=Math.max(peak,p[1]);});var ov=peak>ref?(peak-ref)/ref*100:0,off=ref-tr[tr.length-1][1];
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:150,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=164-1/1.6*150;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var pp=tr.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(164-p[1]/1.6*150).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:"#0d9488","stroke-width":2.2}));
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    var tl=el("text",{x:30,y:180,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    var zone,zc;
+    if(kp<10){zone="① too soft — big offset, slow. Raise Kp.";zc="#7c3aed";}
+    else if(ov>40){zone="③ past the edge — ringing. Back off Kp.";zc="#b91c1c";}
+    else if(ov>8){zone="② near the edge — snappy. Back off slightly.";zc="#d97706";}
+    else {zone="✓ good Kp — clean response.";zc="#15803d";}
+    if(ki>0 && Math.abs(off)<0.02) zone+=" Integral erased the offset.";
+    out.innerHTML='<div style="color:'+zc+';font-weight:700">'+zone+'</div>'+
+      '<div style="margin-top:6px;font-variant-numeric:tabular-nums">offset '+off.toFixed(3)+' · overshoot '+ov.toFixed(0)+'%</div>';
+  }
+  document.getElementById("kp").addEventListener("input",render);
+  document.getElementById("ki").addEventListener("change",render);
+  render();
+})();</script></body></html>

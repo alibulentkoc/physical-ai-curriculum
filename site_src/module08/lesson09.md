@@ -50,6 +50,11 @@ Drive a joint $0\to 1$ rad with rising controller strength and watch the behavio
 Same joint, same target, five completely different fates — set entirely by corrective strength (and loop delay). The notebook reproduces all five and asks you to *label* each from its curve before revealing the gains.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson09_correction_spectrum.html" title="When Correction Goes Wrong: From Too Weak to Runaway interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson09_correction_spectrum.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Walk the spectrum.** In the notebook you:

@@ -46,6 +46,11 @@ One in, one out.
 - The notebook asserts one command per state and that the node closes the loop and tracks.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson30_tracker_node.html" title="A Lightweight ROS 2 Tracker Node interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson30_tracker_node.html)
+
 *(The flagship demo is L29 Closed-Loop Tracking Studio; this lesson is conceptual + notebook.)*
 
 **The node-contract test.** In the notebook you:

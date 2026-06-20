@@ -48,6 +48,11 @@ A periodic loop tracking a move.
 - The notebook asserts the periodic loop is stable, tracks with small RMS, and ran as a periodic task (one update per period).
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson26_periodic_loop.html" title="The Periodic Control Loop: Running at a Fixed Rate interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson26_periodic_loop.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The periodic-loop test.** In the notebook you:

@@ -51,6 +51,11 @@ Track a step with proportional control and measure the offset.
 - **Verdict:** proportional control tracks well and tightens with gain, but always leaves $\ell/K_p$ of offset under load, and gain alone can't safely erase it. The notebook sweeps $K_p$, plots the responses, and confirms $e_{ss} \approx \ell/K_p$ at each gain.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson05_proportional_control.html" title="Proportional Control: Correction Proportional to Error interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson05_proportional_control.html)
+
 *(Conceptual — runnable in the companion notebook; the L07 PID Playground makes it interactive.)*
 
 **Sweep the gain.** In the notebook you:

@@ -53,6 +53,11 @@ Read the error of a real tracking run.
 - **Reading it:** the error signal tells the whole story — big and positive early (push hard), shrinking (ease off), then stuck at a small positive value (the offset P can't fix). The notebook plots $e(t)$, marks the transient and steady-state regions, and reports $e_{ss}$ from `step_response_metrics`.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson02_tracking_error.html" title="Tracking Error: The Quantity Control Fights interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson02_tracking_error.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Watch the error.** In the notebook you:

@@ -48,6 +48,11 @@ The required comparison, on one trajectory.
 - **Reading it:** identical trajectory, identical gains, one change (turn feedforward on) → several times tighter tracking. The notebook computes both RMS values and asserts the combined controller is at least ~3× better.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson15_feedforward_feedback.html" title="Feedforward + Feedback Together interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson15_feedforward_feedback.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The head-to-head.** In the notebook you:

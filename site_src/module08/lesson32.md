@@ -48,6 +48,11 @@ The arm, end to end.
 - The notebook asserts the arm tracks (small RMS), feedback rejects the disturbance (final error near zero), and feedforward-only cannot (large permanent error).
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson32_greenhouse_tracking_capstone.html" title="Capstone: The Greenhouse Arm Tracks Its Trajectory interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson32_greenhouse_tracking_capstone.html)
+
 *(The flagship demo is L29 Closed-Loop Tracking Studio — re-open it here and run the full loop on the arm: scrub the reference, toggle feedback, inject a disturbance, and watch the arm track and recover.)*
 
 **The capstone run.** In the notebook you:

@@ -49,6 +49,11 @@ Measure the shape of a tuned step ($0\to1$ rad, load $\ell=2$, $K_p=30,\ K_i=20,
 Now compare an **aggressive** retune ($K_p=140,\ K_d=3$): rise time drops to ~0.07 s (much faster) but overshoot jumps to ~50% and settling lengthens — you bought speed with a worse shape. And a **timid** one ($K_p=5$): no overshoot, but a 0.4 rad steady-state offset and it never really settles. The four numbers make the trade explicit. The notebook computes all four for each and confirms the speed-vs-overshoot tension.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson10_response_shape.html" title="The Shape of a Response: Rise, Overshoot, and Settling interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson10_response_shape.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Read the shape.** In the notebook you:

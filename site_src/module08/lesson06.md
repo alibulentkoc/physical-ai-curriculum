@@ -48,6 +48,11 @@ Erase the proportional offset, then provoke and fix windup.
 - **Verdict:** integral erases the offset proportional couldn't, at the cost of some overshoot and the need for anti-windup. The notebook shows the offset → 0, then a windup overshoot, then the clamp taming it.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson06_integral_control.html" title="Integral Control: Erasing Steady-State Error interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson06_integral_control.html)
+
 *(Conceptual — runnable in the companion notebook; the L07 PID Playground makes it interactive.)*
 
 **Add integral.** In the notebook you:

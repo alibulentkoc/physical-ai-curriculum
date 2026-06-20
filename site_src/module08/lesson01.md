@@ -52,6 +52,11 @@ Track a reference move on the simulated joint, open-loop, and watch it fail.
 - **Verdict:** identical command, opposite outcome — the difference is the real world's resistance, and open-loop has no way to answer it. The notebook runs both and contrasts the RMS tracking error (≈0 ideal vs large real), making the reference-vs-reality gap concrete.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson01_open_loop_gap.html" title="Why Open-Loop Isn't Enough: The Reference-vs-Reality Gap interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson01_open_loop_gap.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Feel the gap.** In the notebook you:

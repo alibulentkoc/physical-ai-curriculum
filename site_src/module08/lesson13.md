@@ -44,6 +44,11 @@ Track a fast two-joint move with feedback only.
 - **Verdict:** feedback alone tracks moving references with a speed-dependent following error that gains can reduce but not eliminate. The notebook measures the RMS and shows the gap swelling at peak $\dot q_d$.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson13_trajectory_tracking.html" title="From One Joint to Many: Tracking a Trajectory with Feedback interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson13_trajectory_tracking.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Watch the lag.** In the notebook you:

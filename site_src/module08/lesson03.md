@@ -49,6 +49,11 @@ Close the loop on the joint that drifted in Lesson 1.1.
 - **Disturbance test:** mid-run, inject a sudden push (a branch). Open-loop would absorb it permanently; the closed loop sees the error spike and pushes back, recovering toward the reference. The notebook runs open-loop and closed-loop side by side, then adds a disturbance, showing the loop's rejection.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson03_feedback_loop.html" title="The Feedback Loop: Sense → Compare → Correct → Actuate interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson03_feedback_loop.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Close the loop.** In the notebook you:

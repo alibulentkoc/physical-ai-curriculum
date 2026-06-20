@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Lightweight ROS 2 Tracker Node — Lesson 8.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.6;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The tracker node, one cycle at a time.</b> Each cycle it subscribes to a state, computes a command, and publishes it — exactly one command per state. The counters stay locked together: a clean node contract.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 200"></svg>
+  <div class="panel">
+    <div class="readout" id="out"></div>
+    <div class="hint">A control node is just the control law wrapped in subscribe-compute-publish. Keeping it one-in-one-out makes the loop predictable and the timing easy to reason about.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=200,t=0,recv=0,pub=0,q=0,v=0,trD=[],trA=[];
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var simT=0;
+  function qd(tt){return 0.5+0.3*Math.sin(1.5*tt);}
+  function render(){
+    t+=0.02;var ph=(t*1.2)%1;
+    // cycle bookkeeping
+    if(ph<0.02){recv++;}
+    if(ph>0.5&&ph<0.52){pub++;}
+    // control sim step
+    var dt=0.02,e=qd(simT)-q,u=18*e+3*(-v)+0.2;var a=u-0.2-2.5*v;v+=a*dt;q+=v*dt;simT+=dt;
+    trD.push(qd(simT));trA.push(q);if(trD.length>80){trD.shift();trA.shift();}
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>';svg.appendChild(defs);
+    // node box
+    svg.appendChild(el("rect",{x:95,y:30,width:110,height:46,rx:9,fill:"#fff",stroke:"#0d9488","stroke-width":1.8}));
+    var nt=el("text",{x:150,y:50,"font-size":11,fill:"#0d9488","text-anchor":"middle","font-weight":"700"});nt.textContent="tracker_node";svg.appendChild(nt);
+    var nt2=el("text",{x:150,y:64,"font-size":8,fill:"#64748b","text-anchor":"middle"});nt2.textContent="sub → compute → pub";svg.appendChild(nt2);
+    // in arrow
+    svg.appendChild(el("line",{x1:20,y1:53,x2:93,y2:53,stroke:"#94a3b8","stroke-width":1.4,"marker-end":"url(#a)"}));
+    var il=el("text",{x:22,y:46,"font-size":8.5,fill:"#7c3aed"});il.textContent="/joint_state";svg.appendChild(il);
+    // out arrow
+    svg.appendChild(el("line",{x1:207,y1:53,x2:282,y2:53,stroke:"#94a3b8","stroke-width":1.4,"marker-end":"url(#a)"}));
+    var ol=el("text",{x:222,y:46,"font-size":8.5,fill:"#b91c1c"});ol.textContent="/command";svg.appendChild(ol);
+    // animated message dot
+    if(ph<0.5){var x=20+(93-20)*(ph/0.5);svg.appendChild(el("circle",{cx:x,cy:53,r:4,fill:"#7c3aed"}));}
+    else {var x2=207+(282-207)*((ph-0.5)/0.5);svg.appendChild(el("circle",{cx:x2,cy:53,r:4,fill:"#b91c1c"}));}
+    // tracking trace
+    svg.appendChild(el("rect",{x:30,y:96,width:240,height:84,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    function pl(tr,col,wd,dash){if(tr.length<2)return;var pts=tr.map(function(val,i){return (30+i/79*240).toFixed(1)+","+(176-(val-0.2)/0.7*76).toFixed(1);});svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":wd,"stroke-dasharray":dash||"none"}));}
+    pl(trD,"#94a3b8",1.4,"4 3");pl(trA,"#0d9488",2);
+    out.innerHTML='<div>states received: <b>'+recv+'</b></div>'+
+      '<div>commands published: <b>'+pub+'</b></div>'+
+      '<div style="color:#15803d;margin-top:4px">1 command per state ✓</div>'+
+      '<div style="color:#64748b;margin-top:4px">tracking error: '+Math.abs(qd(simT)-q).toFixed(3)+'</div>';
+  }
+  function loop(){render();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

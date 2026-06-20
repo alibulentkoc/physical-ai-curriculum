@@ -60,6 +60,11 @@ Exercising the interface.
 - The notebook asserts the interface shape (a command from reference + measured state, with feedforward, feedback, and delivered terms) and that the layer tracks closed-loop.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson31_control_layer_handoff.html" title="The Control Layer: the Module 9 Handoff interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson31_control_layer_handoff.html)
+
 *(The flagship demo is L29 Closed-Loop Tracking Studio; this lesson is conceptual + notebook.)*
 
 **The handoff test.** In the notebook you:

@@ -52,6 +52,11 @@ Same loop, three timings.
 - The notebook asserts deterministic is stable while jitter and overruns are each unstable.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson27_jitter_overruns.html" title="Jitter, Overruns, and Missed Deadlines interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson27_jitter_overruns.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The timing-hazard test.** In the notebook you:

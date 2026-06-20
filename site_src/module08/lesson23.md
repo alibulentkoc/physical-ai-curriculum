@@ -44,6 +44,11 @@ Same gains, only timing changes.
 - The notebook asserts the zero-delay case is stable and that both the latency sweep and the control-rate sweep reach an unstable case.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson23_latency_destabilizes.html" title="Latency and Control Rate: How Communication Destabilises the Loop interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson23_latency_destabilizes.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The destabilising-delay test.** In the notebook you:

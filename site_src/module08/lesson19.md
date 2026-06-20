@@ -43,6 +43,11 @@ P/PD stalls; integral arrives.
 - The notebook asserts PD leaves a residual above $0.2$, PID lands below $0.05$, and PID is at least four times better.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson19_deadband_stiction.html" title="Deadband, Stiction, and Why Integral Wins the Last Millimetre interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson19_deadband_stiction.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The last-millimetre test.** In the notebook you:

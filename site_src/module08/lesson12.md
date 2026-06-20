@@ -45,6 +45,11 @@ Tune a joint ($0\to1$ rad, load $\ell=2$) from scratch:
 Compare the lazy alternatives: cranking $K_p$ alone to kill the offset → oscillation; adding huge $K_i$ for speed → overshoot and windup. The ordered recipe avoids both. The notebook runs this exact progression and asserts each step improves the intended metric.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson12_tuning_workflow.html" title="Tuning a Controller: A Practical Workflow interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson12_tuning_workflow.html)
+
 *(Conceptual — runnable in the companion notebook; the L07 PID Playground lets you tune by hand.)*
 
 **Tune it yourself.** In the notebook you:

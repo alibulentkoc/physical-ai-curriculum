@@ -51,6 +51,11 @@ Right target vs wrong target.
 - The notebook asserts the real-time inner loop is stable, the best-effort inner loop is unstable, and the slow outer layer is tolerated.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson28_inner_loop_rt_target.html" title="Running the Inner Loop on a Real-Time Target interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson28_inner_loop_rt_target.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The placement test.** In the notebook you:

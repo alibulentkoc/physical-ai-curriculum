@@ -52,6 +52,11 @@ Show anticipation removing the lag (good model, no disturbance).
 - The notebook computes both RMS values and confirms feedforward's near-zero following error on the known move.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson14_feedforward_anticipates.html" title="Feedback Reacts, Feedforward Anticipates interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson14_feedforward_anticipates.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **See anticipation.** In the notebook you:

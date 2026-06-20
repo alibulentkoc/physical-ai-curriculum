@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedback Reacts, Feedforward Anticipates — Lesson 4.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Add feedforward and the lag collapses.</b> Feedforward sends the effort the move <i>will</i> need (from the reference's own velocity and acceleration) before any error appears. Feedback then only mops up the small leftover.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 200"></svg>
+  <div class="panel">
+    <div class="seg"><button id="fb" class="on">feedback only</button><button id="ff">feedback + feedforward</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Feedback is reactive, feedforward is predictive. Predicting the bulk of the effort means the loop isn't always playing catch-up — the actual rides right on top of the reference.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=200,mode="fb",q=0.5,v=0,t=0,trD=[],trA=[],errSum=0,errN=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var w=2.0;
+  function qd(tt){return 0.5+0.35*Math.sin(w*tt);}
+  function vd(tt){return 0.35*w*Math.cos(w*tt);}
+  function ad(tt){return -0.35*w*w*Math.sin(w*tt);}
+  function step(){
+    var dt=0.02,kp=18,kd=3,b=2.5,m=1,LOAD=0.2;
+    var e=qd(t)-q;
+    var uff=mode==="ff"?(m*ad(t)+b*vd(t)+LOAD):0;
+    var u=kp*e+kd*(vd(t)-v)+uff;
+    var a=(u-LOAD-b*v)/m;v+=a*dt;q+=v*dt;t+=dt;
+    trD.push([t,qd(t)]);trA.push([t,q]);if(trD.length>150){trD.shift();trA.shift();}
+    errSum+=e*e;errN++;if(errN>150){errSum-=trA.length?0:0;}
+    render();
+  }
+  function render(){
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:20,y:14,width:265,height:160,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    function pl(tr,col,wd,dash){if(tr.length<2)return;var t0=tr[0][0],span=tr[tr.length-1][0]-t0||1;var pts=tr.map(function(p){return (20+(p[0]-t0)/span*265).toFixed(1)+","+(94-(p[1]-0.5)/0.55*80).toFixed(1);});svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":wd,"stroke-dasharray":dash||"none"}));}
+    pl(trD,"#94a3b8",1.6,"5 3");pl(trA,mode==="ff"?"#15803d":"#0d9488",2.4);
+    var l1=el("text",{x:195,y:28,"font-size":9,fill:"#94a3b8"});l1.textContent="reference q_d";svg.appendChild(l1);
+    var l2=el("text",{x:195,y:41,"font-size":9,fill:mode==="ff"?"#15803d":"#0d9488"});l2.textContent="actual q";svg.appendChild(l2);
+    var rms=Math.sqrt(errSum/Math.max(1,errN));
+    out.innerHTML='<div><b>'+(mode==="ff"?"Feedback + feedforward":"Feedback only")+'</b></div>'+
+      '<div style="margin-top:4px">current error: '+Math.abs(qd(t)-q).toFixed(3)+'</div>'+
+      '<div style="color:'+(mode==="ff"?"#15803d":"#b91c1c")+'">'+(mode==="ff"?"lag nearly gone":"persistent lag")+'</div>';
+  }
+  function loop(){step();requestAnimationFrame(loop);}
+  document.getElementById("fb").addEventListener("click",function(){mode="fb";this.classList.add("on");document.getElementById("ff").classList.remove("on");errSum=0;errN=0;});
+  document.getElementById("ff").addEventListener("click",function(){mode="ff";this.classList.add("on");document.getElementById("fb").classList.remove("on");errSum=0;errN=0;});
+  loop();
+})();</script></body></html>

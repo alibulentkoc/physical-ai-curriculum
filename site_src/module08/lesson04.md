@@ -48,6 +48,11 @@ Map the four parts onto a greenhouse-arm joint tracking a Module 7 reference.
 - **Wiring:** these connect into the sense-compare-correct-actuate loop; a disturbance (payload change on grasp) enters the plant and the loop rejects it. The notebook instantiates all four (reference, `Joint` plant, `PIDController`, the measured-$q$ feedback inside `simulate_closed_loop`) and labels each in code.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson04_control_anatomy.html" title="Anatomy of a Control System: Reference, Plant, Controller, Feedback interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson04_control_anatomy.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Name the blocks.** In the notebook you:

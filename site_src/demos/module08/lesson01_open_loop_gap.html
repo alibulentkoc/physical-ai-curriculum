@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Open-Loop Isn't Enough — Lesson 1.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Same command, two plants.</b> The open-loop command is computed for an <i>ideal</i> model. On the ideal plant it tracks perfectly. On the <i>real</i> plant — friction, load, model mismatch — the actual motion drifts away, and nothing corrects it.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 220"></svg>
+  <div class="panel">
+    <div class="seg"><button id="ideal" class="on">ideal plant</button><button id="real">real plant</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Open-loop trusts the model completely. Every real-world effect the model omits becomes uncorrected error — which is exactly why a feedback loop is needed.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=220,mode="ideal",t=0,refTr=[],actTr=[],q=0,v=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var T=1.5,m0=1,b0=0.8,load0=0;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function qref(tt){var x=Math.min(1,tt/T);return 10*x*x*x-15*x*x*x*x+6*x*x*x*x*x;}
+  function vref(tt){if(tt>T)return 0;var x=tt/T;return (30*x*x-60*x*x*x+30*x*x*x*x)/T;}
+  function aref(tt){if(tt>T)return 0;var x=tt/T;return (60*x-180*x*x+120*x*x*x)/(T*T);}
+  function reset(){t=0;q=0;v=0;refTr=[];actTr=[];}
+  function step(){
+    var dt=0.02;
+    var u=m0*aref(t)+b0*vref(t)+load0; // open-loop command from ideal model
+    var m1=mode==="ideal"?m0:1.5*m0, b1=mode==="ideal"?b0:2.2*b0, load1=mode==="ideal"?0:0.45;
+    var a=(u-b1*v-load1)/m1;v+=a*dt;q+=v*dt;t+=dt;
+    refTr.push([t,qref(t)]);actTr.push([t,q]);
+    if(refTr.length>200)refTr.shift();if(actTr.length>200)actTr.shift();
+    if(t>2.6)reset();
+    render();
+  }
+  function render(){
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:160,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    function pl(tr,col,w,dash){if(tr.length<2)return;var pts=tr.map(function(p){return (30+p[0]/2.6*255).toFixed(1)+","+(174-p[1]*150).toFixed(1);});svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":w,"stroke-dasharray":dash||"none"}));}
+    pl(refTr,"#0d9488",2.2,"5 3");pl(actTr,mode==="ideal"?"#15803d":"#b91c1c",2.4);
+    var l1=el("text",{x:200,y:28,"font-size":9,fill:"#0d9488"});l1.textContent="reference";svg.appendChild(l1);
+    var l2=el("text",{x:200,y:41,"font-size":9,fill:mode==="ideal"?"#15803d":"#b91c1c"});l2.textContent="actual";svg.appendChild(l2);
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    var tl=el("text",{x:30,y:190,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    var err=actTr.length?Math.abs(refTr[refTr.length-1][1]-actTr[actTr.length-1][1]):0;
+    out.innerHTML='<div><b>'+(mode==="ideal"?"Ideal plant":"Real plant")+'</b></div>'+
+      '<div style="margin-top:4px;color:'+(mode==="ideal"?"#15803d":"#b91c1c")+'">tracks '+(mode==="ideal"?"perfectly":"poorly — drifts")+'</div>'+
+      '<div style="color:#64748b;margin-top:3px">current gap ≈ '+err.toFixed(2)+'</div>';
+  }
+  function loop(){step();requestAnimationFrame(loop);}
+  document.getElementById("ideal").addEventListener("click",function(){mode="ideal";this.classList.add("on");document.getElementById("real").classList.remove("on");reset();});
+  document.getElementById("real").addEventListener("click",function(){mode="real";this.classList.add("on");document.getElementById("ideal").classList.remove("on");reset();});
+  loop();
+})();</script></body></html>

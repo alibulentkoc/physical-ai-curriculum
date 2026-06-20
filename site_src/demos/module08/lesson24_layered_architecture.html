@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Data-Flow Architecture Layered by Timing — Lesson 6.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--bad);border-color:var(--bad);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Inject latency into one layer.</b> The fast inner loop is latency-critical — delay there destabilises it. The slow outer layer (planning) tolerates delay easily. Layering by timing puts each job where its timing demands are met.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 230"></svg>
+  <div class="panel">
+    <div class="seg"><button id="inner" class="on">delay inner loop</button><button id="outer">delay outer loop</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">The inner loop (1 kHz control) must run on a real-time target with bounded latency; the outer loop (planning, perception, a few Hz) can live on a general-purpose host. Same robot, two timing worlds.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=230,mode="inner";
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var innerBad=mode==="inner";
+    svg.innerHTML="";
+    // outer layer box
+    svg.appendChild(el("rect",{x:24,y:18,width:252,height:62,rx:10,fill:mode==="outer"?"#fef3c7":"#f8fafc",stroke:mode==="outer"?"#d97706":"#cbd5e1","stroke-width":1.6}));
+    var o1=el("text",{x:150,y:38,"font-size":11,fill:"#475569","text-anchor":"middle","font-weight":"700"});o1.textContent="Outer loop — planning · ~10 Hz";svg.appendChild(o1);
+    var o2=el("text",{x:150,y:56,"font-size":9.5,fill:mode==="outer"?"#15803d":"#64748b","text-anchor":"middle"});o2.textContent=mode==="outer"?"delay added → still fine (latency-tolerant) ✓":"latency-tolerant";svg.appendChild(o2);
+    var o3=el("text",{x:150,y:70,"font-size":8.5,fill:"#94a3b8","text-anchor":"middle"});o3.textContent="trajectories, references";svg.appendChild(o3);
+    // arrow
+    svg.appendChild(el("line",{x1:150,y1:80,x2:150,y2:118,stroke:"#94a3b8","stroke-width":1.6}));
+    var al=el("text",{x:158,y:102,"font-size":8.5,fill:"#94a3b8"});al.textContent="reference(t)";svg.appendChild(al);
+    // inner layer box
+    svg.appendChild(el("rect",{x:24,y:120,width:252,height:62,rx:10,fill:innerBad?"#fee2e2":"#ccfbf1",stroke:innerBad?"#b91c1c":"#0d9488","stroke-width":2}));
+    var i1=el("text",{x:150,y:140,"font-size":11,fill:"#475569","text-anchor":"middle","font-weight":"700"});i1.textContent="Inner loop — control · ~1 kHz";svg.appendChild(i1);
+    var i2=el("text",{x:150,y:158,"font-size":9.5,fill:innerBad?"#b91c1c":"#15803d","text-anchor":"middle","font-weight":"700"});i2.textContent=innerBad?"delay added → UNSTABLE ✗":"bounded latency → stable ✓";svg.appendChild(i2);
+    var i3=el("text",{x:150,y:172,"font-size":8.5,fill:"#94a3b8","text-anchor":"middle"});i3.textContent="PID, feedforward, actuator";svg.appendChild(i3);
+    svg.appendChild(el("line",{x1:150,y1:182,x2:150,y2:206,stroke:"#94a3b8","stroke-width":1.6,"marker-end":"url(#a)"}));
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>';svg.appendChild(defs);
+    var pl=el("text",{x:150,y:220,"font-size":10,fill:"#475569","text-anchor":"middle"});pl.textContent="robot joints";svg.appendChild(pl);
+    out.innerHTML='<div><b style="color:'+(innerBad?"#b91c1c":"#15803d")+'">'+(innerBad?"Inner loop delayed":"Outer loop delayed")+'</b></div>'+
+      '<div style="margin-top:4px;color:#64748b">'+(innerBad?"the fast loop can't tolerate latency — it goes unstable":"the slow loop barely notices — references arrive a little late, no harm")+'</div>';
+  }
+  document.getElementById("inner").addEventListener("click",function(){mode="inner";this.classList.add("on");document.getElementById("outer").classList.remove("on");render();});
+  document.getElementById("outer").addEventListener("click",function(){mode="outer";this.classList.add("on");document.getElementById("inner").classList.remove("on");render();});
+  render();
+})();</script></body></html>

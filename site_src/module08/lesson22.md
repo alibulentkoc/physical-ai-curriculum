@@ -42,6 +42,11 @@ The loop as a topic graph.
 - The notebook asserts all four deliveries reach each subscriber, the controller emits one command per state, the latest command matches the latest error, and an unsubscribed topic just stores its latest.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson22_pub_sub_topics.html" title="Publish and Subscribe: Nodes, Topics, and Messages interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson22_pub_sub_topics.html)
+
 *(Conceptual — runnable in the companion notebook. The flagship Message Bus demo for Unit 6 lives in Lesson 6.1.)*
 
 **The topic-graph walkthrough.** In the notebook you:

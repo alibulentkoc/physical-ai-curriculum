@@ -50,6 +50,11 @@ Average speed vs worst-case timing.
 - The notebook asserts the bounded loop is stable and that the low-average/high-worst-case loop is unstable (with its mean interval small and its max interval large).
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson25_real_time_deadlines.html" title="What Real-Time Means: Deadlines, Determinism, and Worst-Case Timing interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson25_real_time_deadlines.html)
+
 *(The flagship Unit-8 demo is L29 Closed-Loop Tracking Studio; this lesson is conceptual + notebook.)*
 
 **The worst-case test.** In the notebook you:

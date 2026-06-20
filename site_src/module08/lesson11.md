@@ -51,6 +51,11 @@ Hold the controller fixed and vary one cause at a time on a $0\to1$ step:
 Same loop, three fates, each from one cause. The notebook sweeps sensor delay at fixed gains and shows the classification cross from "stable" → "marginal" → "unstable" — latency alone walking the loop off the cliff.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson11_stability_classes.html" title="Stable, Marginal, Unstable — and What Tips a Loop Over interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson11_stability_classes.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Find the edge.** In the notebook you:

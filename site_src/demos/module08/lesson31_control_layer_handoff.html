@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Control Layer: the Module 9 Handoff — Lesson 8.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;margin:7px 0 4px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;line-height:1.6;font-variant-numeric:tabular-nums;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The control-layer contract: reference + state → command.</b> Call <code>tracking_controller</code> with one reference sample and one measured state; it returns the actuator command split into feedforward, feedback, and the delivered (envelope-limited) effort.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 200"></svg>
+  <div class="panel">
+    <label>measured q (vs q_d = 0.80) <span id="vq"></span></label><input type="range" id="q" min="0.4" max="1.1" step="0.01" value="0.65">
+    <label>measured v (vs v_d = 0.50) <span id="vv"></span></label><input type="range" id="v" min="-0.5" max="1.2" step="0.05" value="0.2">
+    <div class="readout" id="out"></div>
+    <div class="hint">This is the seam to Module 9: a pure function the higher layer calls each tick. It owns no state machine — just turns the desired-vs-measured gap into the right effort, every cycle.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=200,QD=0.8,VD=0.5,AD=0.3,LOAD=0.2,B=2.5,M=1,UMAX=6;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var q=+document.getElementById("q").value,v=+document.getElementById("v").value;
+    document.getElementById("vq").textContent=q.toFixed(2);document.getElementById("vv").textContent=v.toFixed(2);
+    var ff=M*AD+B*VD+LOAD;
+    var fb=18*(QD-q)+3*(VD-v);
+    var total=ff+fb;
+    var delivered=Math.max(-UMAX,Math.min(UMAX,total));
+    svg.innerHTML="";
+    // bar chart of ff, fb, total, delivered
+    var items=[["feedforward",ff,"#0d9488"],["feedback",fb,"#7c3aed"],["total",total,"#475569"],["delivered",delivered,"#15803d"]];
+    var zx=140,y=20,scale=16;
+    svg.appendChild(el("line",{x1:zx,y1:14,x2:zx,y2:180,stroke:"#cbd5e1","stroke-width":1}));
+    // umax band
+    svg.appendChild(el("line",{x1:zx+UMAX*scale,y1:14,x2:zx+UMAX*scale,y2:180,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"3 2"}));
+    svg.appendChild(el("line",{x1:zx-UMAX*scale,y1:14,x2:zx-UMAX*scale,y2:180,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"3 2"}));
+    items.forEach(function(it,i){var yy=y+i*40;var w=Math.max(-UMAX,Math.min(UMAX,it[1]))*scale;
+      svg.appendChild(el("rect",{x:w<0?zx+w:zx,y:yy,width:Math.abs(w),height:22,rx:3,fill:it[2],opacity:0.85}));
+      var t=el("text",{x:6,y:yy+15,"font-size":10,fill:"#475569"});t.textContent=it[0];svg.appendChild(t);
+      var vlab=el("text",{x:zx+ (it[1]>=0?2:-2),y:yy-2,"font-size":9,fill:it[2],"text-anchor":it[1]>=0?"start":"end"});vlab.textContent=it[1].toFixed(2);svg.appendChild(vlab);
+    });
+    var ul=el("text",{x:zx+UMAX*scale-2,y:194,"font-size":8,fill:"#b91c1c","text-anchor":"end"});ul.textContent="±u_max";svg.appendChild(ul);
+    out.innerHTML='<div>ff = '+ff.toFixed(2)+' · fb = '+fb.toFixed(2)+'</div>'+
+      '<div>u = <b>'+total.toFixed(2)+'</b> → delivered <b style="color:'+(Math.abs(total)>UMAX?"#b91c1c":"#15803d")+'">'+delivered.toFixed(2)+'</b></div>'+
+      (Math.abs(total)>UMAX?'<div style="color:#b91c1c;margin-top:3px">clipped at envelope</div>':'<div style="color:#15803d;margin-top:3px">within envelope ✓</div>');
+  }
+  ["q","v"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publish and Subscribe: Nodes, Topics, and Messages — Lesson 6.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 320px;min-width:300px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 180px;min-width:170px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.6}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The loop, as messages.</b> Three nodes — sensor, controller, actuator — never call each other directly. They publish to and subscribe from named <b>topics</b>. Watch the messages flow around the loop.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 320 230"></svg>
+  <div class="panel">
+    <div class="readout" id="out"></div>
+    <div class="hint">Decoupling through topics means any node can be swapped, logged, or replayed without the others knowing — the architecture that makes a robot's software modular and inspectable.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=320,H=230,t=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var nodes={sensor:[60,60],ctrl:[260,60],act:[260,180],plant:[60,180]};
+  var edges=[["sensor","ctrl","/joint_state"],["ctrl","act","/command"],["act","plant",""],["plant","sensor","measures"]];
+  function render(){
+    t+=0.012;if(t>1)t=0;
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>';svg.appendChild(defs);
+    edges.forEach(function(e,i){var a=nodes[e[0]],b=nodes[e[1]];
+      svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#cbd5e1","stroke-width":1.6,"marker-end":"url(#a)"}));
+      if(e[2]){var mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;var lab=el("text",{x:mx,y:my-4,"font-size":9,fill:"#0d9488","text-anchor":"middle","font-weight":"600"});lab.textContent=e[2];svg.appendChild(lab);}
+      // message dot
+      var ph=(t+i*0.25)%1;var dx=a[0]+(b[0]-a[0])*ph,dy=a[1]+(b[1]-a[1])*ph;
+      svg.appendChild(el("circle",{cx:dx,cy:dy,r:4,fill:"#0d9488"}));
+    });
+    var labels={sensor:["Sensor","#7c3aed"],ctrl:["Controller","#0d9488"],act:["Actuator","#b91c1c"],plant:["Joint","#475569"]};
+    for(var k in nodes){var p=nodes[k],L=labels[k];svg.appendChild(el("rect",{x:p[0]-42,y:p[1]-18,width:84,height:36,rx:8,fill:"#fff",stroke:L[1],"stroke-width":1.6}));var t2=el("text",{x:p[0],y:p[1]+4,"font-size":11,fill:L[1],"text-anchor":"middle","font-weight":"700"});t2.textContent=L[0];svg.appendChild(t2);}
+    out.innerHTML='<div><b style="color:#7c3aed">Sensor</b> publishes /joint_state</div>'+
+      '<div><b style="color:#0d9488">Controller</b> subscribes, publishes /command</div>'+
+      '<div><b style="color:#b91c1c">Actuator</b> subscribes /command</div>'+
+      '<div style="color:#64748b;margin-top:4px">no direct calls — only topics</div>';
+  }
+  function loop(){render();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

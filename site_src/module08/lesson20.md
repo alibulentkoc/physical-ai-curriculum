@@ -49,6 +49,11 @@ Same move, two demands.
 - The notebook asserts the gentle run has no clipping and tiny RMS, while the aggressive run clips and tracks several times worse.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson20_command_pipeline_envelope.html" title="The Command Pipeline and the Feasibility Envelope interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson20_command_pipeline_envelope.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The envelope test.** In the notebook you:

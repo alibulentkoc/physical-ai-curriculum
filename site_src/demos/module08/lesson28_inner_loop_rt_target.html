@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running the Inner Loop on a Real-Time Target — Lesson 7.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Where you place the inner loop decides whether it works.</b> On a real-time target its timing is protected and deterministic — stable. On a shared general-purpose host, other tasks preempt it, injecting jitter and overruns that degrade the very same controller.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 220"></svg>
+  <div class="panel">
+    <div class="seg"><button id="rt" class="on">real-time target</button><button id="host">shared host</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Same gains, same code — only the placement differs. The inner loop earns its spot on protected hardware; the outer planning layers are happy on the general-purpose side.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=220,mode="rt",KP=30,KD=3,B=0.5,LOAD=0.3;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  var seed=999;function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+  function sim(){seed=999;var dt=0.002,T=4,q=0,v=0,u=0,ref=1,P=20,tr=[],next=0,n=Math.round(T/dt);
+    for(var i=0;i<n;i++){if(i>=next){var skip=(mode==="host"&&rnd()<0.3);if(!skip){var e=ref-q;u=KP*e+KD*(-v);}var jit=mode==="host"?Math.round((rnd()-0.3)*P*1.6):0;next=i+Math.max(3,P+jit);}var a=u-LOAD-B*v;v+=a*dt;q+=v*dt;tr.push([i*dt,Math.max(-0.5,Math.min(2.4,q))]);}
+    var se=0;tr.forEach(function(p){se+=(ref-p[1])*(ref-p[1]);});return {tr:tr,rms:Math.sqrt(se/tr.length)};}
+  function render(){
+    var r=sim(),T=4;
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:160,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=174-1/2.4*160;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var rl=el("text",{x:248,y:ty-3,"font-size":8,fill:"#b91c1c"});rl.textContent="target";svg.appendChild(rl);
+    var col=mode==="rt"?"#15803d":"#b91c1c";
+    var pp=r.tr.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(174-(p[1]+0.5)/2.9*160).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:col,"stroke-width":2.2}));
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    var tl=el("text",{x:30,y:190,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.innerHTML='<div><b style="color:'+col+'">'+(mode==="rt"?"Real-time target":"Shared host")+'</b></div>'+
+      '<div style="margin-top:4px">tracking RMS: <b>'+r.rms.toFixed(3)+'</b></div>'+
+      '<div style="color:'+col+';margin-top:3px">'+(mode==="rt"?"protected timing → stable ✓":"preempted → jitter & overruns ✗")+'</div>';
+  }
+  document.getElementById("rt").addEventListener("click",function(){mode="rt";this.classList.add("on");document.getElementById("host").classList.remove("on");render();});
+  document.getElementById("host").addEventListener("click",function(){mode="host";this.classList.add("on");document.getElementById("rt").classList.remove("on");render();});
+  render();
+})();</script></body></html>

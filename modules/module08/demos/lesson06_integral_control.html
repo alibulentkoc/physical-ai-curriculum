@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integral Control: Erasing Steady-State Error — Lesson 2.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Add an integral term: u = Kp·e + Ki·∫e.</b> The integral accumulates the leftover offset over time until it produces exactly enough effort to cancel the load — driving steady-state error to zero (often with a little overshoot).</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 220"></svg>
+  <div class="panel">
+    <label>integral gain Ki</label><input type="range" id="ki" min="0" max="12" step="0.5" value="0">
+    <div class="readout" id="out"></div>
+    <div class="hint">Proportional reacts to error <i>now</i>; integral remembers error <i>accumulated</i>. That memory is what finally erases the standing offset P leaves behind — the last millimetre.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=220,LOAD=0.4,KP=8;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sim(Ki){var dt=0.004,T=6,q=0,v=0,I=0,u=0,b=4,tau=0.05,ref=1,tr=[];for(var t=0;t<=T;t+=dt){var e=ref-q;I+=e*dt;u+=((KP*e+Ki*I)-u)*dt/tau;var a=u-LOAD-b*v;v+=a*dt;q+=v*dt;tr.push([t,q]);}return tr;}
+  function render(){
+    var ki=+document.getElementById("ki").value,T=6;
+    var trP=sim(0),tr=sim(ki);
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:160,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=174-1/1.35*160;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var rl=el("text",{x:245,y:ty-3,"font-size":8,fill:"#b91c1c"});rl.textContent="target";svg.appendChild(rl);
+    function pl(t,col,w,dash){var pts=t.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(174-p[1]/1.35*160).toFixed(1);});svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":w,"stroke-dasharray":dash||"none"}));}
+    pl(trP,"#cbd5e1",1.6,"4 3");pl(tr,"#0d9488",2.2);
+    var l1=el("text",{x:210,y:168,"font-size":8.5,fill:"#94a3b8"});l1.textContent="P only";svg.appendChild(l1);
+    var l2=el("text",{x:210,y:30,"font-size":8.5,fill:"#0d9488"});l2.textContent="P + I";svg.appendChild(l2);
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    var tl=el("text",{x:30,y:190,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    var off=1-tr[tr.length-1][1];
+    out.innerHTML='<div>Ki = '+ki.toFixed(1)+'</div>'+
+      '<div style="color:#0d9488;margin-top:4px">steady error = '+off.toFixed(3)+(ki>0&&Math.abs(off)<0.01?' ✓ erased':'')+'</div>'+
+      '<div style="color:#64748b;margin-top:3px">'+(ki===0?"P alone: offset remains":"integral closes the gap")+'</div>';
+  }
+  document.getElementById("ki").addEventListener("input",render);
+  render();
+})();</script></body></html>

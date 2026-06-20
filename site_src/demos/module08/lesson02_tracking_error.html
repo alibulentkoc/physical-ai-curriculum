@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tracking Error: The Quantity Control Fights — Lesson 1.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Watch the error signal e(t) = reference − actual.</b> Below the position plot, the error is large and changing during the <b>transient</b>, then settles toward a small <b>steady-state</b> value. Error is what the controller works to drive to zero.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>controller strength</label><input type="range" id="kp" min="2" max="30" step="1" value="10">
+    <div class="readout" id="out"></div>
+    <div class="hint">The transient is the fight to catch up; steady-state is what's left once things settle. Both matter: a fast transient with large steady error is still a poor tracker.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var kp=+document.getElementById("kp").value;
+    // step response of a damped 2nd-order-ish plant (intuitive, not formal)
+    var dt=0.01,T=3,q=0,v=0,ref=1,load=0.15,b=2.5;
+    var qs=[],es=[];
+    for(var t=0;t<=T;t+=dt){var u=kp*(ref-q)-b*v;var a=u-load;v+=a*dt;q+=v*dt;qs.push([t,q]);es.push([t,ref-q]);}
+    svg.innerHTML="";
+    // position plot
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:110,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    svg.appendChild(el("line",{x1:30,y1:124-1/1.6*110,x2:285,y2:124-1/1.6*110,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var rl=el("text",{x:255,y:124-1/1.6*110-3,"font-size":8,fill:"#b91c1c"});rl.textContent="reference";svg.appendChild(rl);
+    var pp=qs.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(124-p[1]/1.6*110).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:"#0d9488","stroke-width":2}));
+    var lab=el("text",{x:34,y:26,"font-size":9.5,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    // error plot
+    svg.appendChild(el("rect",{x:30,y:134,width:255,height:90,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var zy=134+45;svg.appendChild(el("line",{x1:30,y1:zy,x2:285,y2:zy,stroke:"#e2e8f0","stroke-width":1}));
+    var ep=es.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(zy-p[1]/1.2*45).toFixed(1);});
+    svg.appendChild(el("polyline",{points:ep.join(" "),fill:"none",stroke:"#7c3aed","stroke-width":2}));
+    var lab2=el("text",{x:34,y:146,"font-size":9.5,fill:"#7c3aed"});lab2.textContent="error e(t)";svg.appendChild(lab2);
+    // transient/steady shading
+    svg.appendChild(el("rect",{x:30,y:134,width:255*0.33,height:90,fill:"rgba(124,58,237,0.06)"}));
+    var t1=el("text",{x:40,y:218,"font-size":8,fill:"#7c3aed"});t1.textContent="transient";svg.appendChild(t1);
+    var t2=el("text",{x:200,y:218,"font-size":8,fill:"#94a3b8"});t2.textContent="steady-state";svg.appendChild(t2);
+    var ssErr=es[es.length-1][1];
+    out.innerHTML='<div>Kp = '+kp+'</div>'+
+      '<div style="color:#7c3aed;margin-top:4px">steady-state error ≈ '+ssErr.toFixed(3)+'</div>'+
+      '<div style="color:#64748b;margin-top:3px">stronger control → smaller steady error</div>';
+  }
+  document.getElementById("kp").addEventListener("input",render);
+  render();
+})();</script></body></html>

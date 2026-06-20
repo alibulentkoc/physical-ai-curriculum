@@ -41,6 +41,11 @@ Two effects, one ceiling.
 - The notebook runs both contrasts and asserts the saturated RMS exceeds the generous RMS, and that the plain integrator's overshoot exceeds the clamped one's by a wide margin.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson18_saturation_windup.html" title="Saturation and Integral Windup interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson18_saturation_windup.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The windup test.** In the notebook you:

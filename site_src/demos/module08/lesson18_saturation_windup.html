@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saturation and Integral Windup — Lesson 5.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin:8px 0;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Tighten the actuator limit.</b> When the command clips at u_max, the integral keeps accumulating error it can't act on — winding up. When the joint finally catches up, that stored excess causes a big overshoot. Anti-windup stops the accumulation.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 230"></svg>
+  <div class="panel">
+    <label>actuator limit u_max</label><input type="range" id="um" min="1.5" max="12" step="0.5" value="3">
+    <label class="tog"><input type="checkbox" id="aw"> anti-windup</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">Saturation is unavoidable — every motor has a ceiling. The fix isn't more power, it's stopping the integral from charging up while the command is pinned at the limit.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=230,LOAD=0.3;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sim(umax,aw){var dt=0.004,T=5,q=0,v=0,I=0,b=2.5,ref=1,tr=[],cmd=[];for(var t=0;t<=T;t+=dt){var e=ref-q;var ucmd=8*e+4*I-3*v;var u=Math.max(-umax,Math.min(umax,ucmd));var sat=Math.abs(ucmd)>umax;if(!(aw&&sat))I+=e*dt;var a=u-LOAD-b*v;v+=a*dt;q+=v*dt;tr.push([t,q]);cmd.push([t,u,ucmd,umax]);}return {tr:tr,cmd:cmd};}
+  function render(){
+    var um=+document.getElementById("um").value,aw=document.getElementById("aw").checked,r=sim(um,aw),T=5,ref=1;
+    var peak=0;r.tr.forEach(function(p){peak=Math.max(peak,p[1]);});var ov=peak>ref?(peak-ref)/ref*100:0;
+    svg.innerHTML="";
+    // position
+    svg.appendChild(el("rect",{x:30,y:14,width:255,height:115,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var ty=129-1/1.7*115;svg.appendChild(el("line",{x1:30,y1:ty,x2:285,y2:ty,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    var pp=r.tr.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(129-p[1]/1.7*115).toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:ov>20?"#b91c1c":"#0d9488","stroke-width":2.2}));
+    var lab=el("text",{x:34,y:26,"font-size":9,fill:"#64748b"});lab.textContent="position";svg.appendChild(lab);
+    // command with saturation band
+    svg.appendChild(el("rect",{x:30,y:139,width:255,height:80,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var zy=139+40;svg.appendChild(el("line",{x1:30,y1:zy,x2:285,y2:zy,stroke:"#e2e8f0","stroke-width":1}));
+    var uly=zy-um/13*40;svg.appendChild(el("line",{x1:30,y1:uly,x2:285,y2:uly,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"3 2"}));
+    var ul=el("text",{x:255,y:uly-2,"font-size":7.5,fill:"#b91c1c"});ul.textContent="u_max";svg.appendChild(ul);
+    var cp=r.cmd.map(function(p){return (30+p[0]/T*255).toFixed(1)+","+(zy-p[1]/13*40).toFixed(1);});
+    svg.appendChild(el("polyline",{points:cp.join(" "),fill:"none",stroke:"#7c3aed","stroke-width":1.8}));
+    var lab2=el("text",{x:34,y:151,"font-size":9,fill:"#7c3aed"});lab2.textContent="command u (clipped at u_max)";svg.appendChild(lab2);
+    out.innerHTML='<div>u_max = '+um.toFixed(1)+'</div>'+
+      '<div style="color:'+(ov>20?"#b91c1c":"#0f172a")+';margin-top:4px">overshoot: '+ov.toFixed(0)+'%</div>'+
+      '<div style="color:#64748b;margin-top:3px">'+(aw?"anti-windup on":"windup active when clipping")+'</div>';
+  }
+  ["um"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  document.getElementById("aw").addEventListener("change",render);
+  render();
+})();</script></body></html>

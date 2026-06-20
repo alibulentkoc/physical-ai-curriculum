@@ -45,6 +45,11 @@ The asymmetry that defines the architecture.
 - The notebook asserts the inner-loop-latency run is unstable while the slow-outer-layer run is stable with small RMS.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module08/lesson24_layered_architecture.html" title="A Data-Flow Architecture Layered by Timing interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module08/lesson24_layered_architecture.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **The layering test.** In the notebook you:
