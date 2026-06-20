@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singularity Loci and Workspace Boundaries — Lesson 5.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .warn{background:#fee2e2;color:#b91c1c;border-radius:8px;padding:5px;text-align:center;font-weight:700;font-size:11.5px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Drive the joints; watch both views.</b> The singular locus is the lines θ₂ = 0, ±180° in configuration space (left) — and the workspace boundary circle on the right. Cross either and manipulability hits zero.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 230"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="350" step="2" value="60">
+    <label>θ₂</label><input type="range" id="t2" min="-178" max="178" step="2" value="80">
+    <div class="readout" id="out"></div>
+    <div class="hint">The locus where det J = 0 is a set of curves, not isolated points. Knowing it as a map lets a planner route the whole trajectory around the danger zones in advance.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=230,L1=1,L2=1;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  // config panel: x 15..135, theta1 0..360 -> ; theta2 -180..180 vertical
+  var CL=15,CR=135,CT=20,CB=200;
+  // workspace panel
+  var BX=215,BY=115,SC=42;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function cfg(t1deg,t2deg){return [CL+(t1deg/360)*(CR-CL), CT+(180-t2deg)/360*(CB-CT)];}
+  function render(){
+    var t1d=+document.getElementById("t1").value,t2d=+document.getElementById("t2").value;
+    var t1=t1d*Math.PI/180,t2=t2d*Math.PI/180;
+    var w=L1*L2*Math.abs(Math.sin(t2)),sing=w<0.16;
+    var p1=[L1*Math.cos(t1),L1*Math.sin(t1)],p2=[p1[0]+L2*Math.cos(t1+t2),p1[1]+L2*Math.sin(t1+t2)];
+    svg.innerHTML="";
+    // ---- config space ----
+    svg.appendChild(el("rect",{x:CL,y:CT,width:CR-CL,height:CB-CT,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var cl=el("text",{x:CL,y:CT-6,"font-size":9,fill:"#94a3b8"});cl.textContent="config (θ₁,θ₂)";svg.appendChild(cl);
+    [0,180,-180].forEach(function(v){var y=CT+(180-v)/360*(CB-CT);svg.appendChild(el("line",{x1:CL,y1:y,x2:CR,y2:y,stroke:"#ef4444","stroke-width":1.6,"stroke-dasharray":"4 3"}));});
+    var sl=el("text",{x:CL+3,y:CT+(180-0)/360*(CB-CT)-3,"font-size":8,fill:"#b91c1c"});sl.textContent="θ₂=0 singular";svg.appendChild(sl);
+    var cp=cfg(t1d,t2d);svg.appendChild(el("circle",{cx:cp[0],cy:cp[1],r:5,fill:sing?"#ef4444":"#0d9488"}));
+    // ---- workspace ----
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:(L1+L2)*SC,fill:"none",stroke:"#ef4444","stroke-width":1.6,"stroke-dasharray":"4 3"}));
+    var wl=el("text",{x:BX-30,y:BY-(L1+L2)*SC-4,"font-size":9,fill:"#94a3b8"});wl.textContent="workspace";svg.appendChild(wl);
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    var a=sv([0,0]),b=sv(p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":5,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:sing?"#ef4444":"#94a3b8","stroke-width":5,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:6,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:4,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:"#ef4444"}));
+    out.innerHTML='<div class="ln"><span>θ₂</span><span>'+t2d+'°</span></div>'+
+      '<div class="ln"><span>w = |det J|</span><span style="color:'+(sing?"#b91c1c":"#0d9488")+';font-weight:700">'+w.toFixed(3)+'</span></div>'+
+      (sing?'<div class="warn">⚠ on the singular locus</div>':'');
+  }
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pseudoinverse and Damped Least Squares via the SVD — Lesson 6.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .pinv{color:#b91c1c;font-weight:700}.dls{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Raise the damping λ.</b> The pseudoinverse inverts each singular value as <span class="pinv">1/σ</span> — which explodes as σ→0. Damped least squares uses <span class="dls">σ/(σ²+λ²)</span> instead: it rises, peaks, then rolls back to 0, taming the singular direction.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 230"></svg>
+  <div class="panel">
+    <label>damping λ</label><input type="range" id="lam" min="0.05" max="0.8" step="0.05" value="0.25">
+    <div class="readout" id="out"></div>
+    <div class="hint">At large σ both agree (1/σ). Near σ = 0 the DLS factor → 0, sacrificing a little accuracy to keep joint rates finite. The peak sits at σ = λ with value 1/(2λ).</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=230,X0=40,X1=285,Y0=190,Y1=20,SMAX=2,GMAX=5;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function px(s){return X0+s/SMAX*(X1-X0);}
+  function py(g){return Y0-Math.min(g,GMAX)/GMAX*(Y0-Y1);}
+  function render(){
+    var lam=+document.getElementById("lam").value;
+    svg.innerHTML="";
+    // axes
+    svg.appendChild(el("line",{x1:X0,y1:Y0,x2:X1,y2:Y0,stroke:"#cbd5e1","stroke-width":1.2}));
+    svg.appendChild(el("line",{x1:X0,y1:Y0,x2:X0,y2:Y1,stroke:"#cbd5e1","stroke-width":1.2}));
+    var xl=el("text",{x:(X0+X1)/2,y:Y0+24,"font-size":10,fill:"#64748b","text-anchor":"middle"});xl.textContent="singular value σ →";svg.appendChild(xl);
+    var yl=el("text",{x:8,y:18,"font-size":10,fill:"#64748b"});yl.textContent="gain";svg.appendChild(yl);
+    // pseudoinverse 1/sigma
+    var pp=[];for(var s=0.04;s<=SMAX;s+=0.02){pp.push(px(s).toFixed(1)+","+py(1/s).toFixed(1));}
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:"#b91c1c","stroke-width":2,"stroke-dasharray":"5 3"}));
+    // DLS sigma/(sigma^2+lam^2)
+    var dp=[];for(var s2=0;s2<=SMAX;s2+=0.02){var g=s2/(s2*s2+lam*lam);dp.push(px(s2).toFixed(1)+","+py(g).toFixed(1));}
+    svg.appendChild(el("polyline",{points:dp.join(" "),fill:"none",stroke:"#0d9488","stroke-width":2.4}));
+    // peak marker at sigma=lam
+    var pk=px(lam),pky=py(1/(2*lam));
+    svg.appendChild(el("circle",{cx:pk,cy:pky,r:4,fill:"#0d9488"}));
+    svg.appendChild(el("line",{x1:pk,y1:Y0,x2:pk,y2:pky,stroke:"#0d9488","stroke-width":1,"stroke-dasharray":"2 2"}));
+    var pl=el("text",{x:pk+4,y:pky-5,"font-size":9,fill:"#0d9488"});pl.textContent="σ=λ";svg.appendChild(pl);
+    // legends
+    var l1=el("text",{x:X1-90,y:Y1+12,"font-size":10,fill:"#b91c1c"});l1.textContent="1/σ (pseudoinv)";svg.appendChild(l1);
+    var l2=el("text",{x:X1-90,y:Y1+26,"font-size":10,fill:"#0d9488"});l2.textContent="σ/(σ²+λ²) (DLS)";svg.appendChild(l2);
+    var smallS=0.1;
+    out.innerHTML='<div class="ln"><span>λ</span><span>'+lam.toFixed(2)+'</span></div>'+
+      '<div class="ln"><span class="pinv">1/σ at σ=0.1</span><span class="pinv">'+(1/smallS).toFixed(1)+'</span></div>'+
+      '<div class="ln"><span class="dls">DLS at σ=0.1</span><span class="dls">'+(smallS/(smallS*smallS+lam*lam)).toFixed(2)+'</span></div>'+
+      '<div class="ln"><span>DLS peak (σ=λ)</span><span>'+(1/(2*lam)).toFixed(2)+'</span></div>';
+  }
+  document.getElementById("lam").addEventListener("input",render);
+  render();
+})();</script></body></html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Angular Velocity and the Skew Operator — Lesson 1.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px;touch-action:none}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .mat{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px;margin-top:8px;font-variant-numeric:tabular-nums;text-align:center}
+  .v{color:#0d9488;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grab the point r; set ω.</b> The velocity of a rotating point is v = ω × r = S(ω)·r — perpendicular to r, scaling with distance. The skew matrix S(ω) turns the cross product into a matrix multiply.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 260"></svg>
+  <div class="panel">
+    <label>angular velocity ω (about z)</label><input type="range" id="w" min="-3" max="3" step="0.1" value="1.5">
+    <div class="mat" id="mat"></div>
+    <div class="hint">In 2D, S(ω) = [[0, −ω], [ω, 0]], so v = (−ω·r_y, ω·r_x). Every point sweeps a circle; the field is rigid rotation about the origin.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=260,CX=140,CY=130,SC=130;
+  var svg=document.getElementById("svg"),mat=document.getElementById("mat"),NS="http://www.w3.org/2000/svg";
+  var r=[0.6,0.3], hinted=false, grabbing=false;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [CX+p[0]*SC, CY-p[1]*SC];}
+  function render(){
+    var w=+document.getElementById("w").value;
+    var v=[-w*r[1], w*r[0]];
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="v" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    // rotation field (faint arrows on a circle)
+    var rad=Math.hypot(r[0],r[1]);
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:rad*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    for(var k=0;k<8;k++){var a=k/8*2*Math.PI;var pp=[rad*Math.cos(a),rad*Math.sin(a)];var vv=[-w*pp[1],w*pp[0]];var s=sv(pp);var sc=0.12;svg.appendChild(el("line",{x1:s[0],y1:s[1],x2:s[0]+vv[0]*SC*sc,y2:s[1]-vv[1]*SC*sc,stroke:"#cbd5e1","stroke-width":1.3}));}
+    svg.appendChild(el("circle",{cx:CX,cy:CY,r:6,fill:"#475569"}));
+    var p=sv(r);
+    svg.appendChild(el("line",{x1:CX,y1:CY,x2:p[0],y2:p[1],stroke:"#94a3b8","stroke-width":1.5}));
+    var rl=el("text",{x:(CX+p[0])/2+4,y:(CY+p[1])/2,"font-size":10,fill:"#94a3b8"});rl.textContent="r";svg.appendChild(rl);
+    // velocity arrow
+    svg.appendChild(el("line",{x1:p[0],y1:p[1],x2:p[0]+v[0]*SC*0.4,y2:p[1]-v[1]*SC*0.4,stroke:"#0d9488","stroke-width":2.6,"marker-end":"url(#v)"}));
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:20,fill:"transparent"}));
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:11,fill:"none",stroke:"#7c3aed","stroke-width":1.5,"stroke-dasharray":grabbing?"none":"3 3",opacity:.7}));
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:6,fill:"#7c3aed"}));
+    if(!hinted){var hh=el("text",{x:p[0]+12,y:p[1]-10,"font-size":11,fill:"#0d9488","font-weight":"700"});hh.textContent="grab";svg.appendChild(hh);}
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    mat.innerHTML='S(ω)·r = [0, '+f(-w)+'; '+f(w)+', 0]·('+f(r[0])+', '+f(r[1])+')<br>v = <span class="v">('+f(v[0])+', '+f(v[1])+')</span>';
+  }
+  function _ev(e){var r2=svg.getBoundingClientRect();return [(e.clientX-r2.left)/r2.width*W,(e.clientY-r2.top)/r2.height*H];}
+  svg.addEventListener("pointerdown",function(e){if(grabbing){grabbing=false;svg.style.cursor="";render();return;}var m=_ev(e),p=sv(r);if(Math.hypot(m[0]-p[0],m[1]-p[1])<24){grabbing=true;hinted=true;svg.style.cursor="grabbing";render();}});
+  svg.addEventListener("pointermove",function(e){if(!grabbing)return;var m=_ev(e);r[0]=(m[0]-CX)/SC;r[1]=(CY-m[1])/SC;render();});
+  svg.addEventListener("pointerleave",function(){if(grabbing){grabbing=false;svg.style.cursor="";render();}});
+  document.getElementById("w").addEventListener("input",render);
+  render();
+})();</script></body></html>

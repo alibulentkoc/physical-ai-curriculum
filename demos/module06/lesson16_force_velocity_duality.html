@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Force and Velocity Duality — Lesson 4.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .vel{color:#0d9488;font-weight:700}.frc{color:#b91c1c;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Pose the arm.</b> The <span class="vel">velocity ellipse</span> (easy directions to move) and the <span class="frc">force ellipse</span> (easy directions to push, τ = JᵀF) are duals: long where the other is short. Speed and strength trade off, perpendicular to each other.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="180" step="1" value="40">
+    <label>θ₂</label><input type="range" id="t2" min="-170" max="170" step="1" value="100">
+    <div class="readout" id="out"></div>
+    <div class="hint">Where the arm moves fastest it pushes weakest, and vice versa. A robot pressing a tool into a surface wants the force ellipse's long axis aligned with the push — often near a singularity.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,BX=120,BY=150,L1=1,L2=1,SC=48;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180;
+    var s1=Math.sin(t1),c1=Math.cos(t1),s12=Math.sin(t1+t2),c12=Math.cos(t1+t2);
+    var p1=[L1*c1,L1*s1],p2=[p1[0]+L2*c12,p1[1]+L2*s12];
+    var J=[[-L1*s1-L2*s12,-L2*s12],[L1*c1+L2*c12,L2*c12]];
+    var a11=J[0][0]*J[0][0]+J[0][1]*J[0][1],a12=J[0][0]*J[1][0]+J[0][1]*J[1][1],a22=J[1][0]*J[1][0]+J[1][1]*J[1][1];
+    var tr=a11+a22,det=a11*a22-a12*a12,disc=Math.sqrt(Math.max(0,tr*tr-4*det));
+    var sg1=Math.sqrt(Math.max(0,(tr+disc)/2)),sg2=Math.sqrt(Math.max(1e-4,(tr-disc)/2));
+    function evec(l){var vx=a12,vy=l-a11;var n=Math.hypot(vx,vy)||1;return [vx/n,vy/n];}
+    var u1=evec((tr+disc)/2),u2=evec((tr-disc)/2);
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    svg.innerHTML="";
+    function ellipse(ax1,ax2,col,fill,sc){var ep=[];for(var k=0;k<=44;k++){var a=k/44*2*Math.PI;var ex=Math.cos(a)*ax1*sc,ey=Math.sin(a)*ax2*sc;var vx=u1[0]*ex+u2[0]*ey,vy=u1[1]*ex+u2[1]*ey;var sp=sv([p2[0]+vx,p2[1]+vy]);ep.push(sp[0].toFixed(1)+","+sp[1].toFixed(1));}svg.appendChild(el("polygon",{points:ep.join(" "),fill:fill,stroke:col,"stroke-width":1.6}));}
+    // velocity ellipse (sigma axes) and force ellipse (1/sigma axes, normalized to comparable size)
+    var norm=sg1*sg2; // keep areas comparable
+    ellipse(sg1,sg2,"#0d9488","rgba(13,148,136,0.10)",0.4);
+    ellipse((1/sg2)*norm,(1/sg1)*norm,"#b91c1c","rgba(185,28,28,0.07)",0.4);
+    var a0=sv([0,0]),b=sv(p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a0[0],y1:a0[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#94a3b8","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a0[0],cy:a0[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:"#ef4444"}));
+    out.innerHTML='<div><span class="vel">velocity:</span> easy along σ₁ ('+sg1.toFixed(2)+')</div>'+
+      '<div><span class="frc">force:</span> strong along 1/σ₂ ('+(1/sg2).toFixed(2)+')</div>'+
+      '<div style="margin-top:5px;color:#64748b">τ = Jᵀ·F — the two ellipses are perpendicular duals.</div>';
+  }
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

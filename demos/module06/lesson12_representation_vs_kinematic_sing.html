@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Representation vs Kinematic Singularities — Lesson 3.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .readout .ln{display:flex;justify-content:space-between;margin:4px 0}
+  .warn{background:#fee2e2;color:#b91c1c;border-radius:8px;padding:5px;text-align:center;font-weight:700;font-size:11.5px;margin-top:6px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Straighten the arm (θ₂ → 0).</b> The velocity ellipse — the set of tip velocities for unit joint speed — collapses to a line. This is a <i>kinematic</i> singularity, set by the arm's geometry, not its coordinates.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <label>θ₂ (bend)</label><input type="range" id="t2" min="-170" max="170" step="1" value="75">
+    <div class="readout" id="out"></div>
+    <div class="hint">Contrast with the representation singularity (gimbal lock): that one is a defect of the angle parameterization. This one is real lost motion — the tip can't move along the collapsed direction at any joint speed.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,BX=120,BY=150,L1=1,L2=1,SC=52,t1=0.6;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var t2=+document.getElementById("t2").value*Math.PI/180;
+    var s1=Math.sin(t1),c1=Math.cos(t1),s12=Math.sin(t1+t2),c12=Math.cos(t1+t2);
+    var p1=[L1*c1,L1*s1],p2=[p1[0]+L2*c12,p1[1]+L2*s12];
+    var J=[[-L1*s1-L2*s12,-L2*s12],[L1*c1+L2*c12,L2*c12]];
+    // singular values
+    var tr=J[0][0]*J[0][0]+J[0][1]*J[0][1]+J[1][0]*J[1][0]+J[1][1]*J[1][1];
+    var det=J[0][0]*J[1][1]-J[0][1]*J[1][0];
+    var disc=Math.sqrt(Math.max(0,tr*tr-4*det*det));
+    var s_1=Math.sqrt(Math.max(0,(tr+disc)/2)),s_2=Math.sqrt(Math.max(0,(tr-disc)/2));
+    var w=Math.abs(det),sing=s_2<0.18;
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    svg.innerHTML="";
+    var a=sv([0,0]),b=sv(p1),c=sv(p2);
+    // velocity ellipse: unit circle through J, drawn at tip
+    var pts=[];for(var k=0;k<=48;k++){var t=k/48*2*Math.PI;var u=[Math.cos(t),Math.sin(t)];var v=[J[0][0]*u[0]+J[0][1]*u[1], J[1][0]*u[0]+J[1][1]*u[1]];var sp=sv([p2[0]+v[0]*0.5,p2[1]+v[1]*0.5]);pts.push(sp[0].toFixed(1)+","+sp[1].toFixed(1));}
+    svg.appendChild(el("polygon",{points:pts.join(" "),fill:"rgba(13,148,136,0.13)",stroke:sing?"#ef4444":"#0d9488","stroke-width":2}));
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#94a3b8","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:"#ef4444"}));
+    out.innerHTML='<div class="ln"><span>σ₁ (long axis)</span><span>'+s_1.toFixed(3)+'</span></div>'+
+      '<div class="ln"><span>σ₂ (short axis)</span><span style="color:'+(sing?"#b91c1c":"#0f172a")+'">'+s_2.toFixed(3)+'</span></div>'+
+      '<div class="ln"><span>manipulability w=σ₁σ₂</span><span>'+w.toFixed(3)+'</span></div>'+
+      (sing?'<div class="warn">⚠ kinematic singularity — ellipse collapsed</div>':'');
+  }
+  document.getElementById("t2").addEventListener("input",render);
+  render();
+})();</script></body></html>

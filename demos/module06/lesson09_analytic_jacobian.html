@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Analytic Jacobian — Lesson 3.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 260px;min-width:240px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 220px;min-width:210px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .grid{display:grid;grid-template-columns:auto repeat(2,1fr);gap:4px;margin-top:8px;align-items:center}
+  .rl{font-size:11px;color:var(--muted);text-align:right;padding-right:4px}
+  .cell{height:28px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:11.5px;font-variant-numeric:tabular-nums}
+  .orow{background:#ede9fe;border-color:#c4b5fd;color:#6d28d9;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Pose the arm.</b> The analytic Jacobian differentiates forward kinematics: ∂(x, y, φ)/∂(θ₁, θ₂). The top two rows are the position Jacobian; the <span style="color:#6d28d9">orientation row</span> is just [1, 1] — each joint adds to φ.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 260 240"></svg>
+  <div class="panel">
+    <label>θ₁</label><input type="range" id="t1" min="0" max="180" step="1" value="40">
+    <label>θ₂</label><input type="range" id="t2" min="-160" max="160" step="1" value="70">
+    <div class="grid" id="grid"></div>
+    <div class="hint">For a planar arm, orientation is φ = θ₁+θ₂, so its gradient is constant [1, 1]. The position rows vary with pose; together they form the analytic Jacobian of FK.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=260,H=240,BX=110,BY=155,L1=1,L2=1,SC=52;
+  var svg=document.getElementById("svg"),grid=document.getElementById("grid"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var t1=+document.getElementById("t1").value*Math.PI/180,t2=+document.getElementById("t2").value*Math.PI/180;
+    var s1=Math.sin(t1),c1=Math.cos(t1),s12=Math.sin(t1+t2),c12=Math.cos(t1+t2);
+    var p1=[L1*c1,L1*s1],p2=[p1[0]+L2*c12,p1[1]+L2*s12];
+    var J=[[-L1*s1-L2*s12,-L2*s12],[L1*c1+L2*c12,L2*c12],[1,1]];
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    svg.innerHTML="";
+    svg.appendChild(el("line",{x1:12,y1:BY,x2:W-12,y2:BY,stroke:"#e2e8f0","stroke-width":1}));
+    var a=sv([0,0]),b=sv(p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#ef4444"}));
+    var rows=["∂x","∂y","∂φ"];grid.innerHTML="";
+    J.forEach(function(row,i){var rl=document.createElement("div");rl.className="rl";rl.textContent=rows[i];grid.appendChild(rl);
+      row.forEach(function(v){var dd=document.createElement("div");dd.className="cell"+(i===2?" orow":"");dd.textContent=(Math.round(v*100)/100).toFixed(2);grid.appendChild(dd);});});
+  }
+  ["t1","t2"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

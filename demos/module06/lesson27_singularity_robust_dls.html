@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singularity-Robust Resolved Rates — Lesson 7.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 270px;min-width:250px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 210px;min-width:200px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .lab{font-size:11.5px;display:flex;justify-content:space-between;font-variant-numeric:tabular-nums;margin-top:6px}
+  .barwrap{background:#f1f5f9;border-radius:4px;overflow:hidden;height:15px;margin-top:2px}.bar{height:15px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Approach the singularity (θ₂ → 0); raise λ.</b> For a fixed desired tip velocity, the pseudoinverse joint rate blows up while damped least squares stays bounded — at the cost of slightly missing the commanded velocity.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 270 230"></svg>
+  <div class="panel">
+    <label>θ₂ (bend)</label><input type="range" id="t2" min="3" max="120" step="1" value="40">
+    <label>damping λ</label><input type="range" id="lam" min="0" max="0.6" step="0.02" value="0.15">
+    <div class="lab"><span style="color:#b91c1c">pseudoinverse |θ̇|</span><span id="vp"></span></div>
+    <div class="barwrap"><div class="bar" id="bp" style="background:#ef4444"></div></div>
+    <div class="lab"><span style="color:#15803d">DLS |θ̇|</span><span id="vd"></span></div>
+    <div class="barwrap"><div class="bar" id="bd" style="background:#22c55e"></div></div>
+    <div class="lab"><span>DLS tip-velocity error</span><span id="ve"></span></div>
+    <div class="hint">DLS is the resolved-rate controller's safety valve: it sacrifices a little tracking accuracy to keep the arm controllable straight through a singularity instead of commanding impossible joint speeds.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=270,H=230,BX=60,BY=120,L1=1,L2=1,SC=50,t1=0.5;
+  var svg=document.getElementById("svg"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var t2=+document.getElementById("t2").value*Math.PI/180,lam=+document.getElementById("lam").value;
+    var s1=Math.sin(t1),c1=Math.cos(t1),s12=Math.sin(t1+t2),c12=Math.cos(t1+t2);
+    var p1=[L1*c1,L1*s1],p2=[p1[0]+L2*c12,p1[1]+L2*s12];
+    var J=[[-L1*s1-L2*s12,-L2*s12],[L1*c1+L2*c12,L2*c12]];
+    var rdir=[p2[0],p2[1]],rn=Math.hypot(rdir[0],rdir[1]);rdir=[rdir[0]/rn,rdir[1]/rn];
+    var det=J[0][0]*J[1][1]-J[0][1]*J[1][0],di=Math.abs(det)<1e-6?(det<0?-1:1)*1e-6:det;
+    var Ji=[[J[1][1]/di,-J[0][1]/di],[-J[1][0]/di,J[0][0]/di]];
+    var dp=[Ji[0][0]*rdir[0]+Ji[0][1]*rdir[1], Ji[1][0]*rdir[0]+Ji[1][1]*rdir[1]],magP=Math.hypot(dp[0],dp[1]);
+    var JJt=[[J[0][0]*J[0][0]+J[0][1]*J[0][1],J[0][0]*J[1][0]+J[0][1]*J[1][1]],[J[1][0]*J[0][0]+J[1][1]*J[0][1],J[1][0]*J[1][0]+J[1][1]*J[1][1]]];
+    var l2=lam*lam,A=[[JJt[0][0]+l2,JJt[0][1]],[JJt[1][0],JJt[1][1]+l2]];
+    var dA=A[0][0]*A[1][1]-A[0][1]*A[1][0],Ai=[[A[1][1]/dA,-A[0][1]/dA],[-A[1][0]/dA,A[0][0]/dA]];
+    var wv=[Ai[0][0]*rdir[0]+Ai[0][1]*rdir[1],Ai[1][0]*rdir[0]+Ai[1][1]*rdir[1]];
+    var dd=[J[0][0]*wv[0]+J[1][0]*wv[1],J[0][1]*wv[0]+J[1][1]*wv[1]],magD=Math.hypot(dd[0],dd[1]);
+    var achieved=[J[0][0]*dd[0]+J[0][1]*dd[1], J[1][0]*dd[0]+J[1][1]*dd[1]];
+    var verr=Math.hypot(achieved[0]-rdir[0],achieved[1]-rdir[1]);
+    function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="v" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    svg.appendChild(el("circle",{cx:BX,cy:BY,r:(L1+L2)*SC,fill:"none",stroke:"#eef2f7","stroke-width":1.2,"stroke-dasharray":"4 4"}));
+    var a=sv([0,0]),b=sv(p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#94a3b8","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("line",{x1:c[0],y1:c[1],x2:c[0]+rdir[0]*28,y2:c[1]-rdir[1]*28,stroke:"#0d9488","stroke-width":2.4,"marker-end":"url(#v)"}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:4,fill:"#ef4444"}));
+    var sc=function(m){return Math.min(100,m/8*100);};
+    document.getElementById("bp").style.width=sc(magP)+"%";
+    document.getElementById("bd").style.width=sc(magD)+"%";
+    document.getElementById("vp").textContent=(magP>40?"≫ ":"")+magP.toFixed(2);
+    document.getElementById("vd").textContent=magD.toFixed(2);
+    document.getElementById("ve").textContent=verr.toFixed(3);
+  }
+  ["t2","lam"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>

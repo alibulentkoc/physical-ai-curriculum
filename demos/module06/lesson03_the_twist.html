@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Twist: Linear and Angular Velocity Together — Lesson 1.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  .icr{color:#b91c1c;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Set the twist (v_O, ω).</b> Every point's velocity is v = v_O + ω×r. The whole field is one rigid motion, spinning about the <span class="icr">instantaneous centre</span> — the single point momentarily at rest.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 260"></svg>
+  <div class="panel">
+    <label>v_O x</label><input type="range" id="vx" min="-1.5" max="1.5" step="0.1" value="1.0">
+    <label>v_O y</label><input type="range" id="vy" min="-1.5" max="1.5" step="0.1" value="0">
+    <label>ω</label><input type="range" id="w" min="-3" max="3" step="0.1" value="2.0">
+    <div class="readout" id="out"></div>
+    <div class="hint">The twist bundles linear and angular velocity into one object. The instantaneous centre sits at (−v_Oy/ω, v_Ox/ω); when ω = 0 the motion is pure translation and the centre flies to infinity.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=260,CX=140,CY=135,SC=70;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [CX+p[0]*SC, CY-p[1]*SC];}
+  function render(){
+    var vx=+document.getElementById("vx").value,vy=+document.getElementById("vy").value,w=+document.getElementById("w").value;
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="v" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    for(var gx=-1.3;gx<=1.31;gx+=0.65){for(var gy=-1.3;gy<=1.31;gy+=0.65){
+      var v=[vx-w*gy, vy+w*gx];var s=sv([gx,gy]);var k=0.28;
+      svg.appendChild(el("line",{x1:s[0],y1:s[1],x2:s[0]+v[0]*SC*k,y2:s[1]-v[1]*SC*k,stroke:"#0d9488","stroke-width":1.8,"marker-end":"url(#v)"}));
+      svg.appendChild(el("circle",{cx:s[0],cy:s[1],r:1.6,fill:"#94a3b8"}));}}
+    if(Math.abs(w)>0.05){var icr=[-vy/w, vx/w];var ip=sv(icr);
+      if(ip[0]>5&&ip[0]<W-5&&ip[1]>5&&ip[1]<H-5){svg.appendChild(el("circle",{cx:ip[0],cy:ip[1],r:7,fill:"none",stroke:"#b91c1c","stroke-width":2.2}));svg.appendChild(el("circle",{cx:ip[0],cy:ip[1],r:2.5,fill:"#b91c1c"}));var il=el("text",{x:ip[0]+9,y:ip[1]+4,"font-size":10,fill:"#b91c1c"});il.textContent="ICR (at rest)";svg.appendChild(il);}}
+    var f=function(x){return (Math.round(x*100)/100).toFixed(2);};
+    out.innerHTML='<div>twist ξ = [v; ω]</div><div>v_O = ('+f(vx)+', '+f(vy)+'), ω = '+f(w)+'</div>'+
+      (Math.abs(w)>0.05?'<div class="icr">ICR = ('+f(-vy/w)+', '+f(vx/w)+')</div>':'<div class="icr">pure translation (no finite ICR)</div>');
+  }
+  ["vx","vy","w"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+  render();
+})();</script></body></html>
