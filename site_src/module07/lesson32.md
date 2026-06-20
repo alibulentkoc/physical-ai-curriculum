@@ -53,6 +53,11 @@ Produce a three-leg harvest cycle (limits $\dot q_{\lim}=2$, $\ddot q_{\lim}=4$)
 - **Hand off:** discretize and deliver to Module 8 (or play open-loop in Module 7 via the M6 velocity layer). Each leg's `validated` is True; the cycle is the ordered validated layers. The notebook builds all three legs, asserts each validated, checks the rest-joins, and assembles the cycle reference.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson32_greenhouse_harvest_cycle.html" title="Capstone Integration: The Greenhouse Harvest Cycle interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson32_greenhouse_harvest_cycle.html)
+
 *(Conceptual — runnable in the companion notebook; the Trajectory Studio runs a single leg interactively.)*
 
 **Run the cycle.** In the notebook you:

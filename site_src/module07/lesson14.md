@@ -50,6 +50,11 @@ Move the tool straight from $\mathbf p_0=(0.5,0.1)$ to $\mathbf p_1=(0.2,0.35)$ 
 - FK check: $f(\mathbf q_k)=\mathbf p_k$ at every sample (the IK is exact), confirming the joint motion truly realizes the straight tool path.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson14_ik_per_sample.html" title="Position Interpolation and the IK-per-Sample Loop interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson14_ik_per_sample.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Hold the branch.** In the notebook you:

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screw Motion: Unified Position + Orientation — Lesson 4.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .tog{font-size:12.5px;display:flex;gap:7px;align-items:center;margin-bottom:8px;cursor:pointer}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>One screw, end to end.</b> A planar pose-to-pose move is a single rotation about a fixed point — the <span style="color:#b91c1c">pole</span>. The frame's origin sweeps a circular arc while it turns, reaching the goal pose exactly.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <label>goal angle θ₁</label><input type="range" id="th" min="20" max="160" step="5" value="100">
+    <label class="tog"><input type="checkbox" id="naive"> show naive (separate pos + angle)</label>
+    <div class="readout" id="out"></div>
+    <div class="hint">The screw path is the natural SE(2) geodesic — uniform twist throughout. Interpolating position and orientation separately gives a different, generally non-uniform path between the same endpoints.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,OX=70,OY=190,SC=80,t=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var p0=[0.4,0.3], th0=0;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [OX+p[0]*SC, OY-p[1]*SC];}
+  function R(a){return [[Math.cos(a),-Math.sin(a)],[Math.sin(a),Math.cos(a)]];}
+  function render(){
+    var th1=+document.getElementById("th").value*Math.PI/180;
+    var p1=[1.4,1.1]; // goal position
+    var dth=th1-th0;
+    // pole c = (I-R)^-1 (p1 - R p0)
+    var Rm=R(dth),a=1-Rm[0][0],b=-Rm[0][1],cc=-Rm[1][0],d=1-Rm[1][1];
+    var rhs=[p1[0]-(Rm[0][0]*p0[0]+Rm[0][1]*p0[1]), p1[1]-(Rm[1][0]*p0[0]+Rm[1][1]*p0[1])];
+    var det=a*d-b*cc, C=[(d*rhs[0]-b*rhs[1])/det, (-cc*rhs[0]+a*rhs[1])/det];
+    function screwPose(s){var Rs=R(s*dth);var rel=[p0[0]-C[0],p0[1]-C[1]];var pp=[C[0]+Rs[0][0]*rel[0]+Rs[0][1]*rel[1], C[1]+Rs[1][0]*rel[0]+Rs[1][1]*rel[1]];return {p:pp,th:th0+s*dth};}
+    var cur=screwPose(t);
+    svg.innerHTML="";
+    var defs=el("defs",{});defs.innerHTML='<marker id="h" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0d9488"/></marker>';svg.appendChild(defs);
+    // screw arc
+    var arc=[];for(var i=0;i<=50;i++){var sp=screwPose(i/50);var s=sv(sp.p);arc.push(s[0].toFixed(1)+","+s[1].toFixed(1));}
+    svg.appendChild(el("polyline",{points:arc.join(" "),fill:"none",stroke:"#fcd34d","stroke-width":2}));
+    // naive straight position path
+    if(document.getElementById("naive").checked){var np=[];for(var j=0;j<=30;j++){var f=j/30;var s2=sv([p0[0]+(p1[0]-p0[0])*f, p0[1]+(p1[1]-p0[1])*f]);np.push(s2[0].toFixed(1)+","+s2[1].toFixed(1));}svg.appendChild(el("polyline",{points:np.join(" "),fill:"none",stroke:"#cbd5e1","stroke-width":1.6,"stroke-dasharray":"4 3"}));}
+    // pole
+    var cp=sv(C);svg.appendChild(el("circle",{cx:cp[0],cy:cp[1],r:5,fill:"none",stroke:"#b91c1c","stroke-width":2}));svg.appendChild(el("circle",{cx:cp[0],cy:cp[1],r:2,fill:"#b91c1c"}));
+    var pl=el("text",{x:cp[0]+8,y:cp[1]+4,"font-size":9,fill:"#b91c1c"});pl.textContent="pole";svg.appendChild(pl);
+    // endpoints
+    [[p0,th0,"#cbd5e1","T₀"],[p1,th1,"#94a3b8","T₁"]].forEach(function(P){var s=sv(P[0]);svg.appendChild(el("line",{x1:s[0],y1:s[1],x2:s[0]+22*Math.cos(P[1]),y2:s[1]-22*Math.sin(P[1]),stroke:P[2],"stroke-width":2}));svg.appendChild(el("circle",{cx:s[0],cy:s[1],r:3,fill:P[2]}));});
+    // current frame
+    var s=sv(cur.p);
+    svg.appendChild(el("line",{x1:s[0],y1:s[1],x2:s[0]+26*Math.cos(cur.th),y2:s[1]-26*Math.sin(cur.th),stroke:"#0d9488","stroke-width":3,"marker-end":"url(#h)"}));
+    svg.appendChild(el("circle",{cx:s[0],cy:s[1],r:5,fill:"#0d9488"}));
+    out.innerHTML='<div><b style="color:#0d9488">screw</b> = one rotation about the pole</div>'+
+      '<div style="color:#64748b;margin-top:4px">endpoints reached exactly ✓</div>';
+  }
+  function loop(){t+=0.006;if(t>1)t=0;render();requestAnimationFrame(loop);}
+  document.getElementById("th").addEventListener("input",render);
+  document.getElementById("naive").addEventListener("change",render);
+  loop();
+})();</script></body></html>

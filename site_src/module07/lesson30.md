@@ -53,6 +53,11 @@ PLAN and PARAMETERIZE a greenhouse reach (disk at $(0.5,0.05)$, $r=0.06$; start 
 - **Result:** a feasible-by-construction timed trajectory, ready for validation. Change the priority to "faster" and re-time with a trapezoid (shorter duration, more jerk) — same path, different schedule, the quality trade of 7.1. The notebook runs `plan_parameterize`, prints the waypoints and per-segment durations, and confirms each segment is within limits.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson30_plan_and_parameterize.html" title="Plan and Parameterize: From Task to Timed Trajectory interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson30_plan_and_parameterize.html)
+
 *(Conceptual — runnable in the companion notebook; also the first two stages of the Trajectory Studio.)*
 
 **Route, then schedule.** In the notebook you:

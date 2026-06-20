@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Position, Velocity, Acceleration, Jerk — Lesson 2.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.6;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>The derivative ladder of a cubic move.</b> Each curve is the slope of the one above: position → velocity → acceleration → jerk. The red marker walks them together in time.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 290"></svg>
+  <div class="panel">
+    <label>duration T</label><input type="range" id="T" min="0.6" max="2.5" step="0.1" value="1.0">
+    <div class="readout" id="out"></div>
+    <div class="hint">Stretching T makes the move gentler: velocity scales as 1/T, acceleration as 1/T², jerk as 1/T³. Doubling the time cuts peak jerk eightfold — the cheapest way to smooth a motion.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=290,tau=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function vals(x,T){return {s:3*x*x-2*x*x*x, v:(6*x-6*x*x)/T, a:(6-12*x)/(T*T), j:-12/(T*T*T)};}
+  function plot(y0,h,key,col,label,rng){
+    var T=+document.getElementById("T").value;
+    svg.appendChild(el("rect",{x:30,y:y0,width:255,height:h,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var zy=key==="s"||key==="v"?y0+h:y0+h/2;
+    if(key==="s"||key==="v")svg.appendChild(el("line",{x1:30,y1:y0+h,x2:285,y2:y0+h,stroke:"#e2e8f0","stroke-width":1}));
+    else svg.appendChild(el("line",{x1:30,y1:zy,x2:285,y2:zy,stroke:"#e2e8f0","stroke-width":1}));
+    var span=(key==="s"||key==="v")?h:h/2;
+    var pts=[];for(var i=0;i<=60;i++){var x=i/60;var v=vals(x,T)[key];var px=30+x*255;var py=zy-v/rng*span;pts.push(px.toFixed(1)+","+py.toFixed(1));}
+    svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":2}));
+    var cv=vals(tau,T)[key],mx=30+tau*255,my=zy-cv/rng*span;
+    svg.appendChild(el("circle",{cx:mx,cy:my,r:3,fill:"#ef4444"}));
+    var lab=el("text",{x:34,y:y0+11,"font-size":9.5,fill:col,"font-weight":"700"});lab.textContent=label;svg.appendChild(lab);
+  }
+  function render(){
+    var T=+document.getElementById("T").value;
+    svg.innerHTML="";
+    plot(12,58,"s","#0f172a","position s",1.05);
+    plot(76,58,"v","#0d9488","velocity ṡ",2/T);
+    plot(140,58,"a","#7c3aed","acceleration s̈",7/(T*T));
+    plot(204,58,"j","#b91c1c","jerk s⃛",14/(T*T*T));
+    var tl=el("text",{x:30,y:278,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    var v=vals(tau,T);
+    out.innerHTML='<div>T = '+T.toFixed(1)+' s</div>'+
+      '<div style="color:#0d9488">peak |ṡ| = '+(1.5/T).toFixed(2)+'</div>'+
+      '<div style="color:#7c3aed">peak |s̈| = '+(6/(T*T)).toFixed(2)+'</div>'+
+      '<div style="color:#b91c1c">|s⃛| = '+(12/(T*T*T)).toFixed(2)+'</div>';
+  }
+  function loop(){tau+=0.006;if(tau>1)tau=0;render();requestAnimationFrame(loop);}
+  document.getElementById("T").addEventListener("input",render);
+  loop();
+})();</script></body></html>

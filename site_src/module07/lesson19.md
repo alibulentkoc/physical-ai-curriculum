@@ -52,6 +52,11 @@ A joint moves $D=1.2$ rad with $v_{\max}=2$ rad/s, $a_{\max}=3$ rad/s². Find th
 - Compare a quintic over the same $D=1.2$: its minimum feasible duration (Lesson 5.2 logic) is longer than $1.26$ s because it eases the ends instead of saturating the ramps — the price of $C^2$ smoothness. The notebook computes both and shows the trapezoid is faster but jerkier.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson19_fastest_feasible_timing.html" title="The Fastest Feasible Timing: Respecting Velocity and Acceleration Limits interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson19_fastest_feasible_timing.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Saturate the limits.** In the notebook you:

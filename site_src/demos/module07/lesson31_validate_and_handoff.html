@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validate and Hand Off: The Reference Trajectory Layer — Lesson 8.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .meta{background:#f0fdfa;border:1px solid #99f6e4;border-radius:10px;padding:9px;font-size:11.5px;line-height:1.7;font-variant-numeric:tabular-nums}
+  .meta .k{color:#0f766e;font-weight:700}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Certify, then package.</b> VALIDATE passes → the reference layer is built. It exposes <code>reference(t)</code> plus metadata: duration, rate, the validated flag, and quality metrics — the complete handoff to the controller.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 200"></svg>
+  <div class="panel">
+    <div class="meta" id="meta"></div>
+    <label>query reference(t)</label><input type="range" id="t" min="0" max="100" step="1" value="35">
+    <div class="readout" id="out"></div>
+  </div>
+</div>
+  <div class="hint" style="max-width:680px;margin:6px auto 0;padding:0 8px">The reference layer is the clean contract between this module and the next: a validated, queryable function of time with everything the tracker needs. Module 8 consumes it; it never re-plans.</div>
+</div>
+<script>(function(){
+  var W=280,H=200,T=2.4;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function S(x){return 10*x*x*x-15*x*x*x*x+6*x*x*x*x*x;}
+  function V(x){return (30*x*x-60*x*x*x+30*x*x*x*x)/T;}
+  function A(x){return (60*x-180*x*x+120*x*x*x)/(T*T);}
+  document.getElementById("meta").innerHTML='<div><span class="k">duration</span>: '+T.toFixed(1)+' s</div>'+
+    '<div><span class="k">rate</span>: 200 Hz</div>'+
+    '<div><span class="k">validated</span>: <span style="color:#15803d">✓ true</span></div>'+
+    '<div><span class="k">metrics</span>: peak v 1.07, peak a 4.2</div>';
+  function render(){
+    var tau=+document.getElementById("t").value/100;
+    svg.innerHTML="";
+    svg.appendChild(el("rect",{x:20,y:14,width:245,height:140,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    function curve(fn,col,rng,signed){var zy=signed?84:154,span=signed?70:140;var pts=[];for(var i=0;i<=60;i++){var x=i/60;pts.push((20+x*245).toFixed(1)+","+(zy-fn(x)/rng*span).toFixed(1));}svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":1.8}));}
+    curve(S,"#0f172a",1.05,false);
+    var mx=20+tau*245;svg.appendChild(el("line",{x1:mx,y1:14,x2:mx,y2:154,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"3 2"}));
+    svg.appendChild(el("circle",{cx:mx,cy:154-S(tau)/1.05*140,r:3.5,fill:"#ef4444"}));
+    var lab=el("text",{x:24,y:26,"font-size":9,fill:"#64748b"});lab.textContent="reference position q(t)";svg.appendChild(lab);
+    var tl=el("text",{x:20,y:172,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.innerHTML='<div>reference('+(tau*T).toFixed(2)+') =</div>'+
+      '<div>q = '+S(tau).toFixed(3)+'</div>'+
+      '<div style="color:#0d9488">q̇ = '+V(tau).toFixed(3)+'</div>'+
+      '<div style="color:#7c3aed">q̈ = '+A(tau).toFixed(3)+'</div>';
+  }
+  document.getElementById("t").addEventListener("input",render);
+  render();
+})();</script></body></html>

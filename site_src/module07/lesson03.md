@@ -72,6 +72,11 @@ Classify four candidate motions for the same reach. For each, decide which inspe
 Only **D** passes all three hard criteria; efficiency then chooses among multiple D-like options. The point: a single failing criterion sinks an otherwise excellent trajectory — which is why we generate *and* validate.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson03_what_makes_good.html" title="What Makes a Trajectory "Good" interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson03_what_makes_good.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Spot the violated criterion.** The notebook plays four short motions (the table above) and, for each, plots position, velocity, acceleration, and an obstacle overlay. Your task before revealing the answer: name which inspector rejects it.

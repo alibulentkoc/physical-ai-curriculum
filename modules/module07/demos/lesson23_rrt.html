@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding a Safe Path: RRT — Lesson 6.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .row button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;margin:8px 6px 0 0}
+  .row button.go{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Grow a tree to the goal.</b> RRT samples random points, extends the nearest branch toward each, and skips any move that would hit an obstacle. The tree explores freely until a branch reaches the goal — then the path is traced back.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 250 250"></svg>
+  <div class="panel">
+    <div class="row"><button id="grow" class="go">▶ grow</button><button id="reset">replan</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">RRT is probabilistically complete: keep sampling and it will find a path if one exists. It's the workhorse for high-dimensional planning where grids are hopeless.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=250,H=250,growing=true,raf=null;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var obstacles=[[0.42,0.5,0.16],[0.65,0.78,0.13],[0.3,0.78,0.12]];
+  var start=[0.1,0.1], goal=[0.88,0.9], step=0.06, goalRad=0.06;
+  var nodes, done, path;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [15+p[0]*220, 235-p[1]*220];}
+  function inObs(p){return obstacles.some(function(o){return Math.hypot(p[0]-o[0],p[1]-o[1])<o[2];});}
+  function segHit(a,b){for(var i=0;i<=6;i++){var f=i/6;if(inObs([a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]))return true;}return false;}
+  function reset(){nodes=[{p:start,parent:-1}];done=false;path=null;render();}
+  function grow(){
+    if(done)return;
+    for(var iter=0;iter<3;iter++){
+      var samp=Math.random()<0.1?goal:[Math.random(),Math.random()];
+      var ni=0,nd=1e9;nodes.forEach(function(n,i){var d=Math.hypot(n.p[0]-samp[0],n.p[1]-samp[1]);if(d<nd){nd=d;ni=i;}});
+      var near=nodes[ni].p,dir=[samp[0]-near[0],samp[1]-near[1]],dl=Math.hypot(dir[0],dir[1])||1;
+      var np=[near[0]+dir[0]/dl*step, near[1]+dir[1]/dl*step];
+      if(np[0]<0||np[0]>1||np[1]<0||np[1]>1||inObs(np)||segHit(near,np))continue;
+      nodes.push({p:np,parent:ni});
+      if(Math.hypot(np[0]-goal[0],np[1]-goal[1])<goalRad){done=true;
+        var path2=[],idx=nodes.length-1;while(idx>=0){path2.push(nodes[idx].p);idx=nodes[idx].parent;}path2.reverse();path2.push(goal);path=path2;break;}
+      if(nodes.length>500){done=true;break;}
+    }
+    render();
+    if(growing&&!done)raf=requestAnimationFrame(grow);
+    else if(done){growing=false;document.getElementById("grow").classList.remove("go");document.getElementById("grow").textContent="▶ grow";}
+  }
+  function render(){
+    svg.innerHTML="";
+    obstacles.forEach(function(o){var c=sv([o[0],o[1]]);svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:o[2]*220,fill:"rgba(148,163,184,0.18)",stroke:"#94a3b8","stroke-width":1.2}));});
+    nodes.forEach(function(n){if(n.parent>=0){var a=sv(n.p),b=sv(nodes[n.parent].p);svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#cbd5e1","stroke-width":0.8}));}});
+    if(path){var pp=path.map(function(p){var s=sv(p);return s[0].toFixed(1)+","+s[1].toFixed(1);});svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:"#0d9488","stroke-width":2.6}));}
+    var s=sv(start),g=sv(goal);
+    svg.appendChild(el("circle",{cx:s[0],cy:s[1],r:6,fill:"#15803d"}));
+    svg.appendChild(el("circle",{cx:g[0],cy:g[1],r:goalRad*220,fill:"none",stroke:"#ef4444","stroke-width":1.4,"stroke-dasharray":"3 2"}));
+    svg.appendChild(el("circle",{cx:g[0],cy:g[1],r:5,fill:"#ef4444"}));
+    out.innerHTML='<div>nodes: '+nodes.length+'</div>'+
+      (done?(path?'<div style="color:#15803d;font-weight:700">✓ path found</div>':'<div style="color:#b91c1c">no path (max nodes)</div>'):'<div style="color:#64748b">growing…</div>');
+  }
+  document.getElementById("grow").addEventListener("click",function(){if(done)return;if(growing){growing=false;this.classList.remove("go");this.textContent="▶ grow";if(raf)cancelAnimationFrame(raf);}else{growing=true;this.classList.add("go");this.textContent="❚❚ pause";grow();}});
+  document.getElementById("reset").addEventListener("click",function(){if(raf)cancelAnimationFrame(raf);growing=true;document.getElementById("grow").classList.add("go");document.getElementById("grow").textContent="❚❚ pause";reset();grow();});
+  reset();grow();
+})();</script></body></html>

@@ -51,6 +51,11 @@ One joint through knots $(t,y)=(0,0^\circ),(1,60^\circ),(2,40^\circ)$ — the sa
 - The motion flows $0^\circ \to$ through $60^\circ \to 40^\circ$ as one $C^2$ glide. The notebook confirms interpolation at all knots, $\dot S$ and $\ddot S$ continuity at $t=1$, and a shorter/gentler profile than stop-at-each.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson12_blending_c2_via_points.html" title="Blending for C² Continuity at Via-Points interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson12_blending_c2_via_points.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Watch the seams stay smooth.** In the notebook you:

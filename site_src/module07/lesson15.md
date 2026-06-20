@@ -47,6 +47,11 @@ Roll the planar tool from $\phi_0=170^\circ$ to $\phi_1=-170^\circ$ over $s\in[0
 - General-quaternion check: build $\mathbf q_0,\mathbf q_1$ about $\hat z$ for these angles; `slerp` at $s=0.5$ returns a **unit** quaternion corresponding to $\pm180^\circ$, confirming shortest-arc and validity. The notebook verifies unit norm at every $s$ and the $20^\circ$ total turn.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson15_slerp.html" title="Orientation Interpolation: SLERP interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson15_slerp.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Turn the short way, evenly.** In the notebook you:

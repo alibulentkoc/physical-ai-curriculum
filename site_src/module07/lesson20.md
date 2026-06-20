@@ -49,6 +49,11 @@ Audit a Cartesian straight-line move of the tool from $\mathbf p_0=(0.6,0.1)$ to
 - **Decision:** the reachability check passes (geometric OK), so any remaining violation is timing — stretch $T$. Had the line dipped into the hole, slowing would be futile and the path would need rerouting. The notebook runs all four checks per sample and reports the violated gate and its remedy.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson20_feasibility_gauntlet.html" title="Feasibility Across the Whole Trajectory: Reachability, Limits, and the Workspace interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson20_feasibility_gauntlet.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Run the gauntlet.** In the notebook you:

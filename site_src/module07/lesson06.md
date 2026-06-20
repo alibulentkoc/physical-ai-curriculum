@@ -59,6 +59,11 @@ Classify three point-to-point joint moves from $0$ to $1$ rad over $T=2$ s by in
 So the ladder is literally: linear $\to C^0$, cubic $\to C^1$, quintic $\to C^2$. Each added boundary condition (zero velocity, then zero acceleration) buys one more rung of continuity. This is the design rule the next lesson turns into a tool.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson06_continuity_classes.html" title="Continuity Classes C⁰/C¹/C² and Why Jerk Matters interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson06_continuity_classes.html)
+
 *(Conceptual — runnable in the companion notebook; full interactive in 2.3.)*
 
 **Read the class off the plots.** The notebook draws position/velocity/acceleration for the linear, cubic, and quintic moves above and asks you, before revealing labels, to locate the *first* discontinuity in each. You should find: velocity-jump for linear ($C^0$), acceleration-jump for cubic ($C^1$), and no jump through acceleration for quintic ($C^2$). It then overlays jerk to show the quintic's jerk is bounded while the cubic's has a step.

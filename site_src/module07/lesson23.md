@@ -48,6 +48,11 @@ Plan around the disk obstacle $\mathbf c=(0.5,0.05)$, $r=0.06$ from start (tool 
 - The notebook runs this, asserts the path is collision-free and connects start to goal, and shows two seeds giving two valid routes — motivating the smoothing of Lesson 6.4.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson23_rrt.html" title="Finding a Safe Path: Sampling-Based Planning (RRT) interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson23_rrt.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Grow a tree to the goal.** In the notebook you:

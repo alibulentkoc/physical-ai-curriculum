@@ -70,6 +70,11 @@ Trace one reach through the pipeline, naming the owner and the data at each arro
 Notice step 4 *runs the motion* but never compares "where the arm actually is" to "where it should be" — there is no error signal. That comparison is step 6, and it lives in Module 8.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson04_motion_pipeline.html" title="The Motion Pipeline interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson04_motion_pipeline.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Walk the pipeline.** The notebook provides a stub for each stage and lets you run them in order on the harvester: a trivial straight-line `plan`, a smooth `parameterize` (cubic time scaling from 2.3), and `execute` through the imported M6 `velocity_layer`. It prints, at each stage, *what kind of object* came out (path vs trajectory vs executed log) and asserts that **no stage reads back the arm's measured state to correct itself** — making the open-loop boundary literal.

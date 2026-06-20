@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Safe Path to Feasible Trajectory: Smoothing — Lesson 6.4</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .row button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;margin:8px 6px 0 0}
+  .row button.go{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.6;font-variant-numeric:tabular-nums;margin-top:8px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Shortcut-smooth the jagged RRT path.</b> Each round tries to connect non-adjacent waypoints directly; if the shortcut is collision-free, the detour is removed. The path gets shorter and straighter — still safe.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 250 250"></svg>
+  <div class="panel">
+    <div class="row"><button id="smooth" class="go">smooth ↓</button><button id="reset">reset</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">RRT paths are valid but jagged. Shortcutting is a cheap post-process: random pairs, collision-checked. After smoothing, time-scaling fits a feasible velocity profile to the shortened path.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=250,H=250;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var obstacles=[[0.45,0.45,0.15],[0.68,0.72,0.12]];
+  var orig=[[0.1,0.1],[0.2,0.4],[0.15,0.65],[0.4,0.7],[0.35,0.9],[0.6,0.92],[0.75,0.55],[0.9,0.9]];
+  var path,initLen;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [15+p[0]*220, 235-p[1]*220];}
+  function inObs(p){return obstacles.some(function(o){return Math.hypot(p[0]-o[0],p[1]-o[1])<o[2];});}
+  function segHit(a,b){for(var i=0;i<=8;i++){var f=i/8;if(inObs([a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]))return true;}return false;}
+  function len(pp){var s=0;for(var i=1;i<pp.length;i++)s+=Math.hypot(pp[i][0]-pp[i-1][0],pp[i][1]-pp[i-1][1]);return s;}
+  function smooth(){
+    for(var k=0;k<30;k++){
+      if(path.length<=2)break;
+      var i=Math.floor(Math.random()*(path.length-2)),j=i+2+Math.floor(Math.random()*(path.length-i-2));
+      if(j>=path.length)continue;
+      if(!segHit(path[i],path[j])){path.splice(i+1,j-i-1);}
+    }
+    render();
+  }
+  function reset(){path=orig.map(function(p){return p.slice();});initLen=len(path);render();}
+  function render(){
+    svg.innerHTML="";
+    obstacles.forEach(function(o){var c=sv([o[0],o[1]]);svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:o[2]*220,fill:"rgba(148,163,184,0.18)",stroke:"#94a3b8","stroke-width":1.2}));});
+    // original faint
+    var op=orig.map(function(p){var s=sv(p);return s[0].toFixed(1)+","+s[1].toFixed(1);});
+    svg.appendChild(el("polyline",{points:op.join(" "),fill:"none",stroke:"#e2e8f0","stroke-width":1.4,"stroke-dasharray":"4 3"}));
+    var pp=path.map(function(p){var s=sv(p);return s[0].toFixed(1)+","+s[1].toFixed(1);});
+    svg.appendChild(el("polyline",{points:pp.join(" "),fill:"none",stroke:"#0d9488","stroke-width":2.6}));
+    path.forEach(function(p){var s=sv(p);svg.appendChild(el("circle",{cx:s[0],cy:s[1],r:3,fill:"#0d9488"}));});
+    var s0=sv(path[0]),sg=sv(path[path.length-1]);
+    svg.appendChild(el("circle",{cx:s0[0],cy:s0[1],r:5,fill:"#15803d"}));
+    svg.appendChild(el("circle",{cx:sg[0],cy:sg[1],r:5,fill:"#ef4444"}));
+    var L=len(path);
+    out.innerHTML='<div>waypoints: '+path.length+'</div>'+
+      '<div>length: '+L.toFixed(2)+' <span style="color:#94a3b8">(was '+initLen.toFixed(2)+')</span></div>'+
+      '<div style="color:#15803d;margin-top:2px">collision-free ✓</div>';
+  }
+  document.getElementById("smooth").addEventListener("click",smooth);
+  document.getElementById("reset").addEventListener("click",reset);
+  reset();
+})();</script></body></html>

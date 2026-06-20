@@ -52,6 +52,11 @@ Move a 2-joint arm from $\mathbf q_0=(10^\circ, 20^\circ)$ to $\mathbf q_f=(70^\
 - The tool path from $f(\mathbf q(t))$ (with $L_1=0.4,L_2=0.3$) bows outward; the notebook plots it and confirms it is **not** straight.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson09_per_joint_polynomials.html" title="Point-to-Point Joint Moves: Per-Joint Polynomials interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson09_per_joint_polynomials.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Straight in joints, curved in space.** In the notebook you:

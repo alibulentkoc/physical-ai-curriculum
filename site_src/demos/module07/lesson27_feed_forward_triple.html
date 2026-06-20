@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tracking Prerequisites: What the Reference Must Provide — Lesson 7.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;line-height:1.7;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Query the reference at time t.</b> At every instant the reference must return the <b>feed-forward triple</b>: desired position, velocity, and acceleration — everything the tracking controller needs to anticipate the motion.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <label>query time t</label><input type="range" id="t" min="0" max="100" step="1" value="40">
+    <div class="readout" id="out"></div>
+    <div class="hint">Position alone isn't enough — without the velocity and acceleration feed-forward, the controller always lags. Supplying the full triple lets it command the right effort ahead of time.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,T=2;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function S(x){return 10*x*x*x-15*x*x*x*x+6*x*x*x*x*x;}
+  function V(x){return (30*x*x-60*x*x*x+30*x*x*x*x)/T;}
+  function A(x){return (60*x-180*x*x+120*x*x*x)/(T*T);}
+  function render(){
+    var tau=+document.getElementById("t").value/100;
+    svg.innerHTML="";
+    function plot(y0,h,fn,col,label,rng,signed){
+      svg.appendChild(el("rect",{x:30,y:y0,width:255,height:h,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+      var zy=signed?y0+h/2:y0+h,span=signed?h/2:h;
+      if(signed)svg.appendChild(el("line",{x1:30,y1:zy,x2:285,y2:zy,stroke:"#e2e8f0","stroke-width":1}));
+      var pts=[];for(var i=0;i<=60;i++){var x=i/60;var v=fn(x);var px=30+x*255;var py=zy-v/rng*span;pts.push(px.toFixed(1)+","+py.toFixed(1));}
+      svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":2}));
+      var cv=fn(tau),mx=30+tau*255,my=zy-cv/rng*span;
+      svg.appendChild(el("line",{x1:mx,y1:y0,x2:mx,y2:y0+h,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"3 2"}));
+      svg.appendChild(el("circle",{cx:mx,cy:my,r:3.5,fill:"#ef4444"}));
+      var lab=el("text",{x:34,y:y0+11,"font-size":9.5,fill:col,"font-weight":"700"});lab.textContent=label;svg.appendChild(lab);
+    }
+    plot(12,68,S,"#0f172a","position q_des",1.05,false);
+    plot(86,68,V,"#0d9488","velocity q̇_des",1.6/T,false);
+    plot(160,68,A,"#7c3aed","acceleration q̈_des",6/(T*T),true);
+    var tl=el("text",{x:30,y:240,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    out.innerHTML='<div>t = '+(tau*T).toFixed(2)+' s</div>'+
+      '<div>q_des = '+S(tau).toFixed(3)+'</div>'+
+      '<div style="color:#0d9488">q̇_des = '+V(tau).toFixed(3)+'</div>'+
+      '<div style="color:#7c3aed">q̈_des = '+A(tau).toFixed(3)+'</div>';
+  }
+  document.getElementById("t").addEventListener("input",render);
+  render();
+})();</script></body></html>

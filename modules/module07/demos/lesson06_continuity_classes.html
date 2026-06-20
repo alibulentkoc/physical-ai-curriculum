@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Continuity Classes C⁰/C¹/C² — Lesson 2.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{flex:1;appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:11.5px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Find the first discontinuity.</b> Linear has a velocity jump (C⁰). Cubic is smooth through velocity but jumps in acceleration (C¹). Quintic is smooth through acceleration with bounded jerk (C²).</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 250"></svg>
+  <div class="panel">
+    <div class="seg"><button id="lin" class="on">linear</button><button id="cub">cubic</button><button id="qui">quintic</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">Each extra continuity class costs a higher-order polynomial but removes a jump that the motors would otherwise feel as a shock. Pick-and-place wants C²; the jerk stays finite end to end.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=250,mode="lin";
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function vals(x,m){
+    if(m==="lin")return {s:x, v:1, a:0};
+    if(m==="cub")return {s:3*x*x-2*x*x*x, v:6*x-6*x*x, a:6-12*x};
+    var x2=x*x,x3=x2*x,x4=x3*x; return {s:10*x3-15*x4+6*x4*x, v:30*x2-60*x3+30*x4, a:60*x-180*x2+120*x3};
+  }
+  function plot(y0,h,key,col,label,rng,jumpEnds){
+    svg.appendChild(el("rect",{x:30,y:y0,width:255,height:h,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var zy=key==="s"||key==="v"?y0+h:y0+h/2;var span=(key==="s"||key==="v")?h:h/2;
+    if(key!=="s"&&key!=="v")svg.appendChild(el("line",{x1:30,y1:zy,x2:285,y2:zy,stroke:"#e2e8f0","stroke-width":1}));
+    var pts=[];for(var i=0;i<=60;i++){var x=i/60;var v=vals(x,mode)[key];var px=30+x*255;var py=zy-v/rng*span;pts.push(px.toFixed(1)+","+py.toFixed(1));}
+    svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:col,"stroke-width":2}));
+    // jump markers at the ends if discontinuous
+    if(jumpEnds){[30,285].forEach(function(px){svg.appendChild(el("line",{x1:px,y1:zy,x2:px,y2:zy-vals(px===30?0.001:0.999,mode)[key]/rng*span,stroke:"#b91c1c","stroke-width":2}));svg.appendChild(el("circle",{cx:px,cy:zy,r:2.5,fill:"#b91c1c"}));});}
+    var lab=el("text",{x:34,y:y0+11,"font-size":9.5,fill:col,"font-weight":"700"});lab.textContent=label;svg.appendChild(lab);
+  }
+  function render(){
+    svg.innerHTML="";
+    var vJump=mode==="lin", aJump=(mode==="lin"||mode==="cub");
+    plot(12,68,"s","#0f172a","position",1.05,false);
+    plot(88,68,"v","#0d9488","velocity",mode==="lin"?1.3:1.6,vJump);
+    plot(164,68,"a","#7c3aed","acceleration",7,aJump);
+    var tl=el("text",{x:30,y:240,"font-size":10,fill:"#94a3b8"});tl.textContent="time →";svg.appendChild(tl);
+    var info={lin:["C⁰","velocity jumps at the ends","#b91c1c"],cub:["C¹","acceleration jumps at the ends","#d97706"],qui:["C²","smooth through acceleration; bounded jerk","#15803d"]}[mode];
+    out.innerHTML='<div><b style="color:'+info[2]+'">'+info[0]+'</b> continuity</div><div style="margin-top:4px;color:#64748b">'+info[1]+'</div>';
+  }
+  document.getElementById("lin").addEventListener("click",function(){mode="lin";this.classList.add("on");["cub","qui"].forEach(function(o){document.getElementById(o).classList.remove("on");});render();});
+  document.getElementById("cub").addEventListener("click",function(){mode="cub";this.classList.add("on");["lin","qui"].forEach(function(o){document.getElementById(o).classList.remove("on");});render();});
+  document.getElementById("qui").addEventListener("click",function(){mode="qui";this.classList.add("on");["lin","cub"].forEach(function(o){document.getElementById(o).classList.remove("on");});render();});
+  render();
+})();</script></body></html>

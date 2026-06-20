@@ -54,6 +54,11 @@ Move three joints with displacements $\Delta q = (90^\circ, 30^\circ, 45^\circ) 
 - All three start and end at rest with zero acceleration ($C^2$) and arrive together at $t=1.47$ s. The notebook verifies $\max_i \dot q_i \le \dot q_{\max}$ and synchronized arrival.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson10_synchronizing_joints.html" title="Synchronizing Multiple Joints interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson10_synchronizing_joints.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Find the bottleneck, stretch the rest.** In the notebook you:

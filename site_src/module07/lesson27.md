@@ -59,6 +59,11 @@ Inspect the reference a validated motion provides (canonical scenario; limits $\
 - **What it does not provide:** any tracking error, corrective gain, torque, or motor command — those don't exist in Module 7. The reference is purely the desired motion. The notebook queries the reference at sample times, confirms it returns the three feed-forward vectors, confirms rest at the ends and feasibility within, and confirms there is **no** error/torque field — the boundary holds.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson27_feed_forward_triple.html" title="Tracking Prerequisites: What the Reference Must Provide interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson27_feed_forward_triple.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Inspect the handoff.** In the notebook you:

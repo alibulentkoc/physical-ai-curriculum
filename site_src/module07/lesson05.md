@@ -82,6 +82,11 @@ Because $q'=1,\ q''=q'''=0$, the motion equals the timing: $\dot q=\dot s,\ \ddo
 Note the catch we will fix next lesson: the cubic starts and ends **at rest** (good) but with a **nonzero acceleration** at the endpoints — the acceleration *jumps* from $1.5$ at $t=0^+$ down from whatever held the arm at rest before. That jump is a residual jolt. The quintic of Lesson 2.3 zeroes the endpoint acceleration too, removing it.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson05_derivative_ladder.html" title="Position, Velocity, Acceleration, Jerk interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson05_derivative_ladder.html)
+
 *(Conceptual — runnable in the companion notebook; the full interactive Profile Shaper is Lesson 2.3.)*
 
 **Build the derivative ladder.** In the notebook you take the cubic $s(t)$ above and:

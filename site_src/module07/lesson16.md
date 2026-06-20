@@ -51,6 +51,11 @@ Interpolate a planar pose from $T_0=\text{SE2}(0,\,0.4,\,0.0)$ (orientation $0$,
 - Decoupled comparison: straight-line position + `slerp_angle` from $0$ to $90^\circ$ gives the same endpoints and orientation schedule but a **straight** position path. The notebook overlays both and confirms endpoints match while mid-paths differ, and that the screw advances at constant twist.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson16_screw_motion.html" title="Screw Motion: Unified Position + Orientation Interpolation interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson16_screw_motion.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **One twist, end to end.** In the notebook you:

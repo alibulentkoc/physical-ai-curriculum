@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Point-to-Point Joint Moves: Per-Joint Polynomials — Lesson 3.1</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Each joint follows a smooth quintic from start to goal.</b> In joint space the move is a straight line; in Cartesian space the tip traces a <i>curve</i> (yellow). Simple per-joint timing, curved tool path.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <div class="readout" id="out"></div>
+    <div class="hint">Point-to-point joint moves are the simplest trajectory: one polynomial per joint, no Cartesian solving. The price is that the tool sweeps a curve — fine for free-space reaches, wrong for straight-line tasks (Unit 4).</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,BX=120,BY=170,L1=1,L2=1,SC=58,tau=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var qs=[0.3,1.6], qg=[1.3,0.3], trail=[];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function quintic(x){return 10*x*x*x-15*x*x*x*x+6*x*x*x*x*x;}
+  function fk(q){var p1=[L1*Math.cos(q[0]),L1*Math.sin(q[0])];return [p1[0]+L2*Math.cos(q[0]+q[1]),p1[1]+L2*Math.sin(q[0]+q[1])];}
+  function render(){
+    var s=quintic(tau),q=[qs[0]+(qg[0]-qs[0])*s, qs[1]+(qg[1]-qs[1])*s];
+    var p1=[L1*Math.cos(q[0]),L1*Math.sin(q[0])],p2=fk(q);
+    if(tau<0.999){trail.push(p2);if(trail.length>120)trail.shift();}
+    svg.innerHTML="";
+    // full cartesian curve (precomputed)
+    var cp=[];for(var i=0;i<=60;i++){var ss=quintic(i/60);var qq=[qs[0]+(qg[0]-qs[0])*ss,qs[1]+(qg[1]-qs[1])*ss];var pp=fk(qq);var sp=sv(pp);cp.push(sp[0].toFixed(1)+","+sp[1].toFixed(1));}
+    svg.appendChild(el("polyline",{points:cp.join(" "),fill:"none",stroke:"#fcd34d","stroke-width":2}));
+    // start/goal markers
+    var ps=sv(fk(qs)),pg=sv(fk(qg));
+    svg.appendChild(el("circle",{cx:ps[0],cy:ps[1],r:4,fill:"#cbd5e1"}));
+    svg.appendChild(el("circle",{cx:pg[0],cy:pg[1],r:4,fill:"#94a3b8"}));
+    var a=sv([0,0]),b=sv(p1),c=sv(p2);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    svg.appendChild(el("circle",{cx:c[0],cy:c[1],r:5,fill:"#0d9488"}));
+    // joint-space inset (straight line)
+    svg.appendChild(el("rect",{x:188,y:14,width:80,height:80,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    function js(q){return [188+ (q[0]/2)*80, 94-(q[1]/2)*80];}
+    var jsa=js(qs),jsb=js(qg);
+    svg.appendChild(el("line",{x1:jsa[0],y1:jsa[1],x2:jsb[0],y2:jsb[1],stroke:"#7c3aed","stroke-width":2}));
+    var jc=js(q);svg.appendChild(el("circle",{cx:jc[0],cy:jc[1],r:3.5,fill:"#ef4444"}));
+    var jl=el("text",{x:191,y:25,"font-size":8,fill:"#7c3aed"});jl.textContent="joint space (straight)";svg.appendChild(jl);
+    out.innerHTML='<div>q = ('+Math.round(q[0]*180/Math.PI)+'°, '+Math.round(q[1]*180/Math.PI)+'°)</div>'+
+      '<div style="color:#fcb900;margin-top:4px"><span style="color:#d97706">yellow</span> = curved tool path</div>'+
+      '<div style="color:#7c3aed;margin-top:2px">inset: straight in joint space</div>';
+  }
+  function loop(){tau+=0.005;if(tau>1){tau=0;trail=[];}render();requestAnimationFrame(loop);}
+  loop();
+})();</script></body></html>

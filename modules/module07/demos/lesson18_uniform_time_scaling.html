@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uniform Time Scaling — Lesson 5.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 190px;min-width:180px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .badge{padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700}.ok{background:#dcfce7;color:#15803d}.no{background:#fee2e2;color:#b91c1c}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Stretch the timing until it fits.</b> Scaling the duration by k drops peak velocity by 1/k and peak acceleration by 1/k². Increase k until both curves sit under their dashed limits.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 240"></svg>
+  <div class="panel">
+    <label>time-scale factor k</label><input type="range" id="k" min="1" max="3" step="0.05" value="1">
+    <div class="readout" id="out"></div>
+    <div class="hint">Uniform scaling preserves the path's shape exactly — same geometry, slower clock. It's the simplest feasibility fix, though not the fastest (Unit 5.3 does better by saturating the limits).</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=240,v0=1.5,a0=6,VLIM=1.0,ALIM=8;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function render(){
+    var k=+document.getElementById("k").value;
+    var vp=v0/k, ap=a0/(k*k);
+    var feas=vp<=VLIM+1e-6 && ap<=ALIM+1e-6;
+    var kmin=Math.max(v0/VLIM, Math.sqrt(a0/ALIM));
+    svg.innerHTML="";
+    function plot(y0,h,peak,lim,rng,col,label,fn){
+      svg.appendChild(el("rect",{x:30,y:y0,width:255,height:h,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+      var zy=y0+h,span=h;
+      var ly=zy-lim/rng*span;svg.appendChild(el("line",{x1:30,y1:ly,x2:285,y2:ly,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+      var ll=el("text",{x:255,y:ly-3,"font-size":8,fill:"#b91c1c"});ll.textContent="limit";svg.appendChild(ll);
+      var pts=[];for(var i=0;i<=60;i++){var tau=i/60;var val=fn(tau)*peak;var px=30+tau*255;var py=zy-Math.abs(val)/rng*span;pts.push(px.toFixed(1)+","+py.toFixed(1));}
+      var over=peak>lim+1e-6;
+      svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:over?"#b91c1c":col,"stroke-width":2}));
+      var lab=el("text",{x:34,y:y0+11,"font-size":9.5,fill:col,"font-weight":"700"});lab.textContent=label;svg.appendChild(lab);
+    }
+    // velocity shape: 6tau(1-tau)/1.5 normalized to peak 1; accel shape |6-12tau|/6
+    plot(14,95,vp,VLIM,VLIM*1.6,"#0d9488","peak velocity",function(t){return 6*t*(1-t)/1.5;});
+    plot(124,95,ap,ALIM,ALIM*1.3,"#7c3aed","peak acceleration",function(t){return Math.abs(6-12*t)/6;});
+    var tl=el("text",{x:30,y:232,"font-size":10,fill:"#94a3b8"});tl.textContent="time → (duration ×"+k.toFixed(2)+")";svg.appendChild(tl);
+    out.innerHTML='<div>k = '+k.toFixed(2)+'</div>'+
+      '<div style="color:'+(vp<=VLIM?"#15803d":"#b91c1c")+'">peak v = '+vp.toFixed(2)+' / '+VLIM+'</div>'+
+      '<div style="color:'+(ap<=ALIM?"#15803d":"#b91c1c")+'">peak a = '+ap.toFixed(2)+' / '+ALIM+'</div>'+
+      '<div style="margin-top:5px"><span class="badge '+(feas?"ok":"no")+'">'+(feas?"feasible":"infeasible")+'</span></div>'+
+      '<div style="color:#64748b;margin-top:4px">min k ≈ '+kmin.toFixed(2)+'</div>';
+  }
+  document.getElementById("k").addEventListener("input",render);
+  render();
+})();</script></body></html>

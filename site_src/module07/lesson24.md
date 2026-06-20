@@ -48,6 +48,11 @@ Finish the canonical scenario: disk $\mathbf c=(0.5,0.05)$, $r=0.06$; RRT path f
 - The notebook runs RRT → smooth → time-scale → verify end to end, printing the length reduction and confirming the final trajectory is collision-free and within limits.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson24_smoothing_time_scaling.html" title="From Safe Path to Feasible Trajectory: Smoothing and Time Scaling interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson24_smoothing_time_scaling.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Route → smooth → time → verify.** In the notebook you:

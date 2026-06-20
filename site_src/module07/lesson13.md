@@ -49,6 +49,11 @@ Compare the tool paths for moving from tool position $\mathbf p_0=(0.5, 0.1)$ to
 - Same endpoints, opposite "which is straight": joint-space straightens the joints, Cartesian straightens the tool. The notebook overlays both and prints each path's deviation from the straight tool segment.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson13_cartesian_straight_line.html" title="Why Cartesian Space? Straight-Line Tool Motion interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson13_cartesian_straight_line.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Curve vs line, same endpoints.** In the notebook you:

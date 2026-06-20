@@ -50,6 +50,11 @@ Test configurations against the disk obstacle at $\mathbf c=(0.5,0.05)$, $r=0.06
 - **Tunneling demo:** with too coarse a step, the sampled poses straddle the thin disk and the edge is wrongly reported free; refining the step catches the collision. The notebook shows both.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson22_collision_checking.html" title="Collision Checking: Is This Configuration Safe? interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson22_collision_checking.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Test, then sweep.** In the notebook you:

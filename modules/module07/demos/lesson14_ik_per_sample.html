@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Position Interpolation and the IK-per-Sample Loop — Lesson 4.2</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 280px;min-width:260px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px} input[type=range]{width:100%}
+  .row button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;margin-top:8px}
+  .row button.go{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Step along the straight line, solving IK at each sample.</b> Cartesian interpolation gives tip positions; IK turns each into joint angles. Hold the same elbow branch so the arm never jumps.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 280 250"></svg>
+  <div class="panel">
+    <label>sample (step along line)</label><input type="range" id="s" min="0" max="10" step="1" value="0">
+    <div class="row"><button id="play">▶ play</button></div>
+    <div class="readout" id="out"></div>
+    <div class="hint">The loop is: interpolate the next tip point → solve IK → command joints. Keeping a consistent elbow branch is what makes the joint angles vary smoothly instead of flipping mid-line.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=280,H=250,BX=70,BY=200,L1=1,L2=1,SC=58,N=10,playing=false,raf=null;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var ps=[0.4,1.2], pg=[1.5,0.4];
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function sv(p){return [BX+p[0]*SC, BY-p[1]*SC];}
+  function ik(x,y){var d2=x*x+y*y,c2=(d2-2)/2;c2=Math.max(-1,Math.min(1,c2));var s2=Math.sqrt(1-c2*c2);var t2=Math.atan2(s2,c2);var t1=Math.atan2(y,x)-Math.atan2(Math.sin(t2),1+Math.cos(t2));return [t1,t2];}
+  function render(){
+    var k=+document.getElementById("s").value,frac=k/N;
+    var tip=[ps[0]+(pg[0]-ps[0])*frac, ps[1]+(pg[1]-ps[1])*frac];
+    var q=ik(tip[0],tip[1]),p1=[Math.cos(q[0]),Math.sin(q[0])];
+    svg.innerHTML="";
+    // straight line + sample dots
+    var a0=sv(ps),g0=sv(pg);
+    svg.appendChild(el("line",{x1:a0[0],y1:a0[1],x2:g0[0],y2:g0[1],stroke:"#fcd34d","stroke-width":2.4}));
+    for(var i=0;i<=N;i++){var f=i/N;var tp=sv([ps[0]+(pg[0]-ps[0])*f, ps[1]+(pg[1]-ps[1])*f]);svg.appendChild(el("circle",{cx:tp[0],cy:tp[1],r:i===k?5:2.5,fill:i<=k?"#0d9488":"#cbd5e1"}));}
+    var a=sv([0,0]),b=sv(p1),c=sv(tip);
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:"#475569","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:c[0],y2:c[1],stroke:"#0d9488","stroke-width":6,"stroke-linecap":"round"}));
+    svg.appendChild(el("circle",{cx:a[0],cy:a[1],r:7,fill:"#475569"}));
+    svg.appendChild(el("circle",{cx:b[0],cy:b[1],r:5,fill:"#fff",stroke:"#475569","stroke-width":2}));
+    out.innerHTML='<div>sample '+k+' / '+N+'</div>'+
+      '<div style="margin-top:4px">tip = ('+tip[0].toFixed(2)+', '+tip[1].toFixed(2)+')</div>'+
+      '<div style="color:#0d9488">IK → q = ('+Math.round(q[0]*180/Math.PI)+'°, '+Math.round(q[1]*180/Math.PI)+'°)</div>';
+  }
+  function play(){var k=+document.getElementById("s").value;k=(k+1)%(N+1);document.getElementById("s").value=k;render();raf=setTimeout(function(){requestAnimationFrame(play);},220);}
+  document.getElementById("s").addEventListener("input",render);
+  document.getElementById("play").addEventListener("click",function(){if(playing){playing=false;this.classList.remove("go");this.textContent="▶ play";clearTimeout(raf);}else{playing=true;this.classList.add("go");this.textContent="❚❚ pause";play();}});
+  render();
+})();</script></body></html>

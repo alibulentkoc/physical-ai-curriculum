@@ -49,6 +49,11 @@ Compare two feasible motions for the same harvest reposition (a 1.2 rad joint mo
 - **Verdict:** B wins on **duration** (1.4 vs 2.0 s); A wins on **jerk/smoothness** (no corner spikes). If the task is delicate fruit handling, pick A (low jerk matters more than 0.6 s); if it's a fast empty-gripper reposition, pick B. Same start, same goal, both feasible — the metrics make the trade explicit. The notebook computes `trajectory_metrics` for both and tabulates the comparison.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson25_quality_metrics.html" title="What Makes a Trajectory Good? Quality Metrics interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson25_quality_metrics.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Rank the candidates.** In the notebook you:

@@ -69,6 +69,11 @@ At $s=0$: $20^\circ$. At $s=0.5$: $50^\circ$ (geometric halfway). At $s=1$: $80^
 Both visit $50^\circ$ at the geometric midpoint $s=0.5$. But the constant-rate one reaches it at $t=1$ s moving at $30^\circ/\text{s}$, while the eased one reaches it at $t=1$ s moving *fastest* and started from rest. **Identical path, different trajectories, different motion quality** — exactly the Lesson 1.1 distinction, now made concrete.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson02_path_vs_trajectory.html" title="Path vs Trajectory: Geometry versus Timing interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson02_path_vs_trajectory.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Same path, two clocks.** Using the one-joint move above:

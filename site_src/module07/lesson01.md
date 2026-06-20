@@ -62,6 +62,11 @@ Walk the three goals:
 **Conclusion:** B wins on every axis that matters except raw clock time — and in a greenhouse, the bruised-fruit and broken-gearbox costs dwarf a fraction of a second. The rest of Module 7 makes "ease" precise and computable.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson01_why_smooth_motion.html" title="Why Smooth, Safe, Efficient Motion Matters interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson01_why_smooth_motion.html)
+
 *(Conceptual — the runnable version is the companion notebook; the unit's flagship interactive arrives at Lesson 2.3, the Polynomial Profile Shaper.)*
 
 **Predict, then check.** Imagine the tool's *speed* plotted against time for one reach.

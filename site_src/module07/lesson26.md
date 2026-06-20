@@ -49,6 +49,11 @@ Validate a planned-and-timed reference for the canonical obstacle scenario (disk
 - Now break it: shrink one segment's duration below its minimum. The **velocity/acceleration** check now fails; `valid` flips to False, the failing gate is named, and the remedy is "re-time." Restore the duration and it validates again. The notebook runs both the passing and the deliberately-broken case.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson26_validating_trajectory.html" title="Validating a Trajectory: The Complete Check interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson26_validating_trajectory.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Run the gauntlet.** In the notebook you:

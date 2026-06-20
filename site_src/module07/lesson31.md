@@ -49,6 +49,11 @@ Validate and package the greenhouse reach (canonical scenario; limits $\dot q_{\
 - **Failure path:** break a segment's timing → VALIDATE fails → `validated = False`, no package shipped, routed back to re-time. The notebook builds the layer, asserts `validated`, queries the reference interface, prints the metadata, and shows the failure path rejecting the handoff.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson31_validate_and_handoff.html" title="Validate and Hand Off: The Reference Trajectory Layer interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson31_validate_and_handoff.html)
+
 *(Conceptual — runnable in the companion notebook; also the Validate/Execute stages of the Trajectory Studio.)*
 
 **Certify, then package.** In the notebook you:

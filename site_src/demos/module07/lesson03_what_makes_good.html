@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Makes a Trajectory "Good" — Lesson 1.3</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--green:#15803d;--accent:#0d9488;--bad:#b91c1c;--vio:#7c3aed;}
+  *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:transparent}
+  .wrap{max-width:680px;margin:0 auto;padding:8px}
+  .banner{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#155e63;margin-bottom:10px;line-height:1.55}
+  .stage{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+  svg{flex:1 1 300px;min-width:280px;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:14px}
+  .panel{flex:1 1 200px;min-width:190px}
+  .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+  .seg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .verdict{text-align:center;font-weight:700;border-radius:8px;padding:7px;font-size:12px}
+  .ok{background:#dcfce7;color:#15803d}.no{background:#fee2e2;color:#b91c1c}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+</style></head><body>
+<div class="wrap">
+  <div class="banner"><b>Inspect four motions.</b> A good trajectory is <b>smooth</b> (no acceleration jumps), <b>feasible</b> (velocity & acceleration under their limits, dashed lines), and <b>safe</b> (no obstacle hit). Find which inspector each one fails.</div>
+  <div class="stage">
+  <svg id="svg" viewBox="0 0 300 280"></svg>
+  <div class="panel">
+    <div class="seg"><button id="m0" class="on">Good</button><button id="m1">Jumpy</button><button id="m2">Too fast</button><button id="m3">Collides</button></div>
+    <div class="verdict" id="out"></div>
+    <div class="hint">Read criteria off the plots: smoothness from jumps in a(t), feasibility from crossing the dashed limits, safety from the obstacle band in the path inset.</div>
+  </div>
+</div></div>
+<script>(function(){
+  var W=300,H=280,mode=0;
+  var svg=document.getElementById("svg"),out=document.getElementById("out"),NS="http://www.w3.org/2000/svg";
+  var VLIM=1.4,ALIM=10;
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  // profiles return {v, a} for tau in [0,1]
+  function prof(tau,m){
+    if(m===1){ // jumpy: trapezoid -> accel jumps
+      var v = tau<0.3? tau/0.3 : (tau>0.7? (1-tau)/0.3 : 1); var a = tau<0.3?3.3:(tau>0.7?-3.3:0); return {v:v,a:a*2.5,jump:true};
+    }
+    if(m===2){ // too fast: eased but scaled high
+      return {v:6*tau*(1-tau)*1.9, a:(6-12*tau)*1.9};
+    }
+    // good (0) and collides(3) share smooth eased profile
+    return {v:6*tau*(1-tau)*0.7, a:(6-12*tau)*0.7};
+  }
+  function plot(x0,y0,w,h,key,col,label,lim){
+    svg.appendChild(el("rect",{x:x0,y:y0,width:w,height:h,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var rng=key==="a"?ALIM*1.3:VLIM*1.6, zy=y0+h/2;
+    if(key==="v"){zy=y0+h;}
+    // limit lines
+    var ly=zy-(lim)/rng*(key==="a"?h/2:h);
+    svg.appendChild(el("line",{x1:x0,y1:ly,x2:x0+w,y2:ly,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));
+    if(key==="a"){var ly2=zy+(lim)/rng*(h/2);svg.appendChild(el("line",{x1:x0,y1:ly2,x2:x0+w,y2:ly2,stroke:"#fca5a5","stroke-width":1,"stroke-dasharray":"4 3"}));}
+    var pts=[],over=false;for(var i=0;i<=60;i++){var tau=i/60;var pp=prof(tau,mode);var val=key==="v"?pp.v:pp.a;if(Math.abs(val)>lim+0.01)over=true;var x=x0+tau*w;var y=zy-val/rng*(key==="a"?h/2:h);pts.push(x.toFixed(1)+","+y.toFixed(1));}
+    svg.appendChild(el("polyline",{points:pts.join(" "),fill:"none",stroke:over?"#b91c1c":col,"stroke-width":2}));
+    var lab=el("text",{x:x0+4,y:y0+12,"font-size":10,fill:"#64748b"});lab.textContent=label;svg.appendChild(lab);
+    return over;
+  }
+  function render(){
+    svg.innerHTML="";
+    // path inset with obstacle
+    svg.appendChild(el("rect",{x:200,y:14,width:90,height:60,fill:"#fff",stroke:"#e2e8f0","stroke-width":1}));
+    var hit=mode===3;
+    if(mode===3)svg.appendChild(el("rect",{x:235,y:30,width:20,height:20,rx:3,fill:"#fecaca",stroke:"#b91c1c","stroke-width":1}));
+    else svg.appendChild(el("rect",{x:262,y:22,width:16,height:16,rx:3,fill:"#fee2e2",stroke:"#fca5a5","stroke-width":1}));
+    svg.appendChild(el("path",{d:"M 208 64 Q 245 20 282 64",fill:"none",stroke:hit?"#b91c1c":"#0d9488","stroke-width":2}));
+    var pl=el("text",{x:204,y:26,"font-size":9,fill:"#64748b"});pl.textContent="path + obstacle";svg.appendChild(pl);
+    var vover=plot(20,90,160,80,"v","#0d9488","velocity v(t)",VLIM);
+    var aover=plot(20,185,160,80,"a","#7c3aed","acceleration a(t)",ALIM);
+    var pp=prof(0.5,mode),jumpy=mode===1;
+    var verdict, cls;
+    if(mode===0){verdict="✓ GOOD — passes all three";cls="ok";}
+    else if(mode===1){verdict="✗ NOT SMOOTH — a(t) jumps";cls="no";}
+    else if(mode===2){verdict="✗ INFEASIBLE — exceeds limits";cls="no";}
+    else {verdict="✗ UNSAFE — hits the obstacle";cls="no";}
+    out.className="verdict "+cls;out.textContent=verdict;
+  }
+  ["m0","m1","m2","m3"].forEach(function(id,i){document.getElementById(id).addEventListener("click",function(){mode=i;["m0","m1","m2","m3"].forEach(function(o){document.getElementById(o).classList.toggle("on",o===id);});render();});});
+  render();
+})();</script></body></html>

@@ -53,6 +53,11 @@ The infeasible move from Lesson 5.1: $\Delta q=1.2$ rad at $T_0=1.5$ s gave $v_0
 - The path is identical to the original — only the clock stretched. The notebook confirms `feasible_duration` returns $2.25$ s and that the slowed peaks match $v_0/k$, $a_0/k^2$.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson18_uniform_time_scaling.html" title="Slowing Down to Restore Feasibility: Uniform Time Scaling interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson18_uniform_time_scaling.html)
+
 *(Conceptual — runnable in the companion notebook; reuses the 5.1 Limit Explorer idea.)*
 
 **Stretch until it fits.** In the notebook you:

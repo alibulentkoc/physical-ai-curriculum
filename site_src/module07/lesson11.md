@@ -49,6 +49,11 @@ Route one joint through a via: start $q^{(0)}=0^\circ$, via $q^{(1)}=60^\circ$, 
 **Flow-through (preview):** if instead the joint passes $60^\circ$ with a chosen nonzero velocity, it eases from rising to falling *through* the via without stopping — one continuous motion. The cost of stop-at-each here is stark: the joint actually overshoots toward $60^\circ$ and comes back, wasting motion and time that flow-through avoids. The notebook plots both.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson11_via_points_multisegment.html" title="Via-Points and Multi-Segment Joint Trajectories interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson11_via_points_multisegment.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Stutter vs glide.** In the notebook you:

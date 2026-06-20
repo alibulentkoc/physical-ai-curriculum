@@ -47,6 +47,11 @@ Discretize a validated reference of duration $T=2.35$ s at two rates.
 - **Verdict:** use the fine rate. The reference data structure at 100 Hz — $(t, Q, \dot Q, \ddot Q)$ plus duration, rate, validated — is the deliverable handed to execution. The notebook builds both, shows the coarse series misrepresents the curve (large jumps between samples), and confirms the fine series is faithful.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson28_sampling_discretization.html" title="Sampling and Representing the Reference: Discretization for Execution interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson28_sampling_discretization.html)
+
 *(Conceptual — runnable in the companion notebook.)*
 
 **Pick the frame rate.** In the notebook you:

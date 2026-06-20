@@ -66,6 +66,11 @@ Move the gripper $D=0.5$ m with $v_{\max}=0.4$ m/s and $a_{\max}=1.0$ m/s².
 **Reading:** the S-curve cost here is on the order of 10–15% more time to erase two acceleration jumps — usually a bargain for delicate fruit.
 
 ## 7. Interactive Demonstration
+
+<iframe src="../../demos/module07/lesson08_trapezoidal_vs_scurve.html" title="Trapezoidal vs S-Curve Velocity Profiles interactive demo" style="width:100%;height:520px;border:1px solid #e2e8f0;border-radius:12px"></iframe>
+
+[Open this demo in a new tab ↗](../demos/module07/lesson08_trapezoidal_vs_scurve.html)
+
 *(Conceptual — runnable in the companion notebook. The interactive Profile Shaper from 2.3 covers polynomials; here the notebook adds the two profiles.)*
 
 **Round the corners.** In the notebook you:
